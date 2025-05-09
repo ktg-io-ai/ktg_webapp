@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIGHT FRAME</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-frame {
+            background-color: #111;
+            padding: 15px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .buttons button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .buttons button:hover {
+            background-color: #444;
+        }
+
+        .content-area {
+            display: flex;
+            height: calc(100vh - 95px);
+        }
+
+        .left-content {
+            width: 90%;
+            overflow-y: auto;
+            margin-right: 10px;
+        }
+        
+        .left-content::-webkit-scrollbar {
+            width: 0px; /* Hide the scrollbar */
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 5px;
+            padding: 5px;
+        }
+
+        .icon-grid button {
+            background-color: #222;
+            color: #fff;
+            border: none;
+            height: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .icon-grid button img {
+            max-width: 100px;
+            max-height: 100px;
+            margin-bottom: 40px;
+            margin-top: 40px;
+        }
+
+        .icon-grid button:hover {
+            background-color: #333;
+        }
+
+        .icon-grid button a { 
+            color: #fff;          /* Keep the text white */
+            text-decoration: none;  /* Remove underline */
+            display: flex;         /* Use flexbox for vertical centering */
+            flex-direction: column; /* Stack image and text vertically */
+            align-items: center;   /* Center horizontally */
+        }
+
+        .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .right-content button {
+            background-color: #111;
+            color: white;
+            border: none;
+            margin-top: 15px;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 0px;
+        }
+
+        .right-content button:hover {
+            color: #222;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-frame">
+        <h2>Portals</h2>
+        <div class="buttons">
+            
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="left-content">
+            <div class="icon-grid">
+                <button><a href="https://www.karmathegame.org/mobile_opening.html" target="_parent"><img src="assets/fave_icon.png" alt="destiny"></a>DESTINY</button>
+                <button><a href="https://www.karmathegame.org/mobile_ktgmusic.html" target="_parent"><img src="assets/play_pause.png" alt="ktgmusic"></a>KTG.MUSIC</button>
+                <button><img src="assets/qr_icon.png" alt="ktgai">KTG.AI</button>
+                <button><a href="https://www.karmathegame.org/mobile_ktgmerch.html" target="_parent"><img src="assets/merch_icon.png" alt="merch"></a>MERCH</button>
+                <button><img src="assets/kgz_icon.png" alt="web3">WEB3</button>
+                <button><img src="assets/vr_icon.png" alt="xr">VR/AR/XR</button>
+                <button><img src="assets/ktgtv_icon.png" alt="ktgtv">KTG.TV</button>
+                <button><img src="assets/dao_icon.png" alt="memdao">MEM.DAO</button>
+                <button><img src="assets/group_icon.png" alt="lifestyles">LIFESTYLES</button>
+                <button><a href="https://www.karmathegame.org/tarot/index.html" target="_blank"><img src="assets/tarot_icon.png" alt="tarot"></a>TAROT</button>
+                <button><img src="assets/stars_icon.png" alt="astrology">ASTROLOGY</button>
+                
+            </div>
+        </div>
+        <div class="right-content">
+            <button><img src="assets/instagram_icon.png" alt="Grid Icon"></button>
+            <button><img src="assets/linkedin_icon.png" alt="List Icon"></button>
+            <button><img src="assets/tiktok_icon.png" alt="Filter Icon"></button>
+            <button><img src="assets/discord_icon.png" alt="Fave Icon"></button>
+            <button><img src="assets/snap_icon.png" alt="Like Icon"></button>
+            <button><img src="assets/threads_icon.png" alt="QR Icon"></button>
+        </div>
+    </div>
+</body>
+</html>

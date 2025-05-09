@@ -1,0 +1,158 @@
+{
+  "songs": [
+    {
+      "title": "Guru and Lucy 012",
+      "mp4": "ktgai/guru_lucy_012.mp4",
+      "cover": "ktgai/guru_lucy_012.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    },
+    {
+      "title": "Turbo Toad E1",
+      "mp4": "ktgai/turbo_toad_001.mp4",
+      "cover": "ktgai/turbo_toad_001.png",
+      "safeLinks": [
+        {
+          "text": "Music Video",
+          "url": "https://youtu.be/cBDcCVW23MA?si=N-NvmrUoLtsEIjKh"
+        }
+      ]
+    },
+    {
+      "title": "Worlds Apart",
+      "mp4": "ktgai/worlds_apart.mp4",
+      "cover": "ktgai/worlds_apart.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    },
+    {
+      "title": "Bail",
+      "mp4": "ktgai/bail.mp4",
+      "cover": "ktgai/bail.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    },
+    {
+      "title": "Chat Loading",
+      "mp4": "ktgai/chat_loading.mp4",
+      "cover": "ktgai/chat_loading.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    },
+    {
+      "title": "Config Loading",
+      "mp4": "ktgai/config_loading.mp4",
+      "cover": "ktgai/config_loading.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    },
+    {
+      "title": "Game Console",
+      "mp4": "ktgai/game_console.mp4",
+      "cover": "ktgai/game_console.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    },
+    {
+      "title": "Game Console Loading",
+      "mp4": "ktgai/game_console_loading.mp4",
+      "cover": "ktgai/game_console_loading.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    },
+    {
+      "title": "Lucys Booth Loading",
+      "mp4": "ktgai/lucys_booth_loading.mp4",
+      "cover": "ktgai/lucys_booth_loading.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    },
+    {
+      "title": "Map Loading",
+      "mp4": "ktgai/map_loading.mp4",
+      "cover": "ktgai/map_loading.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    },
+    {
+      "title": "Opening Scene",
+      "mp4": "ktgai/opening_scene.mp4",
+      "cover": "ktgai/opening_scene.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    },
+    {
+      "title": "Register Loading",
+      "mp4": "ktgai/register_loading.mp4",
+      "cover": "ktgai/register_loading.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    },
+    {
+      "title": "Safe Loading",
+      "mp4": "ktgai/safe_loading.mp4",
+      "cover": "ktgai/safe_loading.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    },
+    {
+      "title": "The Grid",
+      "mp4": "ktgai/the_grid.mp4",
+      "cover": "ktgai/the_grid.png",
+      "safeLinks": [
+        {
+          "text": "Official Video",
+          "url": "https://example.com"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC is an AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement. Discover AI-driven income models & immersive experiences.">
+    <meta name="keywords" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC, AI, Social Platform, Lifestyle Platform, Influencer Marketing, Digital Engagement, AI Advertising, Web3, NFT, Metaverse, SoftBank, Investment, Startup">
+    <meta name="author" content="KTG.IO Platform">
+    <meta property="og:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="og:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.karmathegame.org"> <meta property="og:image" content="assets/game_logo.png"> <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="twitter:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="twitter:image" content="assets/kgz_icon.png"> 
+    
+<!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/kgz_icon.png"/>  
+
+
+    <title>Karma the Game of Destiny (Mobile)</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #2e2e2e;
+            color: #fff;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        .top-bar {
+            background-color: #111;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .top-bar h1 {
+            display: none; /* Hide the title */
+        }
+
+        .top-bar .song-title {
+            margin-left: 0px;
+            padding-right: 0px;
+            font-size: 14px;
+        }
+
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        #musicToggle img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .content-area {
+            height: calc(100vh - 100px); /* Adjust for top and bottom bars */
+            overflow: hidden;
+            position: relative;
+            width: 200%; /* For swipe effect */
+            display: flex;
+            transition: transform 0.3s ease;
+        }
+
+        .left-console, .right-console {
+            width: 50%;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .bottom-bar {
+            background-color: #111;
+            height: 50px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .bottom-bar img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .submenu-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        .submenu {
+            position: absolute;
+            bottom: 50px; /* Position above bottom bar */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(1, 1, 1, 0.9);
+            box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            min-width: 200px;
+            border-radius: 20px 20px 0 0;
+            z-index: 1002;
+            pointer-events: auto;
+            display: none;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: #fff;
+        }
+
+        .submenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .submenu li {
+            margin-bottom: 10px;
+        }
+
+        .submenu button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        .submenu button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .submenu button:hover {
+            background-color: #444;
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+    </style>
+</head>
+<div class="container">
+    
+
+    <div class="main-content">
+        <div class="top-bar">
+            <h1>Karma the Game of Destiny</h1>
+            <div class="song-title">
+                <button id="musicToggle"> 
+                    <img src="assets/play_pause.png" alt="Music Toggle"> 
+                </button>
+                PLAYING: (Original Soundtrack) The Grid
+            </div>
+        </div>
+
+        <div class="content-area" id="contentArea">
+            <div class="left-console" id="leftConsole">
+                <iframe src="m_rightconsole.html" style="width: 100%; height: 100%; border: none;"></iframe>
+            </div>
+            <div class="right-console" id="rightConsole">
+                <iframe src="m_leftconsole.html" style="width: 100%; height: 100%; border: none;"></iframe>
+            </div>
+        </div>
+    </div>
+
+   
+
+        <div class="bottom-bar">
+            <img src="assets/search_icon.png" alt="Search" onclick="openSubmenu('search')">
+            <img src="assets/social_icon.png" alt="Socialize" onclick="openSubmenu('socialize')">
+            <img src="assets/game_icon.png" alt="Actions" onclick="openSubmenu('actions')">
+            <img src="assets/detail_icon.png" alt="Details" onclick="openSubmenu('details')">
+            <img src="assets/mystuff_icon.png" alt="My Stuff" onclick="openSubmenu('mystuff')">
+        </div>
+        
+           
+            
+        
+
+<div id="submenu-container" class="submenu-container">
+<audio id="musicPlayer" src="audio/the_grid.mp3" loop></audio>
+
+<div id="search-submenu" class="submenu">
+    <h2>Search <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+    <ul>
+        <li>
+            <button>
+                <img src="assets/name_icon.png" alt="Name Icon"> By Name
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/skills_icon.png" alt="Skills Icon"> By Skills
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/location_icon.png" alt="Location Icon"> By Location
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/tagline_icon.png" alt="Tagline Icon"> By Tagline
+            </button>
+        </li>
+    </ul>
+</div>
+<div id="socialize-submenu" class="submenu">
+    <h2>Socialize <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+    <ul>
+        <li>
+            <button>
+                <img src="assets/intro_icon.png" alt="Name Icon"> Intro
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/chat_icon.png" alt="Skills Icon"> Chat
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/group_icon.png" alt="Location Icon"> Group
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/safe_icon.png" alt="Tagline Icon"> Safe
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/map_icon.png" alt="Tagline Icon"> Map
+            </button>
+        </li>
+    </ul>
+</div>
+<div id="actions-submenu" class="submenu">
+    <h2>Actions<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+    <ul>
+        <li>
+            <button>
+                <img src="assets/zap_icon.png" alt="Zap Icon"> Zap
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/hide_icon.png" alt="Hide Icon"> Hide
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/door4_icon.png" alt="Door4 Icon"> Door #4
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/stars_icon.png" alt="Stars Icon"> Play the Stars
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/truth_icon.png" alt="Truth Icon"> Truth or Bomb
+            </button>
+        </li>
+    </ul>
+</div>
+<div id="details-submenu" class="submenu">
+    <h2>Details<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+    <ul>
+        <li>
+            <button>
+                <img src="assets/outing_icon.png" alt="Outing Icon"> Let's go Out!
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/stats_icon.png" alt="Hide Icon"> Player Stats
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/journeybook_icon.png" alt="Door4 Icon"> JourneyBook
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/bucket_icon.png" alt="Stars Icon"> BucketList
+            </button>
+        </li>
+    </ul>
+</div>
+<div id="mystuff-submenu" class="submenu">
+    <h2>My Stuff<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+    <ul>
+        <li>
+            <button>
+                <a href="../journeybook.html"> 
+                    <img src="assets/journeybook_icon.png" alt="JourneyBook Icon"> 
+                    My JourneyBook
+                </a>
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/bucket_icon.png" alt="BucketList Icon"> My BucketList
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/email_icon.png" alt="Email Icon"> Email
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/calendar_icon.png" alt="Calendar Icon"> Calendar
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/wallet_icon.png" alt="Wallet Icon"> Wallet
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/config_icon.png" alt="Config Icon"> Config
+            </button>
+        </li>
+        <li>
+            <button>
+                <img src="assets/bail_icon.png" alt="Bail Icon"> Bail
+            </button>
+        </li>
+    </ul>
+</div>
+</div>
+    </div>
+</div>
+
+  <script>
+     function openSubmenu(submenu) {
+        // ... (Existing JavaScript) ...
+    }
+
+    function closeSubmenu(closeButton) {
+        const submenu = closeButton.closest('.submenu');
+        submenu.style.display = 'none';
+    }
+    
+    function openSubmenu(submenu) {
+        // Hide all existing submenus
+        const submenus = document.querySelectorAll('.submenu');
+        submenus.forEach(submenu => {
+            submenu.style.display = 'none';
+        });
+
+        // Show the selected submenu
+        const selectedSubmenu = document.getElementById(submenu + '-submenu');
+        selectedSubmenu.style.display = 'block';
+    }
+
+    // Get the music player and toggle button elements
+    const musicPlayer = document.getElementById('musicPlayer');
+    const musicToggle = document.getElementById('musicToggle');
+
+    // Function to toggle music playback
+    function toggleMusic() {
+        if (musicPlayer.paused) {
+            musicPlayer.play();
+        } else {
+            musicPlayer.pause();
+        }
+    }
+
+    // Add event listener to the toggle button
+    musicToggle.addEventListener('click', toggleMusic);
+</script>
+</body>
+</html>

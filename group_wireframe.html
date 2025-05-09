@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Group</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            align-items: center; /* Center the content horizontally */
+            overflow: hidden;
+        }
+
+        .popup-header {
+            background-color: #1e1e1e;
+            padding: 19px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 16px;
+            width: 100%; /* Match body content width */
+        }
+
+        .popup-header h2 {
+            margin: 0;
+            margin-right: 20px;
+            flex-grow: 1;
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .close-button:hover {
+            color: red !important;
+        }
+
+        .popup-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: 60%; /* 60% width */
+        }
+
+        label {
+            margin-bottom: 8px;
+            display: block;
+            font-size: 1.1em; /* Bigger font */
+        }
+
+        select, input[type="text"] {
+            padding: 12px; /* Bigger padding */
+            margin-bottom: 20px;
+            border: 1px solid #444;
+            border-radius: 5px; /* Radius corners */
+            background-color: #333;
+            color: #fff;
+            width: calc(100% - 26px); /* Adjust for bigger padding and border */
+            box-sizing: border-box;
+            font-size: 1.1em; /* Bigger font */
+            border-radius: 10px; /* Increased border radius */
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            justify-content: center; /* Center the button */
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 20px; /* Match submenu button radius */
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+
+        .send-button {
+            background-color: #333; /* Match submenu button background */
+            color: #fff;
+        }
+
+        .send-button:hover {
+            background-color: #444; /* Match submenu button hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="popup-header">
+        <h2>Group</h2>
+        <div class="close-button">
+            <h2 onclick="window.parent.postMessage({ type: 'closeGroup' }, '*');">X</h2>
+        </div>
+    </div>
+    <div class="popup-content">
+        <p style="font-size: 1.1em;">Invite the selected participant to join a group:</p>
+
+        <label for="existing-group">Choose an existing group:</label>
+        <select id="existing-group">
+            <option value="">-- Select a group --</option>
+            <option value="group1">My Awesome Group</option>
+            <option value="group2">The Fun Squad</option>
+            <option value="group3">KTG Explorers</option>
+        </select>
+
+        <label for="new-group">Or create a new group:</label>
+        <input type="text" id="new-group" placeholder="Enter new group name">
+
+        <div class="button-container">
+            <button class="send-button" onclick="window.parent.postMessage({ type: 'groupInviteSent' }, '*');">SEND</button>
+        </div>
+    </div>
+</body>
+</html>

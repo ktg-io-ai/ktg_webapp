@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIGHT FRAME</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 00px; /* Add padding to the body */
+        }
+
+      .top-frame {
+            background-color: #111;
+            padding: 15px;
+            margin-bottom: 3px; /* Add space below the header */
+            display: flex; /* Use flexbox for layout */
+            align-items: center; /* Vertically align items */
+            justify-content: space-between; /* Distribute space between items */
+        }
+
+      .top-frame h2 {
+            margin: 0;
+            flex-grow: 1; /* Allow title to take up available space */
+        }
+
+      .buttons {
+            display: flex; /* Use flexbox for button arrangement */
+            gap: 10px; /* Add space between buttons */
+        }
+
+      .buttons button {
+            background-color: #333; /* Example button color */
+            color: #fff;
+            border: none;
+            padding: 0px 8px 0px 0px; /* Example button padding */
+            border-radius: 20px; /* Example button border radius */
+            cursor: pointer;
+        }
+        
+      .buttons button img {  /* Target the image inside the button */
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+      .buttons button:hover {
+            background-color: #444;
+        }
+
+      .content-area {
+            display: flex;
+            height: calc(100vh - 95px); /* Adjust height to accommodate fixed top frame */
+        }
+
+      .left-content {
+            width: 90%;
+            overflow-y: auto; /* Add scroll to left content */
+            margin-right: 10px; /* Add space between left and right content */
+        }
+        
+      .left-content::-webkit-scrollbar {
+            width: 0px; /* Hide the scrollbar */
+        }
+
+      .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+            grid-gap: 0px; /* Adjust spacing as needed */
+        }
+
+        .image-grid button {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin: 1px;
+            border-radius: 3px;
+            transition: transform 0.3s ease; /* Add transition for smooth animation */
+            cursor: pointer; /* Add cursor pointer */
+        }
+
+        .image-grid button:hover {
+            transform: scale(.95); /* Scale the image by 5% on hover */
+        }
+
+        .image-grid button img {
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+            object-fit: cover; /* Ensure images cover the container */
+        }
+        
+      .image-grid img {
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+            object-fit: cover; /* Ensure images cover the container */
+            margin: 1px;
+            border-radius: 3px;
+        }
+
+        .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;  /* Center the buttons horizontally */
+        }
+
+      .right-content button {
+            background-color: #111;
+            color: white;
+            border: none;
+            margin-top: 15px;   /* Reduced margin-top */
+            padding: 0;
+            cursor: pointer;
+            display: flex;     /* Enable flexbox for button content */
+            align-items: center; /* Center icon and text vertically */
+        }
+
+      .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 0px;
+        }
+        
+      .right-content button:hover {
+            color: #222;
+        }
+        
+      .image-grid button {
+            background-color: transparent;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-frame">
+        <h2>Music Library</h2>
+        <div class="buttons">
+            <button><a href="dashboard.html" target="_parent"><img src="assets/portal_icon.png" alt="destiny"></a>PORTAL</button>
+            
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="left-content">
+            <div class="image-grid">
+                <button onclick="parent.queueSong('Theme Song', 'audio/theme_song.mp3', 'covers/theme_song.png')"><img src="covers/theme_song.png" alt="Image 15"></button>
+
+                <button onclick="parent.queueSong('Astrology Loading', 'audio/astrology_loading.mp3', 'covers/astrology_loading.png')"><img src="covers/astrology_loading.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Astrology', 'audio/astrology.mp3', 'covers/astrology.png')"><img src="covers/astrology.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Calendar Loading', 'audio/calendar_loading.mp3', 'covers/calendar_loading.png')"><img src="covers/calendar_loading.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Calendar', 'audio/calendar.mp3', 'covers/calendar.png')"><img src="covers/calendar.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Casino Loading', 'audio/casino_loading.mp3', 'covers/casino_loading.png')"><img src="covers/casino_loading.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Casino', 'audio/casino.mp3', 'covers/casino.png')"><img src="covers/casino.png" alt="Image 15"></button>
+            
+                <button onclick="parent.queueSong('Chat Loading', 'audio/chat_loading.mp3', 'covers/chat_loading.png')"><img src="covers/chat_loading.png" alt="Chat Loading"></button>
+                <button onclick="parent.queueSong('Chat', 'audio/chat.mp3', 'covers/chat.png')"><img src="covers/chat.png" alt="Image 2"></button>
+                <button onclick="parent.queueSong('Config Loading', 'audio/config_loading.mp3', 'covers/config_loading.png')"><img src="covers/config_loading.png" alt="Image 3"></button>
+                <button onclick="parent.queueSong('Config', 'audio/config.mp3', 'covers/config.png')"><img src="covers/config.png" alt="Image 4"></button>
+
+                <button onclick="parent.queueSong('Cyan Loading', 'audio/cyan_loading.mp3', 'covers/cyan_loading.png')"><img src="covers/cyan_loading.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Email', 'audio/email.mp3', 'covers/email.png')"><img src="covers/email.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Email Loading', 'audio/email_loading.mp3', 'covers/email_loading.png')"><img src="covers/email_loading.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Game Console', 'audio/game_console.mp3', 'covers/game_console.png')"><img src="covers/game_console.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Game Console Loading', 'audio/game_console_loading.mp3', 'covers/game_console_loading.png')"><img src="covers/game_console_loading.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Geo', 'audio/geo.mp3', 'covers/geo.png')"><img src="covers/geo.png" alt="Image 15"></button>
+            
+                <button onclick="parent.queueSong('Geo Loading', 'audio/geo_loading.mp3', 'covers/geo_loading.png')"><img src="covers/geo_loading.png" alt="geo Loading"></button>
+                <button onclick="parent.queueSong('Ideas', 'audio/ideas.mp3', 'covers/ideas.png')"><img src="covers/ideas.png" alt="Image 2"></button>
+                <button onclick="parent.queueSong('Ideas Loading', 'audio/ideas_loading.mp3', 'covers/ideas_loading.png')"><img src="covers/ideas_loading.png" alt="Image 3"></button>
+                <button onclick="parent.queueSong('JourneyBook', 'audio/journeybook.mp3', 'covers/journeybook.png')"><img src="covers/journeybook.png" alt="Image 4"></button>
+
+                <button onclick="parent.queueSong('JourneyBook Loading', 'audio/journeybook_loading.mp3', 'covers/journeybook_loading.png')"><img src="covers/journeybook_loading.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Lucys Booth', 'audio/lucys_booth.mp3', 'covers/lucys_booth.png')"><img src="covers/lucys_booth.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Lucys Booth Loading', 'audio/lucys_booth_loading.mp3', 'covers/lucys_booth_loading.png')"><img src="covers/lucys_booth_loading.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Map', 'audio/map.mp3', 'covers/map.png')"><img src="covers/map.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Map Loading', 'audio/map_loading.mp3', 'covers/map_loading.png')"><img src="covers/map_loading.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Opening Scene', 'audio/opening_scene.mp3', 'covers/opening_scene.png')"><img src="covers/opening_scene.png" alt="Image 15"></button>
+            
+                <button onclick="parent.queueSong('Register Loading', 'audio/register_loading.mp3', 'covers/register_loading.png')"><img src="covers/register_loading.png" alt="geo Loading"></button>
+                <button onclick="parent.queueSong('Register Loading 2nd Look', 'audio/register_loading_2nd_look.mp3', 'covers/register_loading_2nd_look.png')"><img src="covers/register_loading_2nd_look.png" alt="Image 2"></button>
+                <button onclick="parent.queueSong('Safe', 'audio/safe.mp3', 'covers/safe.png')"><img src="covers/safe.png" alt="Image 3"></button>
+                <button onclick="parent.queueSong('Safe Loading', 'audio/safe_loading.mp3', 'covers/safe_loading.png')"><img src="covers/safe_loading.png" alt="Image 4"></button>
+
+                <button onclick="parent.queueSong('Space Run', 'audio/space_run.mp3', 'covers/space_run.png')"><img src="covers/space_run.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Space Run Loading', 'audio/space_run_loading.mp3', 'covers/space_run_loading.png')"><img src="covers/space_run_loading.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('The Grid', 'audio/the_grid.mp3', 'covers/the_grid.png')"><img src="covers/the_grid.png" alt="Image 15"></button>
+                
+                <button onclick="parent.queueSong('Wallet', 'audio/wallet.mp3', 'covers/wallet.png')"><img src="covers/wallet.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Wallet Loading', 'audio/wallet_loading.mp3', 'covers/wallet_loading.png')"><img src="covers/wallet_loading.png" alt="Image 15"></button>
+            
+                <button onclick="parent.queueSong('Bail', 'audio/bail.mp3', 'covers/bail.png')"><img src="covers/bail.png" alt="Image 15"></button>
+                <button onclick="parent.queueSong('Bail Loading', 'audio/bail_loading.mp3', 'covers/bail_loading.png')"><img src="covers/bail_loading.png" alt="Image 15"></button>
+                
+                <button onclick="parent.queueSong('Theme Duet High', 'audio/theme_duet_high.mp3', 'covers/theme_duet_high.png')"><img src="covers/theme_duet_high.png" alt="geo Loading"></button>
+                
+            
+            </div>
+        </div>
+        <div class="right-content">
+            <button><img src="assets/grid_icon.png" alt="Grid Icon"></button>
+            <button><img src="assets/list_icon.png" alt="List Icon"></button>
+            <button><img src="assets/filter_icon.png" alt="Filter Icon"></button>
+            <button><img src="assets/fave_icon.png" alt="Fave Icon"></button>
+            <button><img src="assets/like_icon.png" alt="Like Icon"></button>
+            <button><a href="../promoter_followers.html"></a><img src="assets/qr_icon.png" alt="QR Icon"></button>
+        </div>
+    </div>
+	<script>
+        
+    </script>
+</body>
+</html>
