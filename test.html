@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Form</title>
+</head>
+<body>
+    <h2>Test Registration Form</h2>
+    <form id="testForm" onsubmit="submitForm(); return false;">
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br><br>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        async function submitForm() {
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value;
+            const command = `node scripts/test_data.js ${email} ${name}`;
+
+            try {
+                const result = await execute_command({
+                    command: command,
+                    requires_approval: false
+                });
+                console.log('Command executed successfully:', result);
+                alert('Registration successful!');
+            } catch (error) {
+                console.error('Error executing command:', error);
+                alert('Command execution failed. See console for details.');
+            }
+        }
+
+        async function executeCommand(command) {
+            alert('executeCommand is running!');
+            try {
+                const result = await execute_command({
+                    command: command,
+                    requires_approval: false
+                });
+                console.log('Command executed successfully:', result);
+            } catch (error) {
+                console.error('Error executing command:', error);
+                alert('Command execution failed. See console for details.');
+            }
+        }
+    </script>
+</body>
+</html>

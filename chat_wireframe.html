@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414; /* Dark background for the console */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .chat-header {
+            background-color: #1e1e1e;
+            padding: 19px;
+            margin-bottom: 3px; /* Add space below the header */
+            display: flex; /* Use flexbox for layout */
+            align-items: center; /* Vertically align items */
+            justify-content: space-between; /* Distribute space between items */
+            font-size: 16px;
+        }
+
+        .chat-header h2 {
+            margin: 0;
+            flex-grow: 1; /* Allow title to take up available space */
+        }
+
+        .chat-area {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 60px; /* Adjust for floating input */
+        }
+
+        .chat-area::-webkit-scrollbar {
+            width: 0px; /* Hide the scrollbar */
+        }
+
+        .message {
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            clear: both;
+            max-width: 70%;
+            word-break: break-word;
+        }
+
+        .user-message {
+            background-color: #4f81b7; /* Blue for user messages */
+            color: #fff;
+            float: left;
+            text-align: left;
+        }
+
+        .received-message {
+            background-color: #5eb04d; /* Green for received messages */
+            color: #fff;
+            float: right;
+            margin-left: 40%;
+            text-align: left;
+        }
+
+        .chat-input-area {
+            background-color: #111;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 98%;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+            margin-right: 10px;
+            width: 85%;
+        }
+
+        .send-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+            width: 12%;
+        }
+
+        .send-button:hover {
+            background-color: #0056b3;
+        }
+
+        .attach-button {
+            background-color: #555;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .attach-button:hover {
+            background-color: #777;
+        }
+
+        .attachment-popup {
+            position: fixed;
+            bottom: 60px; /* Above the input area */
+            left: 10px;
+            background-color: rgba(1, 1, 1, 0.8);
+            color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            z-index: 10;
+            display: none;
+            width: 300px;
+        }
+
+        .attachment-popup-content {
+            text-align: center;
+        }
+
+        .placeholder-icon {
+            font-size: 2em;
+            margin: 10px;
+            color: #777;
+        }
+
+        .drop-here-text {
+            color: #999;
+            margin-bottom: 15px;
+        }
+
+        .browse-button {
+            background-color: #444;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .browse-button:hover {
+            background-color: #666;
+        }
+
+        .popup-close-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            color: #ccc;
+        }
+
+        .popup-close-button:hover {
+            color: red;
+        }
+        .close-button:hover {
+            color: red !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-header">
+        <h2>Chat</h2>
+        <div class="close-button" style="float: right; cursor: pointer; color: #fff;">
+            <h2 onclick="window.parent.postMessage({ type: 'closeChat' }, '*');">X</h2>
+        </div>
+    </div>
+    <div class="chat-area" id="chatArea">
+        <div class="message user-message">Hey there, can you send a picture</div>
+        <div class="message received-message">Sure but you have to send one too</div>
+        <div class="message user-message">for sure</div>
+        <div class="message received-message">
+            <div style="background-color: #555; border-radius: 5px; padding: 5px; display: inline-block;">
+                <img src="influencers/Lynn_L/img0001.jpeg" alt="Received Image" style="max-width: 150px; height: auto;">
+            </div>
+        </div>
+        <div class="message user-message">Wow you have such incredible eyes</div>
+    </div>
+    <div class="chat-input-area">
+        <button class="attach-button" id="attachButton">+</button>
+        <input type="text" class="chat-input" id="messageInput" placeholder="Write a message...">
+        <button class="send-button" onclick="sendMessage()">Send</button>
+    </div>
+
+    <div class="attachment-popup" id="attachmentPopup">
+        <span class="popup-close-button" onclick="toggleAttachmentPopup()">X</span>
+        <div class="attachment-popup-content">
+            <div class="drop-here-text">Drop here or browse for files</div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <span class="placeholder-icon"><img src="assets/new_audio_icon.png" alt="New Audio" style="max-width: 30px; height: auto; opacity: .5;"></span>
+                <span class="placeholder-icon"><img src="assets/new_image_icon.png" alt="New Image" style="max-width: 30px; height: auto; opacity: .5;"></span>
+                <span class="placeholder-icon"><img src="assets/new_video_icon.png" alt="New Video" style="max-width: 30px; height: auto; opacity: .5;"></span>
+            </div>
+            <button class="browse-button">Browse Files</button>
+        </div>
+    </div>
+
+    <script>
+        const chatArea = document.getElementById('chatArea');
+        const messageInput = document.getElementById('messageInput');
+        const attachmentPopup = document.getElementById('attachmentPopup');
+        const attachButton = document.getElementById('attachButton');
+
+        attachButton.addEventListener('click', toggleAttachmentPopup);
+
+        function toggleAttachmentPopup() {
+            attachmentPopup.style.display = attachmentPopup.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function sendMessage() {
+            const messageText = messageInput.value.trim();
+            if (messageText !== '') {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', 'user-message');
+                messageDiv.textContent = messageText;
+                chatArea.appendChild(messageDiv);
+                messageInput.value = '';
+                chatArea.scrollTop = chatArea.scrollHeight; // Scroll to bottom
+            }
+        }
+
+        // Simulate receiving a message
+        setTimeout(() => {
+            const receivedDiv = document.createElement('div');
+            receivedDiv.classList.add('message', 'received-message');
+            receivedDiv.textContent = "Thanks! Yours too.";
+            chatArea.appendChild(receivedDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }, 1500);
+    </script>
+</body>
+</html>

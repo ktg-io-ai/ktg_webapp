@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="description" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC is an AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement. Discover AI-driven income models & immersive experiences.">
+    <meta name="keywords" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC, AI, Social Platform, Lifestyle Platform, Influencer Marketing, Digital Engagement, AI Advertising, Web3, NFT, Metaverse, SoftBank, Investment, Startup">
+    <meta name="author" content="KTG.IO Platform">
+    <meta property="og:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="og:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.karmathegame.org"> <meta property="og:image" content="assets/game_logo.png"> <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="twitter:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="twitter:image" content="assets/kgz_icon.png"> 
+    
+<!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/kgz_icon.png"/>  
+
+    <title>Karma the Game of Destiny</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Global Styles */
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background-color: #2f27c8;
+        color: #fff;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 80px;
+            background-color: #111;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+			position: fixed; /* Make it stick */
+			height: 100%; /* Full height */
+			overflow-y: auto; /* In case content is longer than the viewport */
+			top: 0;
+			left: 0;
+			z-index: 100; /* Ensure it's above other content */
+            margin-top: 53px;
+        }
+
+        .sidebar {
+        scrollbar-width: none;
+        }
+
+        .sidebar::-webkit-scrollbar {
+        display: none;
+        }
+
+        .sidebar .logo {
+            margin-top: 10px;
+        }
+
+        .sidebar .logo img {
+            width: 60px;
+            margin-bottom: 50px;
+            max-height: 150px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .sidebar li {
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .sidebar li img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+		
+		.sidebar line img {
+            width: 40px;
+            height: 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .sidebar li span {
+            font-size: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding: 3px;
+            padding-right: 5px;
+            padding-bottom: 0px;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-area {
+            display: flex;
+            height: calc(100vh - 50px);
+            padding-top: 50px;
+            margin-top: 0px;
+        }
+
+        .main-frame {
+            width: 50%;
+            height: 100%;
+            border: none;
+            border-radius: 0px;
+            background-color: #222;
+            margin-left: 120px;
+            
+        }
+
+        .right-frame {
+            width: 50%;
+            height: 100%;
+            background-color: #222;
+			border: none;
+            border-radius: 0px;
+            margin-left: 0;
+            overflow-y: auto;
+            scrollbar-width: 0;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: #111;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 999;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .top-bar .song-title {
+            margin-left: 20px;
+            padding-right: 50px;
+        }
+
+        /* Submenu Container */.submenu-container {
+			position: fixed; /* Position fixed relative to the viewport */
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 1000; /* Ensure it's above the main content */
+			pointer-events: none; /* Allow clicks to pass through to the main content */
+		}
+
+		/* Submenu Styles */
+        .submenu {
+			position: absolute;
+			top: 110px;
+			left: 110px; /* Position relative to the left edge of the screen */
+			background-color: rgba(1, 1, 1, 0.9); /* Black with 80% opacity */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); /* Adjust values as needed */
+            border-top: 5px solid #2f27c8;
+            border-right: 5px solid #2f27c8;
+            border-bottom: 5px solid #2f27c8;
+            border-left: 5px solid #2f27c8;
+            
+			padding: 20px;
+			min-width: 200px;
+			border-radius: 20px;
+			z-index: 1001; /* Ensure it's above the submenu container */
+			pointer-events: auto; /* Allow clicks on the submenu */
+			display: none;
+		}
+
+        .submenu h2 {
+            margin-top: 0;
+        }
+
+        .submenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .submenu li {
+            margin-bottom: 10px;
+        }
+
+        .submenu button {
+               background-color: #333;
+			   opacity: 1; /* Set opacity to 100% */
+				color: #fff;
+				border: none;
+				padding: 10px;
+				width: 100%;
+				text-align: left;
+				cursor: pointer;
+				border-radius: 20px;
+			}
+			
+		.submenu button img {  /* Target the image inside the button */
+				max-width: 25px;
+				max-height: 25px;
+				margin-right: 5px;
+				vertical-align: middle;
+			}
+			
+        .submenu button:hover {
+            background-color: #444;
+        }
+
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px; /* Add some space to the right */
+            vertical-align: middle; /* Align the button vertically */
+        }
+
+        #musicToggle img {
+            width: 30px; /* Adjust the size as needed */
+            height: 30px;
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar slide-in-left">
+            <div class="logo">
+                <a href="../opening.html"> <img src="assets/game_logo.png" alt="Game Logo"> </a>
+            </div>
+            <ul>
+                <li onclick="openSubmenu('search')" class="slide-in-left"> 
+                    <img src="assets/name_icon.png" alt="Login">
+                    <span>Login</span>
+                </li>
+                <li onclick="openSubmenu('social')" class="slide-in-left">
+                    <img src="assets/doc_icon.png" alt="Register">
+                    <span>Register</span>
+                </li>
+                <li onclick="openSubmenu('actions')" class="slide-in-left">
+                    <img src="assets/group_icon.png" alt="Influencer">
+                    <span>Influencer</span>
+                </li>
+               <li onclick="openSubmenu('details')" class="slide-in-left">
+					<a href="../gameconsole.html"><img src="assets/grid_icon.png" alt="The Grid"></a>
+					<span>Grid</span>
+				</li>
+				<li onclick="openSubmenu('mystuff')" class="slide-in-left">
+					<img src="assets/list_icon.png" alt="List">
+					<span>List</span>
+				</li>				
+				<li onclick="openSubmenu('Listings')" class="slide-in-left">
+					<a href="../listingsconsole.html"> <img src="assets/listing_icon.png" alt="Listings"> </a>
+					<span>Listings</span>
+				</li>
+                
+
+            </ul>
+			
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <h1>Karma the Game of Destiny</h1>
+                <div class="song-title">
+                    <button id="musicToggle"> 
+                        <img src="assets/play_pause.png" alt="Music Toggle"> 
+                    </button>
+                    PLAYING: (Original Soundtrack) Calendar Loading
+                </div>
+            </div>
+
+            <div class="main-area">
+				<iframe src="leftconsole_ads.html" class="main-frame slide-in-left" id="mainFrame"></iframe>
+				<iframe src="rightconsole_ads.html" class="right-frame slide-up" id="rightFrame"></iframe> 
+			</div>
+        </div>
+	
+	<div id="submenu-container" class="submenu-container">
+	<audio id="musicPlayer" src="audio/calendar_loading.mp3" loop></audio>
+    
+
+		</div>
+    </div>
+
+      <script>
+        function openSubmenu(submenu) {
+            // Hide all existing submenus
+            const submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(submenu => {
+                submenu.style.display = 'none';
+            });
+
+            // Show the selected submenu
+            const selectedSubmenu = document.getElementById(submenu + '-submenu');
+            selectedSubmenu.style.display = 'block';
+        }
+
+        // Get the music player and toggle button elements
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicToggle = document.getElementById('musicToggle');
+
+        // Function to toggle music playback
+        function toggleMusic() {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+        }
+
+        // Add event listener to the toggle button
+        musicToggle.addEventListener('click', toggleMusic);
+    </script>
+    <script>
+        window.addEventListener('load', () => {
+            const slideInLeftElements = document.querySelectorAll('.slide-in-left');
+            slideInLeftElements.forEach(el => el.classList.add('active'));
+
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            fadeInElements.forEach(el => el.classList.add('active'));
+
+            const slideUpElements = document.querySelectorAll('.slide-up');
+            slideUpElements.forEach(el => el.classList.add('active'));
+        });
+    </script>
+</body>
+</html>

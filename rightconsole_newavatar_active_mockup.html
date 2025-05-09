@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIGHT FRAME</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            margin: 0;
+            padding: 00px; /* Add padding to the body */
+        }
+
+      .top-frame {
+            background-color: #111;
+            padding: 33px;
+            margin-bottom: 3px; /* Add space below the header */
+            display: flex; /* Use flexbox for layout */
+            align-items: center; /* Vertically align items */
+            justify-content: space-between; /* Distribute space between items */
+        }
+
+      .top-frame h2 {
+            margin: 0;
+            flex-grow: 1; /* Allow title to take up available space */
+        }
+
+      .buttons {
+            display: flex; /* Use flexbox for button arrangement */
+            gap: 10px; /* Add space between buttons */
+        }
+
+      .buttons button {
+            background-color: #333; /* Example button color */
+            color: #fff;
+            border: none;
+            padding: 0px 8px 0px 0px; /* Example button padding */
+            border-radius: 20px; /* Example button border radius */
+            cursor: pointer;
+			vertical-align: middle;
+        }
+        
+      .buttons button img {  /* Target the image inside the button */
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+      .buttons button:hover {
+            background-color: #444;
+        }
+
+      .content-area {
+            display: flex;
+            height: calc(100vh - 195px); /* Adjust height to accommodate fixed top frame */
+        }
+
+      .main-content {
+            width: 100%;
+            margin-right: 60px; /* Add space between left and right content */
+			margin-left: 60px; /* Add space between left and right content */
+			
+        }
+        
+        menu {
+            background-color: #222;
+            color: #fff;
+            border: none;
+			text-decoration: none;
+            padding: 10px; /* Adjust padding as needed */
+            min-width: 200px; /* Adjust width as needed */
+            text-align: center;
+            cursor: pointer;
+			align-items: center; /* Vertically align items */
+        }
+
+        menu:hover {
+            background-color: #444;
+        }
+
+      .qr-code {
+            display: flex;
+            justify-content: center; /* Center the QR code */
+            margin-top: 10px; /* Add space above the QR code */
+        }
+
+      
+
+      .footer {
+			background-color: #222;
+            display: flex;
+            justify-content: space-around; /* Distribute links evenly */
+            width: 100%;
+            margin-top: 40px; /* Add space above the footer */
+        }
+
+      .footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+		
+		 .form-input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            background-color: #ddd;
+            color: #555;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .form-button {
+            background-color: #111;
+			margin: 40px 0;
+            color: #fff;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+			text-align: center;
+        }
+
+        .form-button:hover {
+            background-color: #333;
+        }
+
+        .checkboxes {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    .checkout {
+        width: 40px; /* Size of checkmark */
+        height: 40px; /* Height of checkbox */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer;
+        background-color: #333;
+        display: flex;
+        justify-content: space-around; /* Distribute links evenly */
+        width: 100%;
+        margin-top: 40px; /* Add space above the footer */
+    }
+
+    .checkout:hover {
+        background-color: #333; /* Change color on hover */
+    }
+
+    .checkout input:checked + .checkout span {
+        border-color: white; /* White border when checked */
+    }
+
+    .label {
+        margin-left: 20px; /* Space between checkbox and label */
+    }
+
+      
+    </style>
+</head>
+<body>
+
+    <div class="top-frame">
+        <h2></h2>
+        <div class="buttons">
+            
+            
+        </div>
+    </div>
+
+	  <div class="content-area">
+        <div class="main-content">
+           <h2>REGISTER NEW AVATAR</h2>
+           
+           <form>
+           <input type="avatarname" class="form-input" placeholder="YOUR AVATAR NAME" required>
+		   
+           <h2>CHARACTER GENDER</h2>
+           <div class="checkout">
+            <div style="margin-bottom: 5px; padding-top: 5px;">
+                <label for="option1">MALE:</label>
+                <input type="checkbox" id="option1" name="option1">
+                
+            </div>
+    
+            <div style="margin-bottom: 5px; padding-top: 5px;">
+                <label for="option2">FEMALE:</label>
+                <input type="checkbox" id="option2" name="option2">
+                
+            </div>
+    
+            <div style="margin-bottom: 5px; padding-top: 5px;">
+                <label for="option3">OTHER:</label>
+                <input type="checkbox" id="option3" name="option3">
+                
+            </div>
+        </div>
+            <input type="tagline" class="form-input" placeholder="TAGLINE: A SEEKS B" required>
+            <menu onclick="window.parent.location.href='../makeavatar.html'"><h2>NEXT</h2></menu>
+        </form>
+    
+           
+        </div>
+    </div>
+	
+	<div class="footer">
+		<a href="#">TERMS OF SERVICE</a>
+		<a href="#">PRIVACY POLICY</a>
+		<a href="#">RULES OF THE GAME</a>
+	</div>
+	<script>
+        
+    </script>
+</body>
+</html>
