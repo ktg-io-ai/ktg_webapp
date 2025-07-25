@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Door - Karma the Game of Destiny</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #000000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Top Title Bar */
+        .top-bar {
+            background-color: #111;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .top-bar h1 {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .top-bar .song-title {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            font-size: 12px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        #musicToggle img {
+            width: 25px;
+            height: 25px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 60px;
+            padding: 20px;
+            min-height: calc(100vh - 140px);
+        }
+
+        /* Video Section */
+        .video-section {
+            width: 100%;
+            height: 400px;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #222;
+        }
+
+        .video-section video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Doors Section */
+        .doors-section {
+            background-color: #222;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .doors-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 50px;
+            font-weight: bold;
+        }
+
+        .doors-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .door-item {
+            background-color: #333;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .door-item:hover {
+            background-color: #444;
+            transform: translateY(-5px);
+        }
+
+        .door-item img {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .door-item h3 {
+            margin: 15px 0;
+            font-size: 24px;
+        }
+
+        .door-item p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #111;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            z-index: 1000;
+        }
+
+        .bottom-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* Background Video */
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 70px;
+            left: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 999;
+        }
+
+        .back-button svg {
+            width: 30px;
+            height: 30px;
+            color: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .doors-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .doors-title {
+                font-size: 24px;
+            }
+            
+            .door-item {
+                min-height: 250px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video autoplay loop muted class="background-video">
+        <source src="../assets/choose.mp4" type="video/mp4">
+    </video>
+
+    <!-- Top Title Bar -->
+    <div class="top-bar">
+        <h1>Karma the Game of Destiny</h1>
+        <div class="song-title">
+            <button id="musicToggle">
+                <img src="../assets/play_pause.png" alt="Music Toggle">
+            </button>
+            PLAYING: (Original Soundtrack) Lucys Booth
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <button class="back-button" onclick="window.history.back()" aria-label="Go Back">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+    </button>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Video Section -->
+        <div class="video-section">
+            <video autoplay muted loop>
+                <source src="../assets/choose001.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- Doors Section -->
+        <div class="doors-section">
+            <div class="doors-title">CHOOSE YOUR DOOR</div>
+            
+            <div class="doors-container">
+                <div class="door-item" onclick="window.location.href='m_mainconsole_gameconsole.html'">
+                    <img src="../assets/bluedoor.png" alt="Blue Door">
+                    <h3>BLUE DOOR</h3>
+                    <p>Enter the Game Console</p>
+                </div>
+
+                <div class="door-item" onclick="window.location.href='../JOURNEYBOOK/m_mainconsole_journeybook.html'">
+                    <img src="../assets/yellowdoor.png" alt="Yellow Door">
+                    <h3>YELLOW DOOR</h3>
+                    <p>Open Your Journey Book</p>
+                </div>
+
+                <div class="door-item" onclick="window.location.href='../LIFESTYLES/m_mainconsole_listings.html'">
+                    <img src="../assets/reddoor.png" alt="Red Door">
+                    <h3>RED DOOR</h3>
+                    <p>Explore Lifestyles</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="../m_mainconsole_dashboard.html">HOME</a>
+        <a href="../KTGMUSIC/m_mainconsole_ktgmusic.html">MUSIC</a>
+        <a href="../KTGAI/m_mainconsole_ktgai.html">AI</a>
+        <a href="../MERCH/m_mainconsole_merch.html">MERCH</a>
+        <a href="../contact.html">CONTACT</a>
+    </div>
+
+    <audio id="musicPlayer" src="../KTGMUSIC/audio/chooseyourdoor.mp3" loop></audio>
+
+    <script>
+        // Music toggle functionality
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicToggle = document.getElementById('musicToggle');
+
+        function toggleMusic() {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+    </script>
+</body>
+</html>

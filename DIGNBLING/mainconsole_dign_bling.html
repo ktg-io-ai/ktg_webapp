@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIGN BLING</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #111;
+            overflow: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        body::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+        }
+
+        .top-frame {
+            background-color: #111;
+            color: white;
+            padding: 19px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .top-frame h1 {
+            margin: 0;
+            flex-grow: 1;
+            text-align: left;
+            font-size: 1.5em;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-right: 20px; /* Add margin to the right of the buttons */
+        }
+
+        .buttons button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 0px 8px 0px 0px;
+            border-radius: 20px;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+
+        .buttons button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .buttons button:hover {
+            background-color: #444;
+        }
+
+        .dashboard-container {
+            padding: 70px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+            background-color: #222; /* Set background color to #222 */
+            color: white; /* Set text color to white for better visibility */
+        }
+
+        #game-grid {
+            display: grid;
+            grid-template-columns: repeat(9, 50px); /* 9x9 grid */
+            grid-gap: 5px;
+            margin-top: 20px;
+        }
+
+        .tile {
+            width: 50px;
+            height: 50px;
+            background-color: #eee;
+            border: 1px solid #ccc;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .tile:hover {
+            background-color: #ddd;
+        }
+
+        .tile img {
+            max-width: 40px;
+            max-height: 40px;
+            vertical-align: middle;
+        }
+
+        .tile.disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+
+        .tile.empty-revealed {
+            background-color: #1e1e1e;
+        }
+
+        #wallet {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #1e1e1e; /* Set background color to #1e1e1e */
+            color: white; /* Ensure font color is white */
+            width: 400px; /* Make the wallet wider */
+        }
+
+        #wallet table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        #wallet th,
+        #wallet td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #wallet th {
+            background-color: #333;
+        }
+
+        #convert-gems {
+            background-color: #111;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        #convert-gems:hover {
+            background-color: #3e8e41;
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -300px);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            z-index: 1000;
+            text-align: center; /* Center the content */
+        }
+
+        #modal-message {
+            margin-bottom: 10px; /* Add space between message and buttons */
+        }
+
+        #modal button {
+            background-color: #111; /* Changed background color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin: 0 5px; /* Add spacing between buttons */
+            width: 100px; /* Make buttons the same width */
+        }
+
+        #modal button:hover {
+            background-color: #222; /* Changed hover background color */
+        }
+
+        #get-diamonds {
+            background-color: #111;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        #get-diamonds:hover {
+            background-color: #222;
+        }
+
+        .footer {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            color: #fff;
+            background-color: #111;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-frame">
+        <h1>DIGN BLING</h1>
+        <div class="buttons">
+            <button><a href="../dashboard.html" target="_parent"><img src="../assets/portal_icon.png" alt="destiny"></a>PORTAL</button>
+        </div>
+    </div>
+
+    <div class="dashboard-container">
+        <div id="game-grid">
+            <!-- Game grid will be generated here -->
+        </div>
+        <div id="wallet">
+            <h3>Wallet</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>USD Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Gems</td>
+                        <td><span id="gem-count">0</span></td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Diamonds</td>
+                        <td><span id="diamond-count">0</span></td>
+                        <td><span id="diamond-value">0</span></td>
+                    </tr>
+                    <tr>
+                        <td>KTG Balance</td>
+                        <td><span id="ktg-balance">0</span></td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>KGZ Balance</td>
+                        <td><span id="kgz-balance">0</span></td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id="convert-gems">Convert Gems to KTG</button>
+            <button id="get-diamonds">Get my Diamonds</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Dign' Bling</p>
+    </div>
+
+    <div id="modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -300px); background-color: rgba(0, 0, 0, 0.8); color: white; padding: 20px; border-radius: 5px; z-index: 1000; text-align: center;">
+        <p id="modal-message"></p>
+        <button id="modal-ok">OK</button>
+    </div>
+
+    <audio id="bomb-sound" src="../assets/dign_bomb.mp3" preload="auto"></audio>
+    <audio id="diamond-sound" src="../assets/dign_diamond.mp3" preload="auto" loop></audio>
+
+    <script>
+        const gridSize = 9;
+        let gameGrid = [];
+        let gems = 0;
+        let diamond = null;
+        let bomb = false;
+        let timeLeft = 30 * 24 * 60 * 60; // 30 days in seconds
+        let diamondValue = 0; // Track diamond value
+        let gameActive = true; // Track if the game is active
+        let retries = 1;
+
+        function generateGrid() {
+            const gridContainer = document.getElementById('game-grid');
+            gridContainer.innerHTML = ''; // Clear existing grid
+
+            // Initialize grid with empty tiles
+            for (let i = 0; i < gridSize; i++) {
+                gameGrid[i] = [];
+                for (let j = 0; j < gridSize; j++) {
+                    gameGrid[i][j] = '';
+                }
+            }
+
+            // Place diamond
+            const diamondRow = Math.floor(Math.random() * gridSize);
+            const diamondCol = Math.floor(Math.random() * gridSize);
+            gameGrid[diamondRow][diamondCol] = 'diamond';
+
+            // Place bomb
+            let bombRow, bombCol;
+            do {
+                bombRow = Math.floor(Math.random() * gridSize);
+                bombCol = Math.floor(Math.random() * gridSize);
+            } while (bombRow === diamondRow && bombCol === diamondCol);
+            gameGrid[bombRow][bombCol] = 'bomb';
+
+            // Place gems
+            const numGems = Math.floor(Math.random() * 11) + 10; // 10-20 gems
+            for (let i = 0; i < numGems; i++) {
+                let gemRow, gemCol;
+                do {
+                    gemRow = Math.floor(Math.random() * gridSize);
+                    gemCol = Math.floor(Math.random() * gridSize);
+                } while (gameGrid[gemRow][gemCol] !== '');
+                gameGrid[gemRow][gemCol] = 'gem';
+            }
+
+            // Create HTML elements for the grid
+            for (let i = 0; i < gridSize; i++) {
+                for (let j = 0; j < gridSize; j++) {
+                    const tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    tile.dataset.row = i;
+                    tile.dataset.col = j;
+                    tile.addEventListener('click', handleTileClick);
+                    gridContainer.appendChild(tile);
+                }
+            }
+        }
+
+        function handleTileClick(event) {
+            if (!gameActive) return; // Prevent clicks after game over
+
+            const row = parseInt(event.target.dataset.row);
+            const col = parseInt(event.target.dataset.col);
+            const tileContent = gameGrid[row][col];
+
+            let tileHTML = '';
+
+            if (tileContent === 'diamond') {
+                // Diamond found
+                diamond = {
+                    value: Math.floor(Math.random() * (100000 - 800 + 1)) + 800
+                };
+                diamondValue = diamond.value; // Store diamond value
+                tileHTML = '<img src="../assets/diamond_icon.png" alt="Diamond">';
+                updateWallet();
+                displayDiamondCertificate();
+            } else if (tileContent === 'bomb') {
+                // Bomb found
+                bomb = true;
+                tileHTML = '<img src="../assets/bomb_icon.png" alt="Bomb">';
+                let bombMessage = 'GAME OVER! You found a bomb!';
+                if (diamondValue > 0) {
+                    bombMessage += ' You lost a diamond worth $' + diamondValue + '!';
+                }
+                displayBombModal(bombMessage);
+            } else if (tileContent === 'gem') {
+                // Gem found
+                const gemValue = Math.floor(Math.random() * (500 - 5 + 1)) + 5;
+                gems += gemValue;
+                tileHTML = '<img src="../assets/gem_icon.png" alt="Gem">';
+                updateWallet();
+                displaySparkle(row, col);
+            } else {
+                // Empty tile
+                tileHTML = '';
+            }
+
+            // Reveal the tile
+            event.target.innerHTML = tileHTML;
+            event.target.classList.add('revealed');
+            event.target.classList.add('empty-revealed'); // Add new class for empty tiles
+            event.target.removeEventListener('click', handleTileClick);
+
+            // Check for game over
+            if (diamond || bomb) {
+                endGame();
+            }
+        }
+
+        function updateWallet() {
+            document.getElementById('gem-count').textContent = gems;
+            document.getElementById('diamond-count').textContent = diamondValue > 0 ? 1 : 0; // Display 1 if diamond is found
+            document.getElementById('diamond-value').textContent = diamondValue > 0 ? diamondValue : 0; // Display diamond value
+        }
+
+        function displayModal(message) {
+            const modal = document.getElementById('modal');
+            const modalMessage = document.getElementById('modal-message');
+            const modalOkButton = document.getElementById('modal-ok');
+            const modalTryAgainButton = document.getElementById('modal-try-again');
+            const diamondSound = document.getElementById('diamond-sound');
+
+            modalMessage.textContent = message;
+            modalOkButton.style.display = 'inline-block';
+            if (modalTryAgainButton) {
+                modalTryAgainButton.style.display = 'none';
+            }
+            modal.style.display = 'block';
+
+            diamondSound.play(); // Play the diamond sound
+        }
+
+        function displayBombModal(message) {
+            const modal = document.getElementById('modal');
+            const modalMessage = document.getElementById('modal-message');
+            const modalOkButton = document.getElementById('modal-ok');
+            let modalTryAgainButton = document.getElementById('modal-try-again');
+            const bombSound = document.getElementById('bomb-sound');
+
+            modalMessage.textContent = message;
+
+            if (!modalTryAgainButton) {
+                modalTryAgainButton = document.createElement('button');
+                modalTryAgainButton.id = 'modal-try-again';
+                modalTryAgainButton.textContent = 'Go Again'; // Changed text here
+                modal.appendChild(modalTryAgainButton);
+                modalTryAgainButton.addEventListener('click', tryAgain);
+                modalTryAgainButton.style.width = '100px'; // Set width to match OK button
+            }
+            modalTryAgainButton.style.display = 'inline-block';
+            modal.style.display = 'block';
+
+            bombSound.play(); // Play the bomb sound
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            const diamondSound = document.getElementById('diamond-sound');
+            modal.style.display = 'none';
+            diamondSound.pause(); // Pause the diamond sound
+            diamondSound.currentTime = 0; // Reset the sound to the beginning
+        }
+
+        function tryAgain() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none';
+            retries--;
+            if (retries >= 0) {
+                resetGame();
+            } else {
+                endGame();
+            }
+        }
+
+        function resetGame() {
+            gameActive = true;
+            diamondValue = 0;
+            gems = 0;
+            updateWallet();
+            generateGrid();
+        }
+
+        function displayDiamondCertificate() {
+            displayModal('Congratulations! You found a diamond worth $' + diamond.value + '!');
+        }
+
+        function displayExplosion(message) {
+            displayModal(message);
+        }
+
+        function displaySparkle(row, col) {
+            // Implement sparkle effect here
+            console.log('Sparkle at row: ' + row + ', col: ' + col);
+        }
+
+        function endGame() {
+            gameActive = false; // Disable further clicks
+            const tiles = document.querySelectorAll('.tile');
+            tiles.forEach(tile => {
+                tile.removeEventListener('click', handleTileClick);
+                tile.classList.add('disabled'); // Add a class to visually disable tiles
+            });
+        }
+
+        function updateTimer() {
+            const days = Math.floor(timeLeft / (24 * 60 * 60));
+            const hours = Math.floor((timeLeft % (24 * 60 * 60)) / (60 * 60));
+            const minutes = Math.floor((timeLeft % (60 * 60)) / 60);
+            const seconds = Math.floor(timeLeft % 60);
+
+            document.title = `DIGN BLING (${days}d ${hours}h ${minutes}m ${seconds}s)`;
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(timerInterval);
+                document.title = 'DIGN BLING (Time Expired)';
+            }
+        }
+
+        // Convert gems to KTG
+        document.getElementById('convert-gems').addEventListener('click', function() {
+            // Implement convert logic here
+            alert('Gems converted to KTG!');
+        });
+
+        // Initialize the game
+        generateGrid();
+        updateWallet();
+
+        // Start the timer
+        updateTimer();
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        // Add event listener to the modal OK button
+        document.getElementById('modal-ok').addEventListener('click', closeModal);
+    </script>
+</body>
+</html>

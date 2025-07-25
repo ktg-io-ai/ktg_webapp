@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Console - Karma the Game of Destiny</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #000000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Top Title Bar */
+        .top-bar {
+            background-color: #111;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .top-bar h1 {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .top-bar .song-title {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            font-size: 12px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        #musicToggle img {
+            width: 25px;
+            height: 25px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 60px;
+            padding: 20px;
+            min-height: calc(100vh - 140px);
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Left Panel - Player Profile */
+        .left-panel {
+            width: 40%;
+            background-color: #222;
+            padding: 30px;
+            border-radius: 15px;
+            height: fit-content;
+        }
+
+        .player-profile {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .player-profile img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .player-profile h2 {
+            margin: 15px 0;
+            font-size: 24px;
+        }
+
+        .player-profile h4 {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        /* Data Container */
+        .data-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 2px solid white;
+            padding-bottom: 8px;
+            width: 100%;
+        }
+
+        .safe-image img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .door-box {
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            border-radius: 5px;
+        }
+
+        .journeybook-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 80%;
+        }
+
+        .bar {
+            height: 12px;
+            border-radius: 5px;
+        }
+
+        .bar1 { background-color: blue; width: 10%; }
+        .bar2 { background-color: yellow; width: 50%; }
+        .bar3 { background-color: red; width: 85%; }
+
+        /* Right Panel - Game Grid and Actions */
+        .right-panel {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Game Grid Section */
+        .game-grid-section {
+            background-color: #222;
+            padding: 30px;
+            border-radius: 15px;
+            flex-grow: 1;
+        }
+
+        .game-grid-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .image-grid button {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin: 3px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .image-grid button:hover {
+            transform: scale(0.95);
+        }
+
+        .image-grid button img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Game Actions Section */
+        .game-actions {
+            background-color: #222;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .game-actions h3 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 20px;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .action-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: #444;
+            transform: translateY(-3px);
+        }
+
+        .action-button img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .action-button span {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: #111;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            z-index: 1000;
+        }
+
+        .bottom-nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* Background Video */
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 70px;
+            left: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 999;
+        }
+
+        .back-button svg {
+            width: 30px;
+            height: 30px;
+            color: white;
+        }
+
+        /* Social Media Buttons */
+        .social-buttons {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 999;
+        }
+
+        .social-buttons button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-buttons button:hover {
+            background-color: #444;
+        }
+
+        .social-buttons button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            
+            .action-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .image-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <video autoplay loop muted class="background-video">
+        <source src="../assets/cyberpunk_alley.mp4" type="video/mp4">
+    </video>
+
+    <!-- Top Title Bar -->
+    <div class="top-bar">
+        <h1>Karma the Game of Destiny</h1>
+        <div class="song-title">
+            <button id="musicToggle">
+                <img src="../assets/play_pause.png" alt="Music Toggle">
+            </button>
+            PLAYING: (Original Soundtrack) The Grid
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <button class="back-button" onclick="window.history.back()" aria-label="Go Back">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+    </button>
+
+    <!-- Social Media Buttons -->
+    <div class="social-buttons">
+        <button onclick="window.open('https://instagram.com/karmathegame', '_blank')" title="Instagram">
+            <img src="../assets/instagram_icon.png" alt="Instagram">
+        </button>
+        <button onclick="window.open('https://www.linkedin.com/in/rene-reyes-the-alquimist-8b3b3510/', '_blank')" title="LinkedIn">
+            <img src="../assets/linkedin_icon.png" alt="LinkedIn">
+        </button>
+        <button onclick="window.open('https://www.tiktok.com/@karmathegame', '_blank')" title="TikTok">
+            <img src="../assets/tiktok_icon.png" alt="TikTok">
+        </button>
+        <button onclick="window.open('https://discordapp.com/users/1177985292297314391', '_blank')" title="Discord">
+            <img src="../assets/discord_icon.png" alt="Discord">
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Left Panel - Player Profile -->
+        <div class="left-panel">
+            <div class="player-profile">
+                <h2 id="participant-name">Loading...</h2>
+                <img id="participant-image" src="" alt="Participant Image">
+                <h2 id="participant-tagline">Loading...</h2>
+                <h4>NEW YORK, NY</h4>
+            </div>
+
+            <!-- Data Container -->
+            <div class="data-container">
+                <div class="column">
+                    <div class="title">SAFE LINKS</div>
+                    <div class="safe-image">
+                        <img src="../assets/safe_icon.png" alt="Safe Content">
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="title">DOOR</div>
+                    <div class="door-box"></div>
+                </div>
+
+                <div class="column">
+                    <div class="title">JOURNEYBOOK</div>
+                    <div class="journeybook-bars">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel - Game Grid and Actions -->
+        <div class="right-panel">
+            <!-- Game Grid Section -->
+            <div class="game-grid-section">
+                <div class="game-grid-title">The Grid</div>
+                <div class="image-grid" id="participant-grid">
+                    <!-- Participant images will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Game Actions Section -->
+            <div class="game-actions">
+                <h3>Game Actions</h3>
+                <div class="action-buttons">
+                    <button class="action-button" onclick="showIntroPopup()">
+                        <img src="../assets/intro_icon.png" alt="Intro">
+                        <span>Intro</span>
+                    </button>
+                    <button class="action-button" onclick="showChatPopup()">
+                        <img src="../assets/chat_icon.png" alt="Chat">
+                        <span>Chat</span>
+                    </button>
+                    <button class="action-button" onclick="showZapPopup()">
+                        <img src="../assets/zap_icon.png" alt="Zap">
+                        <span>Zap</span>
+                    </button>
+                    <button class="action-button" onclick="showStatsPopup()">
+                        <img src="../assets/stats_icon.png" alt="Stats">
+                        <span>Stats</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="../m_mainconsole_dashboard.html">HOME</a>
+        <a href="../KTGMUSIC/m_mainconsole_ktgmusic.html">MUSIC</a>
+        <a href="../KTGAI/m_mainconsole_ktgai.html">AI</a>
+        <a href="../MERCH/m_mainconsole_merch.html">MERCH</a>
+        <a href="../contact.html">CONTACT</a>
+    </div>
+
+    <audio id="musicPlayer" src="../KTGMUSIC/audio/the_grid.mp3" loop></audio>
+
+    <script>
+        // Music toggle functionality
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicToggle = document.getElementById('musicToggle');
+
+        function toggleMusic() {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // Load participant data
+        fetch('../data/participant.json')
+            .then(response => response.json())
+            .then(data => {
+                // Load first participant as default
+                const participant = data[0];
+                updateParticipantInfo(participant);
+
+                // Load participant grid
+                const participantGrid = document.getElementById('participant-grid');
+                data.forEach(participant => {
+                    const button = document.createElement('button');
+                    button.addEventListener('click', () => {
+                        updateParticipantInfo(participant);
+                    });
+
+                    const img = document.createElement('img');
+                    img.src = participant.image;
+                    img.alt = participant.name;
+                    button.appendChild(img);
+
+                    participantGrid.appendChild(button);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading participant data:', error);
+                document.getElementById('participant-name').textContent = 'Error loading data';
+            });
+
+        function updateParticipantInfo(participant) {
+            document.getElementById('participant-name').textContent = participant.name;
+            document.getElementById('participant-image').src = participant.image;
+            document.getElementById('participant-tagline').textContent = participant.tagline;
+        }
+
+        function showIntroPopup() {
+            alert('Intro feature coming soon!');
+        }
+
+        function showChatPopup() {
+            alert('Chat feature coming soon!');
+        }
+
+        function showZapPopup() {
+            alert('Zap feature coming soon!');
+        }
+
+        function showStatsPopup() {
+            alert('Stats feature coming soon!');
+        }
+    </script>
+</body>
+</html>

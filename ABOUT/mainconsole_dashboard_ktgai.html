@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREATOR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-frame {
+            background-color: #111;
+            padding: 15px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: #333; /* Example button color */
+            color: #fff;
+            border: none;
+            padding: 0px 8px 0px 0px; /* Example button padding */
+            border-radius: 20px; /* Example button border radius */
+            cursor: pointer;
+			vertical-align: middle;
+        }
+
+        .buttons button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .buttons button:hover {
+            background-color: #444;
+        }
+
+        .content-area {
+            display: flex;
+            height: calc(100vh - 95px);
+            width: calc(100vh-40);
+        }
+
+        .left-content {
+            width: 90%;
+            height: 90vh;
+            overflow-y: auto;
+            margin-right: 10px;
+        }
+
+        .left-content {
+            scrollbar-width: none; /* Hide the scrollbar */
+        }
+
+        .left-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 5px;
+            padding: 5px;
+        }
+
+        .icon-grid button {
+            background-color: #222;
+            color: #fff;
+            border: none;
+            height: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .icon-grid button img {
+            max-width: 100px;
+            max-height: 100px;
+            margin-bottom: 40px;
+            margin-top: 40px;
+        }
+
+        .icon-grid button:hover {
+            background-color: #333;
+        }
+
+        .icon-grid button a { 
+            color: #fff;          /* Keep the text white */
+            text-decoration: none;  /* Remove underline */
+            display: flex;         /* Use flexbox for vertical centering */
+            flex-direction: column; /* Stack image and text vertically */
+            align-items: center;   /* Center horizontally */
+        }
+
+        .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+            border-color: aqua;
+        }
+
+        .right-content button {
+            background-color: #111;
+            color: white;
+            border: none;
+            margin-top: 15px;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 0px;
+        }
+
+        .right-content button:hover {
+            color: #222;
+        }
+
+        .deck-image {
+            width: 100%; /* Adjust the percentage as needed */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="top-frame fade-in">
+        <h2>KTG.AI</h2>
+        <div class="buttons">
+            <button><a href="dashboard.html" target="_parent"><img src="assets/portal_icon.png" alt="destiny"></a>PORTAL</button>
+              
+            
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="left-content slide-in-left">
+           
+           <div>
+            
+              <iframe src="ktg_ai_bio.html" class="left-content" id="rightFrame" style="border: none; overflow: hidden;"></iframe>
+            </a>
+           </div>
+
+        </div>
+
+        <div class="right-content">
+            <button><a href="https://instagram.com/karmathegame" target="_blank"><img src="assets/instagram_icon.png" alt="instagram icon"></a></button>
+            <button><a href="https://www.linkedin.com/in/rene-reyes-the-alquimist-8b3b3510/" target="_blank"><img src="assets/linkedin_icon.png" alt="List Icon"></a></button>
+            <button><a href="https://www.tiktok.com/@karmathegame" target="_blank"><img src="assets/tiktok_icon.png" alt="Filter Icon"></a></button>
+            <button><a href="https://discordapp.com/users/1177985292297314391" target="_blank"><img src="assets/discord_icon.png" alt="Fave Icon"></a></button>
+            <button><a href="https://t.me/karmathegame" target="_blank"><img src="assets/telegram_icon.png" alt="Telegram Icon"></a></button>
+            <button><a href="https://www.threads.com/@karmathegame?igshid=NTc4MTIwNjQ2YQ==" target="_blank"><img src="assets/threads_icon.png" alt="QR Icon"></a></button>
+            <button><a href="contact.html" target="_parent"><img src="assets/contact_icon.png" alt="contact icon"></a></button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTG: AI-Driven Social & Lifestyles Platform - Multi-Industry Ecosystem</title>
+    <meta name="description" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC is an AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement. Discover AI-driven income models & immersive experiences.">
+    <meta name="keywords" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC, AI, Social Platform, Lifestyle Platform, Influencer Marketing, Digital Engagement, AI Advertising, Web3, NFT, Metaverse, SoftBank, Investment, Startup">
+    <meta name="author" content="KTG.IO Platform">
+    <meta property="og:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="og:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.karmathegame.org"> <meta property="og:image" content="assets/game_logo.png"> <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="twitter:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="twitter:image" content="assets/kgz_icon.png"> <link rel="icon" type="image/png" href="assets/kgz_icon.png"/>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png"/>
+    
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            margin: 0;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-top: -180px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .button-container button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .button-container button:hover {
+            background-color: #00ffbb;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: #111;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            z-index: 999;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .top-bar .song-title {
+            margin-left: 20px;
+            padding-right: 50px;
+        }
+
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px; /* Add some space to the right */
+            vertical-align: middle; /* Align the button vertically */
+        }
+
+        #musicToggle img {
+            width: 30px; /* Adjust the size as needed */
+            height: 30px;
+        }
+
+        
+    </style>
+    <script>
+        function proceedToDashboard() {
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                window.location.href = 'mobile_dashboard.html'; // Redirect to mobile version
+            } else {
+                window.location.href = 'dashboard.html'; // Redirect to desktop version
+            }
+        }
+    </script>
+    
+</head>
+<body style="overflow: hidden;">
+    <video autoplay muted style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+        <source src="assets/index3.mp4" type="video/mp4">
+    </video>
+    
+
+    <div class="top-bar fade-in">
+                <h1>KTG.IO</h1>
+                
+            </div>
+   
+
+    <h1>What if the connection you’ve been searching for… is already searching for you?</h1>
+    <div class="button-container">
+        <button onclick="proceedToDashboard()">SHOW ME</button>
+        <button>NOT INTERESTED</button>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            const slideInLeftElements = document.querySelectorAll('.slide-in-left');
+            slideInLeftElements.forEach(el => el.classList.add('active'));
+
+            const slideInRightElements = document.querySelectorAll('.slide-in-right');
+            slideInRightElements.forEach(el => el.classList.add('active'));
+
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            fadeInElements.forEach(el => el.classList.add('active'));
+
+            const slideUpElements = document.querySelectorAll('.slide-up');
+            slideUpElements.forEach(el => el.classList.add('active'));
+        });
+    </script>
+
+</body>
+</html>

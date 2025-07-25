@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/favicon.png"/>
+
+    <title>Karma the Game of Destiny</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 80px;
+            background-color: #111;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+			position: fixed; /* Make it stick */
+			height: 100%; /* Full height */
+			overflow-y: auto; /* In case content is longer than the viewport */
+			top: 0;
+			left: 0;
+			z-index: 100; /* Ensure it's above other content */
+            scrollbar-width: 0;
+            margin-top: 54px;
+        }
+
+        .sidebar .logo {
+            margin-top: 10px;
+        }
+
+        .sidebar .logo img {
+            width: 60px;
+            margin-bottom: 50px;
+            max-height: 150px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .sidebar li {
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .sidebar li img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+		
+		.sidebar line img {
+            width: 40px;
+            height: 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .sidebar li span {
+            font-size: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding: 3px;
+            padding-right: 5px;
+            padding-bottom: 0px;
+            height: 100vh - 100px;
+            overflow: hidden;
+        }
+
+        .main-area {
+            display: flex;
+            height: calc(100vh - 50px);
+            padding-top: 50px;
+            margin-top: 0px;
+        }
+
+        .main-frame {
+            width: 50%;
+            height: 100%;
+            border: none;
+            border-radius: 0px;
+            background-color: #222;
+            margin-left: 120px;
+            
+        }
+
+        .main-frame img {
+            width: 100%;
+            max-height: 60vh;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .right-frame {
+            width: 50%;
+            height: 100%;
+            background-color: #222;
+			border: none;
+            border-radius: 0px;
+            margin-left: 0;
+            overflow-y: auto;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: #111;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 999;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .top-bar .music-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            font-size: 16px;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        .top-bar .song-title {
+            margin-left: 20px;
+            padding-right: 20px;
+            text-align: right;
+        }
+
+        /* Submenu Container */.submenu-container {
+			position: fixed; /* Position fixed relative to the viewport */
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 1000; /* Ensure it's above the main content */
+			pointer-events: none; /* Allow clicks to pass through to the main content */
+		}
+
+		/* Submenu Styles */
+        .submenu {
+			position: absolute;
+			top: 110px;
+			left: 110px; /* Position relative to the left edge of the screen */
+			background-color: rgba(1, 1, 1, 0.9); /* Black with 80% opacity */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); /* Adjust values as needed */
+            border-top: 5px solid #2f27c8;
+            border-right: 5px solid #2f27c8;
+            border-bottom: 5px solid #2f27c8;
+            border-left: 5px solid #2f27c8;
+            
+			padding: 20px;
+			min-width: 200px;
+			border-radius: 20px;
+			z-index: 1001; /* Ensure it's above the submenu container */
+			pointer-events: auto; /* Allow clicks on the submenu */
+			display: none;
+		}
+
+        .submenu a {
+            display: block;        /* Make the link fill the button */
+            text-decoration: none; /* Remove underline from link */
+            color: inherit;       /* Inherit color from parent (button) */
+            padding: 0px;         /* Keep the button padding */
+            border-radius: 20px;   /* Keep the button border-radius */
+        }
+
+        .submenu a:hover {
+            background-color: #444; /* Keep the hover effect */
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: #fff;
+        }
+
+       
+
+        .submenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .submenu li {
+            margin-bottom: 10px;
+        }
+
+        /* --- UPDATED BUTTON STYLES --- */
+        .submenu button {
+            background-color: transparent; /* Set background to transparent */
+            border: 1px solid #2f27c8; /* Add a 2px border with the submenu color */
+            opacity: 1; 
+            color: #fff;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+        
+        .submenu button img {  /* Target the image inside the button */
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+            
+        .sidebar li a { /* Targets the <a> tag inside the sidebar list items */
+            color: white; /* Sets the text color to white */
+            text-decoration: none; /* Removes the underline */
+            display: block; /* Makes the entire list item clickable */
+            padding: 5px; /* Add some padding around the link text */
+        }
+
+        .sidebar li a:hover { /* Optional: Style on hover */
+            color: #222; /* Example: Change color on hover */
+        }       
+            
+        .submenu button:hover {
+            background-color: #222; /* This creates the gray hover effect */
+            border: 1px solid #4fb6c1; /* Add a 2px border with the submenu color */
+        }
+
+            
+
+        .sidebar li a { /* Targets the <a> tag inside the sidebar list items */
+            color: white; /* Sets the text color to white */
+            text-decoration: none; /* Removes the underline */
+            display: block; /* Makes the entire list item clickable */
+            padding: 10px; /* Add some padding around the link text */
+        }
+
+      
+
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px; /* Add some space to the right */
+            vertical-align: middle; /* Align the button vertically */
+        }
+
+        #musicToggle img {
+            width: 30px; /* Adjust the size as needed */
+            height: 30px;
+        }
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        .right-frame {
+            width: 100%; /* Set the desired width for the right frame */
+            /* ... other styles ... */
+        }
+
+        .top-frame {
+            background-color: #111;
+            padding: 15px;
+            margin-top: 53px;
+            margin-bottom: 3px; /* Add space below the header */
+            /* margin-right: 100px; */
+            margin-left: 120px;
+            display: flex; /* Use flexbox for layout */
+            align-items: center; /* Vertically align items */
+            justify-content: space-between; /* Distribute space */
+            position: fixed;
+            top: 0;
+            width: 90%;
+            z-index: 1;
+        }
+
+      .top-frame h2 {
+            margin: 0;
+            flex-grow: 1; /* Allow title to take up available space */
+        }
+
+        .buttons {
+            display: flex; /* Use flexbox for button arrangement */
+            gap: 10px; /* Add space between buttons */
+        }
+
+      .buttons button {
+            background-color: #333; /* Example button color */
+            color: white;
+            border: none;
+            padding: 0px 8px 0px 0px; /* Example button padding */
+            border-radius: 20px; /* Example button border radius */
+            cursor: pointer;
+            vertical-align: middle;
+            margin-right: 30px;
+        }
+        
+      .buttons button img {  /* Target the image inside the button */
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+      .buttons button:hover {  /* Target the image inside the button */
+            background-color: #444;
+        }
+
+
+        #timeline-container {
+            margin-bottom: 100px;
+            padding-bottom: 200px;
+        }
+    
+        .top-bar {
+            background-color: #111;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 999;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .top-bar .music-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            font-size: 16px;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        .top-bar .song-title {
+            margin-left: 20px;
+            padding-right: 20px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body style="overflow: hidden;">
+    <video autoplay loop muted style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+        <source src="../assets/playbook.mp4" type="video/mp4">
+    </video>
+    <p>..></p>
+    <div class="container">
+        <div class="sidebar slide-in-left">
+            <div class="logo">
+                <a href="../index.html" target="_parent">  <img src="../assets/game_logo.png" alt="Game Logo"> </a>
+            </div>
+            <ul>
+                <li onclick="openSubmenu('search')" class="slide-in-left"> 
+                    <img src="../assets/about_icon.png" alt="About">
+                    <span>About</span>
+                </li>
+                <li onclick="openSubmenu('socialize')" class="slide-in-left">
+                    <img src="../assets/social_icon.png" alt="Socialize">
+                    <span>Influencers</span>
+                </li>
+                <li onclick="openSubmenu('actions')" class="slide-in-left">
+                    <img src="../assets/game_icon.png" alt="Actions">
+                    <span>Advertisers</span>
+                </li>
+                <li onclick="openSubmenu('details')" class="slide-in-left">
+                    <img src="../assets/detail_icon.png" alt="Details">
+                    <span>Investors</span>
+                </li>
+                <li onclick="openSubmenu('mystuff')" class="slide-in-left">
+                    <img src="../assets/mystuff_icon.png" alt="My Stuff">
+                    <span>My Stuff</span>
+                </li>                
+                <li onclick="openSubmenu('Listings')" class="slide-in-left">
+                    <a href="../LIFESTYLES/listingsconsole.html"> <img src="../assets/listing_icon.png" alt="Listings"> </a>
+                    <span>Listings</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar fade-in">
+                <div class="music-buttons">
+                    <button onclick="window.open('../KTGMUSIC/music_player.html', '_blank', 'width=550,height=850')" style="background: none; border: none; cursor: pointer;">
+                        <img src="../assets/music_player_icon.png" alt="Open Music Player" style="width: 30px; height: 30px;">
+                    </button>
+                    
+                </div>
+                
+                <h1>KTG.IO</h1>
+                <div class="song-title">
+                    <button id="musicToggle">
+                        <img src="../assets/play_pause.png" alt="Music Toggle">
+                    </button>
+                    PLAYING: (Original Soundtrack) Game Console Loading
+                </div>
+            </div>
+            <div class="top-frame">
+                <h2>Playbook</h2>
+                <div class="buttons">
+                    <button><a href="../dashboard.html" target="_parent"><img src="../assets/portal_icon.png" alt="destiny"></a>PORTAL</button>
+            
+                </div>
+            </div>
+
+            <div class="main-area">
+                <br>
+                <div id="timeline-container" class="fade-in" style="background-color:#222; width: 95%; height: 99%; margin-left: 120px; overflow-y: auto; position: relative; scrollbar-width: 0;">
+                <br>    
+            </div>
+            </div>
+
+        <div id="submenu-container" class="submenu-container">
+            <audio id="musicPlayer" src="../KTGMUSIC/audio/game_console_loading.mp3" loop></audio>
+
+            <div id="search-submenu" class="submenu">
+                <h2>About <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <a href="../ABOUT/dashboard_creator.html" target="_parent"><img src="../assets/magician_icon.png" alt="Name Icon"> The Creator</a>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="slide-in-left">
+                            <a href="../ABOUT/dashboard_ktgio.html" target="_parent"><img src="../assets/ktgai_icon.png" alt="Name Icon"> KTG.IO</a>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="slide-in-left">
+                            <a href="../ABOUT/dashboard_ktgdestiny.html" target="_parent"><img src="../assets/fave_icon.png" alt="Name Icon"> Destiny</a>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="slide-in-left">
+                            <a href="../ABOUT/dashboard_ktgmusic.html" target="_parent"><img src="../assets/play_pause.png" alt="Name Icon"> KTG.MUSIC</a>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="slide-in-left">
+                            <a href="../ABOUT/dashboard_ktgai.html" target="_parent"><img src="../assets/qr_icon.png" alt="Name Icon"> KTG.AI</a>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div id="socialize-submenu" class="submenu">
+                <h2>Promote <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <a href="https://karmathegameofdestiny.netlify.app/dashboard" target="_blank"><img src="../assets/name_icon.png" alt="Name Icon"> Log In
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <a href="https://karmathegameofdestiny.netlify.app/auth/register" target="_blank"><img src="../assets/doc_icon.png" alt="Doc Icon"> Register
+                        </button>
+                       
+                    </li>
+                    <li>
+                        <button>
+                            <a href="https://www.karmathegame.org/promoters_followers.html" target="_parent"><img src="../assets/influencer_icon.png" alt="Doc Icon"> Make Money
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div id="actions-submenu" class="submenu">
+                <h2>Actions <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <img src="../assets/listing_icon.png" alt="Listings Icon"> Post to Listings
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="../assets/vr_icon.png" alt="VR Icon"> Lease VR World Space
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="../assets/door4_icon.png" alt="Door4 Icon"> Host a Live Show
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="../assets/astronomy_icon.png" alt="Stars Icon"> Enterprise Portals
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="../assets/like_icon.png" alt="Truth Icon"> Strategic Alliances
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div id="details-submenu" class="submenu">
+<h2>Investors<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <img src="../assets/outing_icon.png" alt="Outing Icon"> Let's go Out!
+                        </button>
+                    </li>
+                    
+                    <li>
+                        <button>
+                            <img src="../assets/stats_icon.png" alt="Hide Icon"> Financials
+                        </button>
+                    </li>
+
+                    <li>
+                        <a href="../INVESTORSdashboard_playbook.html" target="_parent"><button>
+                            <img src="../assets/journeybook_icon.png" alt="Name Icon"> Playbook
+                        </button></a>
+                    </li>
+                    
+                    <li>
+                        <a href="../INVESTORS/dashboard_pitch.html" target="_parent"><button>
+                            <img src="../assets/bucket_icon.png" alt="Name Icon"> Pitch
+                        </button></a>
+                    </li>
+
+                    <li>
+                        <a href="../INVESTORS/dashboard_masa.html" target="_parent"><button>
+                            <img src="../assets/door4_icon.png" alt="Door4 Icon"> Masayoshi Son
+                        </button></a>
+                    </li>
+
+                </ul>
+            </div>
+            <div id="mystuff-submenu" class="submenu">
+                <h2>My Stuff<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <a href="../JOURNEYBOOK/journeybook.html"> 
+                                <img src="../assets/journeybook_icon.png" alt="JourneyBook Icon"> 
+                                 My JourneyBook
+                            </a>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <a href="../DESTINY/login.html">
+                                 <img src="../assets/bucket_icon.png" alt="BucketList Icon">
+                                 My BucketList
+                            </a>     
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <a href="../DESTINY/login.html">
+                                 <img src="../assets/email_icon.png" alt="Email Icon"> 
+                                 Email
+                            </a>
+                        </button>
+                    </li>
+                    <li>
+                        <a href="../DESTINY/login.html">
+                        <button>
+                            <img src="../assets/calendar_icon.png" alt="Calendar Icon"> Calendar
+                        </button>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../DESTINY/login.html">
+                        <button>
+                            <img src="../assets/wallet_icon.png" alt="Wallet Icon"> Wallet
+                        </button>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../DESTINY/login.html">
+                        <button>
+                            <img src="../assets/config_icon.png" alt="Config Icon"> Config
+                        </button>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../DESTINY/login.html">
+                        <button>
+                            <img src="../assets/bail_icon.png" alt="Bail Icon"> Bail
+                        </button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+    </div>
+
+      <script>
+        function openSubmenu(submenu) {
+            // ... (Existing JavaScript) ...
+        }
+
+        function closeSubmenu(closeButton) {
+            const submenu = closeButton.closest('.submenu');
+            submenu.style.display = 'none';
+        }
+
+        function openSubmenu(submenu) {
+            // Hide all existing submenus
+            const submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(submenu => {
+                submenu.style.display = 'none';
+            });
+
+            // Show the selected submenu
+            const selectedSubmenu = document.getElementById(submenu + '-submenu');
+            selectedSubmenu.style.display = 'block';
+        }
+
+        // Get the music player and toggle button elements
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicToggle = document.getElementById('musicToggle');
+
+        // Function to toggle music playback
+        function toggleMusic() {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+        }
+
+        // Add event listener to the toggle button
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // Function to fetch timeline data and generate timeline
+        async function generateTimeline() {
+            const timelineContainer = document.getElementById('timeline-container');
+            timelineContainer.innerHTML = ''; // Clear existing content
+
+            try {
+                const response = await fetch('../timeline.json');
+                const timelineData = await response.json();
+
+                // Create timeline elements
+                const timelineTable = document.createElement('table');
+                timelineTable.style.width = '100%';
+                timelineTable.style.borderCollapse = 'collapse';
+                timelineTable.style.color = 'white';
+
+                timelineData.forEach(item => {
+                    const row = timelineTable.insertRow();
+
+                    // Milestone cell
+                    const milestoneCell = row.insertCell();
+                    milestoneCell.style.width = '75%';
+                    milestoneCell.style.padding = '10px';
+                    milestoneCell.style.textAlign = 'right';
+                    milestoneCell.innerHTML = `<h1 style="color: white; font-size: 1em;">${item.milestone}</h1>`;
+
+                    // Line cell
+                    const lineCell = row.insertCell();
+                    lineCell.style.width = '5%';
+                    lineCell.style.borderLeft = '2px solid #444';
+
+                    // Year cell
+                    const yearCell = row.insertCell();
+                    yearCell.style.width = '20%';
+                    yearCell.style.padding = '10px';
+                    yearCell.style.textAlign = 'left';
+                    yearCell.innerHTML = `<h1 style="color: white; font-size: 1em;">${item.year}</h1>`;
+                });
+
+                timelineContainer.appendChild(timelineTable);
+
+            } catch (error) {
+                console.error('Error fetching timeline data:', error);
+                timelineContainer.innerHTML = '<p>Error loading timeline data.</p>';
+            }
+        }
+
+        // Call generateTimeline function when the page loads
+        window.addEventListener('load', generateTimeline);
+    </script>
+    <script>
+        window.addEventListener('load', () => {
+            const slideInLeftElements = document.querySelectorAll('.slide-in-left');
+            slideInLeftElements.forEach(el => el.classList.add('active'));
+
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            fadeInElements.forEach(el => el.classList.add('active'));
+
+            const slideUpElements = document.querySelectorAll('.slide-up');
+            slideUpElements.forEach(el => el.classList.add('active'));
+        });
+    </script>
+    <footer style="text-align: center; background-color: #111; padding: 10px; bottom: 0; left: 0; width: 100%; z-index: 100;">
+        © 2025 Rene Reyes and the KTG Project (A digital and real world artistic and scientific expression and thought experiment - All Right Reserved)
+    </footer>
+</body>
+</html>

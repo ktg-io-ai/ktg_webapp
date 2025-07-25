@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Console - Right Console</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 00px; /* Add padding to the body */
+        }
+
+      .top-frame {
+            background-color: #1e1e1e;
+            padding: 15px;
+            margin-bottom: 3px; /* Add space below the header */
+            display: flex; /* Use flexbox for layout */
+            align-items: center; /* Vertically align items */
+            justify-content: space-between; /* Distribute space between items */
+        }
+
+      .top-frame h2 {
+            margin: 0;
+            flex-grow: 1; /* Allow title to take up available space */
+        }
+
+      .buttons {
+            display: flex; /* Use flexbox for button arrangement */
+            gap: 10px; /* Add space between buttons */
+        }
+
+      .buttons button {
+            background-color: #333; /* Example button color */
+            color: #fff;
+            border: none;
+            padding: 0px 8px 0px 0px; /* Example button padding */
+            border-radius: 20px; /* Example button border radius */
+            cursor: pointer;
+        }
+        
+      .buttons button img {  /* Target the image inside the button */
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+      .buttons button:hover {
+            background-color: #444;
+        }
+
+      .content-area {
+            display: flex;
+            height: calc(100vh - 95px); /* Adjust height to accommodate fixed top frame */
+        }
+
+      .left-content {
+            width: 90%;
+            overflow-y: auto; /* Add scroll to left content */
+            margin-right: 10px; /* Add space between left and right content */
+        }
+
+        .left-content img {
+            width: 100%;
+            max-height: 60vh; /* Limit height to 60% of viewport height */
+            object-fit: cover; /* Cover the container, maintaining aspect ratio */
+            object-position: top; /* Align image to the top */
+            animation: slideInLeft 1s ease-in-out;
+        }
+        
+      .left-content::-webkit-scrollbar {
+            width: 0px; /* Hide the scrollbar */
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+      .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+            grid-gap: 0px; /* Adjust spacing as needed */
+        }
+
+        .image-grid button {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin: 1px;
+            border-radius: 3px;
+            transition: transform 0.3s ease; /* Add transition for smooth animation */
+            cursor: pointer; /* Add cursor pointer */
+        }
+
+        .image-grid button:hover {
+            transform: scale(.95); /* Scale the image by 5% on hover */
+        }
+
+        .image-grid button img {
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+            object-fit: cover; /* Ensure images cover the container */
+        }
+        
+      .image-grid img {
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+            object-fit: cover; /* Ensure images cover the container */
+            margin: 1px;
+            border-radius: 3px;
+        }
+
+        .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;  /* Center the buttons horizontally */
+        }
+
+      .right-content button {
+            background-color: transparent;
+            color: white;
+            border: none;
+            margin-top: 15px;   /* Reduced margin-top */
+            padding: 0;
+            cursor: pointer;
+            display: flex;     /* Enable flexbox for button content */
+            align-items: center; /* Center icon and text vertically */
+            transition: transform 0.3s ease; /* Add transition for smooth animation */
+        }
+
+      .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 0px;
+        }
+        
+      .right-content button:hover {
+            color: #111;
+        }
+
+        
+        .right-content button:hover {
+            transform: scale(.95); /* Scale the image by 5% on hover */
+        }
+        
+      .image-grid button {
+            background-color: transparent;
+            border: none;
+        }
+
+        /* Emoji Popup Styles */
+        .emoji-popup {
+            position: absolute;
+            top: 50%;
+            left: 45%;
+            transform: translate(-50%, -50%);
+            width: 80%; /* Wider to accommodate columns */
+            height: 70%;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            z-index: 1001;
+            pointer-events: auto;
+            display: none;
+            overflow: hidden;
+        }
+
+        .emoji-popup .top-frame {
+            background-color: #111;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .emoji-popup .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            padding: 20px;
+            overflow-y: scroll; /* Enable vertical scroll */
+            scrollbar-width: none; /* Hide scrollbar */
+            max-height: 60%;
+        }
+
+        .emoji-popup .emoji-grid::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+        }
+
+        .emoji-popup .emoji-item {
+            font-size: 2em;
+            text-align: center;
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 5px;
+        }
+
+        .emoji-popup .emoji-item:hover {
+            background-color: #444;
+        }
+
+        .emoji-popup .popup-footer {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .emoji-popup .send-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px; /* Lower the button */
+        }
+
+        .emoji-popup .send-button:hover {
+            background-color: #444;
+        }
+
+        .emoji-popup .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .emoji-popup .close-button:hover {
+            color: red;
+        }
+   .submenu {
+    position: absolute;
+    top: 60px;
+    right: 70px;
+    left: auto;
+    background-color: rgba(1, 1, 1, 0.9);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    border-top: 5px solid #2f27c8;
+    border-right: 5px solid #2f27c8;
+    border-bottom: 5px solid #2f27c8;
+    border-left: 5px solid #2f27c8;
+    padding: 20px;
+    min-width: 200px;
+    border-radius: 20px;
+    z-index: 1001;
+    pointer-events: auto;
+    display: none;
+   }
+
+   .submenu a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 0px;
+    border-radius: 20px;
+   }
+
+   .submenu h2 {
+    margin-top: 0;
+   }
+
+   .submenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+   }
+
+   .submenu li {
+    margin-bottom: 10px;
+   }
+
+   .submenu button {
+    background-color: transparent;
+    border: 1px solid #2f27c8;
+    opacity: 1;
+    color: #fff;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 20px;
+   }
+
+   .submenu button:hover {
+    background-color: #222;
+    border: 1px solid #4fb6c1;
+   }
+
+   .submenu button img {
+    max-width: 25px;
+    max-height: 25px;
+    margin-right: 5px;
+    vertical-align: middle;
+   }
+   .close-button:hover {
+    color: red;
+   }
+        /* New styles for the contact form */
+        .contact-form-container {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 70px;
+            left: auto;
+            background-color: rgba(1, 1, 1, 0.9);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            z-index: 1002;
+            border: 5px solid #2f27c8;
+        }
+
+        .contact-form-container h2 {
+            margin-top: 0;
+        }
+
+        .contact-form-container input[type="text"],
+        .contact-form-container input[type="email"] {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .contact-form-container .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .contact-form-container .checkbox-container input {
+            margin-right: 10px;
+        }
+
+        .contact-form-container button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        .contact-form-container button:hover {
+            background-color: #444;
+        }
+
+        .contact-form-container .contact-page-button {
+            width: 100px;
+            height: 100px;
+            margin-top: 10px;
+            padding: 0;
+        }
+
+        .contact-form-container .contact-page-button img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* View Toggle Button Styles */
+        .view-btn {
+            background-color: #333 !important;
+            padding: 8px !important;
+            border-radius: 50% !important;
+            width: 35px !important;
+            height: 35px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .view-btn.active {
+            background-color: #2f27c8 !important;
+        }
+
+        .view-btn:hover {
+            background-color: #444 !important;
+        }
+
+        .view-btn.active:hover {
+            background-color: #3d32d4 !important;
+        }
+
+        /* List View Styles */
+        .list-view {
+            display: none;
+            padding: 10px;
+        }
+
+        .list-item {
+            background-color: #222;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            gap: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .list-item:hover {
+            background-color: #333;
+        }
+
+        .list-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .list-item-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .list-item-info p {
+            margin: 0;
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        /* Safe links in list view */
+        .list-safe-links {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .list-safe-link {
+            background-color: #2f27c8;
+            color: #fff;
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .list-safe-link:hover {
+            background-color: #3d32d4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-frame">
+        <h2 id="playlist-title">The Grid</h2>
+        <div class="buttons">
+            <button id="gridViewBtn" class="view-btn active" onclick="toggleView('grid')" title="Grid View">
+                <img src="../assets/grid_icon.png" alt="Grid View" style="width: 25px; height: 25px;">
+            </button>
+            <button id="listViewBtn" class="view-btn" onclick="toggleView('list')" title="List View">
+                <img src="../assets/list_icon.png" alt="List View" style="width: 25px; height: 25px;">
+            </button>
+            <li onclick="openPortalSubmenu()" class="slide-in-left"><img src="../assets/portal_icon.png" alt="destiny" style="width: 35px; height: 35px;"></li>
+        </div>
+    </div>
+ 
+ <div id="portal-submenu" class="submenu" style="display: none;">
+	       <h2>Portals<span class="close-button" onclick="closePortalSubmenu()" style="float: right; cursor: pointer;">X</span></h2>
+        <ul>
+            <li><button><a href="../dashboard.html" target="_parent" rel="noopener noreferrer"><img src="../assets/portal_icon.png" alt="contact icon">PORTALS</a></button></li>
+            <li><button><a href="../DLIFESTYLES/listingsconsole.html" target="_parent" rel="noopener noreferrer"><img src="../assets/listing_icon.png" alt="destiny">LISTINGS</button></a></li>
+            <li><button><a href="../KTGMUSIC/ktgmusic.html" target="_parent" rel="noopener noreferrer"><img src="../assets/play_pause.png" alt="ktgmusic">KTG.MUSIC</button></a></li>
+            <li><button><a href="../KTGAI/ktgai.html" target="_parent" rel="noopener noreferrer"><img src="../assets/qr_icon.png" alt="ktgmusic">KTG.AI</button></a></li>
+            <li><button><a href="../WEB3/dashboard_web3.html" target="_parent" rel="noopener noreferrer"><img src="../assets/kgz_white_icon.png" alt="web3">WEB3</button></a></li>
+            <li><button><a href="../VRARXR/dashboard_xr.html" target="_parent" rel="noopener noreferrer"><img src="../assets/vr_icon.png" alt="XR">VR/AR/XR</button></a></li>
+            <li><button><a href="../DIGNBLING/dashboard_dign_bling.html" target="_parent" rel="noopener noreferrer"><img src="../assets/diamond_mine_icon.png" alt="diamond">DIGN BLING</button></a></li>
+            <li><button><a href="../4PLAYCHESS/dashboard_4play.html" target="_parent" rel="noopener noreferrer"><img src="../assets/chess_icon.png" alt="chess">4 PLAY CHESS</button></a></li>
+            <li><button><a href="../METAPHYSICS/dashboard_tarot.html" target="_parent" rel="noopener noreferrer"><img src="../assets/tarot_icon.png" alt="tarot">METAPHYSICS</button></a></li>
+            <li><button><a href="../KTGIO/map.html" target="_parent" rel="noopener noreferrer"><img src="../assets/globe_icon.png" alt="tarot">MAP</button></a></li>
+        </ul>
+    </div>
+    
+
+    <div class="content-area">
+        <div class="left-content">
+            <!-- Grid View -->
+            <div id="grid-view" class="image-grid">
+            </div>
+            
+            <!-- List View -->
+            <div id="list-view" class="list-view">
+                <!-- List items will be dynamically generated here -->
+            </div>
+        </div>
+        <div class="right-content">
+            <button><a href="https://instagram.com/karmathegame" target="_blank" rel="noopener"><img src="../assets/instagram_icon.png" alt="instagram icon"></a></button>
+            <button><a href="https://www.linkedin.com/in/rene-reyes-the-alquimist-8b3b3510/" target="_blank" rel="noopener"><img src="../assets/linkedin_icon.png" alt="List Icon"></a></button>
+            <button><a href="https://www.tiktok.com/@karmathegame" target="_blank" rel="noopener"><img src="../assets/tiktok_icon.png" alt="Filter Icon"></a></button>
+            <button><a href="https://discordapp.com/users/1177985292297314391" target="_blank" rel="noopener"><img src="../assets/discord_icon.png" alt="Fave Icon"></a></button>
+            <button><a href="https://t.me/karmathegame" target="_blank" rel="noopener"><img src="../assets/telegram_icon.png" alt="Telegram Icon"></a></button>
+            <button><a href="https://www.threads.com/@karmathegame?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener"><img src="../assets/threads_icon.png" alt="QR Icon"></a></button>
+            <button onclick="openContactForm()"><img src="../assets/contact_icon.png" alt="contact icon"></button>
+        </div>
+    </div>
+
+    <div id="contact-form-container" class="contact-form-container">
+        <h2>Contact Us<span class="close-button" onclick="closeContactForm()" style="float: right; cursor: pointer;">X</span></h2>
+        <form>
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <div class="checkbox-container">
+                <input type="checkbox" id="subscribe" name="subscribe">
+                <label for="subscribe">Subscribe to our newsletter</label>
+            </div>
+            <button type="submit">Submit</button>
+            <button class="contact-page-button"><a href="../contact.html" target="_parent"><img src="../assets/contact_icon.png" alt="contact icon"></a></button>
+        </form>
+    </div>
+
+    <div id="emojiPopup" class="emoji-popup" style="display: none;">
+        <div class="top-frame">
+            <h2>Intro</h2>
+            <span class="close-button" onclick="closeEmojiPopup()">X</span>
+        </div>
+        <div class="emoji-grid" id="emojiGrid"></div>
+        <div class="popup-footer">
+            <button id="sendButton" class="send-button" onclick="sendEmojiToAvatar()">Send Emoji</button>
+        </div>
+    </div>
+
+	<script>
+        let selectedEmoji = null;
+
+        function closeEmojiPopup() {
+            document.getElementById('emojiPopup').style.display = 'none';
+        }
+
+        function showEmojiPopup() {
+            document.getElementById('emojiPopup').style.display = 'block';
+            fetchEmojis(); // Fetch emojis when the popup is shown
+        }
+
+        async function fetchEmojis() {
+            try {
+                const response = await fetch('emoji/emoji.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                const emojis = data.emojis;
+                displayEmojis(emojis);
+            } catch (error) {
+                console.error('Could not fetch emojis:', error);
+                document.getElementById('emojiGrid').innerHTML = '<p>Could not load emojis.</p>';
+            }
+        }
+
+        function displayEmojis(emojis) {
+            const emojiGrid = document.getElementById('emojiGrid');
+            emojiGrid.innerHTML = ''; // Clear existing emojis
+            emojis.forEach(emoji => {
+                const emojiItem = document.createElement('div');
+                emojiItem.classList.add('emoji-item');
+                emojiItem.textContent = emoji;
+                emojiItem.addEventListener('click', () => selectEmoji(emoji));
+                emojiGrid.appendChild(emojiItem);
+            });
+        }
+
+        
+        function selectEmoji(emoji) {
+            selectedEmoji = emoji;
+            console.log('Selected emoji:', selectedEmoji);
+        }
+
+        function sendEmojiToAvatar() {
+            if (selectedEmoji) {
+                window.parent.document.getElementById('mainFrame').contentWindow.postMessage({ type: 'emoji', emoji: selectedEmoji }, '*');
+                document.getElementById('sendButton').textContent = 'Emoji Sent';
+                document.getElementById('sendButton').disabled = true;
+                // Close the emoji popup
+                closeEmojiPopup();
+                // Show the "Emoji Sent" popup
+                showEmojiSentPopup();
+            }
+        }
+
+        function showEmojiSentPopup() {
+            // Create the popup element
+            const popup = document.createElement('div');
+            popup.id = 'emojiSentPopup';
+            popup.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: rgba(0, 0, 0, 0.8);
+                color: #fff;
+                padding: 20px;
+                border-radius: 10px;
+                z-index: 1001;
+                text-align: center;
+            `;
+            popup.innerHTML = `
+                <p>Emoji Sent!</p>
+                <span class="close-button" onclick="closeEmojiSentPopup()" style="position: absolute; top: 10px; right: 10px; cursor: pointer; color: #fff;">X</span>
+            `;
+
+            // Append the popup to the body
+            document.body.appendChild(popup);
+        }
+
+        function closeEmojiSentPopup() {
+            const popup = document.getElementById('emojiSentPopup');
+            popup.remove();
+        }
+
+        let participantData = [];
+
+        // View toggle functionality
+        function toggleView(view) {
+            const gridView = document.getElementById('grid-view');
+            const listView = document.getElementById('list-view');
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+
+            if (view === 'grid') {
+                gridView.style.display = 'grid';
+                listView.style.display = 'none';
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            } else if (view === 'list') {
+                gridView.style.display = 'none';
+                listView.style.display = 'block';
+                gridBtn.classList.remove('active');
+                listBtn.classList.add('active');
+                generateListView();
+            }
+        }
+
+        // Generate list view
+        function generateListView() {
+            const listView = document.getElementById('list-view');
+            listView.innerHTML = '';
+            
+            participantData.forEach(participant => {
+                const listItem = document.createElement('div');
+                listItem.className = 'list-item';
+                listItem.onclick = () => {
+                    // Send participant data to leftconsole
+                    const leftFrame = window.parent.document.getElementById('mainFrame');
+                    leftFrame.contentWindow.postMessage({
+                        type: 'participantSelected',
+                        participant: participant
+                    }, '*');
+                };
+                
+                // Build safe links HTML
+                let safeLinksHtml = '';
+                if (participant.safeLinks && participant.safeLinks.length > 0) {
+                    safeLinksHtml = '<div class="list-safe-links">';
+                    participant.safeLinks.forEach(link => {
+                        safeLinksHtml += `<a href="${link.url}" target="_blank" class="list-safe-link" onclick="event.stopPropagation()">${link.text}</a>`;
+                    });
+                    safeLinksHtml += '</div>';
+                }
+                
+                listItem.innerHTML = `
+                    <img src="${participant.image}" alt="${participant.name}">
+                    <div class="list-item-info">
+                        <h4>${participant.name}</h4>
+                        <p>${participant.tagline}</p>
+                        ${safeLinksHtml}
+                    </div>
+                `;
+                
+                listView.appendChild(listItem);
+            });
+        }
+
+        fetch('../data/participant.json')
+            .then(response => {
+                console.log('Fetch response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Participant data loaded:', data);
+                participantData = data;
+                const participantGrid = document.getElementById('grid-view');
+                data.forEach(participant => {
+                    const a = document.createElement('a');
+                   
+                    const button = document.createElement('button');
+                    button.addEventListener('click', () => {
+                        // Send participant data to leftconsole
+                        const leftFrame = window.parent.document.getElementById('mainFrame');
+                        leftFrame.contentWindow.postMessage({
+                            type: 'participantSelected',
+                            participant: participant
+                        }, '*');
+                    });
+
+                    const img = document.createElement('img');
+                    img.src = participant.image;
+                    img.alt = participant.name;
+                    button.appendChild(img);
+                    a.appendChild(button);
+
+                    participantGrid.appendChild(a);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading participant data:', error);
+                const participantGrid = document.getElementById('grid-view');
+                participantGrid.innerHTML = '<p style="color: white; text-align: center; padding: 20px;">Error loading participant data. Check console for details.</p>';
+            });
+
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'showEmojiPopup') {
+                showEmojiPopup();
+            }
+            if (event.data.type === 'closeEmojiPopup') {
+                closeEmojiPopup();
+            }
+        });
+    </script>
+    <script>
+        function openContactForm() {
+            document.getElementById('contact-form-container').style.display = 'block';
+        }
+
+        function closeContactForm() {
+            document.getElementById('contact-form-container').style.display = 'none';
+        }
+
+        function openPortalSubmenu() {
+            var submenu = document.getElementById("portal-submenu");
+            submenu.style.display = "block";
+        }
+
+        function closePortalSubmenu() {
+            var submenu = document.getElementById("portal-submenu");
+            submenu.style.display = "none";
+        }
+
+       </script>
+</body>
+</html>

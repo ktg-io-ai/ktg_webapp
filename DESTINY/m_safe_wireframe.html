@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            
+        }
+
+        .header {
+            background-color: rgba(30, 30, 30, 0.9);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #4caf50;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #4caf50;
+        }
+
+        .close-button {
+            cursor: pointer;
+            color: #fff;
+            font-size: 20px;
+            padding: 5px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .safe-title {
+            text-align: center;
+            font-size: 24px;
+            color: #4caf50;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+
+        .safe-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: #4caf50;
+            margin-bottom: 15px;
+            font-weight: bold;
+            padding-left: 10px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .upload-section {
+            background-color: rgba(76, 175, 80, 0.1);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .upload-icons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .upload-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-height: 80px;
+            justify-content: center;
+        }
+
+        .upload-icon:hover {
+            background-color: rgba(76, 175, 80, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .upload-icon i {
+            font-size: 24px;
+            color: #4caf50;
+            margin-bottom: 8px;
+        }
+
+        .upload-icon span {
+            font-size: 12px;
+            color: #ccc;
+            text-align: center;
+        }
+
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .media-item {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .media-item:hover {
+            border-color: #4caf50;
+            transform: translateY(-2px);
+        }
+
+        .media-thumbnail {
+            width: 100%;
+            height: 120px;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .media-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .media-thumbnail i {
+            font-size: 40px;
+            color: #4caf50;
+        }
+
+        .media-info {
+            padding: 10px;
+        }
+
+        .media-title {
+            font-size: 12px;
+            color: #fff;
+            margin-bottom: 5px;
+            font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .media-description {
+            font-size: 10px;
+            color: #ccc;
+            line-height: 1.3;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .divider {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #4caf50, transparent);
+            margin: 30px 0;
+        }
+
+        .shared-section {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .privacy-controls {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .privacy-title {
+            font-size: 14px;
+            color: #4caf50;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .privacy-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        .privacy-option input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #4caf50;
+        }
+
+        .privacy-option label {
+            font-size: 12px;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .privacy-option input[type="radio"]:checked + label {
+            color: #4caf50;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .upload-button {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        .upload-button:hover {
+            background-color: #45a049;
+        }
+
+        .settings-button {
+            background-color: transparent;
+            border: 2px solid #4caf50;
+            color: #4caf50;
+        }
+
+        .settings-button:hover {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* Font Awesome icons */
+        .fa-image::before { content: "🖼️"; }
+        .fa-video::before { content: "🎥"; }
+        .fa-music::before { content: "🎵"; }
+        .fa-link::before { content: "🔗"; }
+        .fa-folder::before { content: "📁"; }
+        .fa-play::before { content: "▶️"; }
+        .fa-file::before { content: "📄"; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Safe</h2>
+        <div class="close-button" onclick="closeSafe()">×</div>
+    </div>
+
+    <div class="content">
+        <div class="safe-title">Safe - Media Sharing</div>
+        <div class="safe-subtitle">Share images, videos, audio, and links securely</div>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <div class="section-title">Upload New Media</div>
+            <div class="upload-icons">
+                <div class="upload-icon" onclick="uploadMedia('image')">
+                    <i class="fa-image"></i>
+                    <span>Image</span>
+                </div>
+                <div class="upload-icon" onclick="uploadMedia('video')">
+                    <i class="fa-video"></i>
+                    <span>Video</span>
+                </div>
+                <div class="upload-icon" onclick="uploadMedia('audio')">
+                    <i class="fa-music"></i>
+                    <span>Audio</span>
+                </div>
+                <div class="upload-icon" onclick="uploadMedia('link')">
+                    <i class="fa-link"></i>
+                    <span>Link</span>
+                </div>
+            </div>
+
+            <div class="privacy-controls">
+                <div class="privacy-title">Safe Privacy Settings</div>
+                <div class="privacy-option">
+                    <input type="radio" id="private" name="privacy" value="private" checked>
+                    <label for="private">Private - Only I can see my content</label>
+                </div>
+                <div class="privacy-option">
+                    <input type="radio" id="shared" name="privacy" value="shared">
+                    <label for="shared">Shared - Allow others to view my safe</label>
+                </div>
+                <div class="privacy-option">
+                    <input type="radio" id="professional" name="privacy" value="professional">
+                    <label for="professional">Professional - Business/promotional content</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Shares Section -->
+        <div class="section-title">My Shares</div>
+        <div class="media-grid" id="myShares">
+            <div class="media-item">
+                <div class="media-thumbnail">
+                    <img src="../assets/sample1.jpg" alt="Sample Image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <i class="fa-image" style="display: none;"></i>
+                </div>
+                <div class="media-info">
+                    <div class="media-title">Professional Headshot</div>
+                    <div class="media-description">Business profile photo for networking</div>
+                </div>
+            </div>
+            
+            <div class="media-item">
+                <div class="media-thumbnail">
+                    <i class="fa-video"></i>
+                </div>
+                <div class="media-info">
+                    <div class="media-title">Introduction Video</div>
+                    <div class="media-description">Brief intro about my services</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Shared Files Section -->
+        <div class="shared-section">
+            <div class="section-title">Shared with Me</div>
+            <div class="media-grid" id="sharedFiles">
+                <div class="media-item">
+                    <div class="media-thumbnail">
+                        <img src="../assets/sample2.jpg" alt="Shared Image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <i class="fa-image" style="display: none;"></i>
+                    </div>
+                    <div class="media-info">
+                        <div class="media-title">Property Listing</div>
+                        <div class="media-description">Shared by real estate agent</div>
+                    </div>
+                </div>
+                
+                <div class="media-item">
+                    <div class="media-thumbnail">
+                        <i class="fa-video"></i>
+                    </div>
+                    <div class="media-info">
+                        <div class="media-title">Exclusive Preview</div>
+                        <div class="media-description">Content creator teaser</div>
+                    </div>
+                </div>
+                
+                <div class="media-item">
+                    <div class="media-thumbnail">
+                        <i class="fa-music"></i>
+                    </div>
+                    <div class="media-info">
+                        <div class="media-title">Demo Track</div>
+                        <div class="media-description">Music sample from artist</div>
+                    </div>
+                </div>
+                
+                <div class="media-item">
+                    <div class="media-thumbnail">
+                        <i class="fa-link"></i>
+                    </div>
+                    <div class="media-info">
+                        <div class="media-title">Portfolio Link</div>
+                        <div class="media-description">Professional website</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-button upload-button" onclick="quickUpload()">
+                📤 Quick Upload
+            </button>
+            <button class="action-button settings-button" onclick="safeSettings()">
+                ⚙️ Settings
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function closeSafe() {
+            window.parent.postMessage({ type: 'closeSafe' }, '*');
+        }
+
+        function uploadMedia(type) {
+            const typeNames = {
+                'image': 'Image',
+                'video': 'Video', 
+                'audio': 'Audio',
+                'link': 'Link'
+            };
+            
+            alert(`Opening ${typeNames[type]} upload dialog...`);
+            
+            // Simulate file upload process
+            setTimeout(() => {
+                const privacy = document.querySelector('input[name="privacy"]:checked').value;
+                alert(`${typeNames[type]} uploaded successfully!\nPrivacy setting: ${privacy}`);
+                
+                window.parent.postMessage({ 
+                    type: 'mediaUploaded',
+                    mediaType: type,
+                    privacy: privacy,
+                    message: `${typeNames[type]} uploaded to safe`
+                }, '*');
+            }, 1000);
+        }
+
+        function quickUpload() {
+            alert('Opening quick upload interface...');
+            // This would open a file picker or camera interface
+        }
+
+        function safeSettings() {
+            alert('Opening safe privacy and sharing settings...');
+            // This would open detailed privacy controls
+        }
+
+        function viewMedia(mediaId, mediaType) {
+            alert(`Opening ${mediaType} viewer for media ID: ${mediaId}`);
+            // This would open a media viewer/player
+        }
+
+        // Add click handlers to media items
+        document.querySelectorAll('.media-item').forEach((item, index) => {
+            item.addEventListener('click', function() {
+                const title = this.querySelector('.media-title').textContent;
+                const isShared = this.closest('#sharedFiles') !== null;
+                const section = isShared ? 'shared' : 'my';
+                
+                alert(`Opening: ${title}\nSection: ${section} files`);
+                
+                window.parent.postMessage({ 
+                    type: 'mediaViewed',
+                    title: title,
+                    section: section,
+                    index: index
+                }, '*');
+            });
+        });
+
+        // Add touch feedback
+        document.querySelectorAll('.upload-icon, .media-item, .action-button').forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+            
+            element.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Privacy setting change handler
+        document.querySelectorAll('input[name="privacy"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const privacyLevel = this.value;
+                let message = '';
+                
+                switch(privacyLevel) {
+                    case 'private':
+                        message = 'Safe is now private - only you can see your content';
+                        break;
+                    case 'shared':
+                        message = 'Safe is now shared - others can view your content';
+                        break;
+                    case 'professional':
+                        message = 'Safe is set to professional mode - great for business content';
+                        break;
+                }
+                
+                // Show brief feedback
+                const originalLabel = this.nextElementSibling.textContent;
+                this.nextElementSibling.textContent = '✓ ' + originalLabel;
+                
+                setTimeout(() => {
+                    this.nextElementSibling.textContent = originalLabel;
+                }, 2000);
+            });
+        });
+
+        // Simulate loading more content
+        function loadMoreContent() {
+            // This would load additional media items from the server
+            console.log('Loading more content...');
+        }
+
+        // Initialize safe on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user has any content
+            const myShares = document.getElementById('myShares');
+            const sharedFiles = document.getElementById('sharedFiles');
+            
+            // Add empty state if no content (this would be dynamic in real app)
+            if (myShares.children.length === 0) {
+                myShares.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-folder"></i>
+                        <p>No content uploaded yet.<br>Use the upload icons above to share your first file!</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

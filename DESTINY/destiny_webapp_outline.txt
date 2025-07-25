@@ -1,0 +1,89 @@
+## Destiny WebApp Outline and Jobs List
+
+**Overall Outline:**
+
+The Destiny WebApp currently uses a static frontend with local JSON files for data. To make it functional with the existing backend, the frontend needs to be updated to interact with the backend API endpoints.
+
+**Jobs List:**
+
+1.  **API Endpoint Integration:**
+    *   Identify the required API endpoints for each frontend page/component.
+    *   Implement `fetch` or `XMLHttpRequest` calls to retrieve data from the backend API endpoints.
+    *   Handle API responses and update the frontend UI accordingly.
+    *   Implement error handling for API calls.
+    *   **Completed: Identified API endpoints and provided instructions on how to test them.**
+    *   **Do you want to continue with the objectives of the outline or work on design and wireframe elements or discuss strategy?**
+
+2.  **Authentication and Authorization:**
+    *   Implement user authentication using the backend API (login, registration).
+    *   Store user authentication tokens securely in the frontend (e.g., using localStorage or cookies).
+    *   Include authentication tokens in API calls to protected endpoints.
+    *   Implement user authorization based on roles and permissions.
+    *   **Avatar Model Integration Plan:**
+        *   **Current Models:**
+            *   **Frontend:** Generative AI image generator (2D image).
+            *   **Backend:** 2D avatar image.
+        *   **Integration Plan:**
+            1.  **Frontend (Image Generation):**
+                *   Keep the generative AI image generator for initial avatar creation.
+                *   Allow users to customize the generated image.
+                *   Send the generated image to the backend.
+            2.  **Backend (2D Image):**
+                *   Store the generated image in the database.
+            3.  **Frontend (Display):**
+                *   Display the generated image in the game console.
+    *   **Tasks:**
+        *   Implement the frontend image generation and customization.
+        *   Implement the backend image processing and storage.
+            *   **Backend Tasks:**
+                *   **Completed:** Added API endpoints for creating, updating, and deleting 2D avatars.
+                *   **Completed:** Modified the existing `getAllAvatar3Ds` function to allow filtering by user ID.
+                *   **Completed:** Modified the existing `createAvatar3D` function to store the 2D avatar image.
+                *   **Completed:** Modified the existing `getAllAvatar3Ds` function to return the 2D avatar image.
+                *   **Completed:** Modified the existing `updateAvatar3D` function to update the 2D avatar image.
+                *   **Completed:** Updated the API endpoints list in the `api_endpoints.txt` file.
+                *   **Completed:** Implemented the `/api/v2/emojis` endpoint to return the list of emojis.
+        *   Implement the API endpoints for avatar creation and retrieval.
+        *   Update the game console to display the 2D avatar image.
+
+3.  **Data Management:**
+    *   Replace the static JSON data with dynamic data retrieved from the backend API.
+    *   Implement data validation and sanitization on the frontend.
+    *   Implement data caching to improve performance.
+
+4.  **UI/UX Enhancements:**
+    *   Improve the overall UI/UX of the web app.
+    *   Implement responsive design for different screen sizes.
+    *   Implement accessibility features.
+
+5.  **Testing:**
+    *   Write unit tests for frontend components.
+    *   Write integration tests to verify the interaction between the frontend and the backend.
+    *   Perform end-to-end testing to ensure the web app is functioning correctly.
+
+**Recommendation:**
+
+While it is possible to use the existing backend for the new web app, it will require significant changes to the frontend code. The existing frontend is heavily reliant on static data, and it needs to be completely rewritten to interact with the backend API.
+
+Alternatively, creating a new backend might be a better option if the existing backend does not meet the requirements of the new web app. A new backend can be designed specifically for the new web app, which can result in a more efficient and maintainable solution.
+
+However, considering the existing backend already has authentication, user management, and data models in place, **I recommend modifying the existing frontend to work with the existing backend**. This approach will save time and effort compared to building a new backend from scratch.
+
+However, considering the existing backend already has authentication, user management, and data models in place, **I recommend modifying the existing frontend to work with the existing backend**. This approach will save time and effort compared to building a new backend from scratch.
+
+**Update (5/3/2025):**
+
+The following tasks were completed for the registration process:
+
+*   Created a registration form in `dashboard_masa.html` to collect user email and name.
+*   Implemented a `registerUser` function to:
+    *   Generate a registration ID.
+    *   Store the registration ID in local storage.
+    *   Display the registration ID on the page.
+    *   Send a `fetch` request to the backend API endpoint (`https://karmathegame.org:3001/register`) to save the registration data.
+*   Created a Node.js and Express server (`server.js`) to handle the registration data and save it to a JSON file (`data/registration.json`).
+*   Installed the `cors` package to enable Cross-Origin Resource Sharing (CORS).
+*   Deployed the files to the `/home/karmath1/karmathegame.org` directory on the webserver.
+*   Set up a Node.js application in cPanel with the correct application root and startup file.
+*   Installed the dependencies using `npm install`.
+*   Redirected the "Investors" submenu in all the `dashboard*.html` files to `karmathegame.org`.

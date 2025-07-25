@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Stats Wireframe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .popup-header {
+            background-color: #1e1e1e;
+            padding: 19px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .popup-header h2 {
+            margin: 0;
+            margin-right: 20px;
+            flex-grow: 1;
+        }
+
+        .popup-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .stats-container {
+            height: 70vh;
+            overflow-y: auto;
+            border: 1px solid #555;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Hyperthin scrollbar */
+        .stats-container::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .stats-container::-webkit-scrollbar-track {
+            background-color: #333;
+            border-radius: 5px;
+        }
+
+        .stats-container::-webkit-scrollbar-thumb {
+            background-color: #555;
+            border-radius: 5px;
+        }
+
+        .stats-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #555;
+            justify-content: space-between;
+        }
+
+        .stats-item:last-child {
+            border-bottom: none;
+        }
+
+        .stats-item img {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+            object-fit: contain;
+        }
+
+        .stats-item span {
+            width: 30px;
+            text-align: center;
+        }
+
+        .stats-item .chart-placeholder {
+            width: 100px;
+            height: 30px;
+            border: 1px solid #555;
+            text-align: center;
+            line-height: 30px;
+            font-size: 0.8em;
+        }
+
+        .stats-item .trend-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .close-button:hover {
+            color: red !important;
+        }
+
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #555;
+            font-weight: bold;
+        }
+
+        .stats-header span {
+            width: 30px;
+            text-align: center;
+        }
+
+        .stats-header span:last-child {
+            width: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="popup-header">
+        <h2>Player Stats</h2>
+        <div class="close-button">
+            <h2 onclick="closeStats()" style="cursor: pointer;">X</h2>
+        </div>
+    </div>
+    <div class="popup-content">
+        <div class="stats-container">
+            <div class="stats-header">
+                <p>Shares..........Sent  /  Recieved................Stats..............Trending</p>
+                                
+            </div>
+            <div class="stats-item">
+                <img src="../assets/fave_icon.png" alt="Fave Icon">
+                <span>22</span>
+                <span>200</span>
+                <span class="chart-placeholder">Chart</span>
+                <img src="../assets/trend_up_icon.png" alt="Trend Up" class="trend-icon">
+            </div>
+             <div class="stats-item">
+                <img src="../assets/like_icon.png" alt="Like Icon">
+                <span>60</span>
+                <span>620</span>
+                <span class="chart-placeholder">Chart</span>
+                <img src="../assets/trend_down_icon.png" alt="Trend Down" class="trend-icon">
+            </div>
+            <div class="stats-item">
+                <img src="../assets/intro_icon.png" alt="Intro Icon">
+                <span>15</span>
+                <span>65</span>
+                 <span class="chart-placeholder">Chart</span>
+                <img src="../assets/trend_up_icon.png" alt="Trend Up" class="trend-icon">
+            </div>
+            <div class="stats-item">
+                <img src="../assets/group_icon.png" alt="Group Icon">
+                <span>2</span>
+                <span>18</span>
+                 <span class="chart-placeholder">Chart</span>
+                <img src="../assets/trend_down_icon.png" alt="Trend Down" class="trend-icon">
+            </div>
+            <div class="stats-item">
+                <img src="../assets/truth_icon.png" alt="Truth Icon">
+                <span>19</span>
+                <span>8</span>
+                 <span class="chart-placeholder">Chart</span>
+                <img src="../assets/trend_up_icon.png" alt="Trend Up" class="trend-icon">
+            </div>
+            <div class="stats-item">
+                <img src="../assets/outing_icon.png" alt="Outing Icon">
+                <span>90</span>
+                <span>400</span>
+                 <span class="chart-placeholder">Chart</span>
+                <img src="../assets/trend_down_icon.png" alt="Trend Down" class="trend-icon">
+            </div>
+            <div class="stats-item">
+                <img src="../assets/hide_icon.png" alt="Hide Icon">
+                <span>7</span>
+                <span>0</span>
+                 <span class="chart-placeholder">Chart</span>
+                <img src="../assets/trend_up_icon.png" alt="Trend Up" class="trend-icon">
+            </div>
+            <div class="stats-item">
+                <img src="../assets/zap_icon.png" alt="Zap Icon">
+                <span>6</span>
+                <span>0</span>
+                <span class="chart-placeholder">Chart</span>
+                <img src="../assets/trend_down_icon.png" alt="Trend Down" class="trend-icon">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function closeStats() {
+            // Add code to close the stats popup
+            window.parent.document.getElementById('rightFrame').src = 'rightconsole.html';
+        }
+    </script>
+</body>
+</html>

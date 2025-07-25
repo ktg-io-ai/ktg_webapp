@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intro - Send Emoji</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(0, 0, 0, 0.95);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: #1e1e1e;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #4f81b7;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .close-button {
+            cursor: pointer;
+            color: #fff;
+            font-size: 20px;
+            padding: 5px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        .content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #ccc;
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .emoji-item {
+            font-size: 2.5em;
+            text-align: center;
+            cursor: pointer;
+            padding: 15px;
+            border: 2px solid #333;
+            border-radius: 15px;
+            background-color: #222;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60px;
+        }
+
+        .emoji-item:hover {
+            background-color: #444;
+            border-color: #4f81b7;
+            transform: scale(1.05);
+        }
+
+        .emoji-item.selected {
+            background-color: #4f81b7;
+            border-color: #fff;
+            transform: scale(1.1);
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .selected-emoji {
+            font-size: 3em;
+            margin-bottom: 15px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-button {
+            background-color: #4f81b7;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .send-button:hover {
+            background-color: #0056b3;
+        }
+
+        .send-button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+
+        .instruction {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Intro</h2>
+        <div class="close-button" onclick="closePopup()">×</div>
+    </div>
+
+    <div class="content">
+        <div class="intro-text">
+            Choose an emoji to introduce yourself!
+        </div>
+        
+        <div class="emoji-grid" id="emojiGrid">
+            <!-- Emojis will be loaded here -->
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="selected-emoji" id="selectedEmojiDisplay">
+            Select an emoji above
+        </div>
+        <div class="instruction">Tap an emoji to select it</div>
+        <button id="sendButton" class="send-button" disabled>Send Intro</button>
+    </div>
+
+    <script>
+        let selectedEmoji = null;
+        let selectedEmojiElement = null;
+
+        // Default emoji set for mobile
+        const defaultEmojis = [
+            '👋', '😊', '😎', '🤗', '😄', '🙂', '😉', '🤔',
+            '👍', '👌', '✌️', '🤝', '💪', '🙏', '👏', '🤙',
+            '❤️', '💙', '💚', '💛', '💜', '🧡', '💖', '✨',
+            '🔥', '⭐', '🌟', '💫', '🎉', '🎊', '🎈', '🎁',
+            '🌈', '☀️', '🌙', '⚡', '💎', '🏆', '🎯', '🚀',
+            '🎵', '🎶', '🎸', '🎤', '🎮', '📱', '💻', '📷'
+        ];
+
+        async function fetchEmojis() {
+            console.log('fetchEmojis called');
+            try {
+                const response = await fetch('emoji/emoji.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                const emojis = data.emojis;
+                displayEmojis(emojis);
+            } catch (error) {
+                console.error('Could not fetch emojis, using defaults:', error);
+                displayEmojis(defaultEmojis);
+            }
+        }
+
+        function displayEmojis(emojis) {
+            const emojiGrid = document.getElementById('emojiGrid');
+            emojiGrid.innerHTML = '';
+            
+            emojis.forEach(emoji => {
+                const emojiItem = document.createElement('div');
+                emojiItem.classList.add('emoji-item');
+                emojiItem.textContent = emoji;
+                emojiItem.addEventListener('click', () => selectEmoji(emoji, emojiItem));
+                emojiGrid.appendChild(emojiItem);
+            });
+        }
+
+        function selectEmoji(emoji, element) {
+            // Remove previous selection
+            if (selectedEmojiElement) {
+                selectedEmojiElement.classList.remove('selected');
+            }
+            
+            // Set new selection
+            selectedEmoji = emoji;
+            selectedEmojiElement = element;
+            element.classList.add('selected');
+            
+            // Update display
+            document.getElementById('selectedEmojiDisplay').textContent = emoji;
+            document.getElementById('sendButton').disabled = false;
+            
+            console.log('Selected emoji:', selectedEmoji);
+        }
+
+        function closePopup() {
+            window.parent.postMessage({ type: 'closeIntroPopup' }, '*');
+        }
+
+        document.getElementById('sendButton').addEventListener('click', () => {
+            sendEmojiToAvatar(selectedEmoji);
+        });
+
+        function sendEmojiToAvatar(emoji) {
+            if (emoji) {
+                window.parent.postMessage({ type: 'intro', emoji: emoji }, '*');
+                document.getElementById('sendButton').textContent = 'Intro Sent!';
+                document.getElementById('sendButton').disabled = true;
+                
+                // Auto-close after 1 second
+                setTimeout(() => {
+                    closePopup();
+                }, 1000);
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            fetchEmojis();
+        });
+    </script>
+</body>
+</html>

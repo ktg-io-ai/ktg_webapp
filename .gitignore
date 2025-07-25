@@ -1,4 +1,9 @@
-node_modules
+/node_modules
+/backend/node_modules
+*.log
+/reference
+/ktgai/BL_proxy
+masayoshi_son_challenge/node_modules
 Read Me - Activate Browser Use.txt
 Design Images KTG_WEBAPP
 aliens_and_monsters

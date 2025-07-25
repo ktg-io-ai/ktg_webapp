@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEFT FRAME</title>
+    <style>
+/* Hide scrollbar */
+::-webkit-scrollbar {
+    display: none;
+}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-frame {
+            background-color: #111;
+            padding: 19px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .content-area {
+            display: flex;
+            height: calc(100vh - 150px); /* Adjust height to accommodate fixed top frame and bottom margin */
+            margin-top: 0px; /* Push content down below fixed top frame */
+        }
+
+        .main-frame {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-frame img {
+            width: 95%;
+            max-height: 60vh;
+            object-fit: cover;
+        }
+
+        .bottom-frame {
+            background-color: #111;
+            width: 100%;
+            padding: 3px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 50px; /* Add margin to the bottom */
+            margin-top: 0px;
+            position: relative;
+            /* top: calc(100vh - 250px);  Position just below content area */
+        }
+
+        .tagline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 30%;
+        }
+
+        .tagline h2 {
+            margin: 0;
+        }
+
+        /* Title styling */
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid white;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        /* Content Styling */
+        .content {
+            margin-top: 5px;
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            width: 90%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-frame">
+        <h2>INFLUENCER'S PER FOLLOWER</h2>
+    </div>
+
+    <div class="content-area">
+        <div class="main-frame">
+            <img src="../DESTINY/images/promoter_followers.webp" alt="Influencer Person">
+        </div>
+    </div>
+
+    <div class="bottom-frame">
+        <div class="tagline">
+            <h2>Are you a Ready to make money and influencer fans?</h2>
+        </div>
+    </div>
+
+</body>
+</html>
