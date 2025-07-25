@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../assets/favicon.png"/>
+    <title>METAPHYSICS - Karma the Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .top-frame {
+            background-color: #111;
+            padding: 15px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links button {
+            background-color: #111;
+            color: white;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .social-links button img {
+            max-width: 25px;
+            max-height: 25px;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        .main-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: #222;
+        }
+
+        .bottom-nav {
+            background-color: #111;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid #333;
+        }
+
+        .bottom-nav button {
+            background-color: transparent;
+            color: #fff;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+        }
+
+        .bottom-nav button img {
+            width: 25px;
+            height: 25px;
+            margin-bottom: 2px;
+        }
+
+        .bottom-nav button:hover {
+            color: #16665b;
+        }
+
+        /* Background video */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Submenu styles for mobile */
+        .submenu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+        }
+
+        .submenu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(1, 1, 1, 0.95);
+            border: 5px solid #2f27c8;
+            padding: 20px;
+            border-radius: 20px;
+            min-width: 280px;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .submenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .submenu li {
+            margin-bottom: 10px;
+        }
+
+        .submenu button {
+            background-color: transparent;
+            border: 1px solid #2f27c8;
+            color: #fff;
+            padding: 12px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .submenu button:hover {
+            background-color: #222;
+            border: 1px solid #4fb6c1;
+        }
+
+        .submenu button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .submenu a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 18px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted class="bg-video">
+        <source src="../assets/tarot2.mp4" type="video/mp4">
+    </video>
+
+    <div class="main-container">
+        <div class="top-frame">
+            <h2>METAPHYSICS</h2>
+            <div class="social-links">
+                <button onclick="window.open('../KTGMUSIC/m_music_player.html', '_blank')">
+                    <img src="../assets/music_player_icon.png" alt="Music Player">
+                </button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <iframe src="m_mainconsole_tarot.html" class="main-frame" id="mainFrame"></iframe>
+        </div>
+
+        <div class="bottom-nav">
+            <button onclick="openSubmenu('about')">
+                <img src="../assets/about_icon.png" alt="About">
+                <span>About</span>
+            </button>
+            <button onclick="openSubmenu('promote')">
+                <img src="../assets/social_icon.png" alt="Promote">
+                <span>Influencers</span>
+            </button>
+            <button onclick="openSubmenu('actions')">
+                <img src="../assets/game_icon.png" alt="Actions">
+                <span>Advertisers</span>
+            </button>
+            <button onclick="openSubmenu('investors')">
+                <img src="../assets/detail_icon.png" alt="Investors">
+                <span>Investors</span>
+            </button>
+            <button onclick="openSubmenu('mystuff')">
+                <img src="../assets/mystuff_icon.png" alt="My Stuff">
+                <span>My Stuff</span>
+            </button>
+            <button onclick="window.location.href='../LIFESTYLES/listingsconsole.html'">
+                <img src="../assets/listing_icon.png" alt="Listings">
+                <span>Listings</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Submenu overlays -->
+    <div id="submenu-overlay" class="submenu-overlay" onclick="closeAllSubmenus()">
+        <div id="about-submenu" class="submenu" onclick="event.stopPropagation()">
+            <h2>About <span class="close-button" onclick="closeAllSubmenus()">×</span></h2>
+            <ul>
+                <li><button><a href="../ABOUT/mobile_dashboard_creator.html" target="_parent"><img src="../assets/magician_icon.png" alt="Creator"> The Creator</a></button></li>
+                <li><button><a href="../ABOUT/mobile_dashboard_ktgio.html" target="_parent"><img src="../assets/ktgai_icon.png" alt="KTG.IO"> KTG.IO</a></button></li>
+                <li><button><a href="../ABOUT/mobile_dashboard_ktgdestiny.html" target="_parent"><img src="../assets/fave_icon.png" alt="Destiny"> Destiny</a></button></li>
+                <li><button><a href="../ABOUT/mobile_dashboard_ktgmusic.html" target="_parent"><img src="../assets/play_pause.png" alt="Music"> KTG.MUSIC</a></button></li>
+                <li><button><a href="../ABOUT/mobile_dashboard_ktgai.html" target="_parent"><img src="../assets/qr_icon.png" alt="AI"> KTG.AI</a></button></li>
+            </ul>
+        </div>
+
+        <div id="promote-submenu" class="submenu" onclick="event.stopPropagation()">
+            <h2>Promote <span class="close-button" onclick="closeAllSubmenus()">×</span></h2>
+            <ul>
+                <li><button><a href="https://karmathegameofdestiny.netlify.app/dashboard" target="_blank" rel="noopener"><img src="../assets/name_icon.png" alt="Login"> Log In</a></button></li>
+                <li><button><a href="https://karmathegameofdestiny.netlify.app/auth/register" target="_blank" rel="noopener"><img src="../assets/doc_icon.png" alt="Register"> Register</a></button></li>
+                <li><button><a href="https://www.karmathegame.org/mobile_promoters_followers.html" target="_parent" rel="noopener"><img src="../assets/influencer_icon.png" alt="Money"> Make Money</a></button></li>
+            </ul>
+        </div>
+
+        <div id="actions-submenu" class="submenu" onclick="event.stopPropagation()">
+            <h2>Actions <span class="close-button" onclick="closeAllSubmenus()">×</span></h2>
+            <ul>
+                <li><button><img src="../assets/listing_icon.png" alt="Listings"> Post to Listings</button></li>
+                <li><button><img src="../assets/vr_icon.png" alt="VR"> Lease VR World Space</button></li>
+                <li><button><img src="../assets/door4_icon.png" alt="Live"> Host a Live Show</button></li>
+                <li><button><img src="../assets/astronomy_icon.png" alt="Enterprise"> Enterprise Portals</button></li>
+                <li><button><img src="../assets/like_icon.png" alt="Alliance"> Strategic Alliances</button></li>
+            </ul>
+        </div>
+
+        <div id="investors-submenu" class="submenu" onclick="event.stopPropagation()">
+            <h2>Investors <span class="close-button" onclick="closeAllSubmenus()">×</span></h2>
+            <ul>
+                <li><button><img src="../assets/outing_icon.png" alt="Outing"> Let's go Out!</button></li>
+                <li><button><img src="../assets/stats_icon.png" alt="Financials"> Financials</button></li>
+                <li><button><a href="../INVESTORS/mobile_dashboard_playbook.html" target="_parent"><img src="../assets/journeybook_icon.png" alt="Playbook"> Playbook</a></button></li>
+                <li><button><a href="../INVESTORS/mobile_dashboard_pitch.html" target="_parent"><img src="../assets/bucket_icon.png" alt="Pitch"> Pitch</a></button></li>
+                <li><button><a href="../INVESTORS/mobile_dashboard_masa.html" target="_parent"><img src="../assets/door4_icon.png" alt="Masa"> Masayoshi Son</a></button></li>
+            </ul>
+        </div>
+
+        <div id="mystuff-submenu" class="submenu" onclick="event.stopPropagation()">
+            <h2>My Stuff <span class="close-button" onclick="closeAllSubmenus()">×</span></h2>
+            <ul>
+                <li><button><a href="../JOURNEYBOOK/journeybook.html"><img src="../assets/journeybook_icon.png" alt="JourneyBook"> My JourneyBook</a></button></li>
+                <li><button><a href="../DESTINY/mobile_login.html"><img src="../assets/bucket_icon.png" alt="BucketList"> My BucketList</a></button></li>
+                <li><button><a href="../DESTINY/mobile_login.html"><img src="../assets/email_icon.png" alt="Email"> Email</a></button></li>
+                <li><button><a href="../DESTINY/mobile_login.html"><img src="../assets/calendar_icon.png" alt="Calendar"> Calendar</a></button></li>
+                <li><button><a href="../DESTINY/mobile_login.html"><img src="../assets/wallet_icon.png" alt="Wallet"> Wallet</a></button></li>
+                <li><button><a href="../DESTINY/mobile_login.html"><img src="../assets/config_icon.png" alt="Config"> Config</a></button></li>
+                <li><button><a href="../DESTINY/mobile_login.html"><img src="../assets/bail_icon.png" alt="Bail"> Bail</a></button></li>
+            </ul>
+        </div>
+    </div>
+
+    <audio id="musicPlayer" src="../KTGMUSIC/audio/astrology_loading.mp3" loop></audio>
+
+    <script>
+        function openSubmenu(submenuType) {
+            closeAllSubmenus();
+            document.getElementById('submenu-overlay').style.display = 'block';
+            document.getElementById(submenuType + '-submenu').style.display = 'block';
+        }
+
+        function closeAllSubmenus() {
+            document.getElementById('submenu-overlay').style.display = 'none';
+            const submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(submenu => {
+                submenu.style.display = 'none';
+            });
+        }
+
+        // Auto-play music
+        const musicPlayer = document.getElementById('musicPlayer');
+        musicPlayer.play().catch(e => console.log('Auto-play prevented'));
+    </script>
+</body>
+</html>

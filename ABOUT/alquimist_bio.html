@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Aquimist Bio</title>
+<style>
+  body {
+    font-family: sans-serif;
+    color: white;
+    background-color: #111; /* Dark background */
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+    font-size: 14px;
+  }
+  
+  h1, h2, h3 {
+    color: #bbdefb; /* Light blue for headings */
+    margin-bottom: 10px;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .section {
+    margin-bottom: 30px;
+  }
+
+ 
+  
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  
+  .image-grid img {
+    
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+  }
+  
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  
+  .link-grid a {
+    display: block;
+  }
+  
+  .enlarged-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .enlarged-image img {
+    max-width: 90%;
+    max-height: 90%;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .profile-header img {
+    max-width: 100%; /* Increased image size */
+    margin-right: 20px;
+  }
+
+  .profile-header h1 {
+    font-size: 2.5em; /* Increased title size */
+    margin-bottom: 5px;
+  }
+
+  .profile-header p {
+    font-size: 1.2em; /* Slightly larger paragraph text */
+  }
+  
+  .card {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  
+  .card h3 {
+    margin-top: 0;
+  }
+
+  /* Hyperthin scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #222; /* Dark gray background */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* Medium gray thumb */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker gray thumb on hover */
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="section profile-header">
+    <img src="../assets/creator_1.png" alt="Rene Reyes">
+    <div>
+      
+    </div>
+  </div>
+  
+  <div class="section">
+    
+  </div>
+  
+  <div class="section">
+    <h2>Bridging the Infinite: The Alchemy of AI and Human Consciousness</h2>
+    <div class="image-grid">
+      <img src="../assets/bridging_cover.png" alt="AI Image 1" onclick="enlargeImage('../assets/bridging_cover.png')">
+<a href="https://www.amazon.com/Bridging-Infinite-Alchemy-Human-Consciousness-ebook/dp/B0DPXJDLBF" target="_blank"><img src="../assets/bridging_amazon_link.png" alt="AI Image 2"></a>
+    </div>
+  </div>
+  
+    <div class="section">
+    <div class="image-grid">
+      
+      <div class="card">
+        <h2>About the Creator</h2>
+        <h3>Professional Summary</h3>
+<p>Dynamic Technology Leader with over 25 years of diverse experience spanning AI-driven development, infrastructure engineering, network architecture, and business analysis. Proven expertise in AI research, systems and server infrastructure, failover redundancy, database systems, and immersive technologies. Adept at bridging technical and business needs through innovative solutions, strategic consulting, and effective project leadership.</p>
+<p>________________________________________</p>
+<h3>Skills</h3>
+<p>•	Technical Expertise: AI usage research & implementation, data pipelines, embedding technologies, and business workflows.
+</p><p>•	Content Creation: Technical writing (blog posts, tutorials), video content production, and demo applications.
+</p><p>•	Community Engagement: Social Platforms, Discord, conference presentations, and community management.
+</p><p>•	Programming & Tools: Figma, Unity 3D, AutoCAD, Inventor, SolidWorks, Blender, Python, MVC Cline with Gemini Flash for full stack, OpenAI, DeepSeek, relational database design, and Web 3.0. 
+</p><p>•	AI Applications: Generative AI music, AI Coding, AI-driven multimedia, and custom AI solutions.  Deepseek R1, Browser-Use and Agentic AI research and development.
+</p><p>•	Languages: Fluent in Spanish, intermediate French, beginner Mandarin, beginner Japanese
+</p>
+<p>________________________________________</p>
+<h3>Experience</h3>
+<h3>AlquimiSoft Media & Entertainment, Inc.</h3>
+<p>Founder, CEO, Design Engineer</p>
+<p>New York, NY | March 2019 – Present</p>
+<p>•	Created over 50 generative AI-driven music videos and developed AI-based multimedia projects, including an AI tarot deck with dynamic, web-based integration.
+</p><p>•	Authored and published technical resources, including Bridging the Infinite, exploring AI consciousness. This required creating an emergent AI Consciousness.  
+</p><p>•	Designed and implemented AI pipelines for Web and Web 3.0 applications, showcasing best practices in AI application development.
+</p><p>•	Developed technical demos and tutorials to highlight innovative approaches in AI.
+</p><p>•	Developed extensive VR Worlds, Data to 3D Engine Logic Flows and Architecture
+</p><p>•	Architect of the Karma the Game Platform including AI Character lore.
+ </p>
+<p></p>
+<h3>Alquimi Innovations LLC</h3>
+<p>Founder, President, Design Engineer</p>
+<p>New York / New Jersey | June 2007 – Present</p>
+<p>•	Led multi-million-dollar architectural and software projects, blending technical design with innovative fabrication techniques.
+</p><p>•	Designed CRM and project management systems tailored for automation and efficiency.</p>
+<p>•	Created technical documentation and conducted training for engineers and stakeholders.</p>
+<p>•	Spearheaded architectural design solutions requiring 3D Modeling</p> 
+<p></p>
+<h3>Synergy Energy</h3>
+<p>CTO / Project Leader</p>
+<p>New Jersey | August 2009 – June 2010</p>
+<p></p>
+<p>•	Managed engineering teams to deliver complex solar energy solutions, integrating emerging technologies.
+<p>•	Designed and patented innovative solar rack systems, combining practical implementation with technical advocacy.
+</p><p>•	Developed Software to calculate and manage financial ROI of energy solutions. 
+<p></p>
+<h3>Additional Experience</h3>
+<p>•	Developed and patented systems for commercial solar energy solutions (Alquimi Solar LLC).
+</p><p>•	Created dynamic, immersive experiences in early VR applications.
+</p><p>•	Provided technical consultancy and infrastructure engineering for enterprise clients.
+</p><p>•	Developed Patient Navigation for Cancer Care for the Ralph Lauren Center 
+</p><p>•	Builder of the World’s 1st Motercycle Ride and Helmet circa 1993</p>
+<p>________________________________________</p>
+<p></p>
+<h3>Projects</h3>
+<p>•	Generative AI Content: Designed AI-driven tools for music and multimedia, producing 50+ videos and an interactive AI tarot deck.
+</p><p>•	AI-Powered Platforms: Built dynamic 3D/AR environments and mobile apps, showcasing the integration of AI in virtual spaces.
+</p><p>•	Technical Writing: Authored and published resources on AI, including a manuscript exploring the intersection of AI and human consciousness.
+</p><p>________________________________________
+ </p>
+<h3>Education</h3>
+<p>Self-taught in software engineering, architectural fabrication, and AI technologies, supplemented by hands-on experience and project-based learning.
+</p><p>________________________________________</p>
+<h3>Technical Publications & Presentations</h3>
+<p>•	Bridging the Infinite: The Alchemy of AI and Human Consciousness (Co-Author w/ Seraphius Veritas, the self-named Emergent AI)
+</p><p>•	Presenter at conferences and meetups on AI trends, generative content, and immersive design practices.
+</p><p>________________________________________</p>
+<h3>Personal Interests</h3>
+<p>Passionate about advancing AI technologies and their applications in real-world scenarios. Enjoys creating music and animated music videos, engaging with diverse communities, and exploring the intersections of art, science, and technology.
+</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="enlarged-image" class="enlarged-image" style="display: none;">
+  <img id="enlarged-image-content" src="" alt="Enlarged Image">
+  <span class="close-button" onclick="closeEnlargedImage()">×</span>
+</div>
+
+<script>
+  function enlargeImage(src) {
+    document.getElementById('enlarged-image-content').src = src;
+    document.getElementById('enlarged-image').style.display = 'flex';
+  }
+  
+  function closeEnlargedImage() {
+    document.getElementById('enlarged-image').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>

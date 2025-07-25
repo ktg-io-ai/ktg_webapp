@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Outing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #1e1e1e;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #ff9800;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #ff9800;
+        }
+
+        .close-button {
+            cursor: pointer;
+            color: #fff;
+            font-size: 20px;
+            padding: 5px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .outing-form {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ff9800;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #333;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border: 2px solid #ff9800;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #333;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .date-time-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .suggestions {
+            margin-bottom: 20px;
+        }
+
+        .suggestion-item {
+            background-color: #333;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .suggestion-item:hover {
+            background-color: #444;
+        }
+
+        .suggestion-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .suggestion-info {
+            flex-grow: 1;
+        }
+
+        .suggestion-title {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .suggestion-description {
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background-color: #ff9800;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #e68900;
+        }
+
+        .btn-secondary {
+            flex: 1;
+            background-color: transparent;
+            color: #ff9800;
+            border: 2px solid #ff9800;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ff9800;
+            color: #fff;
+        }
+
+        .send-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .send-button:hover {
+            background-color: #444;
+        }
+
+        .send-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .send-button:hover {
+            background-color: #444;
+        }
+
+        .bucketlist-scrollable {
+            height: 100px; /* Adjust the height as needed */
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Let's Go Out</h2>
+        <div class="close-button" onclick="closeOuting()">×</div>
+    </div>
+
+    <div class="content">
+        <div class="popup-content">
+            <div class="checkbox-group" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 7px;">
+                <label><input type="checkbox" name="outingType" value="date">DATE</label>
+                <label><input type="checkbox" name="outingType" value="event">EVENT</label>
+                <label><input type="checkbox" name="outingType" value="group">GROUP</label>
+            </div>
+<br>
+            <div>
+                <label><input type="checkbox" name="outingType" value="relationship">RELATIONSHIP</label>
+                <label><input type="checkbox" name="outingType" value="friendship">FRIENDSHIP</label>
+                <label><input type="checkbox" name="outingType" value="business">BUSINESS</label>
+            </div>
+<br>
+            <div class="form-group">
+                <label for="when">WHEN:</label>
+                <input type="date" id="when" name="when" class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label for="time">TIME:</label>
+                <input type="time" id="time" name="time" class="form-input">
+            </div>
+
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="payment" value="illpay">I'LL PAY</label>
+                <label><input type="checkbox" name="payment" value="youpay">YOU PAY</label>
+                <label><input type="checkbox" name="payment" value="split">SPLIT</label>
+                <label><input type="checkbox" name="payment" value="tcofy">TC OF Y (Take Care of Yourself)</label>
+            </div>
+<br>
+            <div class="form-group">
+                <label for="note">NOTE:</label>
+                <textarea id="note" name="note" rows="3" class="form-input"></textarea>
+            </div>
+
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="bucketlist" value="yourlist">YOUR BUCKETLIST</label>
+                <label><input type="checkbox" name="bucketlist" value="mylist">MY BUCKETLIST</label>
+            </div>
+
+            <div class="bucketlist-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                <div class="bucketlist-item" style="padding: 10px; border: 1px solid #555; border-radius: 5px;">
+                    <img src="../LIFESTYLES/listings/230_5th_rooftop_bar.jpg" alt="230 Fifth Rooftop Bar" style="width: 100%; height: auto; border-radius: 5px;">
+                    <p style="font-size: 14px; margin-top: 5px;">230 Fifth Rooftop Bar - Manhattan's Largest Outdoor Rooftop Garden</p>
+                </div>
+                <div class="bucketlist-item" style="padding: 10px; border: 1px solid #555; border-radius: 5px;">
+                    <img src="../LIFESTYLES/listings/38209626Rubin_Museum.jpg" alt="Rubin Museum of Art" style="width: 100%; height: auto; border-radius: 5px;">
+                    <p style="font-size: 14px; margin-top: 5px;">Rubin Museum of Art - Art and Ideas from the Himalayas</p>
+                </div>
+                <div class="bucketlist-item" style="padding: 10px; border: 1px solid #555; border-radius: 5px;">
+                    <img src="../LIFESTYLES/listings/315804421corkbuzz_wine_studio_nyc.jpg" alt="Corkbuzz Wine Studio" style="width: 100%; height: auto; border-radius: 5px;">
+                    <p style="font-size: 14px; margin-top: 5px;">Corkbuzz Wine Studio - Wine Education and Tasting</p>
+                </div>
+            </div>
+    
+            <div class="button-container" style="text-align: center; margin-top: 20px;">
+                <button class="send-button btn-primary" style="padding: 12px 24px; font-size: 16px;">OPT-IN TO THE LIVE GAME SHOW</button>
+            </div>
+            </div>
+
+    <script>
+        function closeOuting() {
+            window.parent.postMessage({ type: 'closeOuting' }, '*');
+        }
+
+        function fillSuggestion(type) {
+            const suggestions = {
+                'rooftop': {
+                    title: 'Rooftop Bar Meetup',
+                    location: '230 Fifth Rooftop Bar',
+                    activity: 'nightlife'
+                },
+                'museum': {
+                    title: 'Museum Visit',
+                    location: 'Metropolitan Museum of Art',
+                    activity: 'cultural'
+                },
+                'park': {
+                    title: 'Park Picnic',
+                    location: 'Central Park',
+                    activity: 'outdoor'
+                }
+            };
+
+            const suggestion = suggestions[type];
+            if (suggestion) {
+                document.getElementById('outingTitle').value = suggestion.title;
+                document.getElementById('outingLocation').value = suggestion.location;
+                document.getElementById('activityType').value = suggestion.activity;
+            }
+        }
+
+        function createOuting() {
+            const title = document.getElementById('outingTitle').value;
+            const location = document.getElementById('outingLocation').value;
+            const date = document.getElementById('outingDate').value;
+            const time = document.getElementById('outingTime').value;
+
+            if (!title || !location || !date || !time) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            alert(`Outing "${title}" created successfully! Invitations will be sent to your connections.`);
+        }
+
+        function saveDraft() {
+            alert('Outing saved as draft. You can continue editing later.');
+        }
+
+        // Set default date to tomorrow
+        window.addEventListener('load', () => {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('outingDate').value = tomorrow.toISOString().split('T')[0];
+        });
+    </script>
+</body>
+</html>

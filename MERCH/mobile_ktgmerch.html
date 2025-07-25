@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../assets/favicon.png"/>
+    <title>KTG.MERCH</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #2e2e2e;
+            color: #fff;
+            overflow: hidden; /* Prevent scrolling */
+            -webkit-overflow-scrolling: touch; /* Enable smooth scrolling for iOS */
+        }
+
+        .top-bar {
+            background-color: #111;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .top-bar h1 {
+            font-size: 16px;
+        }
+
+        .content-area {
+            height: calc(100vh - 100px); /* Adjust for top and bottom bars */
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            display: flex;
+            margin-top: 53px;
+        }
+
+        .main-console {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .bottom-bar {
+            background-color: #111;
+            height: 50px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .bottom-bar img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .submenu-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        .submenu {
+            position: absolute;
+            bottom: 50px; /* Position above bottom bar */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(1, 1, 1, 0.9);
+            box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.5);
+            border-top: 5px solid #2f27c8;
+            border-right: 5px solid #2f27c8;
+            border-bottom: 5px solid #2f27c8;
+            border-left: 5px solid #2f27c8;
+            padding: 20px;
+            min-width: 200px;
+            border-radius: 20px;
+            z-index: 1002;
+            pointer-events: auto;
+            display: none;
+        }
+
+        .submenu a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: #fff;
+        }
+
+        .submenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .submenu li {
+            margin-bottom: 10px;
+        }
+
+        /* --- UPDATED BUTTON STYLES --- */
+        .submenu button {
+            background-color: transparent; /* Set background to transparent */
+            border: 1px solid #2f27c8; /* Add a 2px border with the submenu color */
+            opacity: 1; 
+            color: #fff;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+        
+        .submenu button img {  /* Target the image inside the button */
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+            
+        .sidebar li a { /* Targets the <a> tag inside the sidebar list items */
+            color: white; /* Sets the text color to white */
+            text-decoration: none; /* Removes the underline */
+            display: block; /* Makes the entire list item clickable */
+            padding: 5px; /* Add some padding around the link text */
+        }
+
+        .sidebar li a:hover { /* Optional: Style on hover */
+            color: #222; /* Example: Change color on hover */
+        }       
+            
+        .submenu button:hover {
+            background-color: #222; /* This creates the gray hover effect */
+            border: 1px solid #4fb6c1; /* Add a 2px border with the submenu color */
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="top-bar">
+        <h1>KTG.MERCH</h1>
+    </div>
+
+    <div class="content-area" id="contentArea">
+        <div class="main-console fade-in" id="mainConsole">
+            <iframe src="m_mainconsole_merch.html" style="width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+    </div>
+
+    <div class="bottom-bar">
+        <img src="../assets/search_icon.png" alt="Search" onclick="openSubmenu('search')">
+        <img src="../assets/social_icon.png" alt="Socialize" onclick="openSubmenu('socialize')">
+        <img src="../assets/game_icon.png" alt="Actions" onclick="openSubmenu('actions')">
+        <img src="../assets/detail_icon.png" alt="Details" onclick="openSubmenu('details')">
+        <img src="../assets/mystuff_icon.png" alt="My Stuff" onclick="openSubmenu('mystuff')">
+    </div>
+
+    <div id="submenu-container" class="submenu-container">
+        <div id="search-submenu" class="submenu">
+            <h2>Search<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+            <ul>
+                <li><button><a href="../mobile_dashboard.html"><img src="../assets/portal_icon.png" alt="Portal Icon"> Portals </a></button></li>
+                <li><button><img src="../assets/name_icon.png" alt="Name Icon"> By Name</button></li>
+            </ul>
+        </div>
+        <div id="socialize-submenu" class="submenu">
+            <h2>Share<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+            <ul>
+                <li><button><img src="../assets/instagram_icon.png" alt="Instagram Icon"> Instagram</button></li>
+                <li><button><img src="../assets/facebook_icon.png" alt="FaceBook Icon"> FaceBook</button></li>
+                <li><button><img src="../assets/linkedin_icon.png" alt="Linkedin Icon"> LinkedIn</button></li>
+                <li><button><img src="../assets/discord_icon.png" alt="Discord Icon"> Discord</button></li>
+                <li><button><img src="../assets/telegram_icon.png" alt="Telegram Icon"> Telegram</button></li>
+                <li><button><img src="../assets/twitter_icon.png" alt="Twitter X Icon"> Twitter X</button></li>
+                <li><button><img src="../assets/tiktok_icon.png" alt="TikTok Icon"> TicTok</button></li>
+                <li><button><img src="../assets/snap_icon.png" alt="Snap Chat Icon"> SnapChat</button></li>
+                <li><button><img src="../assets/threads_icon.png" alt="Threads Icon"> Threads</button></li>
+            </ul>
+        </div>
+        <div id="actions-submenu" class="submenu">
+            <h2>Actions<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+            <ul>
+                <li><button><img src="../assets/heart_icon.png" alt="Heart Icon"> Love</button></li>
+                <li><button><img src="../assets/like_icon.png" alt="Like Icon"> Like</button></li>
+                <li><button><img src="../assets/stars_icon.png" alt="Stars Icon"> Leave a Good Review</button></li>
+                <li><button><img src="../assets/truth_icon.png" alt="Truth Icon"> Leave a Bad Review</button></li>
+            </ul>
+        </div>
+        <div id="details-submenu" class="submenu">
+            <h2>Details<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+            <ul>
+                <li><button><img src="../assets/calendar_icon.png" alt="Calendar Icon"> Add to my Calendar</button></li>
+                <li><button><img src="../assets/group_icon.png" alt="Group Icon"> Shoutout to Groups</button></li>
+                <li><button><img src="../assets/detail_icon.png" alt="Player Icon"> Invite a Player</button></li>
+            </ul>
+        </div>
+        <div id="mystuff-submenu" class="submenu">
+            <h2>My Stuff <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+            <ul>
+                <li><button><a href="../JOURNEYBOOK/journeybook.html"><img src="../assets/journeybook_icon.png" alt="JourneyBook Icon"> My JourneyBook </a></button></li>
+                <li><button><a href="../DESTINY/login.html"><img src="../assets/bucket_icon.png" alt="BucketList Icon"> My BucketList</a></button></li>
+                <li><button><a href="../DESTINY/login.html"><img src="../assets/email_icon.png" alt="Email Icon"> Email</a></button></li>
+                <li><a href="../DESTINY/login.html"><button><img src="../assets/calendar_icon.png" alt="Calendar Icon"> Calendar</button></a></li>
+                <li><a href="../DESTINY/login.html"><button><img src="../assets/wallet_icon.png" alt="Wallet Icon"> Wallet</button></a></li>
+                <li><a href="../DESTINY/login.html"><button><img src="../assets/config_icon.png" alt="Config Icon"> Config</button></a></li>
+                <li><a href="../DESTINY/login.html"><button><img src="../assets/bail_icon.png" alt="Bail Icon"> Bail</button></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function openSubmenu(submenu) {
+            const submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(submenu => {
+                submenu.style.display = 'none';
+            });
+
+            const selectedSubmenu = document.getElementById(submenu + '-submenu');
+            selectedSubmenu.style.display = 'block';
+        }
+
+        function closeSubmenu(closeButton) {
+            const submenu = closeButton.closest('.submenu');
+            submenu.style.display = 'none';
+        }
+        
+        function updateLeftConsole(imageSrc) {
+            const mainConsole = document.querySelector('iframe').contentWindow;
+            mainConsole.postMessage({
+                type: 'imageClick',
+                imageSrc: imageSrc
+            }, '*');
+        }
+    </script>
+</body>
+</html>

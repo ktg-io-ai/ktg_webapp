@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Invite</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            
+        }
+
+        .header {
+            background-color: rgba(30, 30, 30, 0.9);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #9c27b0;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #9c27b0;
+        }
+
+        .close-button {
+            cursor: pointer;
+            color: #fff;
+            font-size: 20px;
+            padding: 5px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .group-title {
+            text-align: center;
+            font-size: 24px;
+            color: #9c27b0;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(156, 39, 176, 0.5);
+        }
+
+        .group-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .invite-info {
+            background-color: rgba(156, 39, 176, 0.1);
+            border: 2px solid rgba(156, 39, 176, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .invite-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #fff;
+            line-height: 1.5;
+        }
+
+        .form-section {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-size: 16px;
+            color: #9c27b0;
+            margin-bottom: 10px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(156, 39, 176, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            margin-bottom: 20px;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239c27b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 20px;
+            padding-right: 45px;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #9c27b0;
+        }
+
+        .form-select option {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(156, 39, 176, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #9c27b0;
+        }
+
+        .form-input::placeholder {
+            color: #666;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #9c27b0, transparent);
+        }
+
+        .divider span {
+            padding: 0 15px;
+            color: #9c27b0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .existing-groups {
+            margin-bottom: 20px;
+        }
+
+        .group-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .group-item:hover {
+            background-color: rgba(156, 39, 176, 0.1);
+            border-color: rgba(156, 39, 176, 0.3);
+        }
+
+        .group-item.selected {
+            background-color: rgba(156, 39, 176, 0.2);
+            border-color: #9c27b0;
+        }
+
+        .group-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #9c27b0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .group-info {
+            flex-grow: 1;
+        }
+
+        .group-name {
+            font-size: 14px;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .group-members {
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .send-button {
+            background-color: #9c27b0;
+            color: #fff;
+        }
+
+        .send-button:hover {
+            background-color: #8e24aa;
+        }
+
+        .send-button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+
+        .cancel-button {
+            background-color: transparent;
+            border: 2px solid #9c27b0;
+            color: #9c27b0;
+        }
+
+        .cancel-button:hover {
+            background-color: #9c27b0;
+            color: #fff;
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .invite-effect {
+            animation: inviteEffect 0.5s ease-out;
+        }
+
+        @keyframes inviteEffect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); background-color: rgba(156, 39, 176, 0.3); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Group</h2>
+        <div class="close-button" onclick="closeGroup()">×</div>
+    </div>
+
+    <div class="content">
+        <div class="group-title">Group Invite</div>
+        <div class="group-subtitle">Invite this player to join or create a group</div>
+
+        <div class="invite-info">
+            <p>Invite the selected participant to join a group chat where you can collaborate, share content, and stay connected!</p>
+        </div>
+
+        <!-- Existing Groups Section -->
+        <div class="form-section">
+            <label class="form-label">Choose an existing group:</label>
+            <div class="existing-groups" id="existingGroups">
+                <div class="group-item" onclick="selectGroup('group1', 'My Awesome Group')">
+                    <div class="group-icon">🚀</div>
+                    <div class="group-info">
+                        <div class="group-name">My Awesome Group</div>
+                        <div class="group-members">5 members</div>
+                    </div>
+                </div>
+                
+                <div class="group-item" onclick="selectGroup('group2', 'The Fun Squad')">
+                    <div class="group-icon">🎉</div>
+                    <div class="group-info">
+                        <div class="group-name">The Fun Squad</div>
+                        <div class="group-members">8 members</div>
+                    </div>
+                </div>
+                
+                <div class="group-item" onclick="selectGroup('group3', 'KTG Explorers')">
+                    <div class="group-icon">🌟</div>
+                    <div class="group-info">
+                        <div class="group-name">KTG Explorers</div>
+                        <div class="group-members">12 members</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider">
+            <span>OR</span>
+        </div>
+
+        <!-- New Group Section -->
+        <div class="form-section">
+            <label class="form-label" for="newGroupName">Create a new group:</label>
+            <input 
+                type="text" 
+                id="newGroupName" 
+                class="form-input"
+                placeholder="Enter new group name"
+                maxlength="50"
+                oninput="handleNewGroupInput()"
+            >
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-button send-button" id="sendButton" onclick="sendGroupInvite()" disabled>
+                📤 SEND INVITE
+            </button>
+            <button class="action-button cancel-button" onclick="closeGroup()">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let selectedGroupId = null;
+        let selectedGroupName = null;
+
+        function closeGroup() {
+            window.parent.postMessage({ type: 'closeGroup' }, '*');
+        }
+
+        function selectGroup(groupId, groupName) {
+            // Remove previous selection
+            document.querySelectorAll('.group-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Select current group
+            event.currentTarget.classList.add('selected');
+            selectedGroupId = groupId;
+            selectedGroupName = groupName;
+            
+            // Clear new group input
+            document.getElementById('newGroupName').value = '';
+            
+            // Enable send button
+            updateSendButton();
+        }
+
+        function handleNewGroupInput() {
+            const newGroupInput = document.getElementById('newGroupName');
+            const newGroupName = newGroupInput.value.trim();
+            
+            if (newGroupName) {
+                // Clear existing group selection
+                document.querySelectorAll('.group-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                selectedGroupId = null;
+                selectedGroupName = newGroupName;
+            } else {
+                selectedGroupName = null;
+            }
+            
+            updateSendButton();
+        }
+
+        function updateSendButton() {
+            const sendButton = document.getElementById('sendButton');
+            const hasSelection = selectedGroupId || selectedGroupName;
+            
+            sendButton.disabled = !hasSelection;
+            
+            if (hasSelection) {
+                sendButton.classList.add('pulse');
+            } else {
+                sendButton.classList.remove('pulse');
+            }
+        }
+
+        function sendGroupInvite() {
+            if (!selectedGroupId && !selectedGroupName) {
+                alert('Please select an existing group or create a new one.');
+                return;
+            }
+            
+            let inviteData;
+            let message;
+            
+            if (selectedGroupId) {
+                // Existing group invite
+                inviteData = {
+                    type: 'existing_group',
+                    groupId: selectedGroupId,
+                    groupName: selectedGroupName,
+                    timestamp: new Date().toISOString()
+                };
+                message = `Group invite sent to "${selectedGroupName}"!`;
+            } else {
+                // New group invite
+                inviteData = {
+                    type: 'new_group',
+                    groupName: selectedGroupName,
+                    timestamp: new Date().toISOString()
+                };
+                message = `New group "${selectedGroupName}" created and invite sent!`;
+            }
+            
+            // Add invite effect animation
+            document.querySelector('.invite-info').classList.add('invite-effect');
+            
+            alert(message);
+            
+            // Send message to parent about the group invite
+            window.parent.postMessage({ 
+                type: 'groupInviteSent',
+                action: 'group_invite',
+                data: inviteData,
+                message: message
+            }, '*');
+            
+            // Close the group interface after a short delay
+            setTimeout(() => {
+                closeGroup();
+            }, 1000);
+        }
+
+        // Add touch feedback
+        document.querySelectorAll('.group-item, .action-button').forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+            
+            element.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Auto-resize input and validate
+        document.getElementById('newGroupName').addEventListener('input', function() {
+            const value = this.value.trim();
+            
+            // Basic validation
+            if (value.length > 50) {
+                this.value = value.substring(0, 50);
+            }
+            
+            // Remove invalid characters
+            this.value = this.value.replace(/[<>]/g, '');
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSendButton();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Aquimist Bio</title>
+<style>
+  body {
+    font-family: sans-serif;
+    color: white;
+    background-color: #222; /* Dark background */
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+    font-size: 14px;
+  }
+  
+  h1, h2, h3 {
+    color: #bbdefb; /* Light blue for headings */
+    margin-bottom: 10px;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .section {
+    margin-bottom: 30px;
+  }
+
+ 
+  
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  
+  .image-grid img {
+    
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+  }
+  
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  
+  .link-grid a {
+    display: block;
+  }
+  
+  .enlarged-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .enlarged-image img {
+    max-width: 90%;
+    max-height: 90%;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+  }
+
+  .profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .profile-header img {
+    max-width: 100%; /* Increased image size */
+    margin-right: 20px;
+  }
+
+  .profile-header h1 {
+    font-size: 2.5em; /* Increased title size */
+    margin-bottom: 5px;
+  }
+
+  .profile-header p {
+    font-size: 1.2em; /* Slightly larger paragraph text */
+  }
+  
+  .card {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  
+  .card h3 {
+    margin-top: 0;
+  }
+
+  /* Hyperthin scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #222; /* Dark gray background */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* Medium gray thumb */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker gray thumb on hover */
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="section profile-header">
+    <img src="assets/ktgmusic_banner.jpg" alt="ktg.music">
+    <div>
+      
+    </div>
+  </div>
+  
+  <div class="section">
+    
+  </div>
+  
+  <div class="section">
+    <h2>KTG Music - For a New Era of Game, Immersive and AI Collaborations</h2>
+    <div class="image-grid">
+      <img src="assets/digital_lucy.png" alt="AI Image 1" onclick="enlargeImage('assets/digital_lucy.png')">
+<a href="ktgmusic.html" target="_parent"><img src="assets/hive_720_cover.jpg" alt="Hive 720 Cover"></a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Karma the Game of Destiny Soundtrack by Anthony Flammia</h2>
+    <div class="image-grid">
+      <img src="assets/anthony_flammia.png" alt="AI Image 1" onclick="enlargeImage('assets/anthony_flammia.png')">
+<a href="../kgdsoundtrack.html" target="_parent"><img src="assets/karmathegameofdestiny.jpg" alt="Soundtrack Cover"></a>
+    </div>
+  </div>
+  
+    <div class="section">
+    <div class="image-grid">
+      
+      <div class="card">
+  <h2>About KTG Music</h2>
+  <h3>Mission Statement</h3>
+  <p>
+    KTG Music is the official music label and sonic engine behind <em>Karma the Game of Destiny</em>, founded by Rene Reyes. KTG exists at the intersection of music, narrative, and emerging technology — a home for both human and AI collaborators to create, distribute, and amplify new expressions of sound, soul, and story.
+  </p>
+
+  <p>________________________________________</p>
+
+  <h3>Our Vision</h3>
+  <p>
+    KTG Music began with the Original Soundtrack for <strong>Karma the Game of Destiny</strong>, co-produced by Grammy-nominated artist Anthony Flammia with Rene Reyes as Executive Producer. Since then, it has grown into a label that champions <strong>immersive soundscapes, AI-generated compositions, and cross-media musical collaborations</strong> for a new generation of creators and listeners.
+  </p>
+  <p>
+    This is more than a label — it’s a movement. We aim to nurture and release a <strong>new class of music</strong> born of games, experiences, AI co-creation, and spiritual frequency. Every release carries the resonance of transformation, imagination, and empowerment.
+  </p>
+
+  <p>________________________________________</p>
+
+  <h3>What We Offer</h3>
+  <p>
+    • Original scores and ambient compositions for immersive storytelling, XR, and gaming environments<br>
+    • AI-human collaborative tracks and multimedia drops<br>
+    • Support for artists and technologists entering the AI x Music space<br>
+    • Label representation, digital distribution, and promotional support for cutting-edge creators<br>
+    • Integration into the KTG universe and its cross-platform ecosystem
+  </p>
+
+  <p>________________________________________</p>
+
+  <h3>Recent Projects</h3>
+  <p>
+    • <strong>Karma the Game of Destiny OST</strong> – Cinematic, soulful, and transcendent themes for the KTG universe<br>
+    • <strong>AI Releases by Rene Reyes</strong> – Experimental sound journeys from the frontier of AI-generated music<br>
+    • <strong>Sound Worlds</strong> – Collaborative work supporting new immersive media and XR projects<br>
+    • <strong>KTG Live</strong> – Events and live drops blending physical experience and virtual resonance
+  </p>
+
+  <p>________________________________________</p>
+
+  <h3>Looking Ahead</h3>
+  <p>
+    We invite artists, producers, storytellers, and AI explorers to join us in crafting the future of sound. KTG Music is a beacon for those who hear the call of evolution and want to resonate at a higher frequency — not just to listen, but to <em>feel</em> and co-create.
+  </p>
+
+  <p>________________________________________</p>
+
+  <h3>Contact</h3>
+  <p>
+    To collaborate, pitch projects, or learn more, reach out through the main KTG platform or follow our music drops through our official channels. A new era of sound has begun.
+  </p>
+</div>
+
+    </div>
+  </div>
+</div>
+
+<div id="enlarged-image" class="enlarged-image" style="display: none;">
+  <img id="enlarged-image-content" src="" alt="Enlarged Image">
+  <span class="close-button" onclick="closeEnlargedImage()">×</span>
+</div>
+
+<script>
+  function enlargeImage(src) {
+    document.getElementById('enlarged-image-content').src = src;
+    document.getElementById('enlarged-image').style.display = 'flex';
+  }
+  
+  function closeEnlargedImage() {
+    document.getElementById('enlarged-image').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>

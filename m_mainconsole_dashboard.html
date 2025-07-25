@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIGHT FRAME</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .top-frame {
+            background-color: #111;
+            padding: 15px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .buttons button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .buttons button:hover {
+            background-color: #444;
+        }
+
+        .scrollable-content {
+            overflow-y: auto;
+            flex-grow: 1;
+            display: flex;
+        }
+        
+        .scrollable-content::-webkit-scrollbar {
+            width: 0px; /* Hide the scrollbar */
+        }
+
+        .main-content {
+            width: 100%;
+            padding: 10px;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 5px;
+            padding: 5px;
+        }
+
+        .icon-grid button {
+            background-color: #1e1e1e;
+            
+            color: #fff;
+            border: none;
+            height: 100%;
+            padding: 5px;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .icon-grid button img {
+            max-width: 75px;
+            max-height: 75px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .icon-grid button {
+            aspect-ratio: 1 / 1;
+            border: 1px solid #630000;
+        }
+
+        .icon-grid button:hover {
+            background-color: #222; /* This creates the gray hover effect */
+            border: 1px solid #655e5e;
+            /* border: 1px solid #4fb6c1;  Add a 2px border with the submenu color */
+        }
+
+        .icon-grid button a { 
+            color: #fff;          /* Keep the text white */
+            text-decoration: none;  /* Remove underline */
+            display: flex;         /* Use flexbox for vertical centering */
+            flex-direction: column; /* Stack image and text vertically */
+            align-items: center;   /* Center horizontally */
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links button {
+            background-color: #111;
+            color: white;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .social-links button img {
+            max-width: 25px;
+            max-height: 25px;
+        }
+
+        .lower-top-frame h2 {
+            text-align: center;
+        }
+
+        .data-container {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+        }
+
+        .column {
+            text-align: center;
+        }
+        
+        .safe-image img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .door-box {
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            border-radius: 5px;
+            margin: 0 auto;
+        }
+
+        .journeybook-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .bar {
+            height: 10px;
+            border-radius: 5px;
+        }
+
+        .bar1 { background-color: blue; width: 10%; }
+        .bar2 { background-color: yellow; width: 50%; }
+        .bar3 { background-color: red; width: 85%; }
+
+        .bottom-frame {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="top-frame">
+            <h2>KTG.IO</h2>
+            <div class="social-links">
+                <button><a href="https://instagram.com/karmathegame" target="_blank" rel="noopener"><img src="assets/instagram_icon.png" alt="instagram icon"></a></button>
+                <button><a href="https://www.linkedin.com/in/rene-reyes-the-alquimist-8b3b3510/" target="_blank" rel="noopener"><img src="assets/linkedin_icon.png" alt="List Icon"></a></button>
+                <button><a href="https://www.tiktok.com/@karmathegame" target="_blank" rel="noopener"><img src="assets/tiktok_icon.png" alt="Filter Icon"></a></button>
+                <button><a href="https://discordapp.com/users/1177985292297314391" target="_blank" rel="noopener"><img src="assets/discord_icon.png" alt="Fave Icon"></a></button>
+                <button><a href="https://t.me/karmathegame" target="_blank" rel="noopener"><img src="assets/telegram_icon.png" alt="Telegram Icon"></a></button>
+                <button><a href="https://www.threads.com/@karmathegame?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener"><img src="assets/threads_icon.png" alt="QR Icon"></a></button>
+                <button><a href="contact.html" target="_parent"><img src="assets/contact_icon.png" alt="contact icon"></a></button>
+            </div>
+        </div>
+
+        <div class="scrollable-content">
+            <div class="main-content">
+                <div class="lower-top-frame">
+                    <h2>Welcome to the Future</h2>
+                </div>
+                <img src="DESTINY/images/image16.jpg" alt="Adult Listing" style="width: 100%;">  
+                <div class="bottom-frame">
+                    <div class="tagline">
+                        <h2>The Intersection of Social Lifestyles platform for Adults and the AI Driven Gig Economy.</h2>
+                    </div>
+                    <div class="tagline">
+                        <h4>NEW YORK, NY</h4>
+                    </div>
+                </div>
+                <div class="data-container">
+                    <!-- SAFE Section -->
+                    <div class="column">
+                        <div class="title">SAFE</div>
+                        <div class="content safe-image">
+                            <img src="assets/safe_icon.png" alt="Safe Content">
+                        </div>
+                    </div>
+            
+                    <!-- DOOR Section -->
+                    <div class="column">
+                        <div class="title">DOOR</div>
+                        <div class="content">
+                            <div class="door-box"></div>
+                        </div>
+                    </div>
+            
+                    <!-- JOURNEYBOOK Section -->
+                    <div class="column">
+                        <div class="title">JOURNEYBOOK</div>
+                        <div class="content journeybook-bars">
+                            <div class="bar bar1"></div>
+                            <div class="bar bar2"></div>
+                            <div class="bar bar3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <br><br>
+
+                <div class="icon-grid">
+                    <button class="slide-in-left"><a href="DESTINY/mobile_opening.html" target="_parent"><img src="assets/fave_icon.png" alt="destiny"></a>DESTINY</button>
+                    <button class="slide-in-left"><a href="KTGMUSIC/mobile_ktgmusic.html" target="_parent"><img src="assets/music_qr_link_icon.png" alt="ktgmusic"></a>KTG.MUSIC</button>
+                    <button class="slide-in-left"><a href="KTGAI/mobile_ktgai.html" target="_parent"><img src="assets/ai_brain_logo_icon.png" alt="ktgmusic"></a>KTG.AI</button>
+
+                    <button class="slide-in-left"><a href="MERCH/mobile_ktgmerch.html" target="_parent"><img src="assets/merch_icon.png" alt="merch"></a>MERCH</button>
+                    <button class="slide-in-left"><a href="WEB3/mobile_dashboard_web3.html" target="_parent"><img src="assets/kgz_white_icon.png" alt="web3"></a>WEB3</button>
+                    <button class="slide-in-left"><a href="LIFESTYLES/mobile_listings.html" target="_parent"><img src="assets/listing_icon.png" alt="listings"></a>LISTINGS</button>
+
+                    <button class="slide-in-left"><a href="VRARXR/mobile_dashboard_xr.html" target="_parent"><img src="assets/vr_icon.png" alt="XR"></a>VR/AR/XR</button>
+                    <button class="slide-in-left"><a href="METAPHYSICS/mobile_dashboard_tarot.html" target="_parent"><img src="assets/tarot_icon.png" alt="tarot"></a>METAPHYSICS</button>
+                    <button class="slide-in-left"><a href="DIGNBLING/mobile_dashboard_dign_bling.html" target="_parent"><img src="assets/diamond_mine_icon.png" alt="diamond"></a>DIGN BLING</button>
+
+                    <button class="slide-in-left"><a href="4PLAYCHESS/mobile_dashboard_4play.html" target="_parent"><img src="assets/chess_icon.png" alt="chess"></a>4 PLAY CHESS</button>
+                    <button class="slide-in-left"><a href="KGTTV/dashboard.html" target="_parent"></a><img src="assets/ktgtv_icon.png" alt="ktgtv">KTG.TV</button>
+                    <button class="slide-in-left"><a href="MEMDAO/dashboard.html" target="_parent"></a><img src="assets/dao_icon.png" alt="memdao">MEM.DAO</button>
+
+                    <button class="slide-in-left"><a href="LIFESTYLES/dashboard.html" target="_parent"></a><img src="assets/group_icon.png" alt="lifestyles">LIFESTYLES</button>
+                    
+                    <button class="slide-in-left" style="visibility: hidden; pointer-events: none;"></button>
+                    <button class="slide-in-left" style="visibility: hidden; pointer-events: none;"></button>
+                    <button class="slide-in-left" style="visibility: hidden; pointer-events: none;"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+ <script>
+        function openPortalSubmenu() {
+            var submenu = document.getElementById("portal-submenu");
+            submenu.style.display = "block";
+        }
+
+        function closePortalSubmenu() {
+            var submenu = document.getElementById("portal-submenu");
+            submenu.style.display = "none";
+        }
+    </script>
+</html>

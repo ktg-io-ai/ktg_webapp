@@ -1,0 +1,130 @@
+[
+    {
+      "name": "Mei",
+      "image": "images/mei.jpg",
+      "tagline": "Vixen Seeks Hero",
+      "safeLinks": []
+    },
+    {
+      "name": "Astral Maiden",
+      "image": "images/astral_maiden.jpg",
+      "tagline": "Seeker Seeks Starfarer",
+      "safeLinks": [
+        { "url": "https://youtu.be/m_BnnWjep9M?si=aeYMZbwaVsmp67SM", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Cyber Shaman",
+      "image": "images/cyber_shaman.jpg",
+      "tagline": "Oracle Seeks Glitchrunner",
+      "safeLinks": [
+        { "url": "https://youtu.be/9Kf3e2kb5t0?si=Usm3fmsSrFyEtFgE", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Crimson Oracle",
+      "image": "images/crimson_oracle.jpg",
+      "tagline": "Seer Seeks Renegade",
+      "safeLinks": [
+        { "url": "https://youtu.be/1zp6IVfZkG8?si=Ga1xnTI-1dvmlmEN", "text": "Lofi Video" },
+        { "url": "https://youtu.be/YuzbbSPgYgQ?si=0ipAYWH2Gxnkb9Zq", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Ethereal Sentinel",
+      "image": "images/ethereal_sentinel.jpg",
+      "tagline": "Guardian Seeks Wanderer",
+      "safeLinks": [
+        { "url": "https://youtu.be/QPE2pFnDLng?si=Y4wdqivFPF0fb2gJ", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Steel Ronin",
+      "image": "images/steel_ronin.jpg",
+      "tagline": "Ronin Seeks Master",
+      "safeLinks": [
+        { "url": "https://youtu.be/G2vnUeVamH8?si=3XU1ZpLDLnl8ETts", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Desert Dancer",
+      "image": "images/desert_dancer.jpg",
+      "tagline": "Dancer Seeks Guide",
+      "safeLinks": [
+        { "url": "https://youtu.be/9hXzZIkO-Tk?si=PhVYB7jGPQzqU3e2", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Echo Twins",
+      "image": "images/echo_twins.jpg",
+      "tagline": "Twins Seek Unity",
+      "safeLinks": [
+        { "url": "https://youtu.be/fStR1veL7iQ?si=oRCYfTZ6r9p6LPTm", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Skull Prophet",
+      "image": "images/skull_prophet.jpg",
+      "tagline": "Prophet Seeks Disciple",
+      "safeLinks": [
+        { "url": "https://youtu.be/6bvkhu0rNdM?si=diG5KBzUbCmiuGq7", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Neon Nomad",
+      "image": "images/neon_nomad.jpg",
+      "tagline": "Nomad Seeks Sanctuary",
+      "safeLinks": [
+        { "url": "https://youtu.be/_RsfqO85BCI?si=34LXT9CpCWvgCOY1", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Inferno Queen",
+      "image": "images/inferno_queen.jpg",
+      "tagline": "Queen Seeks Rebel",
+      "safeLinks": [
+        { "url": "https://youtu.be/b8Q73MOxqlo?si=RVlun1jw8-yebs06", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Golden Muse",
+      "image": "images/golden_muse.jpg",
+      "tagline": "Muse Seeks Inspiration",
+      "safeLinks": [
+        { "url": "https://youtu.be/eRyNGQDgbAU?si=btZpi7d4Y75gPAB1", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Blood Rose",
+      "image": "images/blood_rose.jpg",
+      "tagline": "Rose Seeks Thorn",
+      "safeLinks": [
+        { "url": "https://youtu.be/xHzeXyZDgFM?si=SAdmMCR-61VzPdK-", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Seraphic Siren",
+      "image": "images/seraphic_siren.jpg",
+      "tagline": "Siren Seeks Sailor",
+      "safeLinks": [
+        { "url": "https://youtu.be/iuAbAwMXewQ?si=TOCi12sk-6qu3Md8", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Cyber Geisha",
+      "image": "images/cyber_geisha.jpg",
+      "tagline": "Geisha Seeks Patron",
+      "safeLinks": [
+        { "url": "https://youtu.be/W4y9n5f65nw?si=ZlvM23p7UB2hjZBh", "text": "Lofi Video" }
+      ]
+    },
+    {
+      "name": "Pixel Priestess",
+      "image": "images/pixel_priestess.jpg",
+      "tagline": "Priestess Seeks Convert",
+      "safeLinks": [
+        { "url": "https://youtu.be/0mc127igrAM?si=Av8HLyRjLc7cNeqj", "text": "Lofi Video" }
+      ]
+    }
+    
+  ]

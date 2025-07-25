@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTG.WEB3</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .top-frame {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .icon-grid button {
+            background-color: #222;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .icon-grid button img {
+            max-width: 80px;
+            max-height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .icon-grid button:hover {
+            background-color: #16665b;
+        }
+
+        .icon-grid button a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px 0;
+            background-color: #222;
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #222;
+            border-radius: 10px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            text-align: center;
+            color: #fff;
+            font-size: 1.2em;
+        }
+
+        .portal-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .portal-links button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            touch-action: manipulation;
+        }
+
+        .portal-links button:hover {
+            background-color: #444;
+        }
+
+        .portal-links button img {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-frame">
+        <h2>KGZ & KTG Tokens</h2>
+    </div>
+
+    <div class="icon-grid">
+        <button>
+            <a href="https://www.paypal.com/instantcommerce/checkout/QDQQGKR2SESBA" target="_blank" rel="noopener">
+                <img src="../assets/ktg_emboss_icon.png" alt="KTG Private">
+            </a>
+            KTG Private Buy (PayPal)<br><br>
+            <span>$600USD = 25,000KTG</span>
+        </button>
+        
+        <button>
+            <a href="https://bscscan.com/address/0x539eaab20911bf75963c1a51f55ef37c90255181" target="_blank" rel="noopener">
+                <img src="../assets/ktg_emboss_icon.png" alt="KTG on BSCSCAN">
+            </a>
+            KTG on BSCSCAN<br><br>
+            <span>View Contract</span>
+        </button>
+        
+        <button>
+            <a href="https://app.uniswap.org/explore/tokens/bnb/0x9622b9b9ab77d82392d87e62e75230ba7b93b16c" target="_blank" rel="noopener">
+                <img src="../assets/kgz_emboss_icon.png" alt="KGZ on UNISWAP">
+            </a>
+            KGZ on UNISWAP<br><br>
+            <span>$0.00069USD = 1KGZ</span>
+        </button>
+        
+        <button>
+            <a href="https://poocoin.app/tokens/0x9622b9b9ab77d82392d87e62e75230ba7b93b16c" target="_blank" rel="noopener">
+                <img src="../assets/kgz_emboss_icon.png" alt="KGZ on POOCOIN">
+            </a>
+            KGZ on POOCOIN<br><br>
+            <span>Live Chart</span>
+        </button>
+        
+        <button>
+            <a href="https://bscscan.com/address/0x9622b9b9ab77d82392d87e62e75230ba7b93b16c" target="_blank" rel="noopener">
+                <img src="../assets/kgz_emboss_icon.png" alt="KGZ on BSCSCAN">
+            </a>
+            KGZ on BSCSCAN<br><br>
+            <span>View Contract</span>
+        </button>
+    </div>
+
+    <!-- Portal Links Section -->
+    <div class="section">
+        <h2>🌐 PORTALS</h2>
+        <div class="portal-links">
+            <button onclick="window.parent.location.href='../dashboard.html'">
+                <img src="../assets/portal_icon.png" alt="portal">PORTALS
+            </button>
+            <button onclick="window.parent.location.href='../DESTINY/opening.html'">
+                <img src="../assets/fave_icon.png" alt="destiny">DESTINY
+            </button>
+            <button onclick="window.parent.location.href='../KTGMUSIC/mobile_ktgmusic.html'">
+                <img src="../assets/music_qr_link_icon.png" alt="music">KTG.MUSIC
+            </button>
+            <button onclick="window.parent.location.href='../KTGAI/mobile_ktgai.html'">
+                <img src="../assets/ai_brain_logo_icon.png" alt="ai">KTG.AI
+            </button>
+            <button onclick="window.parent.location.href='../MERCH/mobile_ktgmerch.html'">
+                <img src="../assets/merch_icon.png" alt="merch">MERCH
+            </button>
+            <button onclick="window.parent.location.href='../LIFESTYLES/listingsconsole.html'">
+                <img src="../assets/listing_icon.png" alt="listings">LISTINGS
+            </button>
+            <button onclick="window.parent.location.href='../VRARXR/mobile_dashboard_xr.html'">
+                <img src="../assets/vr_icon.png" alt="xr">VR/AR/XR
+            </button>
+            <button onclick="window.parent.location.href='../METAPHYSICS/tarot/'">
+                <img src="../assets/tarot_icon.png" alt="tarot">METAPHYSICS
+            </button>
+            <button onclick="window.parent.location.href='../DIGNBLING/mobile_dashboard_dign_bling.html'">
+                <img src="../assets/diamond_mine_icon.png" alt="diamond">DIGN BLING
+            </button>
+            <button onclick="window.parent.location.href='../4PLAYCHESS/mobile_dashboard_4play.html'">
+                <img src="../assets/chess_icon.png" alt="chess">4 PLAY CHESS
+            </button>
+            <button onclick="window.parent.location.href='../KTGTV/dashboard.html'">
+                <img src="../assets/ktgtv_icon.png" alt="ktgtv">KTG.TV
+            </button>
+            <button onclick="window.parent.location.href='../MEMDAO/dashboard.html'">
+                <img src="../assets/dao_icon.png" alt="memdao">MEM.DAO
+            </button>
+            <button onclick="window.parent.location.href='../LIFESTYLES/dashboard.html'">
+                <img src="../assets/group_icon.png" alt="lifestyles">LIFESTYLES
+            </button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="#">WHITE PAPER</a>
+        <a href="#">DECK</a>
+        <a href="#">DISCLAIMER</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+[
+  {
+    "title": "Guru and Lucy Voyage to Yonder 9",
+    "artist": "Anthony Flammia with PJ Phoenix",
+    "mp3": "../KTGMUSIC/vrworlds/guru_and_lucy_voyage_to_yonder_9.mp3",
+    "cover": "covers/guru_and_lucy_voyage_to_yonder_9.png",
+    "safeLinks": [
+      { "url": "https://youtu.be/8rsfnDYlQgo?si=F-fVrhhXpADkM-L3", "text": "Official Video" },
+      { "url": "https://monaverse.com/collections/1/0x2249b5a319af5dfae7fcc8004a99e59dba285c21/368", "text": "Metaverse" }
+    ]
+  },
+  {
+    "title": "Sunflower",
+    "artist": "Brandon Johnson aka DramaB with Anthony Flammia",
+    "mp3": "../KTGMUSIC/vrworlds/sunflower.mp3",
+    "cover": "covers/sunflower.png",
+    "safeLinks": [
+      { "url": "https://youtu.be/4se3qKdQ068?si=lj6MpqyuvpD6oTbG", "text": "Official Video" },
+      { "url": "https://monaverse.com/spaces/home-of-marchello", "text": "Metaverse" }
+    ]
+  },
+  {
+    "title": "Guru and Lucy Theme on Novis Prime Low",
+    "artist": "Anthony Flammia with D Rosarii",
+    "mp3": "../KTGMUSIC/vrworlds/guru_and_lucy_theme_on_novis_prime_low.mp3",
+    "cover": "covers/guru_and_lucy_theme_on_novis_prime_low.png",
+    "safeLinks": [
+      { "url": "https://youtu.be/dDg_7QdiFeQ?si=j4vqgGoAICw8JOF8", "text": "Official Video" },
+      { "url": "https://monaverse.com/spaces/guru-and-lucy-duet", "text": "Metaverse" }
+    ]
+  },
+  {
+    "title": "Chat in the Realm",
+    "artist": "Anthony Flammia with Wasionkey",
+    "mp3": "../KTGMUSIC/vrworlds/chat_in_the_realm.mp3",
+    "cover": "covers/chat_in_the_realm.png",
+    "safeLinks": [
+      { "url": "https://youtu.be/agMf3txBMNw?si=6GyAkPu7cUftiGO9", "text": "Official Video" },
+      { "url": "https://monaverse.com/spaces/home-of-the-antyul", "text": "Metaverse" }
+    ]
+  },
+  {
+    "title": "Safe on Seti 5",
+    "artist": "Anthony Flammia with Mila Mena",
+    "mp3": "../KTGMUSIC/vrworlds/safe_on_seti_5.mp3",
+    "cover": "covers/safe_on_seti_5.png",
+    "safeLinks": [
+      
+    ]
+  },
+  {
+    "title": "Map Loading Crysalis 12",
+    "artist": "Anthony Flammia with D Rosarii",
+    "mp3": "../KTGMUSIC/vrworlds/map_loading_crysalis_12.mp3",
+    "cover": "covers/map_loading_crysalis_12.png",
+    "safeLinks": [
+      { "url": "https://youtu.be/HzhEBOo7E1o?si=mm4nKREfGydKfzCp", "text": "Official Video" },
+      { "url": "https://monaverse.com/spaces/map-loading", "text": "Metaverse" }
+    ]
+  }
+]

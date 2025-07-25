@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Console - Karma the Game of Destiny</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #2e2e2e;
+            color: #fff;
+            overflow: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Top Title Bar */
+        .top-bar {
+            background-color: #111;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .top-bar h1 {
+            display: none;
+        }
+
+        .top-bar .song-title {
+            margin-left: 0px;
+            padding-right: 0px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        #musicToggle img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* View Toggle Buttons */
+        .view-toggle {
+            background-color: #111;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 50px;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            padding: 0 20px;
+        }
+
+        .view-toggle h2 {
+            color: #fff;
+            font-size: 16px;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .view-buttons {
+            display: flex;
+            gap: 15px;
+            padding-right: 40px;
+        }
+
+        .view-toggle button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .view-toggle button.active {
+            background-color: #2f27c8;
+        }
+
+        .view-toggle button:hover {
+            background-color: #444;
+        }
+
+        .view-toggle button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Content Area */
+        .content-area {
+            height: calc(100vh - 150px);
+            overflow-y: auto;
+            position: relative;
+            width: 100%;
+            margin-top: 103px;
+        }
+
+        /* Grid View */
+        .grid-view {
+            padding: 20px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+        }
+
+        .image-grid button {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin: 2px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .image-grid button:hover {
+            transform: scale(0.95);
+        }
+
+        .image-grid button img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        /* Single View */
+        .single-view {
+            padding: 20px;
+            display: none;
+        }
+
+        .player-profile {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .player-profile img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background-color: transparent;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .player-profile h2 {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        .player-profile h4 {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .data-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background-color: transparent;
+            border-radius: 10px;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 10px;
+            text-align: center;
+            border-bottom: 2px solid white;
+            padding-bottom: 5px;
+            width: 100%;
+        }
+
+        .safe-image img {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+        }
+
+        .door-box {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            border-radius: 5px;
+        }
+
+        .journeybook-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 80%;
+        }
+
+        .bar {
+            height: 8px;
+            border-radius: 5px;
+        }
+
+        .bar1 { background-color: blue; width: 10%; }
+        .bar2 { background-color: yellow; width: 50%; }
+        .bar3 { background-color: red; width: 85%; }
+
+        /* List View */
+        .list-view {
+            padding: 20px;
+            display: none;
+        }
+
+        .participant-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .participant-card {
+            background-color: #222;
+            border-radius: 10px;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .participant-card:hover {
+            background-color: #333;
+        }
+
+        .participant-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .participant-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .participant-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+        }
+
+        .participant-info p {
+            margin: 0 0 10px 0;
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .participant-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .door-indicator {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 3px;
+        }
+
+        .mini-journeybook {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            width: 40px;
+        }
+
+        .mini-bar {
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        .mini-bar1 { background-color: blue; width: 10%; }
+        .mini-bar2 { background-color: yellow; width: 50%; }
+        .mini-bar3 { background-color: red; width: 85%; }
+
+        /* Bottom Bar */
+        .bottom-bar {
+            background-color: #111;
+            height: 50px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .bottom-bar img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        /* KTG.IO blocking rectangle */
+        .ktg-blocker {
+            position: absolute;
+            top: 0;
+            left: 20%;
+            width: 60%;
+            height: 100%;
+            background-color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+
+        .ktg-blocker.show {
+            opacity: 1;
+        }
+
+        .ktg-blocker.fade-in {
+            animation: fadeInKTG 1.5s ease-in forwards;
+        }
+
+        @keyframes fadeInKTG {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .ktg-text {
+            color: white;
+            font-size: 12px;
+            font-weight: normal;
+        }
+
+        /* Submenu Styles */
+        .submenu-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        .submenu {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(1, 1, 1, 0.9);
+            box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.5);
+            border-top: 5px solid #2f27c8;
+            border-right: 5px solid #2f27c8;
+            border-bottom: 5px solid #2f27c8;
+            border-left: 5px solid #2f27c8;
+            padding: 20px;
+            min-width: 200px;
+            border-radius: 20px;
+            z-index: 1002;
+            pointer-events: auto;
+            display: none;
+        }
+
+        .submenu a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: #fff;
+        }
+
+        .submenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .submenu li {
+            margin-bottom: 10px;
+        }
+
+        .submenu button {
+            background-color: transparent;
+            border: 1px solid #2f27c8;
+            opacity: 1; 
+            color: #fff;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+        
+        .submenu button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+            
+        .submenu button:hover {
+            background-color: #222;
+            border: 1px solid #4fb6c1;
+        }
+        
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        /* Background Video */
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted class="background-video">
+        <source src="../assets/cyberpunk_alley.mp4" type="video/mp4">
+    </video>
+
+    <!-- Top Title Bar -->
+    <div class="top-bar">
+        <div class="song-title">
+            <button onclick="window.open('../KTGMUSIC/m_music_player.html', '_blank')" style="background: none; border: none; cursor: pointer;">
+                <img src="../assets/music_player_icon.png" alt="Open Music Player" style="width: 30px; height: 30px;">
+            </button>
+            <button id="musicToggle">
+                <img src="../assets/play_pause.png" alt="Music Toggle">
+            </button>
+            <span>PLAYING: (Original Soundtrack) The Grid</span>
+        </div>
+    </div>
+
+    <!-- View Toggle Buttons -->
+    <div class="view-toggle">
+        <h2>The Grid</h2>
+        <div class="view-buttons">
+            <button id="gridBtn" class="active" onclick="showView('grid')">
+                <img src="../assets/game_icon.png" alt="Grid">
+            </button>
+            <button id="singleBtn" onclick="showView('single')">
+                <img src="../assets/detail_icon.png" alt="Single">
+            </button>
+            <button id="listBtn" onclick="showView('list')">
+                <img src="../assets/list_icon.png" alt="List">
+            </button>
+        </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+        <!-- Grid View -->
+        <div id="grid-view" class="grid-view">
+            <div class="image-grid" id="participant-grid">
+                <!-- Participant images will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Single View -->
+        <div id="single-view" class="single-view">
+            <div class="player-profile">
+                <h2 id="participant-name">Select a participant</h2>
+                <img id="participant-image" src="../assets/game_logo.png" alt="Participant Image">
+                <h2 id="participant-tagline">Click on a participant to view details</h2>
+                <h4>NEW YORK, NY</h4>
+            </div>
+
+            <div class="data-container">
+                <div class="column">
+                    <div class="title">SAFE LINKS</div>
+                    <div class="safe-image">
+                        <img src="../assets/safe_icon.png" alt="Safe Content">
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="title">DOOR</div>
+                    <div class="door-box"></div>
+                </div>
+
+                <div class="column">
+                    <div class="title">JOURNEYBOOK</div>
+                    <div class="journeybook-bars">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- List View -->
+        <div id="list-view" class="list-view">
+            <div class="participant-list" id="participant-list">
+                <!-- Participant list will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="bottom-bar">
+        <img src="../assets/search_icon.png" alt="Search" onclick="openSubmenu('search')">
+        <img src="../assets/social_icon.png" alt="Socialize" onclick="openSubmenu('socialize')">
+        <img src="../assets/game_icon.png" alt="Actions" onclick="openSubmenu('actions')">
+        <img src="../assets/detail_icon.png" alt="Details" onclick="openSubmenu('details')">
+        <img src="../assets/mystuff_icon.png" alt="My Stuff" onclick="openSubmenu('mystuff')">
+        
+        <!-- KTG.IO Blocker -->
+        <div class="ktg-blocker" id="ktg-blocker">
+            <div class="ktg-text">KTG.IO</div>
+        </div>
+    </div>
+
+    <!-- Submenu Container -->
+    <div id="submenu-container" class="submenu-container">
+        <audio id="musicPlayer" src="../KTGMUSIC/audio/the_grid.mp3" loop></audio>
+        
+        <div id="search-submenu" class="submenu">
+            <h2>Search<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+            <ul>
+                <li><button><a href="../mobile_dashboard.html"><img src="../assets/portal_icon.png" alt="Portal Icon"> Portals </a></button></li>
+                
+                <li>
+                    <button>
+                        <img src="../assets/name_icon.png" alt="Name Icon"> By Name
+                    </button>
+                </li>
+            </ul>
+        </div>
+        
+        <div id="socialize-submenu" class="submenu">
+            <h2>Share <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+            <ul>
+                <li>
+                    <button onclick="showIntroPopup()">
+                        <img src="../assets/intro_icon.png" alt="Intro Icon"> Intro
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showChatPopup()">
+                        <img src="../assets/chat_icon.png" alt="Chat Icon"> Chat
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showGroupPopup()">
+                        <img src="../assets/group_icon.png" alt="Group Icon"> Group
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showSafePopup()">
+                        <img src="../assets/safe_icon.png" alt="Safe Icon"> Safe
+                    </button>
+                </li>
+            </ul>
+        </div>
+        
+        <div id="actions-submenu" class="submenu">
+            <h2>Play<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+            <ul>
+                <li>
+                    <button onclick="showZapPopup()">
+                        <img src="../assets/zap_icon.png" alt="Zap Icon"> Zap
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showHidePopup()">
+                        <img src="../assets/hide_icon.png" alt="Hide Icon"> Hide
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showDoor4Popup()">
+                        <img src="../assets/door4_icon.png" alt="Door4 Icon"> Door #4
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showStarsPopup()">
+                        <img src="../assets/stars_icon.png" alt="Stars Icon"> Play the Stars
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showTruthPopup()">
+                        <img src="../assets/truth_icon.png" alt="Truth Icon"> Truth or Bomb
+                    </button>
+                </li>
+            </ul>
+        </div>
+        
+        <div id="details-submenu" class="submenu">
+            <h2>Decide<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+            <ul>
+                <li>
+                    <button onclick="showOutingPopup()">
+                        <img src="../assets/outing_icon.png" alt="Outing Icon"> Let's go Out!
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showStatsPopup()">
+                        <img src="../assets/stats_icon.png" alt="Stats Icon"> Player Stats
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <a href="../JOURNEYBOOK/mobile_journeybook.html">
+                            <img src="../assets/journeybook_icon.png" alt="JourneyBook Icon"> JourneyBook
+                        </a>
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showBucketListPopup()">
+                        <img src="../assets/bucket_icon.png" alt="Bucket Icon"> BucketList
+                    </button>
+                </li>
+            </ul>
+        </div>
+        
+        <div id="mystuff-submenu" class="submenu">
+            <h2>My Stuff <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+            <ul>
+                <li>
+                    <button>
+                        <a href="../JOURNEYBOOK/mobile_journeybook.html">
+                            <img src="../assets/journeybook_icon.png" alt="JourneyBook Icon"> My JourneyBook
+                        </a>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <a href="../DESTINY/mobile_login.html">
+                            <img src="../assets/bucket_icon.png" alt="BucketList Icon"> My BucketList
+                        </a>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <a href="../DESTINY/mobile_login.html">
+                            <img src="../assets/email_icon.png" alt="Email Icon"> Email
+                        </a>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <a href="../DESTINY/mobile_login.html">
+                            <img src="../assets/calendar_icon.png" alt="Calendar Icon"> Calendar
+                        </a>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <a href="../DESTINY/mobile_login.html">
+                            <img src="../assets/wallet_icon.png" alt="Wallet Icon"> Wallet
+                        </a>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <a href="../DESTINY/mobile_login.html">
+                            <img src="../assets/config_icon.png" alt="Config Icon"> Config
+                        </a>
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        <a href="../DESTINY/mobile_login.html">
+                            <img src="../assets/bail_icon.png" alt="Bail Icon"> Bail
+                        </a>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let participantData = [];
+        let currentView = 'grid';
+        let currentParticipantIndex = 0;
+
+        // Music toggle functionality
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicToggle = document.getElementById('musicToggle');
+
+        function toggleMusic() {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // Touch/swipe functionality for participant image
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isSwiping = false;
+
+        function setupImageSwipe() {
+            const participantImage = document.getElementById('participant-image');
+            
+            participantImage.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                isSwiping = false;
+            });
+
+            participantImage.addEventListener('touchmove', (e) => {
+                if (!touchStartX || !touchStartY) return;
+                
+                const touchX = e.touches[0].clientX;
+                const touchY = e.touches[0].clientY;
+                
+                const deltaX = touchX - touchStartX;
+                const deltaY = touchY - touchStartY;
+                
+                // Check if horizontal swipe is more significant than vertical
+                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+                    isSwiping = true;
+                    e.preventDefault(); // Prevent scrolling
+                }
+            });
+
+            participantImage.addEventListener('touchend', (e) => {
+                if (!touchStartX || !touchStartY || !isSwiping) return;
+                
+                const touchEndX = e.changedTouches[0].clientX;
+                const deltaX = touchEndX - touchStartX;
+                
+                // Minimum swipe distance
+                if (Math.abs(deltaX) > 50) {
+                    if (deltaX > 0) {
+                        // Swipe right - previous participant
+                        navigateParticipant(-1);
+                    } else {
+                        // Swipe left - next participant
+                        navigateParticipant(1);
+                    }
+                }
+                
+                // Reset
+                touchStartX = 0;
+                touchStartY = 0;
+                isSwiping = false;
+            });
+        }
+
+        function navigateParticipant(direction) {
+            if (participantData.length === 0) return;
+            
+            currentParticipantIndex += direction;
+            
+            // Wrap around
+            if (currentParticipantIndex >= participantData.length) {
+                currentParticipantIndex = 0;
+            } else if (currentParticipantIndex < 0) {
+                currentParticipantIndex = participantData.length - 1;
+            }
+            
+            updateSingleView(participantData[currentParticipantIndex]);
+        }
+
+        // View switching functionality
+        function showView(view) {
+            // Hide all views
+            document.getElementById('grid-view').style.display = 'none';
+            document.getElementById('single-view').style.display = 'none';
+            document.getElementById('list-view').style.display = 'none';
+
+            // Remove active class from all buttons
+            document.getElementById('gridBtn').classList.remove('active');
+            document.getElementById('singleBtn').classList.remove('active');
+            document.getElementById('listBtn').classList.remove('active');
+
+            // Show selected view and activate button
+            document.getElementById(view + '-view').style.display = 'block';
+            document.getElementById(view + 'Btn').classList.add('active');
+            
+            currentView = view;
+            
+            // Show/hide KTG.IO blocker based on view
+            const ktgBlocker = document.getElementById('ktg-blocker');
+            if (view === 'grid' || view === 'list') {
+                ktgBlocker.classList.add('show');
+                ktgBlocker.style.opacity = '1';
+                ktgBlocker.style.pointerEvents = 'auto';
+            } else {
+                ktgBlocker.classList.remove('show');
+                ktgBlocker.classList.remove('fade-in');
+                ktgBlocker.style.opacity = '0';
+                ktgBlocker.style.pointerEvents = 'none';
+            }
+        }
+
+        // Load participant data
+        fetch('../data/participant.json')
+            .then(response => response.json())
+            .then(data => {
+                participantData = data;
+                loadGridView();
+                loadListView();
+                setupImageSwipe(); // Initialize swipe functionality
+            })
+            .catch(error => {
+                console.error('Error loading participant data:', error);
+            });
+
+        function loadGridView() {
+            const participantGrid = document.getElementById('participant-grid');
+            participantGrid.innerHTML = '';
+            
+            participantData.forEach((participant, index) => {
+                const button = document.createElement('button');
+                button.addEventListener('click', () => {
+                    currentParticipantIndex = index;
+                    updateSingleView(participant);
+                    showView('single');
+                });
+
+                const img = document.createElement('img');
+                img.src = participant.image;
+                img.alt = participant.name;
+                button.appendChild(img);
+
+                participantGrid.appendChild(button);
+            });
+        }
+
+        function loadListView() {
+            const participantList = document.getElementById('participant-list');
+            participantList.innerHTML = '';
+            
+            participantData.forEach((participant, index) => {
+                const card = document.createElement('div');
+                card.className = 'participant-card';
+                card.addEventListener('click', () => {
+                    currentParticipantIndex = index;
+                    updateSingleView(participant);
+                    showView('single');
+                });
+
+                card.innerHTML = `
+                    <img src="${participant.image}" alt="${participant.name}">
+                    <div class="participant-info">
+                        <h3>${participant.name}</h3>
+                        <p>${participant.tagline}</p>
+                        <div class="participant-meta">
+                            <div class="door-indicator"></div>
+                            <div class="mini-journeybook">
+                                <div class="mini-bar mini-bar1"></div>
+                                <div class="mini-bar mini-bar2"></div>
+                                <div class="mini-bar mini-bar3"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                participantList.appendChild(card);
+            });
+        }
+
+        function updateSingleView(participant) {
+            document.getElementById('participant-name').textContent = participant.name;
+            document.getElementById('participant-image').src = participant.image;
+            document.getElementById('participant-tagline').textContent = participant.tagline;
+        }
+
+        // Submenu functionality
+        function openSubmenu(submenu) {
+            const submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(submenu => {
+                submenu.style.display = 'none';
+            });
+
+            const selectedSubmenu = document.getElementById(submenu + '-submenu');
+            selectedSubmenu.style.display = 'block';
+        }
+
+        function closeSubmenu(closeButton) {
+            const submenu = closeButton.closest('.submenu');
+            submenu.style.display = 'none';
+        }
+
+        // Game action functions - Show wireframe popups
+        function showIntroPopup() { 
+            showWireframePopup('m_intro_wireframe.html');
+        }
+        
+        function showChatPopup() { 
+            showWireframePopup('m_chat_wireframe.html');
+        }
+        
+        function showGroupPopup() { 
+            showWireframePopup('m_group_wireframe.html');
+        }
+        
+        function showSafePopup() { 
+            showWireframePopup('m_safe_wireframe.html');
+        }
+        
+        function showZapPopup() { 
+            showWireframePopup('m_zap_wireframe.html');
+        }
+        
+        function showHidePopup() { 
+            showWireframePopup('m_hide_wireframe.html');
+        }
+        
+        function showDoor4Popup() { 
+            showWireframePopup('m_door4_wireframe.html');
+        }
+        
+        function showStarsPopup() { 
+            showWireframePopup('m_stars_wireframe.html');
+        }
+        
+        function showTruthPopup() { 
+            showWireframePopup('m_truth_wireframe.html');
+        }
+        
+        function showOutingPopup() { 
+            showWireframePopup('m_outing_wireframe.html');
+        }
+        
+        function showStatsPopup() { 
+            showWireframePopup('m_stats_wireframe.html');
+        }
+        
+        function showBucketListPopup() { 
+            showWireframePopup('m_bucketlist_wireframe.html');
+        }
+
+        // Function to show wireframe popups
+        function showWireframePopup(wireframePath) {
+            // Create popup overlay
+            const overlay = document.createElement('div');
+            overlay.id = 'wireframe-overlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.8);
+                z-index: 2000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+
+            // Create iframe for wireframe
+            const iframe = document.createElement('iframe');
+            iframe.src = wireframePath;
+            iframe.style.cssText = `
+                width: 100%;
+                height: 100%;
+                border: none;
+                background-color: #141414;
+            `;
+
+            // Add close functionality
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    closeWireframePopup();
+                }
+            });
+
+            // Listen for messages from iframe
+            window.addEventListener('message', function(event) {
+                if (event.data && event.data.type) {
+                    // Handle different close messages from wireframes
+                    if (event.data.type.includes('close') || 
+                        event.data.type === 'closeIntroPopup' ||
+                        event.data.type === 'closeChat' ||
+                        event.data.type === 'closeGroup' ||
+                        event.data.type === 'closeSafe' ||
+                        event.data.type === 'closeDoor4' ||
+                        event.data.type === 'closeOuting' ||
+                        event.data.type === 'closeStats' ||
+                        event.data.type === 'closeBucketlist' ||
+                        event.data.type === 'closeTruth' ||
+                        event.data.type === 'closeZap' ||
+                        event.data.type === 'closeStars' ||
+                        event.data.type === 'closeHide') {
+                        closeWireframePopup();
+                    }
+                }
+            });
+
+            overlay.appendChild(iframe);
+            document.body.appendChild(overlay);
+
+            // Close submenus when popup opens
+            const submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(submenu => {
+                submenu.style.display = 'none';
+            });
+        }
+
+        function closeWireframePopup() {
+            const overlay = document.getElementById('wireframe-overlay');
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+
+        // Add escape key to close popup
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeWireframePopup();
+            }
+        });
+
+        // Initialize KTG.IO blocker fade-in on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const ktgBlocker = document.getElementById('ktg-blocker');
+            // Add fade-in class after a short delay to ensure proper loading
+            setTimeout(() => {
+                ktgBlocker.classList.add('fade-in');
+                ktgBlocker.classList.add('show');
+            }, 500);
+        });
+    </script>
+</body>
+</html>

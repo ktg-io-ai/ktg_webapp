@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREATOR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin-left: 10px;
+            padding: 0;
+        }
+
+        body h3 {
+           color: #147dbe;
+            
+        }
+
+        .top-frame {
+            background-color: #111;
+            padding: 15px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: #333; /* Example button color */
+            color: #fff;
+            border: none;
+            padding: 0px 8px 0px 0px; /* Example button padding */
+            border-radius: 20px; /* Example button border radius */
+            cursor: pointer;
+			vertical-align: middle;
+        }
+
+        .buttons button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .buttons button:hover {
+            background-color: #444;
+        }
+
+        .content-area {
+            display: flex;
+            height: calc(100vh - 95px);
+            width: 100%;
+        }
+
+        .content-area iframe {
+            background-color: #111;
+        }
+
+        .left-content {
+            width: 90%;
+            height: 90vh;
+            overflow-y: auto;
+            margin-right: 10px;
+        }
+
+        .left-content {
+            scrollbar-width: none; /* Hide the scrollbar */
+        }
+
+        .left-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 5px;
+            padding: 5px;
+            align-content: center;
+        }
+
+        .icon-grid button {
+            background-color: #222;
+            color: #fff;
+            border: none;
+            height: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .icon-grid button img {
+            max-width: 100px;
+            max-height: 100px;
+            margin-bottom: 40px;
+            margin-top: 40px;
+        }
+
+        .icon-grid button:hover {
+            background-color: #333;
+        }
+
+        .icon-grid button a { 
+            color: #fff;          /* Keep the text white */
+            text-decoration: none;  /* Remove underline */
+            display: flex;         /* Use flexbox for vertical centering */
+            flex-direction: column; /* Stack image and text vertically */
+            align-items: center;   /* Center horizontally */
+        }
+
+        .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+            border-color: aqua;
+        }
+
+        .right-content button {
+            background-color: #111;
+            color: white;
+            border: none;
+            margin-top: 15px;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 0px;
+        }
+
+        .right-content button:hover {
+            color: #222;
+        }
+
+        .deck-image {
+            width: 100%; /* Adjust the percentage as needed */
+        }
+
+        .profile-header img {
+          width: 100%;
+        }
+
+        .section img {
+          width: 40%;
+          margin: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="top-frame fade-in">
+        <h2>Alquimist</h2>
+        <div class="buttons">
+            <li onclick="openPortalSubmenu()" class="slide-in-left"><img src="../assets/portal_icon.png" alt="destiny" style="width: 35px; height: 35px;"></li>
+			<style>
+			.submenu {
+				position: absolute;
+				top: 60px;
+				right: 70px;
+				left: auto;
+				background-color: rgba(1, 1, 1, 0.9);
+				box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+				border-top: 5px solid #2f27c8;
+				border-right: 5px solid #2f27c8;
+				border-bottom: 5px solid #2f27c8;
+				border-left: 5px solid #2f27c8;
+				padding: 20px;
+				min-width: 200px;
+				border-radius: 20px;
+				z-index: 1001;
+				pointer-events: auto;
+				display: none;
+			}
+
+			.submenu a {
+				display: block;
+				text-decoration: none;
+				color: inherit;
+				padding: 0px;
+				border-radius: 20px;
+			}
+
+			.submenu h2 {
+				margin-top: 0;
+			}
+
+			.submenu ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+
+			.submenu li {
+				margin-bottom: 10px;
+			}
+
+			.submenu button {
+				background-color: #333;
+				opacity: 1;
+				color: #fff;
+				border: none;
+				padding: 10px;
+				width: 100%;
+				text-align: left;
+				cursor: pointer;
+				border-radius: 20px;
+			}
+
+			.submenu button img {
+				max-width: 25px;
+				max-height: 25px;
+				margin-right: 5px;
+				vertical-align: middle;
+			}
+			.close-button:hover {
+				color: red;
+			}
+		</style>
+			     </div>
+			 </div>
+	
+	<div id="portal-submenu" class="submenu" style="display: none;">
+	       <h2>Portals<span class="close-button" onclick="closePortalSubmenu()" style="float: right; cursor: pointer;">X</span></h2>
+        <ul>
+            <li><button><a href="../dashboard.html" target="_parent" rel="noopener noreferrer"><img src="../assets/portal_icon.png" alt="contact icon">PORTALS</a></button></li>
+            <li><button><a href="../DESTINY/opening.html" target="_parent" rel="noopener noreferrer"><img src="../assets/fave_icon.png" alt="destiny">DESTINY</button></a></li>
+            <li><button><a href="../KTGMUSIC/ktgmusic.html" target="_parent" rel="noopener noreferrer"><img src="../assets/play_pause.png" alt="ktgmusic">KTG.MUSIC</button></a></li>
+            <li><button><a href="../KTGAI/ktgai.html" target="_parent" rel="noopener noreferrer"><img src="../assets/qr_icon.png" alt="ktgmusic">KTG.AI</button></a></li>
+            <li><button><a href="../WEB3/dashboard_web3.html" target="_parent" rel="noopener noreferrer"><img src="../assets/kgz_white_icon.png" alt="web3">WEB3</button></a></li>
+            <li><button><a href="../VRARXR/dashboard_xr.html" target="_parent" rel="noopener noreferrer"><img src="../assets/vr_icon.png" alt="XR">VR/AR/XR</button></a></li>
+            <li><button><a href="../DIGNBLING/dashboard_dign_bling.html" target="_parent" rel="noopener noreferrer"><img src="../assets/diamond_mine_icon.png" alt="diamond">DIGN BLING</button></a></li>
+            <li><button><a href="../4PLAYCHESS/dashboard_4play.html" target="_parent" rel="noopener noreferrer"><img src="../assets/chess_icon.png" alt="chess">4 PLAY CHESS</button></a></li>
+            <li><button><a href="../METAPHYSICS/dashboard_tarot.html" target="_parent" rel="noopener noreferrer"><img src="../assets/tarot_icon.png" alt="tarot">METAPHYSICS</button></a></li>
+            <li><button><a href="../KTGIO/map.html" target="_parent" rel="noopener noreferrer"><img src="../assets/globe_icon.png" alt="tarot">MAP</button></a></li>
+        </ul>
+    </div>
+    </div>
+
+    <div class="content-area">
+        <div class="left-content slide-in-left">
+           
+           <div>
+            
+              <iframe src="alquimist_bio.html" class="left-content" id="rightFrame" style="border: none; overflow: hidden;"></iframe>
+            </a>
+           </div>
+
+        </div>
+
+        <div class="right-content">
+            <button><a href="https://www.instagram.com/alquimi_innovations" target="_blank" rel="noopener"><img src="../assets/instagram_icon.png" alt="IG Icon"></button>
+            <button><a href="https://www.linkedin.com/in/rene-reyes-the-alquimist-8b3b3510/" target="_blank" rel="noopener"><img src="../assets/linkedin_icon.png" alt="LinkedIn Icon"></button>
+            <button><a href="https://gamma.app/docs/Rene-Reyes-Technology-Artist-Author-Design-Engineer-Developer-sbw7lwsucrem9vd" target="_blank" rel="noopener"><img src="../assets/gamma_icon.png" alt="Hex Icon"></button>
+            <button><a href="../contact.html" target="_parent"><img src="../assets/contact_icon.png" alt="contact icon"></a></button>
+        </div>
+            
+        </div>
+    </div>
+</body>
+<script>
+        function openPortalSubmenu() {
+            var submenu = document.getElementById("portal-submenu");
+            submenu.style.display = "block";
+        }
+
+        function closePortalSubmenu() {
+            var submenu = document.getElementById("portal-submenu");
+            submenu.style.display = "none";
+        }
+    </script>
+</html>

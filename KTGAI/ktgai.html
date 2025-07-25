@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../assets/favicon.png"/>
+    <title>Karma the Game of Destiny</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #111; /* Keep the blue background */
+            color: #fff;
+			height: 100%;
+        }
+
+        .container {
+            display: block;
+            background-color: #2f27c8; /* Change container background to blue */
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 80px;
+            background-color: #111;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+			position: fixed; /* Make it stick */
+			height: 100%; /* Full height */
+			overflow-y: auto; /* In case content is longer than the viewport */
+			top: 0;
+			left: 0;
+			z-index: 1000; /* Ensure it's above other content */
+            margin-top: 54px;
+        }
+
+        .sidebar {
+        scrollbar-width: none;
+        }
+
+        .sidebar::-webkit-scrollbar {
+        display: none;
+        }
+        
+        .sidebar .logo {
+            margin-top: 10px;
+        }
+
+        .sidebar .logo img {
+            width: 60px;
+            margin-bottom: 50px;
+            max-height: 150px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .sidebar li {
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .sidebar li img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+		
+		.sidebar line img {
+            width: 40px;
+            height: 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .sidebar li span {
+            font-size: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding: 3px;
+            padding-right: 5px;
+            padding-bottom: 0px;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-area {
+            display: flex;
+            height: calc(100vh - 50px);
+            padding-top: 0px;
+            margin-top: 1px;
+        }
+
+        .main-frame {
+            width: 50%;
+            height: 100%;
+            border: none;
+            border-radius: 0px;
+            background-color: #222;
+            margin-left: 120px;
+        }
+
+
+        .right-frame {
+            width: 50%;
+            height: 100%;
+            background-color: #222;
+            border: none;
+            border-radius: 0px;
+            margin-left: 0;
+            overflow-y: auto;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: #111;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 999;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .top-bar .song-title {
+            margin-left: 20px;
+            padding-right: 50px;
+        }
+
+        /* Submenu Container */
+        .submenu-container {
+            position: fixed; /* Position fixed relative to the viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000; /* Ensure it's above the main content */
+            pointer-events: none; /* Allow clicks to pass through to the main content */
+        }
+
+        /* Submenu Styles */
+        .submenu {
+			position: absolute;
+			top: 110px;
+			left: 110px; /* Position relative to the left edge of the screen */
+			background-color: rgba(1, 1, 1, 0.9); /* Black with 80% opacity */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5); /* Adjust values as needed */
+            border-top: 5px solid #2f27c8;
+            border-right: 5px solid #2f27c8;
+            border-bottom: 5px solid #2f27c8;
+            border-left: 5px solid #2f27c8;
+            
+			padding: 20px;
+			min-width: 200px;
+			border-radius: 20px;
+			z-index: 1001; /* Ensure it's above the submenu container */
+			pointer-events: auto; /* Allow clicks on the submenu */
+			display: none;
+		}
+
+        .submenu a {
+            display: block; /* Make the link fill the button */
+            text-decoration: none; /* Remove underline from link */
+            color: inherit; /* Inherit color from parent (button) */
+            padding: 0px; /* Keep the button padding */
+            border-radius: 20px; /* Keep the button border-radius */
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+        }
+
+        .submenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .submenu li {
+            margin-bottom: 10px;
+        }
+
+        /* --- UPDATED BUTTON STYLES --- */
+        .submenu button {
+            background-color: transparent; /* Set background to transparent */
+            border: 1px solid #2f27c8; /* Add a 2px border with the submenu color */
+            opacity: 1; 
+            color: #fff;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+        
+        .submenu button img {  /* Target the image inside the button */
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+            
+        .sidebar li a { /* Targets the <a> tag inside the sidebar list items */
+            color: white; /* Sets the text color to white */
+            text-decoration: none; /* Removes the underline */
+            display: block; /* Makes the entire list item clickable */
+            padding: 5px; /* Add some padding around the link text */
+        }
+
+        .sidebar li a:hover { /* Optional: Style on hover */
+            color: #222; /* Example: Change color on hover */
+        }       
+            
+        .submenu button:hover {
+            background-color: #222; /* This creates the gray hover effect */
+            border: 1px solid #4fb6c1; /* Add a 2px border with the submenu color */
+        }
+
+        .sidebar li a { /* Targets the <a> tag inside the sidebar list items */
+            color: white; /* Sets the text color to white */
+            text-decoration: none; /* Removes the underline */
+            display: block; /* Makes the entire list item clickable */
+            padding: 10px; /* Add some padding around the link text */
+        }
+
+     
+
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px; /* Add some space to the right */
+            vertical-align: middle; /* Align the button vertically */
+        }
+
+        #musicToggle img {
+            width: 30px; /* Adjust the size as needed */
+            height: 30px;
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        
+    </style>
+</head>
+<body style="overflow: hidden;" <!-- onload="detectDevice()" -->
+    <video autoplay loop muted style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+        <source src="../assets/ktgai6.mp4" type="video/mp4">
+    </video>
+    <p>..></p>
+    <div class="container">
+        <div class="sidebar slide-in-left">
+            <div class="logo">
+                <a href="../index.html" target="_parent" rel="noopener"> <img src="../assets/game_logo.png" alt="Game Logo"> </a>
+            </div>
+            <ul>
+                <li onclick="openSubmenu('search')" class="slide-in-left">
+                    <img src="../assets/search_icon.png" alt="Search">
+                    <span>Search</span>
+                </li>
+                <li onclick="openSubmenu('social')" class="slide-in-left">
+                    <img src="../assets/social_icon.png" alt="Social">
+                    <span>Social</span>
+                </li>
+                <li onclick="openSubmenu('actions')" class="slide-in-left">
+                    <img src="../assets/game_icon.png" alt="Actions">
+                    <span>Actions</span>
+                </li>
+                <li onclick="openSubmenu('details')" class="slide-in-left">
+                    <img src="../assets/detail_icon.png" alt="Details">
+                    <span>Detail</span>
+                </li>
+                <li onclick="openSubmenu('mystuff')" class="slide-in-left">
+                    <img src="../assets/mystuff_icon.png" alt="My Stuff">
+                    <span>My Stuff</span>
+                </li>                
+                <li onclick="openSubmenu('Listings')" class="slide-in-left">
+                    <a href="../DESTINY/gameconsole.html" rel="noopener"> <img src="../assets/listing_icon.png" alt="The Grid"> </a>
+                    <span>The Grid</span>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar fade-in">
+                <h1>KTG.AI</h1>
+            </div>
+
+            <div class="main-area">
+                <iframe src="leftconsole_ktgai.html" class="main-frame fade-in" id="mainFrame"></iframe>
+                <iframe src="rightconsole_ktgai.html" class="right-frame fade-in" id="rightFrame"></iframe>
+            </div>
+        </div>
+
+        <script>
+            const mainFrame = document.getElementById('mainFrame');
+            mainFrame.onload = function() {
+                console.log('Left console iframe loaded');
+                const videoSource = mainFrame.contentDocument.querySelector('#ktgaiVideo source');
+                if (videoSource && ktgaiData.length > 0) {
+                    videoSource.src = 'http://localhost:8000/' + ktgaiData[0].mp4; // Set initial video source to the first video in the array
+                    const leftConsole = document.getElementById('mainFrame');
+                    if (leftConsole && leftConsole.contentWindow) {
+                        leftConsole.contentWindow.postMessage({
+                            type: 'updateSafeLinks',
+                            song: ktgaiData[0]
+                        }, '*');
+                    }
+                } else {
+                    console.error('Video source element not found in left console iframe');
+                }
+            };
+        </script>
+
+    <div id="submenu-container" class="submenu-container">
+            <div id="search-submenu" class="submenu">
+                <h2>Search<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <img src="assets/name_icon.png" alt="Name Icon"> By Name
+                        </button>
+                    </li>
+                  
+
+                </ul>
+            </div>
+            <div id="social-submenu" class="submenu">
+                <h2>Share<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <img src="assets/instagram_icon.png" alt="Instagram Icon"> Instagram
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/facebook_icon.png" alt="FaceBook Icon"> FaceBook
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/linkedin_icon.png" alt="Linkedin Icon"> LinkedIn
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/discord_icon.png" alt="Discord Icon"> Discord
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/telegram_icon.png" alt="Telegram Icon"> Telegram
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/twitter_icon.png" alt="Twitter X Icon"> Twitter X
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/tiktok_icon.png" alt="TikTok Icon"> TicTok
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/snap_icon.png" alt="Snap Chat Icon"> SnapChat
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/threads_icon.png" alt="Threads Icon"> Threads
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div id="actions-submenu" class="submenu">
+                <h2>Actions<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <img src="assets/heart_icon.png" alt="Heart Icon"> Love
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/like_icon.png" alt="Like Icon"> Like
+                        </button>
+                    </li>
+                    
+                    <li>
+                        <button>
+                            <img src="assets/stars_icon.png" alt="Stars Icon"> Leave a Good Review
+                        </button>
+                    </li>
+                    <li>
+                        <img src="assets/truth_icon.png" alt="Truth Icon"> Leave a Bad Review
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div id="details-submenu" class="submenu">
+                <h2>Details<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <img src="assets/calendar_icon.png" alt="Calendar Icon"> Add to my Calendar
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/group_icon.png" alt="Group Icon"> Shoutout to Groups
+                        </button>
+                    </li>
+                    <li>
+                        <img src="assets/detail_icon.png" alt="Player Icon"> Invite a Player
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/list_icon.png" alt="List Icon"> Add to PlayList
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div id="mystuff-submenu" class="submenu">
+                <h2>My Stuff<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <a href="journeybook.html" rel="noopener"><img src="assets/journeybook_icon.png" alt="JourneyBook Icon"> My JourneyBook</a>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/bucket_icon.png" alt="BucketList Icon"> My BucketList
+                        </button>
+                    </li>
+                    <li>
+                        <img src="assets/email_icon.png" alt="Email Icon"> Email
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/calendar_icon.png" alt="Calendar Icon"> Calendar
+                        </button>
+                    </li>
+                    <li>
+                        <img src="assets/wallet_icon.png" alt="Wallet Icon"> Wallet
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="assets/config_icon.png" alt="Config Icon"> Config
+                        </button>
+                    </li>
+                    <li>
+                        <img src="assets/bail_icon.png" alt="Bail Icon"> Bail
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    <script defer>
+        // Global variables and functions
+        let musicToggle;
+        let currentSongTitleElement;
+        let ktgaiData = [];
+
+        function openSubmenu(submenu) {
+            // Hide all existing submenus
+            const submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(submenu => {
+                submenu.style.display = 'none';
+            });
+
+            // Show the selected submenu
+            const selectedSubmenu = document.getElementById(submenu + '-submenu');
+            if (selectedSubmenu) {
+                selectedSubmenu.style.display = 'block';
+            }
+        }
+
+        function closeSubmenu(closeButton) {
+            const submenu = closeButton.closest('.submenu');
+            submenu.style.display = 'none';
+        }
+
+        // Function to queue a song - simplified to only pass data to leftconsole iframe
+        function queueSong(song) {
+            console.log('queueSong called with:', song);
+
+            if (!song) {
+                console.error('Song not found:', song);
+                return;
+            }
+
+            // Update the title in the top bar
+            if (currentSongTitleElement) {
+                currentSongTitleElement.textContent = song.title;
+            }
+
+            // Send the song data to the leftconsole iframe
+            const leftConsole = document.getElementById('mainFrame');
+            if (leftConsole && leftConsole.contentWindow) {
+                console.log('Posting message to leftConsole:', song);
+                leftConsole.contentWindow.postMessage({
+                    type: 'updateSafeLinks',
+                    song: {
+                        title: song.title,
+                        cover: song.cover,
+                        safeLinks: song.safeLinks,
+                        mp4: song.mp4,
+                        description: song.description
+                    }
+                }, '*');
+            }
+        }
+
+        // Initialize everything when the DOM is loaded
+        window.addEventListener('DOMContentLoaded', function() {
+            // Initialize only what we need
+            currentSongTitleElement = document.getElementById('currentSongTitle');
+
+            // Make queueSong available globally
+            window.queueSong = queueSong;
+
+            // Inline ktgai data instead of fetching from JSON file
+            ktgaiData = [
+                {
+                    "title": "Guru and Lucy 012",
+                    "mp4": "ktgai/guru_lucy_012.mp4",
+                    "cover": "ktgai/guru_lucy_012.png",
+                    "description": "Guru and Lucy explore the cosmos in their latest adventure.",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                },
+                {
+                    "title": "Turbo Toad E1",
+                    "mp4": "ktgai/turbo_toad_001.mp4",
+                    "cover": "ktgai/turbo_toad_001.png",
+                    "description": "Turbo Toad embarks on a thrilling mission.",
+                    "safeLinks": [
+                        {
+                            "text": "Music Video",
+                            "url": "https://youtu.be/cBDcCVW23MA?si=N-NvmrUoLtsEIjKh"
+                        }
+                    ]
+                },
+                {
+                    "title": "Worlds Apart",
+                    "mp4": "ktgai/worlds_apart.mp4",
+                    "cover": "ktgai/worlds_apart.png",
+                    "description": "Two worlds collide in this epic tale.",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                },
+                {
+                    "title": "Bail",
+                    "mp4": "ktgai/bail.mp4",
+                    "cover": "ktgai/bail.png",
+                    "description": "A story of redemption and second chances.",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                },
+                {
+                    "title": "Chat Loading",
+                    "mp4": "ktgai/chat_loading.mp4",
+                    "cover": "ktgai/chat_loading.png",
+                    "description": "The dangers of online communication come to life.",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                },
+                {
+                    "title": "Config Loading",
+                    "mp4": "ktgai/config_loading.mp4",
+                    "cover": "ktgai/config_loading.png",
+                    "description": "What happens when systems start to break down?",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                },
+                {
+                    "title": "Game Console",
+                    "mp4": "ktgai/game_console.mp4",
+                    "cover": "ktgai/game_console.png",
+                    "description": "The future is a beautiful place for the ascended peoples of Earth.  Guru and Lucy left the city of Gold to return and help humanity transcend the Great Divide and Unfold with the New Earth.",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                },
+                {
+                    "title": "Game Console Loading",
+                    "mp4": "ktgai/game_console_loading.mp4",
+                    "cover": "ktgai/game_console_loading.png",
+                    "description": "Booting up a new world of adventure.",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                },
+                {
+                    "title": "Lucys Booth Loading",
+                    "mp4": "ktgai/lucys_booth_loading.mp4",
+                    "cover": "ktgai/lucys_booth_loading.png",
+                    "description": "Step right up and see what Lucy has in store.",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                },
+                {
+                    "title": "Map Loading",
+                    "mp4": "ktgai/map_loading.mp4",
+                    "cover": "ktgai/map_loading.png",
+                    "description": "Getting lost has never been so much fun.",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                },
+                {
+                    "title": "Opening Scene",
+                    "mp4": "ktgai/opening_scene.mp4",
+                    "cover": "ktgai/opening_scene.png",
+                    "description": "The beginning of an incredible journey.",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                },
+                {
+                    "title": "Register Loading",
+                    "mp4": "ktgai/register_loading.mp4",
+                    "cover": "ktgai/register_loading.png",
+                    "description": "Sign up for the adventure of a lifetime.",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                },
+                {
+                    "title": "Safe Loading",
+                    "mp4": "ktgai/safe_loading.mp4",
+                    "cover": "ktgai/safe_loading.png",
+                    "description": "What secrets lie behind the safe door?",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                },
+                {
+                    "title": "The Grid",
+                    "mp4": "ktgai/the_grid.mp4",
+                    "cover": "ktgai/the_grid.png",
+                    "description": "Welcome to the digital frontier.",
+                    "safeLinks": [
+                        {
+                            "text": "Official Video",
+                            "url": "https://example.com"
+                        }
+                    ]
+                }
+            ];
+
+            // No audio event listeners needed since we're not playing audio in this page
+        });
+    </script> 
+    <script>
+        window.addEventListener('load', () => {
+            const slideInLeftElements = document.querySelectorAll('.slide-in-left');
+            slideInLeftElements.forEach(el => el.classList.add('active'));
+
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            fadeInElements.forEach(el => el.classList.add('active'));
+
+            const slideUpElements = document.querySelectorAll('.slide-up');
+            slideUpElements.forEach(el => el.classList.add('active'));
+
+            // Set background color to #111
+            document.body.style.backgroundColor = '#111';
+        });
+    </script>
+</body>
+</html>

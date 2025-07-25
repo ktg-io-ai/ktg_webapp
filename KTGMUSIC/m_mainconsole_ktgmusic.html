@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTG.MUSIC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .top-frame {
+            background-color: #111;
+            padding: 15px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links button {
+            background-color: #111;
+            color: white;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .social-links button img {
+            max-width: 25px;
+            max-height: 25px;
+        }
+
+        .scrollable-content {
+            overflow-y: auto;
+            overflow-x: hidden;
+            flex-grow: 1;
+        }
+        
+        .scrollable-content::-webkit-scrollbar {
+            width: 5px;
+            background-color: #222;
+        }
+
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background-color: #555;
+            border-radius: 2px;
+            padding-right: 20px;
+        }
+
+        .main-content {
+            width: 100%;
+            padding: 10px 30px 10px 10px;
+        }
+
+        .main-content img.cover-art {
+            width: 100%;
+            max-height: 60vh;
+            object-fit: cover;
+            object-position: top;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 5px;
+            padding: 5px;
+            padding-right: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .image-grid button {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin: 1px;
+            border-radius: 3px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .image-grid button:hover {
+            transform: scale(1.05);
+        }
+
+        .image-grid button img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+
+        .music-source {
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 5px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px top 50%;
+            background-size: .9em auto;
+            padding-right: 25px;
+            width: 96%;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #222;
+            border-radius: 10px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+            text-align: center;
+            color: #fff;
+            font-size: 1.2em;
+        }
+
+        .portal-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .portal-links button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            touch-action: manipulation;
+        }
+
+        .portal-links button:hover {
+            background-color: #444;
+        }
+
+        .portal-links button img {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        
+
+        <div class="scrollable-content">
+            <div class="main-content">
+                <select id="music-source" class="music-source" title="Music Source"></select>
+                                
+                <div class="image-grid" id="imageGrid">
+                    <button onclick="parent.queueSong('Sunflower', 'vrworlds/sunflower.mp3', 'covers/sunflower.png')"><img src="covers/sunflower.png" alt="Sunflower"></button>
+                    <button onclick="parent.queueSong('Guru and Lucy Theme on Novis Prime Low', 'vrworlds/guru_and_lucy_theme_on_novis_prime_low.mp3', 'covers/guru_and_lucy_theme_on_novis_prime_low.png')"><img src="covers/guru_and_lucy_theme_on_novis_prime_low.png" alt="Guru and Lucy Theme on Novis Prime Low"></button>
+                    <button onclick="parent.queueSong('Chat in the Realm', 'vrworlds/chat_in_the_realm.mp3', 'covers/chat_in_the_realm.png')"><img src="covers/chat_in_the_realm.png" alt="Chat in the Realm"></button>
+                    <button onclick="parent.queueSong('Safe on Seti 5', 'vrworlds/safe_on_seti_5.mp3', 'covers/safe_on_seti_5.png')"><img src="covers/safe_on_seti_5.png" alt="Safe on Seti 5"></button>
+                    <button onclick="parent.queueSong('Map Loading Crysalis 12', 'vrworlds/map_loading_crysalis_12.mp3', 'covers/map_loading_crysalis_12.png')"><img src="covers/map_loading_crysalis_12.png" alt="Map Loading Crysalis 12"></button>
+                    <button onclick="parent.queueSong('Guru and Lucy Voyage to Yonder 9', 'vrworlds/guru_and_lucy_voyage_to_yonder_9.mp3', 'covers/guru_and_lucy_voyage_to_yonder_9.png')"><img src="covers/guru_and_lucy_voyage_to_yonder_9.png" alt="Guru and Lucy Voyage to Yonder 9"></button>
+                    <button onclick="parent.queueSong('Amethyst Mystery', 'music/amethyst_mystery.mp3', 'covers/amethyst_mystery.png')"><img src="covers/amethyst_mystery.png" alt="Amethyst Mystery"></button>
+                    <button onclick="parent.queueSong('Andes Enigma 222', 'music/andes_enigma_222.mp3', 'covers/andes_enigma_222.png')"><img src="covers/andes_enigma_222.png" alt="Andes Enigma 222"></button>
+                    <button onclick="parent.queueSong('Angelic Acid 111', 'music/angelic_acid_111.mp3', 'covers/angelic_acid_111.png')"><img src="covers/angelic_acid_111.png" alt="Angelic Acid 111"></button>
+                    <button onclick="parent.queueSong('Aros 555', 'music/aros_555.mp3', 'covers/aros_555.png')"><img src="covers/aros_555.png" alt="Aros 555"></button>
+                    <button onclick="parent.queueSong('Aruca 222', 'music/aruca_222.mp3', 'covers/aruca_222.png')"><img src="covers/aruca_222.png" alt="Aruca 222"></button>
+                    <button onclick="parent.queueSong('Ascend 999', 'music/ascend_999.mp3', 'covers/ascend_999.png')"><img src="covers/ascend_999.png" alt="Ascend 999"></button>
+                    <button onclick="parent.queueSong('Brothers Palm 222', 'music/brothers_palm_222.mp3', 'covers/brothers_palm_222.png')"><img src="covers/brothers_palm_222.png" alt="Brothers Palm 222"></button>
+                    <button onclick="parent.queueSong('Cloud Dance 999', 'music/cloud_dance_999.mp3', 'covers/cloud_dance_999.png')"><img src="covers/cloud_dance_999.png" alt="Cloud Dance 999"></button>
+                    <button onclick="parent.queueSong('ContiBaila 444', 'music/contibaila_444.mp3', 'covers/contibaila_444.png')"><img src="covers/contibaila_444.png" alt="ContiBaila 444"></button>
+                    <button onclick="parent.queueSong('Cuberno_2160', 'music/cuberno_2160.mp3', 'covers/cuberno_2160.png')"><img src="covers/cuberno_2160.png" alt="Cuberno_2160"></button>
+                    <button onclick="parent.queueSong('Digital Delusions 333', 'music/digital_delusions_333.mp3', 'covers/digital_delusions_333.png')"><img src="covers/digital_delusions_333.png" alt="Digital Delusions 333"></button>
+                    <button onclick="parent.queueSong('Earth 777', 'music/earth_777.mp3', 'covers/earth_777.png')"><img src="covers/earth_777.png" alt="Earth 777"></button>
+                    <button onclick="parent.queueSong('Entwined 639', 'music/entwined_639.mp3', 'covers/entwined_639.png')"><img src="covers/entwined_639.png" alt="Entwined 639"></button>
+                    <button onclick="parent.queueSong('Fire 777', 'music/fire_777.mp3', 'covers/fire_777.png')"><img src="covers/fire_777.png" alt="Fire 777"></button>
+                    <button onclick="parent.queueSong('Hive 720', 'music/hive_720.mp3', 'covers/hive_720.png')"><img src="covers/hive_720.png" alt="Hive 720"></button>
+                    <button onclick="parent.queueSong('India 741', 'music/india_741.mp3', 'covers/india_741.png')"><img src="covers/india_741.png" alt="India 741"></button>
+                    <button onclick="parent.queueSong('Karmic Dreams', 'music/karmic_dreams.mp3', 'covers/karmic_dreams.png')"><img src="covers/karmic_dreams.png" alt="Karmic Dreams"></button>
+                    <button onclick="parent.queueSong('Machine 777', 'music/machine_777.mp3', 'covers/machine_777png')"><img src="covers/machine_777.jpg" alt="Machine 777"></button>
+                    <button onclick="parent.queueSong('Manifest Eighteen Over 3', 'music/manifest_eighteen_over_3.mp3', 'covers/manifest_eighteen_over_3.png')"><img src="covers/manifest_eighteen_over_3.png" alt="Manifest Eighteen Over 3"></button>
+                    <button onclick="parent.queueSong('March of the Chinchillas 222', 'music/march_of_the_chinchillas_222.mp3', 'covers/march_of_the_chinchillas_222.png')"><img src="covers/march_of_the_chinchillas_222.png" alt="March of the Chinchillas 222"></button>
+                    <button onclick="parent.queueSong('My G63', 'music/my_g63.mp3', 'covers/my_g63.png')"><img src="covers/my_g63.png" alt="My G63"></button>
+                    <button onclick="parent.queueSong('Renaissance 963', 'music/renaissance_963.mp3', 'covers/renaissance_963.png')"><img src="covers/renaissance_963.png" alt="Renaissance 963"></button>
+                    <button onclick="parent.queueSong('Octagon 1080', 'music/octagon_1080.mp3', 'covers/octagon_1080.png')"><img src="covers/octagon_1080.png" alt="Octagon 1080"></button>
+                    <button onclick="parent.queueSong('Pentaton 540', 'music/pentaton_540.mp3', 'covers/pentaton_540.png')"><img src="covers/pentaton_540.png" alt="Pentaton 540"></button>
+                    <button onclick="parent.queueSong('Quartz 111', 'music/quartz_111.mp3', 'covers/quartz_111.png')"><img src="covers/quartz_111.png" alt="Quartz 111"></button>
+                    <button onclick="parent.queueSong('Sedina 222', 'music/sedina_222.mp3', 'covers/sedina_222.png')"><img src="covers/sedina_222.png" alt="Sedina 222"></button>
+                    <button onclick="parent.queueSong('A Dream of You Original', 'music/a_dream_of_you_original.mp3', 'covers/a_dream_of_you_original.png')"><img src="covers/a_dream_of_you_original.png" alt="A Dream of You Original"></button>
+                    <button onclick="parent.queueSong('Union Squared 444', 'music/union_squared_444.mp3', 'covers/union_squared_444.png')"><img src="covers/union_squared_444.png" alt="Union Squared 444"></button>
+                    <button onclick="parent.queueSong('Alquimista', 'music/alquimista.mp3', 'covers/alquimista.png')"><img src="covers/alquimista.png" alt="Alquimista"></button>
+                    <button onclick="parent.queueSong('The Unfolding', 'music/the_unfolding.mp3', 'covers/the_unfolding.png')"><img src="covers/the_unfolding.png" alt="The Unfolding 777"></button>
+                    <button onclick="parent.queueSong('Taboo', 'music/taboo.mp3', 'covers/taboo.png')"><img src="covers/taboo.png" alt="Taboo"></button>
+                    <button onclick="parent.queueSong('shellion', 'music/shellion.mp3', 'covers/shellion.png')"><img src="covers/shellion.png" alt="shellion"></button>
+                    <button onclick="parent.queueSong('Sky Fire', 'music/sky_fire.mp3', 'covers/sky_fire.png')"><img src="covers/sky_fire.png" alt="Sky Fire"></button>
+                    <button onclick="parent.queueSong('Star Tang 222', 'music/star_tang_222.mp3', 'covers/star_tang_222.png')"><img src="covers/star_tang_222.png" alt="Star Tang 222"></button>
+                    <button onclick="parent.queueSong('The Caves 777', 'music/the_caves_777.mp3', 'covers/the_caves_777.png')"><img src="covers/the_caves_777.png" alt="The Caves 777"></button>
+                    <button onclick="parent.queueSong('Water 777', 'music/water_777.mp3', 'covers/water_777ng')"><img src="covers/water_777.png" alt="Water 777"></button>
+                    <button onclick="parent.queueSong('Sunset 222', 'music/sunset_222.mp3', 'covers/sunset_222.png')"><img src="covers/sunset_222.png" alt="Sunset 222"></button>
+                    <button onclick="parent.queueSong('The Rain 777', 'music/the_rain_777.mp3', 'covers/the_rain_777.png')"><img src="covers/the_rain_777.png" alt="The Rain 777"></button>
+                    <button onclick="parent.queueSong('Air 777', 'music/air_777.mp3', 'covers/air_777.png')"><img src="covers/air_777.png" alt="Air 777"></button>
+                    <button onclick="parent.queueSong('Sweet Dreams', 'music/sweet_dreams.mp3', 'covers/sweet_dreamsng')"><img src="covers/sweet_dreams.png" alt="Sweet Dreams"></button>
+                    <button onclick="parent.queueSong('You are Not Creating Alone', 'music/you_are_not_creating_alone_extended.mp3', 'covers/you_are_not_creating_alone.png')"><img src="covers/you_are_not_creating_alone.png" alt="You are Not Creating Alone"></button>
+                    <button class="slide-in-left" style="visibility: hidden; pointer-events: none;"></button>
+                    <button class="slide-in-left" style="visibility: hidden; pointer-events: none;"></button>
+                    <button class="slide-in-left" style="visibility: hidden; pointer-events: none;"></button>
+                </div>
+
+                <!-- Portal Links Section -->
+                <div class="section">
+                    <h2>🌐 PORTALS</h2>
+                    <div class="portal-links">
+                        <button onclick="window.parent.location.href='../dashboard.html'">
+                            <img src="../assets/portal_icon.png" alt="portal">PORTALS
+                        </button>
+                        <button onclick="window.parent.location.href='../DESTINY/opening.html'">
+                            <img src="../assets/fave_icon.png" alt="destiny">DESTINY
+                        </button>
+                        <button onclick="window.parent.location.href='../KTGAI/mobile_ktgai.html'">
+                            <img src="../assets/ai_brain_logo_icon.png" alt="ai">KTG.AI
+                        </button>
+                        <button onclick="window.parent.location.href='../MERCH/mobile_ktgmerch.html'">
+                            <img src="../assets/merch_icon.png" alt="merch">MERCH
+                        </button>
+                        <button onclick="window.parent.location.href='../WEB3/mobile_dashboard_web3.html'">
+                            <img src="../assets/kgz_white_icon.png" alt="web3">WEB3
+                        </button>
+                        <button onclick="window.parent.location.href='../LIFESTYLES/listingsconsole.html'">
+                            <img src="../assets/listing_icon.png" alt="listings">LISTINGS
+                        </button>
+                        <button onclick="window.parent.location.href='../VRARXR/mobile_dashboard_xr.html'">
+                            <img src="../assets/vr_icon.png" alt="xr">VR/AR/XR
+                        </button>
+                        <button onclick="window.parent.location.href='../METAPHYSICS/tarot/'">
+                            <img src="../assets/tarot_icon.png" alt="tarot">METAPHYSICS
+                        </button>
+                        <button onclick="window.parent.location.href='../DIGNBLING/mobile_dashboard_dign_bling.html'">
+                            <img src="../assets/diamond_mine_icon.png" alt="diamond">DIGN BLING
+                        </button>
+                        <button onclick="window.parent.location.href='../4PLAYCHESS/mobile_dashboard_4play.html'">
+                            <img src="../assets/chess_icon.png" alt="chess">4 PLAY CHESS
+                        </button>
+                        <button onclick="window.parent.location.href='../KTGTV/dashboard.html'">
+                            <img src="../assets/ktgtv_icon.png" alt="ktgtv">KTG.TV
+                        </button>
+                        <button onclick="window.parent.location.href='../MEMDAO/dashboard.html'">
+                            <img src="../assets/dao_icon.png" alt="memdao">MEM.DAO
+                        </button>
+                        <button onclick="window.parent.location.href='../LIFESTYLES/dashboard.html'">
+                            <img src="../assets/group_icon.png" alt="lifestyles">LIFESTYLES
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const musicSourceSelect = document.getElementById('music-source');
+        const imageGrid = document.getElementById('imageGrid');
+        let allSongsData = {};
+
+        async function initializePlayer() {
+            try {
+                const [ktgMusicResponse, soundtrackResponse, vrWorldsResponse] = await Promise.all([
+                    fetch('../data/songs.json'),
+                    fetch('../data/soundtrack.json'),
+                    fetch('../data/vrworlds.json')
+                ]);
+
+                allSongsData = {
+                    "KTG AI Music": await ktgMusicResponse.json(),
+                    "Original Soundtrack": await soundtrackResponse.json(),
+                    "VR Worlds": await vrWorldsResponse.json()
+                };
+                
+                populateDropdown();
+                loadPlaylist(Object.keys(allSongsData)[0]);
+
+            } catch (error) {
+                console.error('Failed to load songs:', error);
+            }
+        }
+
+        function populateDropdown() {
+            musicSourceSelect.innerHTML = '';
+            for (const category in allSongsData) {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                musicSourceSelect.appendChild(option);
+            }
+        }
+
+        function loadPlaylist(categoryName) {
+            const playlist = allSongsData[categoryName];
+            imageGrid.innerHTML = ''; // Clear existing images
+            playlist.forEach(song => {
+                const button = document.createElement('button');
+                const imageUrl = song.cover || 'https://placehold.co/150x150/1a1a1a/fff?text=KTG';
+                button.innerHTML = `<img src="${imageUrl}" alt="${song.title}">`;
+                button.onclick = () => parent.queueSong(song.title, song.mp3, song.cover);
+                imageGrid.appendChild(button);
+            });
+        }
+        
+        musicSourceSelect.addEventListener('change', (e) => {
+            loadPlaylist(e.target.value);
+        });
+
+        document.addEventListener('DOMContentLoaded', initializePlayer);
+
+        function updatePlayer(songTitle, coverUrl) {
+            document.getElementById('songTitle').textContent = songTitle;
+            document.getElementById('coverArt').src = coverUrl;
+        }
+    </script>
+</body>
+</html>

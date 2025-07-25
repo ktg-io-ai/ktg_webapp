@@ -1,0 +1,185 @@
+{
+  "pages": [
+    {
+      "name": "calc_ads.html",
+      "sidebar": {
+        "menu_items": []
+      }
+    },
+    {
+      "name": "calc_followers.html",
+      "sidebar": {
+        "menu_items": []
+      }
+    },
+    {
+      "name": "chooseyourdoor.html",
+      "sidebar": {
+        "menu_items": []
+      }
+    },
+    {
+      "name": "dashboard_creator.html",
+      "sidebar": {
+        "menu_items": [
+          {
+            "name": "About",
+            "submenu_items": [
+              {
+                "name": "The Creator",
+                "link": "https://www.karmathegame.org/dashboard_creator.html"
+              },
+              {
+                "name": "KTG.IO",
+                "link": null
+              },
+              {
+                "name": "Destiny",
+                "link": null
+              },
+              {
+                "name": "KTG.MUSIC",
+                "link": null
+              },
+              {
+                "name": "KTG.AI",
+                "link": null
+              }
+            ]
+          },
+          {
+            "name": "Influencers",
+            "submenu_items": [
+              {
+                "name": "Log In",
+                "link": "https://karmathegameofdestiny.netlify.app/dashboard"
+              },
+              {
+                "name": "Register",
+                "link": "https://karmathegameofdestiny.netlify.app/auth/register"
+              },
+              {
+                "name": "Make Money",
+                "link": "https://www.karmathegame.org/promoters_followers.html"
+              }
+            ]
+          },
+          {
+            "name": "Advertisers",
+            "submenu_items": [
+              {
+                "name": "Post to Listings",
+                "link": null
+              },
+              {
+                "name": "Lease VR World Space",
+                "link": null
+              },
+              {
+                "name": "Host a Live Show",
+                "link": null
+              },
+              {
+                "name": "Enterprise Portals",
+                "link": null
+              },
+              {
+                "name": "Strategic Alliances",
+                "link": null
+              }
+            ]
+          },
+          {
+            "name": "Investors",
+            "submenu_items": [
+              {
+                "name": "Let's go Out!",
+                "link": null
+              },
+              {
+                "name": "Financials",
+                "link": null
+              },
+              {
+                "name": "PlayBook",
+                "link": "../dashboard_playbook.html"
+              },
+              {
+                "name": "Pitch",
+                "link": "../dashboard_pitch.html"
+              },
+              {
+                "name": "Masayoshi Son",
+                "link": "../dashboard_masa.html"
+              }
+            ]
+          },
+          {
+            "name": "KTG.IO",
+            "submenu_items": [
+              {
+                "name": "Destiny",
+                "link": "../index.html"
+              },
+              {
+                "name": "KTG.MUSIC",
+                "link": "../ktgmusic.html"
+              },
+              {
+                "name": "KTG.AI",
+                "link": null
+              },
+              {
+                "name": "Mechandise",
+                "link": null
+              },
+              {
+                "name": "Wallet",
+                "link": null
+              },
+              {
+                "name": "VR/AR/XR",
+                "link": null
+              },
+              {
+                "name": "KTG.TV",
+                "link": null
+              },
+              {
+                "name": "MEM.DAO",
+                "link": null
+              },
+              {
+                "name": "Lifestyles",
+                "link": null
+              },
+              {
+                "name": "Tarot",
+                "link": "../dashboard_tarot.html"
+              },
+              {
+                "name": "Astrology",
+                "link": "https://poe.com/Alquimist"
+              }
+            ]
+          },
+          {
+            "name": "Listings",
+            "submenu_items": [
+              {
+                "name": "Listings",
+                "link": "../listingsconsole.html"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "dashboard_masa.html",
+      "sidebar": {
+        "menu_items": []
+      }
+    }
+  ]
+}

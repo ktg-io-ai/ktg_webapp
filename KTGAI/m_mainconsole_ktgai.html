@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTG.AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .top-frame {
+            background-color: #111;
+            padding: 15px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-links button {
+            background-color: #111;
+            color: white;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .social-links button img {
+            max-width: 25px;
+            max-height: 25px;
+        }
+
+        .scrollable-content {
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        
+        .scrollable-content::-webkit-scrollbar {
+            width: 5px;
+            background-color: #222;
+        }
+
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background-color: #555;
+            border-radius: 2px;
+        }
+
+        .main-content {
+            width: 100%;
+            padding: 10px;
+        }
+
+        #ktgaiVideo {
+            width: 100%;
+            max-height: 60vh;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 5px;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .image-grid button {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin: 1px;
+            border-radius: 3px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .image-grid button:hover {
+            transform: scale(1.05);
+        }
+
+        .image-grid button img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="top-frame">
+            <h2 id="ktgaiTitle">Turbo Toad E1 - The Call</h2>
+            <div class="social-links">
+                <button><a href="https://instagram.com/karmathegame" target="_blank" rel="noopener"><img src="../assets/instagram_icon.png" alt="instagram icon"></a></button>
+                <button><a href="https://www.linkedin.com/in/rene-reyes-the-alquimist-8b3b3510/" target="_blank" rel="noopener"><img src="../assets/linkedin_icon.png" alt="List Icon"></a></button>
+                <button><a href="https://www.tiktok.com/@karmathegame" target="_blank" rel="noopener"><img src="../assets/tiktok_icon.png" alt="Filter Icon"></a></button>
+                <button><a href="https://discordapp.com/users/1177985292297314391" target="_blank" rel="noopener"><img src="../assets/discord_icon.png" alt="Fave Icon"></a></button>
+                <button><a href="https://t.me/karmathegame" target="_blank" rel="noopener"><img src="../assets/telegram_icon.png" alt="Telegram Icon"></a></button>
+                <button><a href="https://www.threads.com/@karmathegame?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener"><img src="../assets/threads_icon.png" alt="QR Icon"></a></button>
+                <button><a href="../contact.html" target="_parent"><img src="../assets/contact_icon.png" alt="contact icon"></a></button>
+            </div>
+        </div>
+
+        <div class="scrollable-content">
+            <div class="main-content">
+                <video id="ktgaiVideo" controls>
+                    <source src="ktgai/turbo_toad_001.mp4" type="video/mp4">
+                </video>
+                <p id="ktgaiDescription" style="margin: 20px;">Turbo Toad embarks on a thrilling mission.</p>
+                
+                <div class="image-grid">
+                    <button onclick="parent.queueSong({title: 'Guru and Lucy 012', mp4: 'ktgai/guru_lucy_012.mp4', cover: 'ktgai/guru_lucy_012.png', description: 'Guru and Lucy explore the cosmos in their latest adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/guru_lucy_012.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'Turbo Toad E1', mp4: 'ktgai/turbo_toad_001.mp4', cover: 'ktgai/turbo_toad_001.png', description: 'Turbo Toad embarks on a thrilling mission.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/turbo_toad_001.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'Worlds Apart', mp4: 'ktgai/worlds_apart.mp4', cover: 'ktgai/worlds_apart.png', description: 'Two worlds collide in this epic tale.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/worlds_apart.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'Bail', mp4: 'ktgai/bail.mp4', cover: 'ktgai/bail.png', description: 'A story of redemption and second chances.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/bail.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'Chat Loading', mp4: 'ktgai/chat_loading.mp4', cover: 'ktgai/chat_loading.png', description: 'The dangers of online communication come to life.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/chat_loading.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'Config Loading', mp4: 'ktgai/config_loading.mp4', cover: 'ktgai/config_loading.png', description: 'What happens when systems start to break down?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/config_loading.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'Game Console', mp4: 'ktgai/game_console.mp4', cover: 'ktgai/game_console.png', description: 'The ultimate gaming experience turns deadly.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/game_console.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'Game Console Loading', mp4: 'ktgai/game_console_loading.mp4', cover: 'ktgai/game_console_loading.png', description: 'Booting up a new world of adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/game_console_loading.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'Lucys Booth Loading', mp4: 'ktgai/lucys_booth_loading.mp4', cover: 'ktgai/lucys_booth_loading.png', description: 'Step right up and see what Lucy has in store.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/lucys_booth_loading.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'Map Loading', mp4: 'ktgai/map_loading.mp4', cover: 'ktgai/map_loading.png', description: 'Getting lost has never been so much fun.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/map_loading.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'Opening Scene', mp4: 'ktgai/opening_scene.mp4', cover: 'ktgai/opening_scene.png', description: 'The beginning of an incredible journey.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/opening_scene.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'Register Loading', mp4: 'ktgai/register_loading.mp4', cover: 'ktgai/register_loading.png', description: 'Sign up for the adventure of a lifetime.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/register_loading.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'Safe Loading', mp4: 'ktgai/safe_loading.mp4', cover: 'ktgai/safe_loading.png', description: 'What secrets lie behind the safe door?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/safe_loading.png" alt="Image 15"></button>
+                    <button onclick="parent.queueSong({title: 'You are Not Creating Alone', mp4: 'ktgai/you_are_not_creating_alone.mp4', cover: 'ktgai/you_are_not_creating_alone.png', description: 'Enter Lucys World.', safeLinks: [{text: 'Official Video', url: 'https://youtu.be/y2uYvkj8ilA'}]})"><img src="ktgai/you_are_not_creating_alone.png" alt="Image 15"></button>
+                    <button class="slide-in-left" style="visibility: hidden; pointer-events: none;"></button>
+                    <button class="slide-in-left" style="visibility: hidden; pointer-events: none;"></button>
+                    <button class="slide-in-left" style="visibility: hidden; pointer-events: none;"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'updateSafeLinks') {
+                updatePlayer(event.data.song);
+            }
+        });
+
+        function updatePlayer(song) {
+            const video = document.getElementById('ktgaiVideo');
+            const source = video.querySelector('source');
+            const title = document.getElementById('ktgaiTitle');
+            const description = document.getElementById('ktgaiDescription');
+
+            title.textContent = song.title;
+            description.textContent = song.description;
+            source.src = song.mp4;
+            video.load();
+            video.play();
+        }
+    </script>
+</body>
+</html>

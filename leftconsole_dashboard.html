@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIGHT FRAME</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 00px; /* Add padding to the body */
+        }
+
+      .top-frame {
+            background-color: #111;
+            padding: 19px;
+            margin-bottom: 3px; /* Add space below the header */
+            display: flex; /* Use flexbox for layout */
+            align-items: center; /* Vertically align items */
+            justify-content: space-between; /* Distribute space between items */
+        }
+
+      .top-frame h2 {
+            margin: 0;
+            flex-grow: 1; /* Allow title to take up available space */
+        }
+
+      .buttons {
+            display: flex; /* Use flexbox for button arrangement */
+            gap: 10px; /* Add space between buttons */
+        }
+
+      .buttons button {
+            background-color: #333; /* Example button color */
+            color: #fff;
+            border: none;
+            padding: 0px 8px 0px 0px; /* Example button padding */
+            border-radius: 20px; /* Example button border radius */
+            cursor: pointer;
+        }
+        
+      .buttons button img {  /* Target the image inside the button */
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+      .buttons button:hover {
+            background-color: #444;
+        }
+
+      .content-area {
+            display: flex;
+            height: calc(100vh - 95px); /* Adjust height to accommodate fixed top frame */
+        }
+
+      .left-content {
+            width: 90%;
+            overflow-y: auto; /* Add scroll to left content */
+            margin-right: 10px; /* Add space between left and right content */
+        }
+
+        .left-content img {
+            width: 100%;
+            max-height: 60vh; /* Limit height to 60% of viewport height */
+            object-fit: cover; /* Cover the container, maintaining aspect ratio */
+            object-position: top; /* Align image to the top */
+            animation: slideInLeft 1s ease-in-out;
+        }
+        
+      .left-content::-webkit-scrollbar {
+            width: 0px; /* Hide the scrollbar */
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+      
+          
+       .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;  /* Center the buttons horizontally */
+        }
+
+      .right-content button {
+            background-color: transparent;
+            color: white;
+            border: none;
+            margin-top: 15px;   /* Reduced margin-top */
+            padding: 0;
+            cursor: pointer;
+            display: flex;     /* Enable flexbox for button content */
+            align-items: center; /* Center icon and text vertically */
+        }
+
+      .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 0px;
+        }
+        
+      .right-content button:hover {
+            color: #111;
+        }
+        
+      .image-grid button {
+            background-color: transparent;
+            border: none;
+        }
+
+        /* Container for SAFE, DOOR, JOURNEYBOOK */
+        .data-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 equal width columns */
+            gap: 40px;
+            max-width: 95%;
+            margin: auto;
+            justify-content: space-between; /* Distribute space between columns */
+        }
+
+        /* Individual column */
+      .column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align items to the left */
+            justify-content: flex-start; /* Align items to the left */
+            padding: 5px;
+            background-color: #111;
+            border-radius: 3px;
+        }
+
+        /* Title styling */
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid white;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        
+		/* Content Styling */
+        .content {
+            margin-top: 5px;
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            width: 100%;
+        }
+        /* SAFE Image */
+        .safe-image img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        /* DOOR Red Box */
+        .door-box {
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            border-radius: 5px;
+        }
+
+        /* JOURNEYBOOK Progress Graph */
+        .journeybook-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 80%;
+        }
+
+        .bar {
+            height: 10px;
+            border-radius: 5px;
+        }
+
+        .bar1 { background-color: blue; width: 10%; }
+        .bar2 { background-color: yellow; width: 50%; }
+        .bar3 { background-color: red; width: 85%; }
+
+        .bottom-frame {
+            padding-left: 20px;
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-frame">
+        <h2>Welcome to the Future</h2>
+    </div>
+
+    <div class="content-area slide-in-left">
+        <div class="left-content">
+            <img src="../DESTINY/images/profile_AI_Angel.png" alt="Adult Listing">  
+            <div class="bottom-frame">
+                <div class="tagline">
+                    <h2>The Intersection of Social Lifestyles platform for Adults and the AI Driven Gig Economy.</h2>
+                </div>
+                <div class="tagline">
+                    <h4>NEW YORK, NY</h4>
+                </div>
+                <div>
+                    
+                </div>
+                
+            </div>
+            <div class="data-container">
+                <!-- SAFE Section -->
+                <div class="column">
+                    <div class="title">金庫</div>
+                    <div class="content safe-image">
+                        <img src="../assets/safe_icon.png" alt="Safe Content">
+                    </div>
+                </div>
+        
+                <!-- DOOR Section -->
+                <div class="column">
+                    <div class="title">ドア</div>
+                    <div class="content">
+                        <div class="door-box"></div>
+                    </div>
+                </div>
+        
+                <!-- JOURNEYBOOK Section -->
+                <div class="column">
+                    <div class="title">旅の本</div>
+                    <div class="content journeybook-bars">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="right-content">
+            <!-- 
+            <button><img src="assets/fave_icon.png" alt="Fave Icon"></button>
+            <button><img src="assets/like_icon.png" alt="Like Icon"></button> 
+            -->
+        </div>
+    </div>
+	<script>
+        
+    </script>
+</body>
+</html>

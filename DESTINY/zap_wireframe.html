@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zap Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            
+        }
+
+        .header {
+            background-color: rgba(30, 30, 30, 0.9);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #ff5722;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #ff5722;
+        }
+
+        .close-button {
+            cursor: pointer;
+            color: #fff;
+            font-size: 20px;
+            padding: 5px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .zap-title {
+            text-align: center;
+            font-size: 24px;
+            color: #ff5722;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 87, 34, 0.5);
+        }
+
+        .zap-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .warning-card {
+            background-color: rgba(255, 87, 34, 0.1);
+            border: 2px solid rgba(255, 87, 34, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .main-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border-left: 4px solid #ff5722;
+        }
+
+        .main-checkbox input[type="checkbox"] {
+            margin-right: 15px;
+            margin-top: 2px;
+            transform: scale(1.2);
+            accent-color: #ff5722;
+        }
+
+        .main-checkbox label {
+            font-size: 14px;
+            line-height: 1.4;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .warning-text {
+            background-color: rgba(255, 87, 34, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #fff;
+            margin-bottom: 20px;
+            border-left: 4px solid #ff5722;
+        }
+
+        .reasons-section {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .reasons-title {
+            font-size: 16px;
+            color: #ff5722;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .reason-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .reason-item:hover {
+            background-color: rgba(255, 87, 34, 0.1);
+        }
+
+        .reason-item input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.1);
+            accent-color: #ff5722;
+        }
+
+        .reason-item label {
+            font-size: 13px;
+            color: #ccc;
+            font-weight: bold;
+            cursor: pointer;
+            flex-grow: 1;
+        }
+
+        .reason-item input[type="checkbox"]:checked + label {
+            color: #ff5722;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .zap-button {
+            background-color: #ff5722;
+            color: #fff;
+        }
+
+        .zap-button:hover {
+            background-color: #e64a19;
+        }
+
+        .zap-button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+
+        .cancel-button {
+            background-color: transparent;
+            border: 2px solid #ff5722;
+            color: #ff5722;
+        }
+
+        .cancel-button:hover {
+            background-color: #ff5722;
+            color: #fff;
+        }
+
+        .lives-info {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ff9800;
+        }
+
+        .lives-info h4 {
+            margin: 0 0 10px 0;
+            color: #ff9800;
+            font-size: 14px;
+        }
+
+        .lives-info p {
+            margin: 0;
+            font-size: 12px;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .zap-effect {
+            animation: zapEffect 0.5s ease-out;
+        }
+
+        @keyframes zapEffect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); background-color: #ff5722; }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Zap</h2>
+        <div class="close-button" onclick="closeZap()">×</div>
+    </div>
+
+    <div class="content">
+        <div class="zap-title">Zap Player</div>
+        <div class="zap-subtitle">Remove a life from this player's Avatar Proxy Post</div>
+
+        <div class="warning-card">
+            <div class="main-checkbox">
+                <input type="checkbox" id="zapCheckbox" onchange="toggleZapButton()">
+                <label for="zapCheckbox">Click here if you want to ZAP this player off your list and the game.</label>
+            </div>
+
+            <div class="warning-text">
+                DOING THIS WILL TERMINATE THE PLAYER IF THEY ONLY HAVE ONE LIFE. IF THEY HAVE MORE LIVES
+                THEY WILL BE TAGGED AS HAVING BEEN ZAPPED AS A WARNING TO OTHER PLAYERS. YOU CAN ZAP FOR
+                ANY REASON BUT YOU WILL ALSO BE TAGGED AS SOMEONE WHO ZAPS.
+            </div>
+
+            <div class="lives-info">
+                <h4>⚠️ Important Information:</h4>
+                <p>• Zapping removes one life from their Avatar Proxy Post<br>
+                • If they have only 1 life left, they will be terminated<br>
+                • Both you and the target will be tagged as "zapper" and "zapped"<br>
+                • This action cannot be undone</p>
+            </div>
+        </div>
+
+        <div class="reasons-section">
+            <div class="reasons-title">Select Your Reason (Optional)</div>
+            
+            <div class="reason-item">
+                <input type="checkbox" id="creepsCheckbox">
+                <label for="creepsCheckbox">CREEPS ME OUT</label>
+            </div>
+            
+            <div class="reason-item">
+                <input type="checkbox" id="rudeCheckbox">
+                <label for="rudeCheckbox">REALLY RUDE</label>
+            </div>
+            
+            <div class="reason-item">
+                <input type="checkbox" id="liarCheckbox">
+                <label for="liarCheckbox">LIAR, LIAR, LIAR</label>
+            </div>
+            
+            <div class="reason-item">
+                <input type="checkbox" id="feltCheckbox">
+                <label for="feltCheckbox">I JUST FELT LIKE IT</label>
+            </div>
+            
+            <div class="reason-item">
+                <input type="checkbox" id="terminatorCheckbox">
+                <label for="terminatorCheckbox">I AM THE TERMINATOR</label>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-button zap-button" id="zapButton" onclick="executeZap()" disabled>
+                ⚡ ZAP PLAYER
+            </button>
+            <button class="action-button cancel-button" onclick="closeZap()">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function closeZap() {
+            window.parent.postMessage({ type: 'closeZap' }, '*');
+        }
+
+        function toggleZapButton() {
+            const zapCheckbox = document.getElementById('zapCheckbox');
+            const zapButton = document.getElementById('zapButton');
+            
+            zapButton.disabled = !zapCheckbox.checked;
+            
+            if (zapCheckbox.checked) {
+                zapButton.classList.add('pulse');
+            } else {
+                zapButton.classList.remove('pulse');
+            }
+        }
+
+        function executeZap() {
+            const zapCheckbox = document.getElementById('zapCheckbox');
+            
+            if (!zapCheckbox.checked) {
+                alert('Please confirm that you want to zap this player by checking the checkbox.');
+                return;
+            }
+
+            // Get selected reasons
+            const reasons = [];
+            const checkboxes = [
+                { id: 'creepsCheckbox', text: 'CREEPS ME OUT' },
+                { id: 'rudeCheckbox', text: 'REALLY RUDE' },
+                { id: 'liarCheckbox', text: 'LIAR, LIAR, LIAR' },
+                { id: 'feltCheckbox', text: 'I JUST FELT LIKE IT' },
+                { id: 'terminatorCheckbox', text: 'I AM THE TERMINATOR' }
+            ];
+
+            checkboxes.forEach(checkbox => {
+                if (document.getElementById(checkbox.id).checked) {
+                    reasons.push(checkbox.text);
+                }
+            });
+
+            // Confirm the zap action
+            const reasonText = reasons.length > 0 ? `\n\nReasons: ${reasons.join(', ')}` : '';
+            const confirmMessage = `Are you sure you want to ZAP this player?\n\nThis will remove one life from their Avatar Proxy Post and tag both of you in the system.${reasonText}`;
+            
+            if (confirm(confirmMessage)) {
+                // Add zap effect animation
+                document.querySelector('.warning-card').classList.add('zap-effect');
+                
+                // Execute the zap
+                const zapData = {
+                    action: 'zap',
+                    reasons: reasons,
+                    timestamp: new Date().toISOString()
+                };
+
+                alert('⚡ ZAP! Player has been zapped and lost one life from their Avatar Proxy Post.');
+
+                // Send message to parent about the zap action
+                window.parent.postMessage({ 
+                    type: 'playerZapped',
+                    action: 'zap',
+                    data: zapData,
+                    message: 'Player zapped - life removed from Avatar Proxy Post'
+                }, '*');
+
+                // Close the zap interface after a short delay
+                setTimeout(() => {
+                    closeZap();
+                }, 1000);
+            }
+        }
+
+        // Add touch feedback
+        document.querySelectorAll('.action-button, .reason-item').forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+            
+            element.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add click handlers for reason labels
+        document.querySelectorAll('.reason-item label').forEach(label => {
+            label.addEventListener('click', function() {
+                const checkbox = this.previousElementSibling;
+                checkbox.checked = !checkbox.checked;
+            });
+        });
+    </script>
+</body>
+</html>

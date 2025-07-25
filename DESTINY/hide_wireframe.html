@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hide Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            
+        }
+
+        .header {
+            background-color: rgba(30, 30, 30, 0.9);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #607d8b;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #607d8b;
+        }
+
+        .close-button {
+            cursor: pointer;
+            color: #fff;
+            font-size: 20px;
+            padding: 5px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .hide-title {
+            text-align: center;
+            font-size: 24px;
+            color: #607d8b;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(96, 125, 139, 0.5);
+        }
+
+        .hide-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .hide-player-section {
+            background-color: rgba(96, 125, 139, 0.1);
+            border: 2px solid rgba(96, 125, 139, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .main-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border-left: 4px solid #607d8b;
+        }
+
+        .main-checkbox input[type="checkbox"] {
+            margin-right: 15px;
+            margin-top: 2px;
+            transform: scale(1.2);
+            accent-color: #607d8b;
+        }
+
+        .main-checkbox label {
+            font-size: 14px;
+            line-height: 1.4;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .info-text {
+            background-color: rgba(96, 125, 139, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #fff;
+            margin-bottom: 20px;
+            border-left: 4px solid #607d8b;
+        }
+
+        .divider {
+            width: 60%;
+            height: 2px;
+            background-color: #607d8b;
+            margin: 30px auto;
+            border-radius: 1px;
+        }
+
+        .visibility-section {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .visibility-title {
+            font-size: 16px;
+            color: #607d8b;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .visibility-info {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .visibility-info h4 {
+            margin: 0 0 10px 0;
+            color: #4caf50;
+            font-size: 14px;
+        }
+
+        .visibility-info p {
+            margin: 0;
+            font-size: 12px;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        .visibility-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .visibility-item:hover {
+            background-color: rgba(96, 125, 139, 0.1);
+        }
+
+        .visibility-item input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.1);
+            accent-color: #607d8b;
+        }
+
+        .visibility-item label {
+            font-size: 13px;
+            color: #ccc;
+            font-weight: bold;
+            cursor: pointer;
+            flex-grow: 1;
+        }
+
+        .visibility-item input[type="checkbox"]:checked + label {
+            color: #607d8b;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .hide-button {
+            background-color: #607d8b;
+            color: #fff;
+        }
+
+        .hide-button:hover {
+            background-color: #546e7a;
+        }
+
+        .hide-button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+
+        .cancel-button {
+            background-color: transparent;
+            border: 2px solid #607d8b;
+            color: #607d8b;
+        }
+
+        .cancel-button:hover {
+            background-color: #607d8b;
+            color: #fff;
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hide-effect {
+            animation: hideEffect 0.5s ease-out;
+        }
+
+        @keyframes hideEffect {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.95); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Hide</h2>
+        <div class="close-button" onclick="closeHide()">×</div>
+    </div>
+
+    <div class="content">
+        <div class="hide-title">Hide Player</div>
+        <div class="hide-subtitle">Manage player visibility and your own grid presence</div>
+
+        <div class="hide-player-section">
+            <div class="main-checkbox">
+                <input type="checkbox" id="hideCheckbox" onchange="toggleHideButton()">
+                <label for="hideCheckbox">Click here if you never want to see this Player again</label>
+            </div>
+
+            <div class="info-text">
+                DOING THIS DOES NOT HARM THE OTHER PLAYER OR YOURSELF. IT HELPS YOU TO LOWER YOUR NUMBER AND GET CLOSER TO YOUR SOULMATES.
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="visibility-section">
+            <div class="visibility-title">Manage Your Grid Visibility</div>
+            
+            <div class="visibility-info">
+                <h4>ℹ️ Visibility Controls:</h4>
+                <p>• Temporarily hide or reveal your avatar from the entire game<br>
+                • This does not pause the game or affect other players<br>
+                • You can change your visibility status at any time</p>
+            </div>
+            
+            <div class="visibility-item">
+                <input type="checkbox" id="hideAvatarCheckbox" onchange="handleVisibilityChange()">
+                <label for="hideAvatarCheckbox">HIDE MY AVATAR FROM THE GRID</label>
+            </div>
+            
+            <div class="visibility-item">
+                <input type="checkbox" id="revealAvatarCheckbox" onchange="handleVisibilityChange()">
+                <label for="revealAvatarCheckbox">REVEAL MY AVATAR TO THE GRID</label>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-button hide-button" id="hideButton" onclick="executeHide()" disabled>
+                👁️‍🗨️ HIDE PLAYER
+            </button>
+            <button class="action-button cancel-button" onclick="closeHide()">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function closeHide() {
+            window.parent.postMessage({ type: 'closeHide' }, '*');
+        }
+
+        function toggleHideButton() {
+            const hideCheckbox = document.getElementById('hideCheckbox');
+            const hideButton = document.getElementById('hideButton');
+            
+            hideButton.disabled = !hideCheckbox.checked;
+            
+            if (hideCheckbox.checked) {
+                hideButton.classList.add('pulse');
+            } else {
+                hideButton.classList.remove('pulse');
+            }
+        }
+
+        function handleVisibilityChange() {
+            const hideAvatarCheckbox = document.getElementById('hideAvatarCheckbox');
+            const revealAvatarCheckbox = document.getElementById('revealAvatarCheckbox');
+            
+            // Ensure only one visibility option is selected at a time
+            if (hideAvatarCheckbox.checked && revealAvatarCheckbox.checked) {
+                if (event.target === hideAvatarCheckbox) {
+                    revealAvatarCheckbox.checked = false;
+                } else {
+                    hideAvatarCheckbox.checked = false;
+                }
+            }
+        }
+
+        function executeHide() {
+            const hideCheckbox = document.getElementById('hideCheckbox');
+            const hideAvatarCheckbox = document.getElementById('hideAvatarCheckbox');
+            const revealAvatarCheckbox = document.getElementById('revealAvatarCheckbox');
+            
+            let actions = [];
+            
+            // Check if hiding the specific player
+            if (hideCheckbox.checked) {
+                actions.push('Hide this player from my view');
+            }
+            
+            // Check visibility changes
+            if (hideAvatarCheckbox.checked) {
+                actions.push('Hide my avatar from the grid');
+            }
+            
+            if (revealAvatarCheckbox.checked) {
+                actions.push('Reveal my avatar to the grid');
+            }
+            
+            if (actions.length === 0) {
+                alert('Please select at least one action to perform.');
+                return;
+            }
+            
+            // Confirm the hide actions
+            const confirmMessage = `Are you sure you want to perform the following actions?\n\n• ${actions.join('\n• ')}`;
+            
+            if (confirm(confirmMessage)) {
+                // Add hide effect animation
+                document.querySelector('.hide-player-section').classList.add('hide-effect');
+                
+                // Execute the hide actions
+                const hideData = {
+                    action: 'hide',
+                    hidePlayer: hideCheckbox.checked,
+                    hideMyAvatar: hideAvatarCheckbox.checked,
+                    revealMyAvatar: revealAvatarCheckbox.checked,
+                    timestamp: new Date().toISOString()
+                };
+
+                let resultMessage = '';
+                if (hideCheckbox.checked) {
+                    resultMessage += '👁️‍🗨️ Player hidden from your view. ';
+                }
+                if (hideAvatarCheckbox.checked) {
+                    resultMessage += 'Your avatar is now hidden from the grid. ';
+                }
+                if (revealAvatarCheckbox.checked) {
+                    resultMessage += 'Your avatar is now visible on the grid. ';
+                }
+
+                alert(resultMessage.trim());
+
+                // Send message to parent about the hide action
+                window.parent.postMessage({ 
+                    type: 'playerHidden',
+                    action: 'hide',
+                    data: hideData,
+                    message: 'Hide actions completed'
+                }, '*');
+
+                // Close the hide interface after a short delay
+                setTimeout(() => {
+                    closeHide();
+                }, 1000);
+            }
+        }
+
+        // Add touch feedback
+        document.querySelectorAll('.action-button, .visibility-item').forEach(element => {
+            element.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+            
+            element.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add click handlers for visibility labels
+        document.querySelectorAll('.visibility-item label').forEach(label => {
+            label.addEventListener('click', function() {
+                const checkbox = this.previousElementSibling;
+                checkbox.checked = !checkbox.checked;
+                handleVisibilityChange();
+            });
+        });
+
+        // Add click handler for main checkbox label
+        document.querySelector('.main-checkbox label').addEventListener('click', function() {
+            const checkbox = document.getElementById('hideCheckbox');
+            checkbox.checked = !checkbox.checked;
+            toggleHideButton();
+        });
+    </script>
+</body>
+</html>

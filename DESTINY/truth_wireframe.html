@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truth or Bomb</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            
+        }
+
+        .header {
+            background-color: rgba(30, 30, 30, 0.9);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #e91e63;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #e91e63;
+        }
+
+        .close-button {
+            cursor: pointer;
+            color: #fff;
+            font-size: 20px;
+            padding: 5px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .game-title {
+            text-align: center;
+            font-size: 24px;
+            color: #e91e63;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(233, 30, 99, 0.5);
+        }
+
+        .game-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .question-card {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(233, 30, 99, 0.3);
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .question-text {
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: center;
+            color: #fff;
+        }
+
+        .answer-section {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #e91e63;
+        }
+
+        .answer-label {
+            font-size: 14px;
+            color: #e91e63;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .answer-input {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(233, 30, 99, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            color: #fff;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+            font-family: Arial, sans-serif;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #e91e63;
+        }
+
+        .answer-input::placeholder {
+            color: #666;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .action-button {
+            flex: 1;
+            background-color: #e91e63;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background-color: #c2185b;
+        }
+
+        .action-button.secondary {
+            background-color: transparent;
+            border: 2px solid #e91e63;
+            color: #e91e63;
+        }
+
+        .action-button.secondary:hover {
+            background-color: #e91e63;
+            color: #fff;
+        }
+
+        .action-button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+
+        .action-button:disabled:hover {
+            background-color: #666;
+        }
+
+        .response-view {
+            display: none;
+        }
+
+        .response-card {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e91e63;
+        }
+
+        .response-question {
+            font-size: 16px;
+            color: #e91e63;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .response-answer {
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.5;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .response-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .response-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .profile-button {
+            background-color: #2196f3;
+            color: #fff;
+        }
+
+        .profile-button:hover {
+            background-color: #1976d2;
+        }
+
+        .chat-button {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        .chat-button:hover {
+            background-color: #388e3c;
+        }
+
+        .bomb-button {
+            background-color: #f44336;
+            color: #fff;
+        }
+
+        .bomb-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .rules {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        .rules h4 {
+            color: #e91e63;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .rules ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .rules li {
+            margin-bottom: 5px;
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .explode {
+            animation: explode 0.5s ease-out;
+        }
+
+        @keyframes explode {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); background-color: #ff0000; }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Truth or Bomb</h2>
+        <div class="close-button" onclick="closeTruth()">×</div>
+    </div>
+
+    <div class="content">
+        <!-- Initial Question View -->
+        <div id="questionView">
+            <div class="game-title">Truth or Bomb</div>
+            <div class="game-subtitle">Answer the question and send it as an ice breaker</div>
+
+            <div class="rules">
+                <h4>How it Works:</h4>
+                <ul>
+                    <li>You get a random question to answer first</li>
+                    <li>Send your question + answer to break the ice</li>
+                    <li>They can view your profile, chat, or "Bomb" you</li>
+                    <li>If they bomb you, you're separated at wallet level</li>
+                </ul>
+            </div>
+
+            <div class="question-card">
+                <div class="question-text" id="questionText">Click "Get Question" to start!</div>
+            </div>
+
+            <div class="answer-section" id="answerSection" style="display: none;">
+                <div class="answer-label">Your Answer:</div>
+                <textarea 
+                    class="answer-input" 
+                    id="answerInput" 
+                    placeholder="Type your honest answer here..."
+                    maxlength="500"
+                ></textarea>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-button" onclick="getNewQuestion()" id="getQuestionBtn">
+                    Get Question
+                </button>
+                <button class="action-button secondary" onclick="sendTruthMessage()" id="sendBtn" style="display: none;">
+                    Send Truth
+                </button>
+            </div>
+        </div>
+
+        <!-- Response View (for when receiving a truth message) -->
+        <div id="responseView" class="response-view">
+            <div class="game-title">Truth Received</div>
+            <div class="game-subtitle">Someone sent you their truth - how do you respond?</div>
+
+            <div class="response-card">
+                <div class="response-question" id="responseQuestion">Question will appear here</div>
+                <div class="response-answer" id="responseAnswer">Answer will appear here</div>
+            </div>
+
+            <div class="response-actions">
+                <button class="response-button profile-button" onclick="viewProfile()">
+                    👤 Profile
+                </button>
+                <button class="response-button chat-button" onclick="openChat()">
+                    💬 Chat
+                </button>
+                <button class="response-button bomb-button" onclick="bombPlayer()">
+                    💣 Bomb
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const truthQuestions = [
+            "What's the most embarrassing thing you've done in public?",
+            "Who was your first crush and why?",
+            "What's a secret you've never told anyone?",
+            "What's the worst lie you've ever told?",
+            "What's your biggest fear that no one knows about?",
+            "If you could change one thing about yourself, what would it be?",
+            "What's the most childish thing you still do?",
+            "What's something you're glad your parents don't know about you?",
+            "What's the most trouble you've ever been in?",
+            "What's your biggest regret in life so far?",
+            "Who do you have a crush on right now?",
+            "What's the weirdest thing you've ever eaten?",
+            "What's your most irrational fear?",
+            "What's the last lie you told?",
+            "What's something you've never told your best friend?",
+            "What's your worst habit?",
+            "What's the most embarrassing thing in your search history?",
+            "What's something you're secretly proud of?",
+            "What's your biggest insecurity?",
+            "What's the most rebellious thing you've ever done?",
+            "What's something you wish you were brave enough to do?",
+            "What's your most unpopular opinion?",
+            "What's something you pretend to like but actually hate?",
+            "What's the most awkward situation you've been in?",
+            "What's something you've done that you hope no one finds out about?"
+        ];
+
+        let currentQuestion = '';
+        let currentAnswer = '';
+
+        function closeTruth() {
+            window.parent.postMessage({ type: 'closeTruth' }, '*');
+        }
+
+        function getNewQuestion() {
+            const randomQuestion = truthQuestions[Math.floor(Math.random() * truthQuestions.length)];
+            currentQuestion = randomQuestion;
+            
+            document.getElementById('questionText').textContent = randomQuestion;
+            document.getElementById('answerSection').style.display = 'block';
+            document.getElementById('getQuestionBtn').textContent = 'New Question';
+            document.getElementById('sendBtn').style.display = 'block';
+            
+            // Clear previous answer
+            document.getElementById('answerInput').value = '';
+            currentAnswer = '';
+            
+            // Add pulse animation to question
+            const questionCard = document.querySelector('.question-card');
+            questionCard.classList.add('pulse');
+            setTimeout(() => {
+                questionCard.classList.remove('pulse');
+            }, 1000);
+        }
+
+        function sendTruthMessage() {
+            const answerInput = document.getElementById('answerInput');
+            const answer = answerInput.value.trim();
+            
+            if (!answer) {
+                alert('Please provide an answer before sending!');
+                return;
+            }
+            
+            if (answer.length < 10) {
+                alert('Please provide a more detailed answer (at least 10 characters).');
+                return;
+            }
+            
+            currentAnswer = answer;
+            
+            // Send the truth message to the selected player
+            const truthData = {
+                question: currentQuestion,
+                answer: currentAnswer,
+                timestamp: new Date().toISOString()
+            };
+            
+            alert(`Truth sent to player!\n\nQuestion: ${currentQuestion}\nYour Answer: ${currentAnswer}`);
+            
+            // Send message to parent about the action
+            window.parent.postMessage({ 
+                type: 'truthSent',
+                action: 'truth',
+                data: truthData,
+                message: 'Truth or Bomb message sent!'
+            }, '*');
+            
+            // Reset for next use
+            resetGame();
+        }
+
+        function resetGame() {
+            document.getElementById('questionText').textContent = 'Click "Get Question" to start!';
+            document.getElementById('answerSection').style.display = 'none';
+            document.getElementById('getQuestionBtn').textContent = 'Get Question';
+            document.getElementById('sendBtn').style.display = 'none';
+            document.getElementById('answerInput').value = '';
+            currentQuestion = '';
+            currentAnswer = '';
+        }
+
+        // Functions for response view (when receiving a truth message)
+        function showResponseView(question, answer) {
+            document.getElementById('questionView').style.display = 'none';
+            document.getElementById('responseView').style.display = 'block';
+            document.getElementById('responseQuestion').textContent = question;
+            document.getElementById('responseAnswer').textContent = answer;
+        }
+
+        function viewProfile() {
+            alert('Opening player profile...');
+            window.parent.postMessage({ 
+                type: 'viewProfile',
+                action: 'truth_response'
+            }, '*');
+        }
+
+        function openChat() {
+            alert('Opening chat with player...');
+            window.parent.postMessage({ 
+                type: 'openChat',
+                action: 'truth_response'
+            }, '*');
+        }
+
+        function bombPlayer() {
+            if (confirm('Are you sure you want to BOMB this player? This will separate you at the wallet level and you won\'t see each other on the grid anymore.')) {
+                alert('💥 BOOM! Player has been bombed and separated from your wallet.');
+                
+                window.parent.postMessage({ 
+                    type: 'bombPlayer',
+                    action: 'truth_bomb',
+                    message: 'Player bombed and separated at wallet level'
+                }, '*');
+                
+                closeTruth();
+            }
+        }
+
+        // Listen for messages from parent (for receiving truth messages)
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'receiveTruth') {
+                showResponseView(event.data.question, event.data.answer);
+            }
+        });
+
+        // Add touch feedback
+        document.querySelectorAll('.action-button, .response-button').forEach(button => {
+            button.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+            
+            button.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Auto-resize textarea
+        document.getElementById('answerInput').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+    </script>
+</body>
+</html>

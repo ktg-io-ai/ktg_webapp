@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIGHT FRAME</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 00px; /* Add padding to the body */
+        }
+
+      .top-frame {
+            background-color: #111;
+            padding: 15px;
+            margin-bottom: 3px; /* Add space below the header */
+            display: flex; /* Use flexbox for layout */
+            align-items: center; /* Vertically align items */
+            justify-content: space-between; /* Distribute space between items */
+        }
+
+      .top-frame h2 {
+            margin: 0;
+            flex-grow: 1; /* Allow title to take up available space */
+        }
+
+      .buttons {
+            display: flex; /* Use flexbox for button arrangement */
+            gap: 10px; /* Add space between buttons */
+        }
+
+      .buttons button {
+            background-color: #333; /* Example button color */
+            color: #fff;
+            border: none;
+            padding: 0px 8px 0px 0px; /* Example button padding */
+            border-radius: 20px; /* Example button border radius */
+            cursor: pointer;
+        }
+        
+      .buttons button img {  /* Target the image inside the button */
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+      .buttons button:hover {
+            background-color: #444;
+        }
+
+      .content-area {
+            display: flex;
+            height: calc(100vh - 95px); /* Adjust height to accommodate fixed top frame */
+        }
+
+      .left-content {
+            width: 90%;
+            overflow-y: auto; /* Add scroll to left content */
+            margin-right: 10px; /* Add space between left and right content */
+        }
+        
+      .left-content::-webkit-scrollbar {
+            width: 0px; /* Hide the scrollbar */
+        }
+
+      .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+            grid-gap: 0px; /* Adjust spacing as needed */
+        }
+
+        .image-grid button {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin: 1px;
+            border-radius: 3px;
+            transition: transform 0.3s ease; /* Add transition for smooth animation */
+            cursor: pointer; /* Add cursor pointer */
+        }
+
+        .image-grid button:hover {
+            transform: scale(.95); /* Scale the image by 5% on hover */
+        }
+
+        .image-grid button img {
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+            object-fit: cover; /* Ensure images cover the container */
+        }
+        
+      .image-grid img {
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+            object-fit: cover; /* Ensure images cover the container */
+            margin: 1px;
+            border-radius: 3px;
+        }
+
+        .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;  /* Center the buttons horizontally */
+        }
+
+      .right-content button {
+            background-color: #111;
+            color: white;
+            border: none;
+            margin-top: 15px;   /* Reduced margin-top */
+            padding: 0;
+            cursor: pointer;
+            display: flex;     /* Enable flexbox for button content */
+            align-items: center; /* Center icon and text vertically */
+        }
+
+      .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 0px;
+        }
+        
+      .right-content button:hover {
+            color: #222;
+        }
+        
+        .image-grid button {
+            background-color: transparent;
+            border: none;
+        }
+
+        /* New styles for the contact form */
+        .contact-form-container {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 70px;
+            left: auto;
+            background-color: rgba(1, 1, 1, 0.9);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            z-index: 1002;
+            border: 5px solid #2f27c8;
+        }
+
+        .contact-form-container h2 {
+            margin-top: 0;
+        }
+
+        .contact-form-container input[type="text"],
+        .contact-form-container input[type="email"] {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .contact-form-container .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .contact-form-container .checkbox-container input {
+            margin-right: 10px;
+        }
+
+        .contact-form-container button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        .contact-form-container button:hover {
+            background-color: #444;
+        }
+
+        .contact-form-container .contact-page-button {
+            width: 100px;
+            height: 100px;
+            margin-top: 10px;
+            padding: 0;
+        }
+
+        .contact-form-container .contact-page-button img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Playlist Selector Styles */
+        .playlist-selector {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .playlist-selector select {
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px top 50%;
+            background-size: .9em auto;
+            padding-right: 25px;
+        }
+
+        .playlist-selector select:hover {
+            background-color: #555;
+        }
+
+        /* View Toggle Button Styles */
+        .view-btn {
+            background-color: #333 !important;
+            padding: 8px !important;
+            border-radius: 50% !important;
+            width: 35px !important;
+            height: 35px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .view-btn.active {
+            background-color: #2f27c8 !important;
+        }
+
+        .view-btn:hover {
+            background-color: #444 !important;
+        }
+
+        .view-btn.active:hover {
+            background-color: #3d32d4 !important;
+        }
+
+        /* List View Styles */
+        .list-view {
+            display: none;
+            padding: 10px;
+        }
+
+        .list-item {
+            background-color: #222;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            gap: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .list-item:hover {
+            background-color: #333;
+        }
+
+        .list-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .list-item-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .list-item-info p {
+            margin: 0;
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        /* Safe links in list view */
+        .list-safe-links {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .list-safe-link {
+            background-color: #2f27c8;
+            color: #fff;
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .list-safe-link:hover {
+            background-color: #3d32d4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-frame">
+        <h2 id="playlist-title">KTG AI Music</h2>
+        <div class="buttons">
+            <button id="gridViewBtn" class="view-btn active" onclick="toggleView('grid')" title="Grid View">
+                <img src="../assets/grid_icon.png" alt="Grid View" style="width: 25px; height: 25px;">
+            </button>
+            <button id="listViewBtn" class="view-btn" onclick="toggleView('list')" title="List View">
+                <img src="../assets/list_icon.png" alt="List View" style="width: 25px; height: 25px;">
+            </button>
+            <li onclick="openPortalSubmenu()" class="slide-in-left"><img src="../assets/portal_icon.png" alt="destiny" style="width: 35px; height: 35px;"></li>
+			<style>
+			.submenu {
+				position: absolute;
+				top: 60px;
+				right: 70px;
+				left: auto;
+				background-color: rgba(1, 1, 1, 0.9);
+				box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+				border-top: 5px solid #2f27c8;
+				border-right: 5px solid #2f27c8;
+				border-bottom: 5px solid #2f27c8;
+				border-left: 5px solid #2f27c8;
+				padding: 20px;
+				min-width: 200px;
+				border-radius: 20px;
+				z-index: 1001;
+				pointer-events: auto;
+				display: none;
+			}
+
+			.submenu a {
+				display: block;
+				text-decoration: none;
+				color: inherit;
+				padding: 0px;
+				border-radius: 20px;
+			}
+
+			.submenu h2 {
+				margin-top: 0;
+			}
+
+			.submenu ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+
+			.submenu li {
+				margin-bottom: 10px;
+			}
+
+			/* --- UPDATED BUTTON STYLES --- */
+        .submenu button {
+            background-color: transparent; /* Set background to transparent */
+            border: 1px solid #2f27c8; /* Add a 2px border with the submenu color */
+            opacity: 1; 
+            color: #fff;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+			.submenu button img {
+				max-width: 25px;
+				max-height: 25px;
+				margin-right: 5px;
+				vertical-align: middle;
+			}
+			.close-button:hover {
+				color: red;
+			}
+		</style>
+			     </div>
+			 </div>
+	
+	<div id="portal-submenu" class="submenu" style="display: none;">
+	       <h2>Portals<span class="close-button" onclick="closePortalSubmenu()" style="float: right; cursor: pointer;">X</span></h2>
+        <ul>
+            <li><button><a href="../dashboard.html" target="_parent" rel="noopener noreferrer"><img src="../assets/portal_icon.png" alt="contact icon">PORTALS</a></button></li>
+            <li><button><a href="../DESTINY/opening.html" target="_parent" rel="noopener noreferrer"><img src="../assets/fave_icon.png" alt="destiny">DESTINY</button></a></li>
+            <li><button><a href="../LIFESTYLES/ktgmusic.html" target="_parent" rel="noopener noreferrer"><img src="../assets/listing_icon.png" alt="ktgmusic">LISTINGS</button></a></li>
+            <li><button><a href="../KTGAI/ktgai.html" target="_parent" rel="noopener noreferrer"><img src="../assets/qr_icon.png" alt="ktgmusic">KTG.AI</button></a></li>
+            <li><button><a href="../WEB3/dashboard_web3.html" target="_parent" rel="noopener noreferrer"><img src="../assets/kgz_white_icon.png" alt="web3">WEB3</button></a></li>
+            <li><button><a href="../VRARXR/dashboard_xr.html" target="_parent" rel="noopener noreferrer"><img src="../assets/vr_icon.png" alt="XR">VR/AR/XR</button></a></li>
+            <li><button><a href="../DIGNBLING/dashboard_dign_bling.html" target="_parent" rel="noopener noreferrer"><img src="../assets/diamond_mine_icon.png" alt="diamond">DIGN BLING</button></a></li>
+            <li><button><a href="../4PLAYCHESS/dashboard_4play.html" target="_parent" rel="noopener noreferrer"><img src="../assets/chess_icon.png" alt="chess">4 PLAY CHESS</button></a></li>
+            <li><button><a href="../METAPHYSICS/dashboard_tarot.html" target="_parent" rel="noopener noreferrer"><img src="../assets/tarot_icon.png" alt="tarot">METAPHYSICS</button></a></li>
+            <li><button><a href="../KTGIO/map.html" target="_parent" rel="noopener noreferrer"><img src="../assets/globe_icon.png" alt="tarot">MAP</button></a></li>
+        </ul>
+    </div>
+
+    
+
+    <div class="content-area">
+        <div class="left-content">
+            <!-- Playlist Dropdown -->
+            <div class="playlist-selector">
+                <select id="playlist-dropdown" onchange="changePlaylist(this.value)" title="Select Playlist">
+                    <option value="KTG AI Music">KTG AI Music</option>
+                    <option value="Original Soundtrack">Original Soundtrack</option>
+                    <option value="VR Worlds">VR Worlds</option>
+                </select>
+            </div>
+            
+            <!-- Grid View -->
+            <div id="grid-view" class="image-grid">
+                <button><a href="kgdsoundtrack.html" target="_parent"><img src="covers/karmathegameofdestiny.jpg" alt="Image 1"></a></button>
+
+                <!-- Grid will be dynamically populated by JavaScript -->
+            
+            </div>
+            
+            <!-- List View -->
+            <div id="list-view" class="list-view">
+                <!-- List items will be dynamically generated here -->
+            </div>
+        </div>
+        <div class="right-content">
+            <button><a href="https://instagram.com/karmathegame" target="_blank" rel="noopener"><img src="../assets/instagram_icon.png" alt="instagram icon"></a></button>
+            <button><a href="https://www.linkedin.com/in/rene-reyes-the-alquimist-8b3b3510/" target="_blank" rel="noopener"><img src="../assets/linkedin_icon.png" alt="List Icon"></a></button>
+            <button><a href="https://www.tiktok.com/@karmathegame" target="_blank" rel="noopener"><img src="../assets/tiktok_icon.png" alt="Filter Icon"></a></button>
+            <button><a href="https://discordapp.com/users/1177985292297314391" target="_blank" rel="noopener"><img src="../assets/discord_icon.png" alt="Fave Icon"></a></button>
+            <button><a href="https://t.me/karmathegame" target="_blank" rel="noopener"><img src="../assets/telegram_icon.png" alt="Telegram Icon"></a></button>
+            <button><a href="https://www.threads.com/@karmathegame?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener"><img src="../assets/threads_icon.png" alt="QR Icon"></a></button>
+            <button onclick="openContactForm()"><img src="../assets/contact_icon.png" alt="contact icon"></button>
+        </div>
+    </div>
+
+    <div id="contact-form-container" class="contact-form-container">
+        <h2>Contact Us<span class="close-button" onclick="closeContactForm()" style="float: right; cursor: pointer;">X</span></h2>
+        <form>
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <div class="checkbox-container">
+                <input type="checkbox" id="subscribe" name="subscribe">
+                <label for="subscribe">Subscribe to our newsletter</label>
+            </div>
+            <button type="submit">Submit</button>
+            <button class="contact-page-button"><a href="../contact.html" target="_parent"><img src="../assets/contact_icon.png" alt="contact icon"></a></button>
+        </form>
+    </div>
+
+	<script>
+        // Global variables for JSON data
+        let allSongsData = {};
+
+        // Load all song data from JSON files
+        async function loadAllSongs() {
+            try {
+                const [ktgMusicResponse, soundtrackResponse, vrWorldsResponse] = await Promise.all([
+                    fetch('../data/songs.json'),
+                    fetch('../data/soundtrack.json'),
+                    fetch('../data/vrworlds.json')
+                ]);
+
+                if (!ktgMusicResponse.ok || !soundtrackResponse.ok || !vrWorldsResponse.ok) {
+                    throw new Error('Network response was not ok for one or more files.');
+                }
+
+                allSongsData = {
+                    "KTG AI Music": await ktgMusicResponse.json(),
+                    "Original Soundtrack": await soundtrackResponse.json(),
+                    "VR Worlds": await vrWorldsResponse.json()
+                };
+                
+                console.log('Loaded music data from JSON files:', allSongsData);
+                
+                // Initialize with default playlist after data is loaded
+                changePlaylist('KTG AI Music');
+            } catch (error) {
+                console.error('Failed to load songs from JSON:', error);
+                // Fallback to hardcoded data if JSON loading fails
+                console.log('Using fallback hardcoded data');
+            }
+        }
+
+        function openContactForm() {
+            document.getElementById('contact-form-container').style.display = 'block';
+        }
+
+        function closeContactForm() {
+            document.getElementById('contact-form-container').style.display = 'none';
+        }
+
+	    function openPortalSubmenu() {
+	           var submenu = document.getElementById("portal-submenu");
+	           submenu.style.display = "block";
+	       }
+
+	       function closePortalSubmenu() {
+	           var submenu = document.getElementById("portal-submenu");
+	           submenu.style.display = "none";
+	       }
+
+        // View toggle functionality
+        function toggleView(view) {
+            const gridView = document.getElementById('grid-view');
+            const listView = document.getElementById('list-view');
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+
+            if (view === 'grid') {
+                gridView.style.display = 'grid';
+                listView.style.display = 'none';
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            } else if (view === 'list') {
+                gridView.style.display = 'none';
+                listView.style.display = 'block';
+                gridBtn.classList.remove('active');
+                listBtn.classList.add('active');
+                generateListView();
+            }
+        }
+
+        // Playlist change functionality
+        function changePlaylist(playlistName) {
+            document.getElementById('playlist-title').textContent = playlistName;
+            
+            // Update grid view based on selected playlist
+            updateGridView(playlistName);
+            
+            // If list view is active, regenerate it
+            if (document.getElementById('list-view').style.display === 'block') {
+                generateListView();
+            }
+        }
+
+        // Update grid view based on playlist
+        function updateGridView(playlistName) {
+            const gridView = document.getElementById('grid-view');
+            
+            // Clear current grid
+            gridView.innerHTML = '';
+            
+            // Add songs based on playlist
+            if (playlistName === 'KTG AI Music') {
+                addKTGAIMusicToGrid(gridView);
+            } else if (playlistName === 'Original Soundtrack') {
+                addOriginalSoundtrackToGrid(gridView);
+            } else if (playlistName === 'VR Worlds') {
+                addVRWorldsToGrid(gridView);
+            }
+        }
+
+        // Generate list view
+        function generateListView() {
+            const listView = document.getElementById('list-view');
+            const playlistName = document.getElementById('playlist-dropdown').value;
+            
+            listView.innerHTML = '';
+            
+            let songs = [];
+            
+            // Use JSON data if available, otherwise fallback to hardcoded
+            if (allSongsData && allSongsData[playlistName]) {
+                songs = allSongsData[playlistName];
+            } else {
+                // Fallback to hardcoded data
+                if (playlistName === 'KTG AI Music') {
+                    songs = getKTGAIMusicSongs();
+                } else if (playlistName === 'Original Soundtrack') {
+                    songs = getOriginalSoundtrackSongs();
+                } else if (playlistName === 'VR Worlds') {
+                    songs = getVRWorldsSongs();
+                }
+            }
+            
+            songs.forEach(song => {
+                const listItem = document.createElement('div');
+                listItem.className = 'list-item';
+                listItem.onclick = () => parent.queueSong(song.title);
+                
+                // Build safe links HTML
+                let safeLinksHtml = '';
+                if (song.safeLinks && song.safeLinks.length > 0) {
+                    safeLinksHtml = '<div class="list-safe-links">';
+                    song.safeLinks.forEach(link => {
+                        safeLinksHtml += `<a href="${link.url}" target="_blank" class="list-safe-link" onclick="event.stopPropagation()">${link.text}</a>`;
+                    });
+                    safeLinksHtml += '</div>';
+                }
+                
+                listItem.innerHTML = `
+                    <img src="${song.cover}" alt="${song.title}">
+                    <div class="list-item-info">
+                        <h4>${song.title}</h4>
+                        <p>${song.artist}</p>
+                        ${safeLinksHtml}
+                    </div>
+                `;
+                
+                listView.appendChild(listItem);
+            });
+        }
+
+        // Song data functions
+        function getKTGAIMusicSongs() {
+            return [
+                { title: 'Amethyst Mystery', mp3: 'music/amethyst_mystery.mp3', cover: 'covers/amethyst_mystery.png', artist: 'Rene Reyes' },
+                { title: 'Andes Enigma 222', mp3: 'music/andes_enigma_222.mp3', cover: 'covers/andes_enigma_222.png', artist: 'Rene Reyes' },
+                { title: 'Angelic Acid 111', mp3: 'music/angelic_acid_111.mp3', cover: 'covers/angelic_acid_111.png', artist: 'Rene Reyes' },
+                { title: 'Aros 555', mp3: 'music/aros_555.mp3', cover: 'covers/aros_555.png', artist: 'Rene Reyes' },
+                { title: 'Aruca 222', mp3: 'music/aruca_222.mp3', cover: 'covers/aruca_222.png', artist: 'Rene Reyes' },
+                { title: 'Ascend 999', mp3: 'music/ascend_999.mp3', cover: 'covers/ascend_999.png', artist: 'Rene Reyes' },
+                { title: 'Brothers Palm 222', mp3: 'music/brothers_palm_222.mp3', cover: 'covers/brothers_palm_222.png', artist: 'Rene Reyes' },
+                { title: 'Cloud Dance 999', mp3: 'music/cloud_dance_999.mp3', cover: 'covers/cloud_dance_999.png', artist: 'Rene Reyes' },
+                { title: 'ContiBaila 444', mp3: 'music/contibaila_444.mp3', cover: 'covers/contibaila_444.png', artist: 'Rene Reyes' },
+                { title: 'Cuberno_2160', mp3: 'music/cuberno_2160.mp3', cover: 'covers/cuberno_2160.png', artist: 'Rene Reyes' },
+                { title: 'Digital Delusions 333', mp3: 'music/digital_delusions_333.mp3', cover: 'covers/digital_delusions_333.png', artist: 'Rene Reyes' },
+                { title: 'Earth 777', mp3: 'music/earth_777.mp3', cover: 'covers/earth_777.png', artist: 'Rene Reyes' },
+                { title: 'Entwined 639', mp3: 'music/entwined_639.mp3', cover: 'covers/entwined_639.png', artist: 'Rene Reyes' },
+                { title: 'Fire 777', mp3: 'music/fire_777.mp3', cover: 'covers/fire_777.png', artist: 'Rene Reyes' },
+                { title: 'Hive 720', mp3: 'music/hive_720.mp3', cover: 'covers/hive_720.png', artist: 'Rene Reyes' },
+                { title: 'India 741', mp3: 'music/india_741.mp3', cover: 'covers/india_741.png', artist: 'Rene Reyes' },
+                { title: 'Karmic Dreams', mp3: 'music/karmic_dreams.mp3', cover: 'covers/karmic_dreams.png', artist: 'Rene Reyes' },
+                { title: 'Machine 777', mp3: 'music/machine_777.mp3', cover: 'covers/machine_777.jpg', artist: 'Rene Reyes' },
+                { title: 'Manifest Eighteen Over 3', mp3: 'music/manifest_eighteen_over_3.mp3', cover: 'covers/manifest_eighteen_over_3.png', artist: 'Rene Reyes' },
+                { title: 'March of the Chinchillas 222', mp3: 'music/march_of_the_chinchillas_222.mp3', cover: 'covers/march_of_the_chinchillas_222.png', artist: 'Rene Reyes' },
+                { title: 'My G63', mp3: 'music/my_g63.mp3', cover: 'covers/my_g63.png', artist: 'Rene Reyes' },
+                { title: 'Renaissance 963', mp3: 'music/renaissance_963.mp3', cover: 'covers/renaissance_963.png', artist: 'Rene Reyes' },
+                { title: 'Octagon 1080', mp3: 'music/octagon_1080.mp3', cover: 'covers/octagon_1080.png', artist: 'Rene Reyes' },
+                { title: 'Pentaton 540', mp3: 'music/pentaton_540.mp3', cover: 'covers/pentaton_540.png', artist: 'Rene Reyes' },
+                { title: 'Quartz 111', mp3: 'music/quartz_111.mp3', cover: 'covers/quartz_111.png', artist: 'Rene Reyes' },
+                { title: 'Sedina 222', mp3: 'music/sedina_222.mp3', cover: 'covers/sedina_222.png', artist: 'Rene Reyes' },
+                { title: 'A Dream of You Original', mp3: 'music/a_dream_of_you_original.mp3', cover: 'covers/a_dream_of_you_original.png', artist: 'Rene Reyes' },
+                { title: 'Union Squared 444', mp3: 'music/union_squared_444.mp3', cover: 'covers/union_squared_444.png', artist: 'Rene Reyes' },
+                { title: 'Alquimista', mp3: 'music/alquimista.mp3', cover: 'covers/alquimista.png', artist: 'Rene Reyes' },
+                { title: 'The Unfolding', mp3: 'music/the_unfolding.mp3', cover: 'covers/the_unfolding.png', artist: 'Rene Reyes' },
+                { title: 'Taboo', mp3: 'music/taboo.mp3', cover: 'covers/taboo.png', artist: 'Rene Reyes' },
+                { title: 'shellion', mp3: 'music/shellion.mp3', cover: 'covers/shellion.png', artist: 'Rene Reyes' },
+                { title: 'Sky Fire', mp3: 'music/sky_fire.mp3', cover: 'covers/sky_fire.png', artist: 'Rene Reyes' },
+                { title: 'Star Tang 222', mp3: 'music/star_tang_222.mp3', cover: 'covers/star_tang_222.png', artist: 'Rene Reyes' },
+                { title: 'The Caves 777', mp3: 'music/the_caves_777.mp3', cover: 'covers/the_caves_777.png', artist: 'Rene Reyes' },
+                { title: 'Water 777', mp3: 'music/water_777.mp3', cover: 'covers/water_777.png', artist: 'Rene Reyes' },
+                { title: 'Sunset 222', mp3: 'music/sunset_222.mp3', cover: 'covers/sunset_222.png', artist: 'Rene Reyes' },
+                { title: 'The Rain 777', mp3: 'music/the_rain_777.mp3', cover: 'covers/the_rain_777.png', artist: 'Rene Reyes' },
+                { title: 'Air 777', mp3: 'music/air_777.mp3', cover: 'covers/air_777.png', artist: 'Rene Reyes' },
+                { title: 'Sweet Dreams', mp3: 'music/sweet_dreams.mp3', cover: 'covers/sweet_dreams.png', artist: 'Rene Reyes' },
+                { title: 'You are Not Creating Alone', mp3: 'music/you_are_not_creating_alone_extended.mp3', cover: 'covers/you_are_not_creating_alone.png', artist: 'Rene Reyes' }
+            ];
+        }
+
+        function getVRWorldsSongs() {
+            return [
+                { title: 'Guru and Lucy Voyage to Yonder 9', mp3: 'vrworlds/guru_and_lucy_voyage_to_yonder_9.mp3', cover: 'covers/guru_and_lucy_voyage_to_yonder_9.png', artist: 'Anthony Flammia with PJ Phoenix' },
+                { title: 'Sunflower', mp3: 'vrworlds/sunflower.mp3', cover: 'covers/sunflower.png', artist: 'Brandon Johnson aka DramaB with Anthony Flammia' },
+                { title: 'Guru and Lucy Theme on Novis Prime Low', mp3: 'vrworlds/guru_and_lucy_theme_on_novis_prime_low.mp3', cover: 'covers/guru_and_lucy_theme_on_novis_prime_low.png', artist: 'Anthony Flammia with D Rosarii' },
+                { title: 'Chat in the Realm', mp3: 'vrworlds/chat_in_the_realm.mp3', cover: 'covers/chat_in_the_realm.png', artist: 'Anthony Flammia with Wasionkey' },
+                { title: 'Safe on Seti 5', mp3: 'vrworlds/safe_on_seti_5.mp3', cover: 'covers/safe_on_seti_5.png', artist: 'Anthony Flammia with Mila Mena' },
+                { title: 'Map Loading Crysalis 12', mp3: 'vrworlds/map_loading_crysalis_12.mp3', cover: 'covers/map_loading_crysalis_12.png', artist: 'Anthony Flammia with D Rosarii' }
+            ];
+        }
+
+        function getOriginalSoundtrackSongs() {
+            return [
+                { title: 'Theme Song', mp3: '../KTGMUSIC/audio/theme_song.mp3', cover: 'covers/theme_song.png', artist: 'Anthony Flammia with PJ Phoenix' },
+                { title: 'Astrology Loading', mp3: '../KTGMUSIC/audio/astrology_loading.mp3', cover: 'covers/astrology_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Astrology', mp3: '../KTGMUSIC/audio/astrology.mp3', cover: 'covers/astrology.png', artist: 'Anthony Flammia' },
+                { title: 'Calendar Loading', mp3: '../KTGMUSIC/audio/calendar_loading.mp3', cover: 'covers/calendar_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Calendar', mp3: '../KTGMUSIC/audio/calendar.mp3', cover: 'covers/calendar.png', artist: 'Anthony Flammia' },
+                { title: 'Casino Loading', mp3: '../KTGMUSIC/audio/casino_loading.mp3', cover: 'covers/casino_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Casino', mp3: '../KTGMUSIC/audio/casino.mp3', cover: 'covers/casino.png', artist: 'Anthony Flammia' },
+                { title: 'Chat Loading', mp3: '../KTGMUSIC/audio/chat_loading.mp3', cover: 'covers/chat_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Chat', mp3: '../KTGMUSIC/audio/chat.mp3', cover: 'covers/chat.png', artist: 'Anthony Flammia' },
+                { title: 'Config Loading', mp3: '../KTGMUSIC/audio/config_loading.mp3', cover: 'covers/config_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Config', mp3: '../KTGMUSIC/audio/config.mp3', cover: 'covers/config.png', artist: 'Anthony Flammia' },
+                { title: 'Cyan Loading', mp3: '../KTGMUSIC/audio/cyan_loading.mp3', cover: 'covers/cyan_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Email', mp3: '../KTGMUSIC/audio/email.mp3', cover: 'covers/email.png', artist: 'Anthony Flammia' },
+                { title: 'Email Loading', mp3: '../KTGMUSIC/audio/email_loading.mp3', cover: 'covers/email_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Game Console', mp3: '../KTGMUSIC/audio/game_console.mp3', cover: 'covers/game_console.png', artist: 'Anthony Flammia' },
+                { title: 'Game Console Loading', mp3: '../KTGMUSIC/audio/game_console_loading.mp3', cover: 'covers/game_console_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Geo', mp3: '../KTGMUSIC/audio/geo.mp3', cover: 'covers/geo.png', artist: 'Anthony Flammia' },
+                { title: 'Geo Loading', mp3: '../KTGMUSIC/audio/geo_loading.mp3', cover: 'covers/geo_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Ideas', mp3: '../KTGMUSIC/audio/ideas.mp3', cover: 'covers/ideas.png', artist: 'Anthony Flammia' },
+                { title: 'Ideas Loading', mp3: '../KTGMUSIC/audio/ideas_loading.mp3', cover: 'covers/ideas_loading.png', artist: 'Anthony Flammia' },
+                { title: 'JourneyBook', mp3: '../KTGMUSIC/audio/journeybook.mp3', cover: 'covers/journeybook.png', artist: 'Anthony Flammia' },
+                { title: 'JourneyBook Loading', mp3: '../KTGMUSIC/audio/journeybook_loading.mp3', cover: 'covers/journeybook_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Lucys Booth', mp3: '../KTGMUSIC/audio/lucys_booth.mp3', cover: 'covers/lucys_booth.png', artist: 'Anthony Flammia' },
+                { title: 'Lucys Booth Loading', mp3: '../KTGMUSIC/audio/lucys_booth_loading.mp3', cover: 'covers/lucys_booth_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Map', mp3: '../KTGMUSIC/audio/map.mp3', cover: 'covers/map.png', artist: 'Anthony Flammia' },
+                { title: 'Map Loading', mp3: '../KTGMUSIC/audio/map_loading.mp3', cover: 'covers/map_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Opening Scene', mp3: '../KTGMUSIC/audio/opening_scene.mp3', cover: 'covers/opening_scene.png', artist: 'Anthony Flammia' },
+                { title: 'Register Loading', mp3: '../KTGMUSIC/audio/register_loading.mp3', cover: 'covers/register_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Register Loading 2nd Look', mp3: '../KTGMUSIC/audio/register_loading_2nd_look.mp3', cover: 'covers/register_loading_2nd_look.png', artist: 'Anthony Flammia' },
+                { title: 'Safe', mp3: '../KTGMUSIC/audio/safe.mp3', cover: 'covers/safe.png', artist: 'Anthony Flammia' },
+                { title: 'Safe Loading', mp3: '../KTGMUSIC/audio/safe_loading.mp3', cover: 'covers/safe_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Space Run', mp3: '../KTGMUSIC/audio/space_run.mp3', cover: 'covers/space_run.png', artist: 'Anthony Flammia' },
+                { title: 'Space Run Loading', mp3: '../KTGMUSIC/audio/space_run_loading.mp3', cover: 'covers/space_run_loading.png', artist: 'Anthony Flammia' },
+                { title: 'The Grid', mp3: '../KTGMUSIC/audio/the_grid.mp3', cover: 'covers/the_grid.png', artist: 'Anthony Flammia' },
+                { title: 'Wallet', mp3: '../KTGMUSIC/audio/wallet.mp3', cover: 'covers/wallet.png', artist: 'Anthony Flammia' },
+                { title: 'Wallet Loading', mp3: '../KTGMUSIC/audio/wallet_loading.mp3', cover: 'covers/wallet_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Bail', mp3: '../KTGMUSIC/audio/bail.mp3', cover: 'covers/bail.png', artist: 'Anthony Flammia' },
+                { title: 'Bail Loading', mp3: '../KTGMUSIC/audio/bail_loading.mp3', cover: 'covers/bail_loading.png', artist: 'Anthony Flammia' },
+                { title: 'Theme Duet High', mp3: '../KTGMUSIC/audio/theme_duet_high.mp3', cover: 'covers/theme_duet_high.png', artist: 'Anthony Flammia with PJ Phoenix' }
+            ];
+        }
+
+        // Grid generation functions
+        function addKTGAIMusicToGrid(gridView) {
+            const songs = getKTGAIMusicSongs();
+            songs.forEach(song => {
+                const button = document.createElement('button');
+                button.onclick = () => parent.queueSong(song.title);
+                button.innerHTML = `<img src="${song.cover}" alt="${song.title}">`;
+                gridView.appendChild(button);
+            });
+        }
+
+        function addVRWorldsToGrid(gridView) {
+            const songs = getVRWorldsSongs();
+            songs.forEach(song => {
+                const button = document.createElement('button');
+                button.onclick = () => parent.queueSong(song.title);
+                button.innerHTML = `<img src="${song.cover}" alt="${song.title}">`;
+                gridView.appendChild(button);
+            });
+        }
+
+        function addOriginalSoundtrackToGrid(gridView) {
+            const songs = getOriginalSoundtrackSongs();
+            songs.forEach(song => {
+                const button = document.createElement('button');
+                button.onclick = () => parent.queueSong(song.title);
+                button.innerHTML = `<img src="${song.cover}" alt="${song.title}">`;
+                gridView.appendChild(button);
+            });
+        }
+
+        // Initialize with default playlist
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load JSON data first, then initialize
+            loadAllSongs();
+        });
+	   </script>
+       <script>
+        window.addEventListener('load', () => {
+            const slideInLeftElements = document.querySelectorAll('.slide-in-left');
+            slideInLeftElements.forEach(el => el.classList.add('active'));
+
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            fadeInElements.forEach(el => el.classList.add('active'));
+
+            const slideUpElements = document.querySelectorAll('.slide-up');
+            slideUpElements.forEach(el => el.classList.add('active'));
+        });
+    </script>
+</body>
+</html>
