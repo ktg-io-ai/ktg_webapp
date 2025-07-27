@@ -116,7 +116,13 @@
 
     <div class="top-bar fade-in">
                 <h1>KTG.IO</h1>
-                
+                <div class="song-title">
+                    <button id="musicToggle">
+                        <img src="../assets/play_pause.png" alt="Music Toggle">
+                    </button>
+                    PLAYING: Lucy Stage Right
+                </div>
+                <audio id="musicPlayer" src="KTGMUSIC/music/lucy_stage_right.mp3" loop></audio>
             </div>
    
 
@@ -140,6 +146,18 @@
             const slideUpElements = document.querySelectorAll('.slide-up');
             slideUpElements.forEach(el => el.classList.add('active'));
         });
+
+        // Function to toggle music playback
+        function toggleMusic() {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+        }
+
+        // Add event listener to the toggle button
+        musicToggle.addEventListener('click', toggleMusic);
     </script>
 
 </body>
