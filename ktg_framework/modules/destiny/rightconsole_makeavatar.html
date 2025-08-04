@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIGHT FRAME</title>
+    <style>
+        :root {
+            --bg-primary: #333;
+            --bg-secondary: #111;
+            --bg-tertiary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+            --input-bg: #ddd;
+            --input-text: #555;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --input-bg: #ffffff;
+            --input-text: #1a1a1a;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #2a2a2a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --input-bg: #3a3a3a;
+            --input-text: #f5f5dc;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-frame {
+            background-color: var(--bg-secondary);
+            padding: 33px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+            color: var(--text-primary);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            border: none;
+            padding: 0 8px 0 0;
+            border-radius: 20px;
+            cursor: pointer;
+            vertical-align: middle;
+            transition: background-color 0.3s ease;
+        }
+
+        .buttons button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .buttons button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+        }
+
+        .main-content-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            width: 100%;
+            margin: 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .prompt-area {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            font-size: 16px;
+            box-sizing: border-box;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .prompt-area::placeholder {
+            color: var(--input-text);
+            opacity: 0.7;
+        }
+
+        menu {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: none;
+            text-decoration: none;
+            padding: 10px;
+            min-width: 200px;
+            text-align: center;
+            cursor: pointer;
+            align-items: center;
+            border-radius: 10px;
+            margin: 10px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        menu:hover {
+            background-color: var(--accent-hover);
+        }
+
+        menu h2 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .footer {
+            background-color: var(--bg-tertiary);
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: auto;
+            padding: 10px 0;
+        }
+
+        .footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent-hover);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-frame">
+        <h2></h2>
+        <div class="buttons"></div>
+    </div>
+
+    <div class="content-area">
+        <div class="main-content-wrapper">
+            <div class="main-content">
+                <h2 data-translate="destiny.makeavatar.prompt_title">PROMPT YOUR AVATAR</h2>
+                <textarea class="prompt-area" data-translate-placeholder="destiny.makeavatar.prompt_placeholder" placeholder="DESCRIBE THE AVATAR AND THE SCENE"></textarea>
+                <menu onclick="reimagineAvatar()">
+                    <h2 data-translate="destiny.makeavatar.reimagine">REIMAGINE</h2>
+                </menu>
+                <menu onclick="window.parent.location.href='chooseyourdoor.html'">
+                    <h2 data-translate="destiny.makeavatar.play">PLAY</h2>
+                </menu>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="#" data-translate="destiny.makeavatar.terms">TERMS OF SERVICE</a>
+            <a href="#" data-translate="destiny.makeavatar.privacy">PRIVACY POLICY</a>
+            <a href="#" data-translate="destiny.makeavatar.rules">RULES OF THE GAME</a>
+        </div>
+    </div>
+
+    <!-- Framework Scripts -->
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/theme.js"></script>
+
+    <script>
+        // Initialize theme and language
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            // Initialize language
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+        });
+        
+        // Listen for theme and language changes from parent
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'THEME_CHANGE') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+            } else if (event.data.type === 'LANGUAGE_CHANGE') {
+                if (typeof langManager !== 'undefined') {
+                    langManager.changeLanguage(event.data.language);
+                }
+            }
+        });
+        
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'ktg-theme') {
+                document.documentElement.setAttribute('data-theme', event.newValue);
+            } else if (event.key === 'ktg-language') {
+                if (typeof langManager !== 'undefined') {
+                    langManager.changeLanguage(event.newValue);
+                }
+            }
+        });
+
+        function reimagineAvatar() {
+            // Send message to the left frame to change the avatar image
+            window.parent.frames[0].postMessage('reimagine', '*');
+        }
+    </script>
+</body>
+</html>

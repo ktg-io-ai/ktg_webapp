@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC is an AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement. Discover AI-driven income models & immersive experiences.">
+    <meta name="keywords" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC, AI, Social Platform, Lifestyle Platform, Influencer Marketing, Digital Engagement, AI Advertising, Web3, NFT, Metaverse, SoftBank, Investment, Startup">
+    <meta name="author" content="KTG.IO Platform">
+    <meta property="og:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="og:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.karmathegame.org">
+    <meta property="og:image" content="../../public/assets/images/game_logo.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="twitter:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="twitter:image" content="../../public/assets/icons/kgz_icon.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../../public/assets/icons/kgz_icon.png"/>
+    
+    <title>Karma the Game of Destiny</title>
+    
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+            --border-radius: 20px;
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 80px;
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            margin-top: 55px;
+        }
+
+        .sidebar .logo {
+            margin-top: 10px;
+        }
+
+        .sidebar .logo img {
+            width: 60px;
+            margin-bottom: 50px;
+            max-height: 150px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sidebar .logo img:hover {
+            transform: scale(1.1);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .sidebar li {
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sidebar li:hover {
+            transform: scale(1.05);
+        }
+
+        .sidebar li img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar li span {
+            font-size: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding: 3px 5px 0 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-area {
+            display: flex;
+            height: calc(100vh - 50px);
+            padding-top: 0;
+            margin-top: 52px;
+        }
+
+        .main-frame {
+            width: 50%;
+            height: 100%;
+            border: none;
+            border-radius: 0;
+            background-color: var(--bg-secondary);
+            margin-left: 123px;
+        }
+
+        .right-frame {
+            width: 50%;
+            height: 100%;
+            background-color: var(--bg-secondary);
+            border: none;
+            border-radius: 0;
+            margin-left: 0;
+            overflow-y: auto;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--bg-primary);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 999;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .top-bar h1 {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .top-bar .song-title {
+            margin-left: 20px;
+            padding-right: 50px;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+
+        /* Portal Button */
+        .portal-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            transition: var(--transition);
+        }
+
+        .portal-button:hover {
+            transform: scale(1.1);
+        }
+
+        .portal-button img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Submenu Container */
+        .submenu-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* Submenu Styles */
+        .submenu {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.9);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            border: 1px solid #ccc;
+            padding: 20px;
+            min-width: 300px;
+            border-radius: var(--border-radius);
+            z-index: 1001;
+            pointer-events: auto;
+            display: none;
+        }
+
+        [data-theme="light"] .submenu {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ccc;
+        }
+
+        [data-theme="dark"] .submenu {
+            background-color: rgba(42, 42, 42, 0.9);
+            border: 1px solid #ccc;
+        }
+
+        [data-theme="ktg"] .submenu {
+            background: transparent;
+            border: none;
+        }
+
+        [data-theme="ktg"] .submenu button {
+            background: transparent;
+            border: none;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+        }
+
+        .submenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .submenu li {
+            margin-bottom: 10px;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .submenu button {
+            background-color: rgba(51, 51, 51, 0.9);
+            color: var(--text-primary);
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .submenu button:hover {
+            background-color: rgba(68, 68, 68, 0.9);
+            border-color: #4fb6c1;
+        }
+
+        [data-theme="light"] .submenu button {
+            background-color: rgba(245, 245, 245, 0.9);
+            color: var(--text-primary);
+        }
+
+        [data-theme="light"] .submenu button:hover {
+            background-color: rgba(241, 243, 244, 0.9);
+        }
+
+        [data-theme="dark"] .submenu button {
+            background-color: rgba(58, 58, 58, 0.9);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .submenu button:hover {
+            background-color: rgba(74, 74, 74, 0.9);
+        }
+
+        .submenu button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .submenu a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: 0;
+            border-radius: var(--border-radius);
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        /* Music Controls */
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            vertical-align: middle;
+            padding: 5px;
+        }
+
+        #musicToggle img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Animations */
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-100%);
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+
+        .slide-in-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+        }
+
+        /* Background Video */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Theme-specific video display */
+        [data-theme="light"] .bg-video,
+        [data-theme="dark"] .bg-video {
+            display: none;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 20px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
+    </style>
+    
+</head>
+<body>
+    <video class="bg-video" autoplay loop muted>
+        <source src="../../public/assets/videos/cyberpunk_city.mp4" type="video/mp4">
+    </video>
+
+    <div class="container">
+        <div class="sidebar slide-in-left">
+            <div class="logo">
+                <a href="../../src/pages/dashboard.html" target="_parent">
+                    <img src="../../public/assets/images/game_logo.png" alt="Game Logo">
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar fade-in">
+                <h1 data-translate="destiny.title">Karma the Game of Destiny</h1>
+                <div class="song-title">
+                    <button id="musicToggle">
+                        <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle">
+                    </button>
+                    <span data-translate="destiny.opening.nowPlaying">PLAYING: (Original Soundtrack) Opening Scene</span>
+                </div>
+                <button class="portal-button" onclick="openSubmenu('portal')">
+                    <img src="../../public/assets/icons/portal_icon.png" alt="Portal" class="portal-icon">
+                </button>
+            </div>
+
+            <div class="main-area">
+                <iframe src="leftconsole_opening.html" class="main-frame fade-in" id="mainFrame"></iframe>
+                <iframe src="rightconsole_opening.html" class="right-frame fade-in" id="rightFrame"></iframe>
+            </div>
+        </div>
+
+        <div id="submenu-container" class="submenu-container">
+            <!-- Portal Submenu -->
+            <div id="portal-submenu" class="submenu">
+                <h2 data-translate="portal.title">Portals <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>
+                <div class="portal-grid">
+                    <button><a href="opening.html" target="_parent"><img src="../../public/assets/icons/fave_icon.png" alt="destiny" class="destiny-icon"> DESTINY</a></button>
+                    <button><a href="../music/ktgmusic.html" target="_parent"><img src="../../public/assets/icons/qr_icon.png" alt="ktgmusic" class="music-icon"> KTG.MUSIC</a></button>
+                    <button><a href="../ai/ktgai.html" target="_parent"><img src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai" class="ktgai-icon"> KTG.AI</a></button>
+                    <button><a href="../about/creator.html" target="_parent"><img src="../../public/assets/icons/merch_icon.png" alt="merch" class="merch-icon"> MERCH</a></button>
+                    <button><a href="../about/creator.html" target="_parent"><img src="../../public/assets/icons/kgz_white_icon.png" alt="web3" class="web3-icon"> WEB3</a></button>
+                    <button><a href="../lifestyles/listingsconsole.html" target="_parent"><img src="../../public/assets/icons/listing_icon.png" alt="listings" class="listings-icon"> LISTINGS</a></button>
+                </div>
+            </div>
+            <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/opening_scene.mp3" loop></audio>
+        </div>
+    </div>
+
+    <script>
+        function openSubmenu(submenu) {
+            const submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(submenu => {
+                submenu.style.display = 'none';
+            });
+
+            const selectedSubmenu = document.getElementById(submenu + '-submenu');
+            if (selectedSubmenu) {
+                selectedSubmenu.style.display = 'block';
+            }
+        }
+
+        function closeSubmenu(closeButton) {
+            const submenu = closeButton.closest('.submenu');
+            submenu.style.display = 'none';
+        }
+
+        // Click outside to close submenu
+        document.addEventListener('click', function(event) {
+            const submenus = document.querySelectorAll('.submenu');
+            const portalButton = document.querySelector('.portal-button');
+            
+            let clickedInsideSubmenu = false;
+            submenus.forEach(submenu => {
+                if (submenu.contains(event.target)) {
+                    clickedInsideSubmenu = true;
+                }
+            });
+            
+            if (!clickedInsideSubmenu && !portalButton.contains(event.target)) {
+                submenus.forEach(submenu => {
+                    submenu.style.display = 'none';
+                });
+            }
+        });
+
+        // Music controls
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicToggle = document.getElementById('musicToggle');
+
+        function toggleMusic() {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+            
+            // Update icon for Light/Dark modes
+            const currentTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            if (typeof updateMusicToggleIcon === 'function') {
+                updateMusicToggleIcon(currentTheme);
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // Initialize theme and animations
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            if (typeof updateThemeIcons === 'function') {
+                updateThemeIcons(savedTheme);
+            }
+            
+            // Apply theme-specific settings
+            const video = document.querySelector('.bg-video');
+            if (savedTheme === 'ktg') {
+                if (video) video.style.display = 'block';
+            } else {
+                if (video) video.style.display = 'none';
+            }
+        }
+
+        // Auto-play music based on settings (default off)
+        function initializeMusic() {
+            const autoplayEnabled = localStorage.getItem('ktg-autoplay') === 'true';
+            const volume = parseFloat(localStorage.getItem('ktg-volume')) || 0.5;
+            
+            if (musicPlayer) {
+                musicPlayer.volume = volume;
+                // Music is OFF by default - do not autoplay
+                // Only play if user manually clicks toggle
+            }
+        }
+
+        window.addEventListener('load', () => {
+            // Initialize theme and language
+            initializeTheme();
+            initializeMusic();
+            
+            // Initialize language system
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+            
+            // Initialize theme icons
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            if (typeof updateThemeIcons === 'function') {
+                updateThemeIcons(savedTheme);
+            }
+
+            // Animations
+            setTimeout(() => {
+                const slideInLeftElements = document.querySelectorAll('.slide-in-left');
+                slideInLeftElements.forEach(el => el.classList.add('active'));
+            }, 100);
+
+            setTimeout(() => {
+                const fadeInElements = document.querySelectorAll('.fade-in');
+                fadeInElements.forEach(el => el.classList.add('active'));
+            }, 500);
+        });
+        
+        // Add language change handler like dashboard
+        function changeLanguage(language) {
+            localStorage.setItem('ktg-language', language);
+            if (typeof langManager !== 'undefined') {
+                langManager.changeLanguage(language);
+            }
+            // Reload iframes to apply language changes
+            setTimeout(() => {
+                const mainFrame = document.getElementById('mainFrame');
+                const rightFrame = document.getElementById('rightFrame');
+                if (mainFrame) {
+                    mainFrame.src = mainFrame.src;
+                }
+                if (rightFrame) {
+                    rightFrame.src = rightFrame.src;
+                }
+            }, 100);
+        }
+    </script>
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/theme-icons.js"></script>
+</body>
+</html>

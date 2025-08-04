@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="destiny.gameconsole.leftconsole.title">Participant Profile</title>
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: rgba(1, 1, 1, 0.9);
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --border-color: #2f27c8;
+            --hover-bg: #222;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: rgba(248, 249, 250, 0.9);
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --border-color: #e9ecef;
+            --hover-bg: #f1f3f4;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: rgba(45, 45, 45, 0.9);
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --border-color: #404040;
+            --hover-bg: #3a3a3a;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        [data-theme="light"] body,
+        [data-theme="dark"] body {
+            font-family: Arial, sans-serif;
+        }
+
+        .top-frame {
+            background-color: var(--bg-secondary);
+            padding: 19px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .content-area {
+            display: flex;
+            height: calc(100vh - 95px);
+        }
+
+        .left-content {
+            width: 90%;
+            overflow-y: auto;
+            margin-right: 10px;
+        }
+
+        .left-content img {
+            width: 100%;
+            max-height: 60vh;
+            object-fit: cover;
+            object-position: top;
+            animation: slideInLeft 1s ease-in-out;
+        }
+
+        .left-content::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .right-content button {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: none;
+            margin-top: 15px;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 0px;
+        }
+
+        .right-content button:hover {
+            color: var(--hover-color);
+        }
+
+        .data-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 95%;
+            margin: auto;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 5px;
+            background-color: var(--bg-primary);
+            border-radius: 3px;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--text-primary);
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        .content {
+            margin-top: 5px;
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            width: 100%;
+        }
+
+        .safe-image img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .door-box {
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            border-radius: 5px;
+        }
+
+        .journeybook-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 80%;
+        }
+
+        .bar {
+            height: 10px;
+            border-radius: 5px;
+        }
+
+        .bar1 { background-color: blue; width: 10%; }
+        .bar2 { background-color: yellow; width: 50%; }
+        .bar3 { background-color: red; width: 85%; }
+
+        .bottom-frame {
+            padding-left: 20px;
+        }
+
+        .promoter-container {
+            padding-top: 10px;
+            display: flex;
+            background-color: var(--bg-secondary);
+            border-radius: 5px;
+        }
+
+        .promoter-container > div:first-child img {
+            width: 150px;
+            height: 150px;
+            border-radius: 3px;
+            object-fit: cover;
+            padding: 10px 0px 10px 10px;
+            margin-right: 20px;
+        }
+
+        .promoter-container > div:last-child {
+            display: flex;
+            flex-direction: column;
+            padding-left: 10px;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-top: -10px;
+        }
+
+        .promoter-container h2 {
+            color: var(--text-secondary);
+            font-size: 1.5em;
+            margin-bottom: 0px;
+            text-align: left;
+        }
+
+        .promoter-container h4 {
+            font-size: 1.1em;
+            margin-bottom: 1px;
+            text-align: left;
+        }
+
+        .promoter-container a {
+            color: var(--text-primary);
+            text-decoration: none;
+            text-align: left;
+        }
+
+        .promoter-container img[alt="Instagram Icon"] {
+            width: 35px;
+            height: 35px;
+            margin-top: 0px;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-frame">
+        <h2 id="participant-name"></h2>
+    </div>
+
+    <div class="content-area">
+        <div class="left-content fade-in">
+            <img id="participant-image" src="" alt="Participant Image">  
+            <div class="bottom-frame">
+                <div class="tagline">
+                    <h2 id="participant-tagline"></h2>
+                </div>
+                <div class="tagline">
+                    <h4>NEW YORK, NY</h4>
+                </div>
+            </div>
+            <div class="data-container">
+                <div class="column">
+                    <div class="title" data-lang="destiny.gameconsole.safeLinks">SAFE LINKS</div>
+                    <div class="content" id="safe-links"></div>
+                </div>
+                <div class="column">
+                    <div class="title" data-lang="destiny.gameconsole.door">DOOR</div>
+                    <div class="content">
+                        <div class="door-box"></div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="title" data-lang="destiny.gameconsole.journeybook">JOURNEYBOOK</div>
+                    <div class="content journeybook-bars">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-content"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../shared/js/firebase-config.js"></script>
+    <script src="../../shared/js/language.js"></script>
+    <script>
+        // Initialize theme and language
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            if (typeof initializeLanguage === 'function') {
+                initializeLanguage();
+            }
+        });
+
+        // Listen for theme changes from parent
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'themeChange') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+            } else if (event.data.type === 'languageChange') {
+                if (typeof initializeLanguage === 'function') {
+                    initializeLanguage();
+                }
+            } else if (event.data.type === 'participantSelected') {
+                const participant = event.data.participant;
+                updateParticipant(participant);
+            }
+        });
+
+        function updateParticipant(participant) {
+            document.getElementById('participant-name').textContent = participant.name;
+            document.getElementById('participant-image').src = participant.image;
+            document.getElementById('participant-tagline').textContent = participant.tagline;
+
+            const safeLinksContainer = document.getElementById('safe-links');
+            safeLinksContainer.innerHTML = '';
+
+            if (participant.safeLinks && participant.safeLinks.length > 0) {
+                participant.safeLinks.forEach(link => {
+                    const button = document.createElement('button');
+                    button.style.cssText = `
+                        background-color: #2f27c8;
+                        color: #fff;
+                        border: none;
+                        padding: 8px 16px;
+                        border-radius: 20px;
+                        cursor: pointer;
+                        font-size: 14px;
+                        font-weight: bold;
+                        transition: all 0.3s ease;
+                        box-shadow: 0 2px 8px rgba(47, 39, 200, 0.3);
+                        text-decoration: none;
+                        display: block;
+                        margin-bottom: 8px;
+                        width: fit-content;
+                    `;
+                    
+                    button.addEventListener('mouseenter', () => {
+                        button.style.backgroundColor = '#3d32d4';
+                    });
+                    
+                    button.addEventListener('mouseleave', () => {
+                        button.style.backgroundColor = '#2f27c8';
+                    });
+                    
+                    button.textContent = link.text;
+                    button.onclick = () => window.open(link.url, '_blank');
+                    safeLinksContainer.appendChild(button);
+                });
+            }
+        }3d32d4';
+                        button.style.transform = 'translateY(-2px)';
+                        button.style.boxShadow = '0 4px 12px rgba(47, 39, 200, 0.4)';
+                    });
+                    
+                    button.addEventListener('mouseleave', () => {
+                        button.style.backgroundColor = '#2f27c8';
+                        button.style.transform = 'translateY(0)';
+                        button.style.boxShadow = '0 2px 8px rgba(47, 39, 200, 0.3)';
+                    });
+
+                    const a = document.createElement('a');
+                    a.href = link.url;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                    a.textContent = link.text;
+                    a.style.cssText = `
+                        color: #fff;
+                        text-decoration: none;
+                        display: block;
+                        width: 100%;
+                        height: 100%;
+                    `;
+
+                    button.appendChild(a);
+                    safeLinksContainer.appendChild(button);
+                });
+            } else {
+                const button = document.createElement('button');
+                button.style.cssText = `
+                    background-color: #666;
+                    color: #fff;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 20px;
+                    cursor: default;
+                    font-size: 14px;
+                    font-weight: bold;
+                    display: block;
+                    margin-bottom: 8px;
+                    width: fit-content;
+                `;
+                button.textContent = 'No Safe Links Available';
+                button.disabled = true;
+                safeLinksContainer.appendChild(button);
+            }
+        }
+
+        // Firebase integration
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'updateStats') {
+                // Handle stats updates from parent
+                console.log('Stats updated:', event.data.stats);
+            }
+        });
+
+        // Load from Firebase if available, fallback to JSON
+        async function loadParticipantData() {
+            try {
+                // Check if Firebase is available (local or parent window)
+                const firebaseAuth = window.KTGFirebase || window.parent.KTGFirebase;
+                const firebaseDB = window.firebase || window.parent.firebase;
+                
+                if (firebaseAuth && firebaseAuth.initialized && firebaseDB) {
+                    // Get current user from Firebase
+                    const currentUser = firebaseAuth.auth.getCurrentUser();
+                    if (currentUser) {
+                        // Find user in Firebase database
+                        const userQuery = await firebaseDB.firestore()
+                            .collection('Users')
+                            .where('email', '==', currentUser.email)
+                            .get();
+                        
+                        if (!userQuery.empty) {
+                            const userData = userQuery.docs[0].data();
+                            updateParticipant({
+                                name: userData.name,
+                                image: '../../public/assets/' + userData.image,
+                                tagline: userData.tagline,
+                                safeLinks: userData.safeLinks || []
+                            });
+                            
+                            // Show current user indicator
+                            const nameElement = document.getElementById('participant-name');
+                            if (nameElement) {
+                                nameElement.innerHTML = userData.name + ' <span style="color: #4CAF50; font-size: 12px;">(You)</span>';
+                            }
+                            return;
+                        }
+                    }
+                }
+                
+                // Fallback to JSON file
+                const response = await fetch('../../data/participant.json');
+                const data = await response.json();
+                if (data && data.length > 0) {
+                    updateParticipant({
+                        ...data[0],
+                        image: '../../public/assets/' + data[0].image
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading participant data:', error);
+                // Show error state
+                document.getElementById('participant-name').textContent = 'Error Loading Data';
+                document.getElementById('participant-tagline').textContent = 'Please refresh the page';
+            }
+        }
+
+        // Load current user's data when page loads
+        setTimeout(loadParticipantData, 500);
+    </script>
+</body>
+</html>

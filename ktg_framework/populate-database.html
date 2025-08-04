@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Populate Firebase Database</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+        .section {
+            background-color: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 1px solid #444;
+        }
+        button {
+            background-color: #2f27c8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4fb6c1;
+        }
+        button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+        .result {
+            background-color: #333;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success { border-left: 4px solid #4CAF50; }
+        .error { border-left: 4px solid #f44336; }
+        .info { border-left: 4px solid #2196F3; }
+        .user-card {
+            background-color: #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            flex-grow: 1;
+        }
+        .user-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .user-tagline {
+            color: #ccc;
+            font-size: 14px;
+        }
+        .user-email {
+            color: #4fb6c1;
+            font-size: 12px;
+        }
+        .progress {
+            background-color: #444;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .progress-bar {
+            background-color: #2f27c8;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔥 Firebase Database Population</h1>
+    
+    <div class="section">
+        <h2>Test Users from participant.json</h2>
+        <div id="usersList"></div>
+        <button onclick="loadParticipants()">Load Participants</button>
+        <button onclick="createAllUsers()" id="createUsersBtn" disabled>Create All Users & Accounts</button>
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="createResult" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>Sample Listings Data</h2>
+        <button onclick="createSampleListings()">Create Sample Listings</button>
+        <div id="listingsResult" class="result"></div>
+    </div>
+
+    <div class="section">
+        <h2>Database Status</h2>
+        <button onclick="checkDatabase()">Check Database Status</button>
+        <div id="statusResult" class="result"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="shared/js/firebase-config.js"></script>
+
+    <script>
+        let participants = [];
+        let createdUsers = 0;
+        let totalUsers = 0;
+
+        function log(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            element.innerHTML += `[${timestamp}] ${message}\n`;
+            element.className = `result ${type}`;
+            element.scrollTop = element.scrollHeight;
+        }
+
+        function clear(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        function updateProgress(current, total) {
+            const percentage = (current / total) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+
+        async function loadParticipants() {
+            try {
+                // Embed participant data directly to avoid path issues
+                participants = [
+                    { "name": "Mei", "image": "images/mei.jpg", "tagline": "Vixen Seeks Hero", "safeLinks": [] },
+                    { "name": "Astral Maiden", "image": "images/astral_maiden.jpg", "tagline": "Seeker Seeks Starfarer", "safeLinks": [{ "url": "https://youtu.be/m_BnnWjep9M?si=aeYMZbwaVsmp67SM", "text": "Lofi Video" }] },
+                    { "name": "Cyber Shaman", "image": "images/cyber_shaman.jpg", "tagline": "Oracle Seeks Glitchrunner", "safeLinks": [{ "url": "https://youtu.be/9Kf3e2kb5t0?si=Usm3fmsSrFyEtFgE", "text": "Lofi Video" }] },
+                    { "name": "Crimson Oracle", "image": "images/crimson_oracle.jpg", "tagline": "Seer Seeks Renegade", "safeLinks": [{ "url": "https://youtu.be/1zp6IVfZkG8?si=Ga1xnTI-1dvmlmEN", "text": "Lofi Video" }, { "url": "https://youtu.be/YuzbbSPgYgQ?si=0ipAYWH2Gxnkb9Zq", "text": "Lofi Video" }] },
+                    { "name": "Ethereal Sentinel", "image": "images/ethereal_sentinel.jpg", "tagline": "Guardian Seeks Wanderer", "safeLinks": [{ "url": "https://youtu.be/QPE2pFnDLng?si=Y4wdqivFPF0fb2gJ", "text": "Lofi Video" }] },
+                    { "name": "Steel Ronin", "image": "images/steel_ronin.jpg", "tagline": "Ronin Seeks Master", "safeLinks": [{ "url": "https://youtu.be/G2vnUeVamH8?si=3XU1ZpLDLnl8ETts", "text": "Lofi Video" }] },
+                    { "name": "Desert Dancer", "image": "images/desert_dancer.jpg", "tagline": "Dancer Seeks Guide", "safeLinks": [{ "url": "https://youtu.be/9hXzZIkO-Tk?si=PhVYB7jGPQzqU3e2", "text": "Lofi Video" }] },
+                    { "name": "Echo Twins", "image": "images/echo_twins.jpg", "tagline": "Twins Seek Unity", "safeLinks": [{ "url": "https://youtu.be/fStR1veL7iQ?si=oRCYfTZ6r9p6LPTm", "text": "Lofi Video" }] },
+                    { "name": "Skull Prophet", "image": "images/skull_prophet.jpg", "tagline": "Prophet Seeks Disciple", "safeLinks": [{ "url": "https://youtu.be/6bvkhu0rNdM?si=diG5KBzUbCmiuGq7", "text": "Lofi Video" }] },
+                    { "name": "Neon Nomad", "image": "images/neon_nomad.jpg", "tagline": "Nomad Seeks Sanctuary", "safeLinks": [{ "url": "https://youtu.be/_RsfqO85BCI?si=34LXT9CpCWvgCOY1", "text": "Lofi Video" }] },
+                    { "name": "Inferno Queen", "image": "images/inferno_queen.jpg", "tagline": "Queen Seeks Rebel", "safeLinks": [{ "url": "https://youtu.be/b8Q73MOxqlo?si=RVlun1jw8-yebs06", "text": "Lofi Video" }] },
+                    { "name": "Golden Muse", "image": "images/golden_muse.jpg", "tagline": "Muse Seeks Inspiration", "safeLinks": [{ "url": "https://youtu.be/eRyNGQDgbAU?si=btZpi7d4Y75gPAB1", "text": "Lofi Video" }] },
+                    { "name": "Blood Rose", "image": "images/blood_rose.jpg", "tagline": "Rose Seeks Thorn", "safeLinks": [{ "url": "https://youtu.be/xHzeXyZDgFM?si=SAdmMCR-61VzPdK-", "text": "Lofi Video" }] },
+                    { "name": "Seraphic Siren", "image": "images/seraphic_siren.jpg", "tagline": "Siren Seeks Sailor", "safeLinks": [{ "url": "https://youtu.be/iuAbAwMXewQ?si=TOCi12sk-6qu3Md8", "text": "Lofi Video" }] },
+                    { "name": "Cyber Geisha", "image": "images/cyber_geisha.jpg", "tagline": "Geisha Seeks Patron", "safeLinks": [{ "url": "https://youtu.be/W4y9n5f65nw?si=ZlvM23p7UB2hjZBh", "text": "Lofi Video" }] },
+                    { "name": "Pixel Priestess", "image": "images/pixel_priestess.jpg", "tagline": "Priestess Seeks Convert", "safeLinks": [{ "url": "https://youtu.be/0mc127igrAM?si=Av8HLyRjLc7cNeqj", "text": "Lofi Video" }] }
+                ];
+                console.log('Loaded participants:', participants);
+                
+                const usersList = document.getElementById('usersList');
+                usersList.innerHTML = '';
+                
+                participants.forEach((user, index) => {
+                    console.log(`Processing user ${index + 1}:`, user);
+                    const userCard = document.createElement('div');
+                    userCard.className = 'user-card';
+                    userCard.innerHTML = `
+                        <div style="width: 60px; height: 60px; background: #2f27c8; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            ${user.name.charAt(0)}
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name">${user.name}</div>
+                            <div class="user-tagline">${user.tagline}</div>
+                            <div class="user-email">${generateEmail(user.name)}</div>
+                        </div>
+                    `;
+                    usersList.appendChild(userCard);
+                });
+                
+                document.getElementById('createUsersBtn').disabled = false;
+                log('createResult', `Loaded ${participants.length} participants from JSON`, 'success');
+            } catch (error) {
+                log('createResult', `Error loading participants: ${error.message}`, 'error');
+                console.error('Full error:', error);
+            }
+        }
+
+        function generateEmail(name) {
+            return name.toLowerCase().replace(/\s+/g, '.') + '@ktg.test';
+        }
+
+        function generateWalletId() {
+            return 'wallet_' + Math.random().toString(36).substring(2, 15);
+        }
+
+        async function createAllUsers() {
+            if (!window.KTGFirebase || !window.KTGFirebase.initialized) {
+                log('createResult', 'Firebase not initialized', 'error');
+                return;
+            }
+
+            clear('createResult');
+            log('createResult', 'Starting user creation process...', 'info');
+            
+            createdUsers = 0;
+            totalUsers = participants.length;
+            updateProgress(0, totalUsers);
+
+            for (let i = 0; i < participants.length; i++) {
+                const participant = participants[i];
+                await createUser(participant, i);
+                createdUsers++;
+                updateProgress(createdUsers, totalUsers);
+                
+                // Small delay to avoid overwhelming Firebase
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+
+            log('createResult', `\n✅ Database population complete! Created ${createdUsers} users.`, 'success');
+        }
+
+        async function createUser(participant, index) {
+            try {
+                const email = generateEmail(participant.name);
+                const password = 'ktg123456'; // Default password for all test users
+                const walletId = generateWalletId();
+                
+                log('createResult', `Creating user ${index + 1}/${totalUsers}: ${participant.name}`, 'info');
+
+                // Create Firebase Authentication account
+                try {
+                    const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                    const firebaseUser = userCredential.user;
+                    log('createResult', `  ✓ Firebase Auth account created (${firebaseUser.uid})`, 'info');
+                } catch (authError) {
+                    if (authError.code === 'auth/email-already-in-use') {
+                        log('createResult', `  ✓ Firebase Auth account already exists`, 'info');
+                    } else {
+                        log('createResult', `  ❌ Firebase Auth failed: ${authError.message}`, 'error');
+                        throw authError;
+                    }
+                }
+
+                // Create user document in Users collection
+                const userData = {
+                    wallet_id: walletId,
+                    email: email,
+                    name: participant.name,
+                    tagline: participant.tagline,
+                    image: participant.image,
+                    role: 0, // Participant role
+                    lives: 3,
+                    zaps_received: 0,
+                    profile_status: 'active',
+                    game_history: [],
+                    safeLinks: participant.safeLinks || [],
+                    created_at: new Date(),
+                    last_active: new Date()
+                };
+
+                await firebase.firestore().collection('Users').doc(walletId).set(userData);
+                log('createResult', `  ✓ User document created`, 'info');
+
+                // Create wallet document
+                const walletData = {
+                    wallet_id: walletId,
+                    token_balance: Math.floor(Math.random() * 1000),
+                    one_life_token_balance: 1,
+                    three_life_token_balance: 1,
+                    six_life_token_balance: 1,
+                    nine_life_token_balance: 1,
+                    one_thousand_life_token_balance: 1,
+                    diamonds_balance: Math.floor(Math.random() * 50),
+                    connected_email: email,
+                    profile_level: Math.floor(Math.random() * 5) + 1,
+                    encapsulated_memories: [],
+                    created_at: new Date()
+                };
+
+                await firebase.firestore().collection('Wallet').doc(walletId).set(walletData);
+                log('createResult', `  ✓ Wallet document created`, 'info');
+
+                // Create avatar document
+                const avatarData = {
+                    owner_wallet: walletId,
+                    name: participant.name,
+                    image: participant.image,
+                    tagline: participant.tagline,
+                    persona_data: {
+                        style: 'cyberpunk',
+                        personality: participant.tagline.split(' ')[0].toLowerCase(),
+                        background: 'mysterious'
+                    },
+                    visibility: 'public',
+                    created_at: new Date(),
+                    expires_at: null
+                };
+
+                await firebase.firestore().collection('Avatars').doc(walletId + '_avatar').set(avatarData);
+                log('createResult', `  ✓ Avatar document created`, 'info');
+
+                log('createResult', `✅ Created: ${participant.name} (${email})`, 'success');
+
+            } catch (error) {
+                log('createResult', `❌ Failed to create ${participant.name}: ${error.message}`, 'error');
+                console.error('Full error for', participant.name, ':', error);
+            }
+        }
+
+        async function createSampleListings() {
+            if (!window.KTGFirebase || !window.KTGFirebase.initialized) {
+                log('listingsResult', 'Firebase not initialized', 'error');
+                return;
+            }
+
+            clear('listingsResult');
+            log('listingsResult', 'Creating sample listings...', 'info');
+
+            const sampleListings = [
+                {
+                    title: "Cyberpunk Art Gallery Opening",
+                    description: "Experience the future of digital art in our immersive gallery space",
+                    location: "NYC",
+                    category: "Arts",
+                    prize_type: "ticket",
+                    scheduled_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
+                    claimed: false,
+                    media_assets: ["images/gallery.jpg"]
+                },
+                {
+                    title: "Neon Night Market",
+                    description: "Street food and underground music in the heart of the city",
+                    location: "NYC",
+                    category: "Events",
+                    prize_type: "freebie",
+                    scheduled_at: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days from now
+                    claimed: false,
+                    media_assets: ["images/market.jpg"]
+                },
+                {
+                    title: "VR Gaming Tournament",
+                    description: "Compete in the ultimate virtual reality gaming championship",
+                    location: "LA",
+                    category: "Entertainment",
+                    prize_type: "experience",
+                    scheduled_at: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // 2 weeks from now
+                    claimed: false,
+                    media_assets: ["images/vr_tournament.jpg"]
+                },
+                {
+                    title: "Rooftop Meditation Session",
+                    description: "Find inner peace above the city chaos",
+                    location: "SF",
+                    category: "Other",
+                    prize_type: "meetup",
+                    scheduled_at: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
+                    claimed: false,
+                    media_assets: ["images/meditation.jpg"]
+                },
+                {
+                    title: "Underground Music Festival",
+                    description: "Discover the next generation of electronic artists",
+                    location: "NYC",
+                    category: "Entertainment",
+                    prize_type: "ticket",
+                    scheduled_at: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000), // 3 weeks from now
+                    claimed: false,
+                    media_assets: ["images/music_festival.jpg"]
+                }
+            ];
+
+            try {
+                for (let i = 0; i < sampleListings.length; i++) {
+                    const listing = sampleListings[i];
+                    const listingId = 'listing_' + Date.now() + '_' + i;
+                    
+                    await firebase.firestore().collection('Outings').doc(listingId).set({
+                        ...listing,
+                        created_at: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    log('listingsResult', `✅ Created listing: ${listing.title}`, 'success');
+                }
+                
+                log('listingsResult', `\n✅ Created ${sampleListings.length} sample listings`, 'success');
+            } catch (error) {
+                log('listingsResult', `❌ Error creating listings: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkDatabase() {
+            if (!window.KTGFirebase || !window.KTGFirebase.initialized) {
+                log('statusResult', 'Firebase not initialized', 'error');
+                return;
+            }
+
+            clear('statusResult');
+            log('statusResult', 'Checking database status...', 'info');
+
+            try {
+                // Check Users collection
+                const usersSnapshot = await firebase.firestore().collection('Users').get();
+                log('statusResult', `Users: ${usersSnapshot.size} documents`, 'info');
+
+                // Check Wallet collection
+                const walletSnapshot = await firebase.firestore().collection('Wallet').get();
+                log('statusResult', `Wallets: ${walletSnapshot.size} documents`, 'info');
+
+                // Check Avatars collection
+                const avatarsSnapshot = await firebase.firestore().collection('Avatars').get();
+                log('statusResult', `Avatars: ${avatarsSnapshot.size} documents`, 'info');
+
+                // Check Outings collection
+                const outingsSnapshot = await firebase.firestore().collection('Outings').get();
+                log('statusResult', `Outings: ${outingsSnapshot.size} documents`, 'info');
+
+                // Check GameSessions collection
+                const sessionsSnapshot = await firebase.firestore().collection('GameSessions').get();
+                log('statusResult', `Game Sessions: ${sessionsSnapshot.size} documents`, 'info');
+
+                log('statusResult', '\n✅ Database status check complete', 'success');
+
+                // Show sample user data
+                if (usersSnapshot.size > 0) {
+                    const firstUser = usersSnapshot.docs[0].data();
+                    log('statusResult', `\nSample user data:\n${JSON.stringify(firstUser, null, 2)}`, 'info');
+                }
+
+            } catch (error) {
+                log('statusResult', `❌ Error checking database: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-load participants on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (window.KTGFirebase && window.KTGFirebase.initialized) {
+                    loadParticipants();
+                } else {
+                    setTimeout(loadParticipants, 2000);
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

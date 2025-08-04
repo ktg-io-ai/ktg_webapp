@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIGHT FRAME</title>
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --bg-tertiary: #333;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+            --hover-bg: #444;
+            --border-color: #2f27c8;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --hover-bg: #f1f3f4;
+            --border-color: #e9ecef;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --hover-bg: #4a4a4a;
+            --border-color: #404040;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-frame {
+            background-color: var(--bg-primary);
+            padding: 33px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+            color: var(--text-primary);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: none;
+            padding: 0px 8px 0px 0px;
+            border-radius: 20px;
+            cursor: pointer;
+            vertical-align: middle;
+            transition: background-color 0.3s ease;
+        }
+
+        .buttons button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .buttons button:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .content-area {
+            display: flex;
+            height: calc(100vh - 195px);
+            align-items: center;
+        }
+
+        .main-content {
+            width: 100%;
+            margin-right: 60px;
+            margin-left: 60px;
+            transform: translateY(-20px);
+        }
+
+        .main-content h2 {
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        menu {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            min-width: 200px;
+            text-align: center;
+            cursor: pointer;
+            align-items: center;
+            margin: 40px 0;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        menu:hover {
+            background-color: var(--hover-bg);
+            border: 1px solid #4fb6c1;
+        }
+
+        [data-theme="ktg"] menu:hover {
+            background-color: #222;
+        }
+
+        menu h2 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            background-color: #ddd;
+            color: #555;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        [data-theme="light"] .form-input {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .form-input {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .footer {
+            background-color: var(--bg-secondary);
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 40px;
+            padding: 15px 0;
+        }
+
+        .footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent-color);
+        }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../shared/js/firebase-config.js"></script>
+    <script src="../../shared/js/language.js"></script>
+</head>
+<body>
+    <div class="top-frame">
+        <h2></h2>
+        <div class="buttons">
+            <!-- Additional buttons can go here -->
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="main-content">
+            <h2 data-lang="destiny.login.loginTitle">LOGIN</h2>
+            <input type="email" class="form-input" placeholder="EMAIL ADDRESS" data-lang-placeholder="destiny.login.emailPlaceholder" required>
+            <input type="password" class="form-input" placeholder="PASSWORD" data-lang-placeholder="destiny.login.passwordPlaceholder" required>
+            <menu onclick="handleLogin()">
+                <h2 data-lang="destiny.login.next">NEXT</h2>
+            </menu>
+            <div id="login-status" style="text-align: center; margin-top: 10px; color: var(--text-secondary); font-size: 14px;"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="#" data-lang="destiny.login.terms">TERMS OF SERVICE</a>
+        <a href="#" data-lang="destiny.login.privacy">PRIVACY POLICY</a>
+        <a href="#" data-lang="destiny.login.rules">RULES OF THE GAME</a>
+    </div>
+
+    <script>
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+        }
+
+        async function handleLogin() {
+            const emailInput = document.querySelector('input[type="email"]');
+            const passwordInput = document.querySelector('input[type="password"]');
+            const statusDiv = document.getElementById('login-status');
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+            
+            if (!email || !password) {
+                statusDiv.textContent = 'Please enter both email and password';
+                statusDiv.style.color = '#f44336';
+                return;
+            }
+            
+            statusDiv.textContent = 'Logging in...';
+            statusDiv.style.color = 'var(--text-secondary)';
+            
+            try {
+                // Check if Firebase is available (local or parent)
+                const firebaseAuth = window.KTGFirebase || window.parent.KTGFirebase;
+                if (firebaseAuth && firebaseAuth.initialized && firebaseAuth.auth) {
+                    const result = await firebaseAuth.auth.signIn(email, password);
+                    
+                    if (result.success) {
+                        statusDiv.textContent = '✅ Login successful! Redirecting...';
+                        statusDiv.style.color = '#4CAF50';
+                        
+                        // Redirect to game console after successful login
+                        setTimeout(() => {
+                            window.parent.location.href = 'gameconsole.html';
+                        }, 1000);
+                    } else {
+                        statusDiv.textContent = '❌ Login failed: ' + result.error;
+                        statusDiv.style.color = '#f44336';
+                    }
+                } else {
+                    // Fallback - direct redirect (for testing)
+                    statusDiv.textContent = '⚠️ Firebase not available, redirecting anyway...';
+                    statusDiv.style.color = '#ff9800';
+                    setTimeout(() => {
+                        window.parent.location.href = 'gameconsole.html';
+                    }, 1000);
+                }
+            } catch (error) {
+                statusDiv.textContent = '❌ Error: ' + error.message;
+                statusDiv.style.color = '#f44336';
+            }
+        }
+        
+        // Handle Enter key press
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleLogin();
+            }
+        });
+
+        window.addEventListener('load', () => {
+            initializeTheme();
+            
+            // Check if user is already logged in
+            setTimeout(() => {
+                const firebaseAuth = window.KTGFirebase || window.parent.KTGFirebase;
+                if (firebaseAuth && firebaseAuth.auth && firebaseAuth.auth.isAuthenticated()) {
+                    document.getElementById('login-status').textContent = '✅ Already logged in! Redirecting...';
+                    document.getElementById('login-status').style.color = '#4CAF50';
+                    setTimeout(() => {
+                        window.parent.location.href = 'gameconsole.html';
+                    }, 1000);
+                }
+            }, 1000);
+            
+            setTimeout(() => {
+                if (typeof langManager !== 'undefined') {
+                    langManager.updateUI();
+                } else {
+                    // Fallback text
+                    const elements = {
+                        '[data-lang="destiny.login.loginTitle"]': 'LOGIN',
+                        '[data-lang="destiny.login.next"]': 'NEXT',
+                        '[data-lang="destiny.login.terms"]': 'TERMS OF SERVICE',
+                        '[data-lang="destiny.login.privacy"]': 'PRIVACY POLICY',
+                        '[data-lang="destiny.login.rules"]': 'RULES OF THE GAME'
+                    };
+                    Object.entries(elements).forEach(([selector, text]) => {
+                        const el = document.querySelector(selector);
+                        if (el) el.textContent = text;
+                    });
+                    
+                    // Handle placeholders
+                    const emailInput = document.querySelector('[data-lang-placeholder="destiny.login.emailPlaceholder"]');
+                    if (emailInput) emailInput.placeholder = 'EMAIL ADDRESS';
+                    
+                    const passwordInput = document.querySelector('[data-lang-placeholder="destiny.login.passwordPlaceholder"]');
+                    if (passwordInput) passwordInput.placeholder = 'PASSWORD';
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIGHT FRAME</title>
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --bg-tertiary: #333;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+            --hover-bg: #444;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --hover-bg: #f1f3f4;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --hover-bg: #4a4a4a;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-frame {
+            background-color: var(--bg-primary);
+            padding: 33px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+            color: var(--text-primary);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: none;
+            padding: 0px 8px 0px 0px;
+            border-radius: 20px;
+            cursor: pointer;
+            vertical-align: middle;
+            transition: background-color 0.3s ease;
+        }
+
+        .buttons button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .buttons button:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .content-area {
+            display: flex;
+            height: calc(100vh - 195px);
+            padding-top: 80px;
+        }
+
+        .main-content {
+            width: 100%;
+            margin-right: 60px;
+            margin-left: 60px;
+        }
+
+        menu {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            min-width: 200px;
+            text-align: center;
+            cursor: pointer;
+            align-items: center;
+            margin: 10px 0;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        menu:hover {
+            background-color: var(--hover-bg);
+            border: 1px solid #4fb6c1;
+        }
+
+        [data-theme="ktg"] menu:hover {
+            background-color: #222;
+        }
+
+        menu h2 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .qr-code {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .qr-code img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .footer {
+            background-color: var(--bg-secondary);
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 40px;
+            padding: 15px 0;
+        }
+
+        .footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+        }
+    </style>
+    <script src="../../shared/js/language.js"></script>
+</head>
+<body>
+    <div class="top-frame">
+        <h2></h2>
+    </div>
+
+    <div class="content-area">
+        <div class="main-content fade-in">
+            <menu onclick="window.parent.location.href='../../src/pages/dashboard.html'">
+                <h2 data-lang="destiny.opening.ktgio">KTG.IO</h2>
+            </menu>
+            
+            <menu onclick="window.parent.location.href='../../modules/influencers/promoters_followers.html'">
+                <div class="qr-code">
+                    <img src="../../public/assets/icons/influencer_icon.png" alt="Influencer Icon">
+                </div>
+            </menu>
+            
+            <menu onclick="window.parent.location.href='login.html'">
+                <h2 data-lang="destiny.opening.login">LOGIN</h2>
+            </menu>
+            
+            <menu onclick="window.parent.location.href='newwallet.html'">
+                <h2 data-lang="destiny.opening.register">REGISTER NEW</h2>
+            </menu>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="#" data-lang="destiny.opening.terms">TERMS OF SERVICE</a>
+        <a href="#" data-lang="destiny.opening.privacy">PRIVACY POLICY</a>
+        <a href="#" data-lang="destiny.opening.rules">RULES OF THE GAME</a>
+    </div>
+
+    <script>
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+        }
+
+        window.addEventListener('load', () => {
+            initializeTheme();
+            
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            fadeInElements.forEach(el => el.classList.add('active'));
+        });
+    </script>
+</body>
+</html>
