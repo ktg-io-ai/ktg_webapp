@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC is an AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement. Discover AI-driven income models & immersive experiences.">
+    <meta name="keywords" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC, AI, Social Platform, Lifestyle Platform, Influencer Marketing, Digital Engagement, AI Advertising, Web3, NFT, Metaverse, SoftBank, Investment, Startup">
+    <meta name="author" content="KTG.IO Platform">
+    <meta property="og:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="og:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.karmathegame.org">
+    <meta property="og:image" content="../../public/assets/images/game_logo.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="twitter:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="twitter:image" content="../../public/assets/icons/kgz_icon.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../../public/assets/icons/kgz_icon.png"/>
+    
+    <title>Karma the Game of Destiny - Dark Mode</title>
+    
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+            --border-radius: 20px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--bg-primary);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 999;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .top-bar .song-title {
+            margin-left: 20px;
+            padding-right: 50px;
+            font-size: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+
+        /* Music Controls */
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            vertical-align: middle;
+            padding: 5px;
+        }
+
+        #musicToggle img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding-top: 50px;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content-wrapper {
+            width: 90%;
+            max-width: 1200px;
+            height: calc(100vh - 100px);
+            display: flex;
+            gap: 20px;
+        }
+
+        .main-frame {
+            width: 50%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .right-frame {
+            width: 50%;
+            height: 100%;
+            background-color: var(--bg-secondary);
+            border: none;
+            border-radius: 12px;
+            overflow-y: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 70px;
+            left: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid #333;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .back-button:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .back-button svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-primary);
+        }
+
+        .back-button:hover svg {
+            color: white;
+        }
+
+        /* Logo */
+        .logo {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logo img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back Button -->
+        <button class="back-button" onclick="window.history.back()" aria-label="Go Back">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+        </button>
+
+        <!-- Logo -->
+        <div class="logo">
+            <a href="../dashboard.html" target="_parent">
+                <img src="../../public/assets/images/game_logo.png" alt="Game Logo">
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <h1 data-translate="destiny.title">Karma the Game of Destiny</h1>
+                <div class="song-title">
+                    <button id="musicToggle">
+                        <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle">
+                    </button>
+                    <span data-translate="destiny.makeavatar.playing">PLAYING: (Original Soundtrack) Lucys Booth Loading</span>
+                </div>
+            </div>
+
+            <div class="content-wrapper">
+                <iframe src="leftconsole_makeavatar.html" class="main-frame" id="mainFrame"></iframe>
+                <iframe src="rightconsole_makeavatar.html" class="right-frame" id="rightFrame"></iframe>
+            </div>
+        </div>
+
+        <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/lucys_booth_loading.mp3" loop></audio>
+    </div>
+
+    <!-- Framework Scripts -->
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/theme.js"></script>
+    <script src="../../shared/js/music.js"></script>
+
+    <script>
+        // Initialize theme and language
+        document.addEventListener('DOMContentLoaded', function() {
+            // Force dark theme
+            document.documentElement.setAttribute('data-theme', 'dark');
+            
+            // Initialize language
+            if (typeof initializeLanguage === 'function') {
+                initializeLanguage();
+            }
+            
+            // Initialize music with default OFF
+            if (typeof initializeMusic === 'function') {
+                initializeMusic('lucys_booth_loading.mp3', false);
+            }
+        });
+
+        // Music toggle functionality
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicToggle = document.getElementById('musicToggle');
+
+        function toggleMusic() {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+    </script>
+</body>
+</html>

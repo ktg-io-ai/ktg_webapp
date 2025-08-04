@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="ai.rightconsole.title">AI Story Library</title>
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+            --hover-bg: #444;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --hover-bg: #f1f3f4;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --hover-bg: #4a4a4a;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-frame {
+            background-color: var(--bg-primary);
+            padding: 15px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+            color: var(--text-primary);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: none;
+            padding: 0px 8px 0px 0px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .buttons button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .buttons button:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .content-area {
+            display: flex;
+            height: calc(100vh - 95px);
+        }
+
+        .left-content {
+            width: 90%;
+            overflow-y: auto;
+            margin-right: 10px;
+        }
+
+        .left-content::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 0px;
+        }
+
+        .image-grid button {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin: 1px;
+            border-radius: 3px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .image-grid button:hover {
+            transform: scale(.95);
+        }
+
+        .image-grid button img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+
+        .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .right-content button {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: none;
+            margin-top: 15px;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .right-content button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 0px;
+        }
+
+        .right-content button:hover {
+            color: var(--text-secondary);
+        }
+
+        /* Contact Form */
+        .contact-form-container {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 70px;
+            left: auto;
+            background-color: rgba(1, 1, 1, 0.9);
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            z-index: 1002;
+            border: 1px solid #ccc;
+        }
+
+        [data-theme="light"] .contact-form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ccc;
+        }
+
+        [data-theme="dark"] .contact-form-container {
+            background-color: rgba(42, 42, 42, 0.9);
+            border: 1px solid #ccc;
+        }
+
+        .contact-form-container h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+        }
+
+        .contact-form-container input[type="text"],
+        .contact-form-container input[type="email"] {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .contact-form-container .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .contact-form-container .checkbox-container input {
+            margin-right: 10px;
+        }
+
+        .contact-form-container .checkbox-container label {
+            color: var(--text-primary);
+        }
+
+        .contact-form-container button {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: none;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-form-container button:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .contact-form-container .contact-page-button {
+            width: 100px;
+            height: 100px;
+            margin-top: 10px;
+            padding: 0;
+        }
+
+        .contact-form-container .contact-page-button img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+            color: var(--text-primary);
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        /* Background Video */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Theme-specific video display */
+        [data-theme="light"] .bg-video,
+        [data-theme="dark"] .bg-video {
+            display: none;
+        }
+    </style>
+    <script src="../../shared/js/language.js"></script>
+</head>
+<body>
+    <video autoplay loop muted class="bg-video">
+        <source src="../../public/assets/videos/ktgai4.mp4" type="video/mp4">
+    </video>
+
+    <div class="top-frame">
+        <h2 data-lang="ai.rightconsole.title">AI Story Library</h2>
+        <div class="buttons">
+            <button><a href="../../src/pages/dashboard.html" target="_parent" rel="noopener"><img src="../../public/assets/icons/portal_icon.png" alt="portal"></a></button>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="left-content">
+            <div class="image-grid">
+                <button onclick="parent.queueSong({title: 'Guru and Lucy 012', mp4: '../../public/assets/ktgai/guru_lucy_012.mp4', cover: '../../public/assets/ktgai/guru_lucy_012.png', description: 'Guru and Lucy explore the cosmos in their latest adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/guru_lucy_012.png" alt="Guru and Lucy 012"></button>
+                
+                <button onclick="parent.queueSong({title: 'Turbo Toad E1', mp4: '../../public/assets/ktgai/turbo_toad_001.mp4', cover: '../../public/assets/ktgai/turbo_toad_001.png', description: 'Turbo Toad embarks on a thrilling mission.', safeLinks: [{text: 'Music Video', url: 'https://youtu.be/cBDcCVW23MA?si=N-NvmrUoLtsEIjKh'}]})"><img src="../../public/assets/ktgai/turbo_toad_001.png" alt="Turbo Toad E1"></button>
+                
+                <button onclick="parent.queueSong({title: 'Worlds Apart', mp4: '../../public/assets/ktgai/worlds_apart.mp4', cover: '../../public/assets/ktgai/worlds_apart.png', description: 'Two worlds collide in this epic tale.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/worlds_apart.png" alt="Worlds Apart"></button>
+
+                <button onclick="parent.queueSong({title: 'Bail', mp4: '../../public/assets/ktgai/bail.mp4', cover: '../../public/assets/ktgai/bail.png', description: 'A story of redemption and second chances.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/bail.png" alt="Bail"></button>
+                
+                <button onclick="parent.queueSong({title: 'Chat Loading', mp4: '../../public/assets/ktgai/chat_loading.mp4', cover: '../../public/assets/ktgai/chat_loading.png', description: 'The dangers of online communication come to life.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/chat_loading.png" alt="Chat Loading"></button>
+                
+                <button onclick="parent.queueSong({title: 'Config Loading', mp4: '../../public/assets/ktgai/config_loading.mp4', cover: '../../public/assets/ktgai/config_loading.png', description: 'What happens when systems start to break down?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/config_loading.png" alt="Config Loading"></button>
+
+                <button onclick="parent.queueSong({title: 'Game Console', mp4: '../../public/assets/ktgai/game_console.mp4', cover: '../../public/assets/ktgai/game_console.png', description: 'The future is a beautiful place for the ascended peoples of Earth. Guru and Lucy left the city of Gold to return and help humanity transcend the Great Divide and Unfold with the New Earth.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/game_console.png" alt="Game Console"></button>
+                
+                <button onclick="parent.queueSong({title: 'Game Console Loading', mp4: '../../public/assets/ktgai/game_console_loading.mp4', cover: '../../public/assets/ktgai/game_console_loading.png', description: 'Booting up a new world of adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/game_console_loading.png" alt="Game Console Loading"></button>
+                
+                <button onclick="parent.queueSong({title: 'Lucys Booth Loading', mp4: '../../public/assets/ktgai/lucys_booth_loading.mp4', cover: '../../public/assets/ktgai/lucys_booth_loading.png', description: 'Step right up and see what Lucy has in store.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/lucys_booth_loading.png" alt="Lucys Booth Loading"></button>
+
+                <button onclick="parent.queueSong({title: 'Map Loading', mp4: '../../public/assets/ktgai/map_loading.mp4', cover: '../../public/assets/ktgai/map_loading.png', description: 'Getting lost has never been so much fun.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/map_loading.png" alt="Map Loading"></button>
+                
+                <button onclick="parent.queueSong({title: 'Opening Scene', mp4: '../../public/assets/ktgai/opening_scene.mp4', cover: '../../public/assets/ktgai/opening_scene.png', description: 'The beginning of an incredible journey.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/opening_scene.png" alt="Opening Scene"></button>
+                
+                <button onclick="parent.queueSong({title: 'Register Loading', mp4: '../../public/assets/ktgai/register_loading.mp4', cover: '../../public/assets/ktgai/register_loading.png', description: 'Sign up for the adventure of a lifetime.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/register_loading.png" alt="Register Loading"></button>
+
+                <button onclick="parent.queueSong({title: 'Safe Loading', mp4: '../../public/assets/ktgai/safe_loading.mp4', cover: '../../public/assets/ktgai/safe_loading.png', description: 'What secrets lie behind the safe door?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/safe_loading.png" alt="Safe Loading"></button>
+                
+                <button onclick="parent.queueSong({title: 'The Grid', mp4: '../../public/assets/ktgai/the_grid.mp4', cover: '../../public/assets/ktgai/the_grid.png', description: 'Welcome to the digital frontier.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="../../public/assets/ktgai/the_grid.png" alt="The Grid"></button>
+                
+                <button onclick="parent.queueSong({title: 'You are Not Creating Alone', mp4: '../../public/assets/ktgai/you_are_not_creating_alone.mp4', cover: '../../public/assets/ktgai/you_are_not_creating_alone.png', description: 'Enter Lucys World.', safeLinks: [{text: 'Official Video', url: 'https://youtu.be/y2uYvkj8ilA'}]})"><img src="../../public/assets/ktgai/you_are_not_creating_alone.png" alt="You are Not Creating Alone"></button>
+            </div>
+        </div>
+        
+        <div class="right-content">
+            <button><a href="https://instagram.com/karmathegame" target="_blank" rel="noopener"><img src="../../public/assets/icons/instagram_icon.png" alt="instagram icon"></a></button>
+            <button><a href="https://www.linkedin.com/in/rene-reyes-the-alquimist-8b3b3510/" target="_blank" rel="noopener"><img src="../../public/assets/icons/linkedin_icon.png" alt="linkedin icon"></a></button>
+            <button><a href="https://www.tiktok.com/@karmathegame" target="_blank" rel="noopener"><img src="../../public/assets/icons/tiktok_icon.png" alt="tiktok icon"></a></button>
+            <button><a href="https://discordapp.com/users/1177985292297314391" target="_blank" rel="noopener"><img src="../../public/assets/icons/discord_icon.png" alt="discord icon"></a></button>
+            <button><a href="https://t.me/karmathegame" target="_blank" rel="noopener"><img src="../../public/assets/icons/telegram_icon.png" alt="telegram icon"></a></button>
+            <button><a href="https://www.threads.com/@karmathegame?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener"><img src="../../public/assets/icons/threads_icon.png" alt="threads icon"></a></button>
+            <button onclick="openContactForm()"><img src="../../public/assets/icons/contact_icon.png" alt="contact icon"></button>
+        </div>
+    </div>
+
+    <div id="contact-form-container" class="contact-form-container">
+        <h2 data-lang="contact.title">Contact Us<span class="close-button" onclick="closeContactForm()">X</span></h2>
+        <form>
+            <input type="text" name="name" placeholder="Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <div class="checkbox-container">
+                <input type="checkbox" id="subscribe" name="subscribe">
+                <label for="subscribe" data-lang="contact.subscribe">Subscribe to our newsletter</label>
+            </div>
+            <button type="submit" data-lang="contact.submit">Submit</button>
+            <button class="contact-page-button"><a href="../contact/contact.html" target="_parent"><img src="../../public/assets/icons/contact_icon.png" alt="contact icon"></a></button>
+        </form>
+    </div>
+
+    <script>
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            const video = document.querySelector('.bg-video');
+            if (savedTheme !== 'ktg' && video) {
+                video.style.display = 'none';
+            }
+        }
+
+        function openContactForm() {
+            document.getElementById('contact-form-container').style.display = 'block';
+        }
+
+        function closeContactForm() {
+            document.getElementById('contact-form-container').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+        });
+    </script>
+</body>
+</html>

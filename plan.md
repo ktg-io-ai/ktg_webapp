@@ -4,14 +4,14 @@
 ## Overview
 The KTG.IO platform is a gamified lifestyle and destiny platform integrating AI, events, creators/influencers, and token-based access.  
 Participants engage in games, classified interactions, and live events.  
-The system is built with Firebase (Firestore, Functions, Authentication) and integrates AI agents (Lucy, Guru, etc.) for marketing and backend automation.
+The system is built with Firebase (Firestore, Functions, Authentication) and integrates AI agents (Lucy, Guru, Alter.) for marketing and backend automation and animation for the novella and story content of ktg.ai.
 
 ---
 
 ## Game Rules
 - **Lives & Tokens:** 
-  - Tokens correspond to "Lives": $1.99 (1 Life), $3.99 (3 Lives), $6.99 (6 Lives), $9.99 (9 Lives).
-  - Each life expires after 30 days unless renewed.
+  - Tokens correspond to "Lives": $1.99 (1 Life), $3.99 (3 Lives), $6.99 (6 Lives), $9.99 (9 Lives) and a Special Token that is $999.99 for a Diamond Play on dign bling the REAL Diamond Mining Game to BUY certified diamonds at a discount.
+  - Each life expires after 30 days unless renewed or terminated.
   - If a participant is "ZAPPED" the number of times equal to their active lives, they are removed (wallet-level block).
 - **ZAP:** 
   - Consumes 1 life of the recipient and blocks mutual visibility between participants permanently.
@@ -19,11 +19,11 @@ The system is built with Firebase (Firestore, Functions, Authentication) and int
   - Hides a participant without consuming a life.
 - **Other Actions:** 
   - **Play the Star, Truth or Bomb, Door #4** – Derived from game pop-ups and event triggers.
-  - **Let's Go Out:** Opt-in for public game show outings.
-  - **Creators & Influencers (Level 2+ Super Ambassadors):** Can view outings like Uber drivers view rides, claim them, broadcast on KTG.TV, and promote venues.
+  - **Let's Go Out:** Opt-in for public game show outings Uber style LIVE Game Show Hosted by Creators and Influencers Registered on the PLatform as Independent Self Promoters and KTG Agents.
+  - **Creators & Influencers (Level 2+ Super Ambassadors):** Can view outings like Uber drivers view rides, claim them, broadcast on KTG.TV, and promote venues.  11 Levels see promoter levels.
 
 - **Memories & Ownership:**
-  - When a proxy avatar terminates, all memory data is returned to the wallet owner.
+  - When a proxy avatar terminates, all memory data is returned to the wallet owner with the serialID of the Token.
   - Deleted from the system unless policy/law violations exist.
 
 - **Platform Role:**

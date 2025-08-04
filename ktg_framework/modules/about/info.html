@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTG Platform Info</title>
+    <link rel="stylesheet" href="/shared/styles/global.css">
+    <style>
+        body {
+            padding: 20px;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+        }
+        
+        .info-card {
+            background: rgba(47, 39, 200, 0.1);
+            border: 1px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+        
+        .info-card:hover {
+            background: rgba(47, 39, 200, 0.2);
+            transform: scale(1.02);
+        }
+        
+        .info-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        
+        .cta-button {
+            background: linear-gradient(45deg, var(--accent-color), var(--accent-hover));
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            width: 100%;
+            transition: var(--transition);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(47, 39, 200, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="info-card fade-in">
+        <h3>Platform Overview</h3>
+        <p>KTG Platform integrates multiple ecosystems including AI, music, gaming, social networking, and Web3 technologies to create a comprehensive digital lifestyle experience.</p>
+    </div>
+
+    <div class="info-card fade-in">
+        <h3>Key Technologies</h3>
+        <ul>
+            <li>Advanced AI and Machine Learning</li>
+            <li>Real-time Audio/Video Processing</li>
+            <li>Blockchain Integration</li>
+            <li>VR/AR Capabilities</li>
+            <li>Social Graph Analytics</li>
+        </ul>
+    </div>
+
+    <div class="info-card fade-in">
+        <h3>Platform Statistics</h3>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">10+</div>
+                <div>Modules</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">AI</div>
+                <div>Powered</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div>Available</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">∞</div>
+                <div>Possibilities</div>
+            </div>
+        </div>
+    </div>
+
+    <button class="cta-button fade-in" onclick="exploreMore()">
+        Explore the Platform
+    </button>
+
+    <script>
+        function exploreMore() {
+            parent.postMessage({action: 'loadModule', module: 'ai'}, '*');
+        }
+
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.fade-in').forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('active');
+                }, index * 300);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KTG.AI - AI-powered storytelling and creative content platform featuring interactive AI stories, videos, and immersive experiences.">
+    <meta name="keywords" content="KTG.AI, AI Stories, Interactive Content, AI Videos, Creative AI, Digital Storytelling, Immersive Experiences">
+    <meta name="author" content="KTG.IO Platform">
+    <meta property="og:title" content="KTG.AI - AI-Powered Creative Storytelling">
+    <meta property="og:description" content="Experience the future of storytelling with KTG.AI's interactive AI-generated content and immersive digital experiences.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.karmathegame.org">
+    <meta property="og:image" content="../../public/assets/images/game_logo.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="KTG.AI - AI-Powered Creative Storytelling">
+    <meta property="twitter:description" content="Experience the future of storytelling with KTG.AI's interactive AI-generated content and immersive digital experiences.">
+    <meta property="twitter:image" content="../../public/assets/icons/kgz_icon.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../../public/assets/icons/kgz_icon.png"/>
+    
+    <title>KTG.AI - Karma the Game</title>
+    
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+            --border-radius: 20px;
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 80px;
+            background-color: var(--bg-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            margin-top: 54px;
+        }
+
+        .sidebar .logo {
+            margin-top: 10px;
+        }
+
+        .sidebar .logo img {
+            width: 60px;
+            margin-bottom: 50px;
+            max-height: 150px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sidebar .logo img:hover {
+            transform: scale(1.1);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .sidebar li {
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sidebar li:hover {
+            transform: scale(1.05);
+        }
+
+        .sidebar li img {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar li span {
+            font-size: 10px;
+            display: block;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding: 3px 5px 0 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-area {
+            display: flex;
+            height: calc(100vh - 50px);
+            padding-top: 0;
+            margin-top: 53px;
+        }
+
+        .main-frame {
+            width: 50%;
+            height: 100%;
+            border: none;
+            border-radius: 0;
+            background-color: var(--bg-secondary);
+            margin-left: 123px;
+        }
+
+        .right-frame {
+            width: 50%;
+            height: 100%;
+            background-color: var(--bg-secondary);
+            border: none;
+            border-radius: 0;
+            margin-left: 0;
+            overflow-y: auto;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--bg-primary);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 999;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .top-bar .song-title {
+            margin-left: 20px;
+            padding-right: 50px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+
+        /* Submenu Container */
+        .submenu-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* Submenu Styles */
+        .submenu {
+            position: absolute;
+            top: 110px;
+            left: 110px;
+            background-color: rgba(1, 1, 1, 0.9);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            border: 1px solid #ccc;
+            padding: 20px;
+            min-width: 200px;
+            border-radius: var(--border-radius);
+            z-index: 1001;
+            pointer-events: auto;
+            display: none;
+        }
+
+        [data-theme="light"] .submenu {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ccc;
+        }
+
+        [data-theme="dark"] .submenu {
+            background-color: rgba(42, 42, 42, 0.9);
+            border: 1px solid #ccc;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+        }
+
+        .submenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .submenu li {
+            margin-bottom: 10px;
+        }
+
+        .submenu button {
+            background-color: transparent;
+            border: none;
+            color: var(--text-primary);
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .submenu button:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .submenu button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .submenu a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: 0;
+            border-radius: var(--border-radius);
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        /* Music Controls */
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            vertical-align: middle;
+            padding: 5px;
+        }
+
+        #musicToggle img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Background Video */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Theme-specific video display */
+        [data-theme="light"] .bg-video,
+        [data-theme="dark"] .bg-video {
+            display: none;
+        }
+
+        /* Animations */
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-100%);
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+
+        .slide-in-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+        }
+    </style>
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/theme-icons.js"></script>
+</head>
+<body style="overflow: hidden;">
+    <video autoplay loop muted class="bg-video">
+        <source src="../../public/assets/videos/ktgai6.mp4" type="video/mp4">
+    </video>
+    
+    <div class="container">
+        <div class="sidebar slide-in-left">
+            <div class="logo">
+                <a href="../../src/pages/index.html" target="_parent"> <img src="../../public/assets/images/game_logo.png" alt="Game Logo"> </a>
+            </div>
+            <ul>
+                <li onclick="openSubmenu('search')" class="slide-in-left"> 
+                    <img src="../../public/assets/icons/about_icon.png" alt="About">
+                    <span data-lang="dashboard.sidebar.about">About</span>
+                </li>
+                <li onclick="openSubmenu('socialize')" class="slide-in-left">
+                    <img src="../../public/assets/icons/social_icon.png" alt="Influencers">
+                    <span data-lang="dashboard.sidebar.influencers">Influencers</span>
+                </li>
+                <li onclick="openSubmenu('actions')" class="slide-in-left">
+                    <img src="../../public/assets/icons/game_icon.png" alt="Advertisers">
+                    <span data-lang="dashboard.sidebar.advertisers">Advertisers</span>
+                </li>
+                <li onclick="openSubmenu('details')" class="slide-in-left">
+                    <img src="../../public/assets/icons/detail_icon.png" alt="Investors">
+                    <span data-lang="dashboard.sidebar.investors">Investors</span>
+                </li>
+                <li onclick="openSubmenu('mystuff')" class="slide-in-left">
+                    <img src="../../public/assets/icons/mystuff_icon.png" alt="My Stuff">
+                    <span data-lang="dashboard.sidebar.mystuff">My Stuff</span>
+                </li>
+                <li class="slide-in-left">
+                    <a href="../destiny/gameconsole.html" target="_parent">
+                        <img src="../../public/assets/icons/listing_icon.png" alt="The Grid">
+                        <span data-lang="dashboard.sidebar.thegrid">The Grid</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <h1 data-lang="ai.title">KTG.AI</h1>
+                <div class="song-title">
+                    <button id="musicToggle">
+                        <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle">
+                    </button>
+                    <span data-lang="dashboard.playing">playing</span>: (original soundtrack) opening scene
+                </div>
+            </div>
+
+            <div class="main-area">
+                <iframe src="leftconsole_ktgai.html" class="main-frame fade-in" id="mainFrame"></iframe>
+                <iframe src="rightconsole_ktgai.html" class="right-frame fade-in" id="rightFrame"></iframe>
+            </div>
+        </div>
+
+        <div id="submenu-container" class="submenu-container" onclick="closeAllSubmenus(event)">
+            <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/opening_scene.mp3" loop></audio>
+
+            <div id="search-submenu" class="submenu">
+                <h2 data-lang="dashboard.submenus.about.title">About <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <a href="../about/creator.html" target="_parent"><img src="../../public/assets/icons/magician_icon.png" alt="Name Icon"> <span data-lang="dashboard.submenus.about.creator">The Creator</span></a>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="slide-in-left">
+                            <a href="../about/ktgio.html" target="_parent"><img src="../../public/assets/icons/ktgai_icon.png" alt="Name Icon"> <span data-lang="dashboard.submenus.about.ktgio">KTG.IO</span></a>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="slide-in-left">
+                            <a href="../about/destiny.html" target="_parent"><img src="../../public/assets/icons/fave_icon.png" alt="Name Icon"> <span data-lang="dashboard.submenus.about.destiny">Destiny</span></a>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="slide-in-left">
+                            <a href="../music/ktgmusic.html" target="_parent"><img src="../../public/assets/icons/play_pause.png" alt="Name Icon"> <span data-lang="dashboard.submenus.about.music">KTG.MUSIC</span></a>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="slide-in-left">
+                            <a href="ktgai.html" target="_parent"><img src="../../public/assets/icons/qr_icon.png" alt="Name Icon"> <span data-lang="dashboard.submenus.about.ai">KTG.AI</span></a>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div id="socialize-submenu" class="submenu">
+                <h2 data-lang="dashboard.submenus.promote.title">Promote <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <a href="https://karmathegameofdestiny.netlify.app/dashboard" target="_blank" rel="noopener"><img src="../../public/assets/icons/name_icon.png" alt="Name Icon"> <span data-lang="dashboard.submenus.promote.login">Log In</span></a>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <a href="https://karmathegameofdestiny.netlify.app/auth/register" target="_blank" rel="noopener"><img src="../../public/assets/icons/doc_icon.png" alt="Doc Icon"> <span data-lang="dashboard.submenus.promote.register">Register</span></a>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <a href="../influencers/dashboard.html" target="_parent"><img src="../../public/assets/icons/influencer_icon.png" alt="Doc Icon"> <span data-lang="dashboard.submenus.promote.makemoney">Make Money</span></a>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div id="actions-submenu" class="submenu">
+                <h2 data-lang="dashboard.submenus.actions.title">Actions <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <img src="../../public/assets/icons/listing_icon.png" alt="Listings Icon"> <span data-lang="dashboard.submenus.actions.listings">Post to Listings</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="../../public/assets/icons/vr_icon.png" alt="VR Icon"> <span data-lang="dashboard.submenus.actions.vrworld">Lease VR World Space</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="../../public/assets/icons/door4_icon.png" alt="Door4 Icon"> <span data-lang="dashboard.submenus.actions.liveshow">Host a Live Show</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="../../public/assets/icons/astronomy_icon.png" alt="Stars Icon"> <span data-lang="dashboard.submenus.actions.enterprise">Enterprise Portals</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="../../public/assets/icons/like_icon.png" alt="Truth Icon"> <span data-lang="dashboard.submenus.actions.alliances">Strategic Alliances</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div id="details-submenu" class="submenu">
+                <h2 data-lang="dashboard.submenus.investors.title">Investors<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li>
+                        <button>
+                            <img src="../../public/assets/icons/outing_icon.png" alt="Outing Icon"> <span data-lang="dashboard.submenus.investors.goout">Let's go Out!</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="../../public/assets/icons/stats_icon.png" alt="Hide Icon"> <span data-lang="dashboard.submenus.investors.financials">Financials</span>
+                        </button>
+                    </li>
+                    <li>
+                        <a href="../investors/playbook.html" target="_parent"><button>
+                            <img src="../../public/assets/icons/journeybook_icon.png" alt="Name Icon"> <span data-lang="dashboard.submenus.investors.playbook">Playbook</span>
+                        </button></a>
+                    </li>
+                    <li>
+                        <a href="../investors/pitch.html" target="_parent"><button>
+                            <img src="../../public/assets/icons/bucket_icon.png" alt="Name Icon"> <span data-lang="dashboard.submenus.investors.pitch">Pitch</span>
+                        </button></a>
+                    </li>
+                    <li>
+                        <a href="../investors/masa.html" target="_parent"><button>
+                            <img src="../../public/assets/icons/door4_icon.png" alt="Door4 Icon"> <span data-lang="dashboard.submenus.investors.masa">Masayoshi Son</span>
+                        </button></a>
+                    </li>
+                </ul>
+            </div>
+            <div id="mystuff-submenu" class="submenu">
+                <h2 data-lang="dashboard.submenus.mystuff.title">My Stuff <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li><button><a href="../destiny/journeybook.html"><img src="../../public/assets/icons/journeybook_icon.png" alt="JourneyBook Icon"> <span data-lang="dashboard.submenus.mystuff.journeybook">My JourneyBook</span> </a>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <a href="../destiny/bucketlist.html">
+                                 <img src="../../public/assets/icons/bucket_icon.png" alt="BucketList Icon">
+                                 <span data-lang="dashboard.submenus.mystuff.bucketlist">My BucketList</span>
+                            </a>    
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <a href="../destiny/email.html">
+                                 <img src="../../public/assets/icons/email_icon.png" alt="Email Icon"> 
+                                 <span data-lang="dashboard.submenus.mystuff.email">Email</span>
+                            </a>
+                        </button>
+                    </li>
+                    <li>
+                        <a href="../destiny/calendar.html">
+                        <button>
+                            <img src="../../public/assets/icons/calendar_icon.png" alt="Calendar Icon"> <span data-lang="dashboard.submenus.mystuff.calendar">Calendar</span>
+                        </button>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../web3/wallet.html">
+                        <button>
+                            <img src="../../public/assets/icons/wallet_icon.png" alt="Wallet Icon"> <span data-lang="dashboard.submenus.mystuff.wallet">Wallet</span>
+                        </button>
+                        </a>
+                    </li>
+                    <li>
+                        <button>
+                            <img src="../../public/assets/icons/config_icon.png" alt="Config Icon"> <span data-lang="dashboard.submenus.mystuff.config">Config</span>
+                        </button>
+                    </li>
+                    <li>
+                        <a href="../destiny/bail.html">
+                        <button>
+                            <img src="../../public/assets/icons/bail_icon.png" alt="Bail Icon"> <span data-lang="dashboard.submenus.mystuff.bail">Bail</span>
+                        </button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ktgaiData = [
+            {
+                "title": "Guru and Lucy 012",
+                "mp4": "../../public/assets/ktgai/guru_lucy_012.mp4",
+                "cover": "../../public/assets/ktgai/guru_lucy_012.png",
+                "description": "Guru and Lucy explore the cosmos in their latest adventure.",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "Turbo Toad E1",
+                "mp4": "../../public/assets/ktgai/turbo_toad_001.mp4",
+                "cover": "../../public/assets/ktgai/turbo_toad_001.png",
+                "description": "Turbo Toad embarks on a thrilling mission.",
+                "safeLinks": [{"text": "Music Video", "url": "https://youtu.be/cBDcCVW23MA?si=N-NvmrUoLtsEIjKh"}]
+            },
+            {
+                "title": "Worlds Apart",
+                "mp4": "../../public/assets/ktgai/worlds_apart.mp4",
+                "cover": "../../public/assets/ktgai/worlds_apart.png",
+                "description": "Two worlds collide in this epic tale.",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "Bail",
+                "mp4": "../../public/assets/ktgai/bail.mp4",
+                "cover": "../../public/assets/ktgai/bail.png",
+                "description": "A story of redemption and second chances.",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "Chat Loading",
+                "mp4": "../../public/assets/ktgai/chat_loading.mp4",
+                "cover": "../../public/assets/ktgai/chat_loading.png",
+                "description": "The dangers of online communication come to life.",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "Config Loading",
+                "mp4": "../../public/assets/ktgai/config_loading.mp4",
+                "cover": "../../public/assets/ktgai/config_loading.png",
+                "description": "What happens when systems start to break down?",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "Game Console",
+                "mp4": "../../public/assets/ktgai/game_console.mp4",
+                "cover": "../../public/assets/ktgai/game_console.png",
+                "description": "The future is a beautiful place for the ascended peoples of Earth. Guru and Lucy left the city of Gold to return and help humanity transcend the Great Divide and Unfold with the New Earth.",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "Game Console Loading",
+                "mp4": "../../public/assets/ktgai/game_console_loading.mp4",
+                "cover": "../../public/assets/ktgai/game_console_loading.png",
+                "description": "Booting up a new world of adventure.",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "Lucys Booth Loading",
+                "mp4": "../../public/assets/ktgai/lucys_booth_loading.mp4",
+                "cover": "../../public/assets/ktgai/lucys_booth_loading.png",
+                "description": "Step right up and see what Lucy has in store.",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "Map Loading",
+                "mp4": "../../public/assets/ktgai/map_loading.mp4",
+                "cover": "../../public/assets/ktgai/map_loading.png",
+                "description": "Getting lost has never been so much fun.",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "Opening Scene",
+                "mp4": "../../public/assets/ktgai/opening_scene.mp4",
+                "cover": "../../public/assets/ktgai/opening_scene.png",
+                "description": "The beginning of an incredible journey.",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "Register Loading",
+                "mp4": "../../public/assets/ktgai/register_loading.mp4",
+                "cover": "../../public/assets/ktgai/register_loading.png",
+                "description": "Sign up for the adventure of a lifetime.",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "Safe Loading",
+                "mp4": "../../public/assets/ktgai/safe_loading.mp4",
+                "cover": "../../public/assets/ktgai/safe_loading.png",
+                "description": "What secrets lie behind the safe door?",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "The Grid",
+                "mp4": "../../public/assets/ktgai/the_grid.mp4",
+                "cover": "../../public/assets/ktgai/the_grid.png",
+                "description": "Welcome to the digital frontier.",
+                "safeLinks": [{"text": "Official Video", "url": "https://example.com"}]
+            },
+            {
+                "title": "You are Not Creating Alone",
+                "mp4": "../../public/assets/ktgai/you_are_not_creating_alone.mp4",
+                "cover": "../../public/assets/ktgai/you_are_not_creating_alone.png",
+                "description": "Enter Lucys World.",
+                "safeLinks": [{"text": "Official Video", "url": "https://youtu.be/y2uYvkj8ilA"}]
+            }
+        ];
+
+        function openSubmenu(submenu) {
+            const submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(submenu => {
+                submenu.style.display = 'none';
+            });
+
+            const selectedSubmenu = document.getElementById(submenu + '-submenu');
+            selectedSubmenu.style.display = 'block';
+            
+            const container = document.getElementById('submenu-container');
+            container.classList.add('active');
+        }
+
+        function closeSubmenu(closeButton) {
+            const submenu = closeButton.closest('.submenu');
+            submenu.style.display = 'none';
+            const container = document.getElementById('submenu-container');
+            container.classList.remove('active');
+        }
+
+        function closeAllSubmenus(event) {
+            if (event.target === event.currentTarget) {
+                const submenus = document.querySelectorAll('.submenu');
+                submenus.forEach(submenu => {
+                    submenu.style.display = 'none';
+                });
+                const container = document.getElementById('submenu-container');
+                container.classList.remove('active');
+            }
+        }
+
+        function queueSong(song) {
+            console.log('queueSong called with:', song);
+
+            if (!song) {
+                console.error('Song not found:', song);
+                return;
+            }
+
+            const leftConsole = document.getElementById('mainFrame');
+            if (leftConsole && leftConsole.contentWindow) {
+                console.log('Posting message to leftConsole:', song);
+                leftConsole.contentWindow.postMessage({
+                    type: 'updateSafeLinks',
+                    song: {
+                        title: song.title,
+                        cover: song.cover,
+                        safeLinks: song.safeLinks,
+                        mp4: song.mp4,
+                        description: song.description
+                    }
+                }, '*');
+            }
+        }
+
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicToggle = document.getElementById('musicToggle');
+
+        function toggleMusic() {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+            
+            const currentTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            if (typeof updateMusicToggleIcon === 'function') {
+                updateMusicToggleIcon(currentTheme);
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            if (typeof updateThemeIcons === 'function') {
+                updateThemeIcons(savedTheme);
+            }
+            
+            const video = document.querySelector('.bg-video');
+            if (savedTheme !== 'ktg' && video) {
+                video.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const slideInLeftElements = document.querySelectorAll('.slide-in-left');
+                slideInLeftElements.forEach(el => el.classList.add('active'));
+            }, 100);
+
+            setTimeout(() => {
+                const fadeInElements = document.querySelectorAll('.fade-in');
+                fadeInElements.forEach(el => el.classList.add('active'));
+            }, 500);
+            
+            initializeTheme();
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+
+            window.queueSong = queueSong;
+
+            const mainFrame = document.getElementById('mainFrame');
+            mainFrame.onload = function() {
+                console.log('Left console iframe loaded');
+                if (ktgaiData.length > 0) {
+                    const leftConsole = document.getElementById('mainFrame');
+                    if (leftConsole && leftConsole.contentWindow) {
+                        leftConsole.contentWindow.postMessage({
+                            type: 'updateSafeLinks',
+                            song: ktgaiData[0]
+                        }, '*');
+                    }
+                }
+            };
+        });
+    </script>
+</body>
+</html>

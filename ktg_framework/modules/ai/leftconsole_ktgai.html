@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang="ai.leftconsole.title">AI Story Player</title>
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-frame {
+            background-color: var(--bg-primary);
+            padding: 19px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+            color: var(--text-primary);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: none;
+            padding: 0px 8px 0px 0px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .buttons button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .buttons button:hover {
+            background-color: var(--accent-color);
+        }
+
+        .content-area {
+            display: flex;
+            height: calc(100vh - 95px);
+        }
+
+        .left-content {
+            width: 90%;
+            overflow-y: auto;
+            margin-right: 10px;
+        }
+
+        .left-content::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        #ktgaiVideo {
+            width: 100%;
+            max-height: 100vh;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+        }
+
+        [data-theme="light"] #ktgaiVideo,
+        [data-theme="dark"] #ktgaiVideo {
+            width: 80%;
+            border-radius: 12px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        #ktgaiDescription {
+            margin: 20px;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        [data-theme="light"] #ktgaiDescription,
+        [data-theme="dark"] #ktgaiDescription {
+            text-align: center;
+            max-width: 80%;
+            margin: 20px auto;
+        }
+
+        .data-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 95%;
+            margin: auto;
+            justify-content: space-between;
+        }
+
+        [data-theme="light"] .data-container,
+        [data-theme="dark"] .data-container {
+            max-width: 80%;
+            margin: 20px auto;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 5px;
+            border-radius: 3px;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--text-primary);
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .content {
+            margin-top: 5px;
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            width: 100%;
+        }
+
+        .safe-image img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .door-box {
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            border-radius: 5px;
+        }
+
+        .journeybook-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 80%;
+        }
+
+        .bar {
+            height: 10px;
+            border-radius: 5px;
+        }
+
+        .bar1 { background-color: blue; width: 10%; }
+        .bar2 { background-color: yellow; width: 50%; }
+        .bar3 { background-color: red; width: 85%; }
+
+        .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .right-content button {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: none;
+            margin-top: 15px;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 0px;
+        }
+
+        .right-content button:hover {
+            color: var(--text-secondary);
+        }
+
+        .buttons button a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        /* Background Video */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Theme-specific video display */
+        [data-theme="light"] .bg-video,
+        [data-theme="dark"] .bg-video {
+            display: none;
+        }
+    </style>
+    <script src="../../shared/js/language.js"></script>
+</head>
+<body>
+    <video autoplay loop muted class="bg-video">
+        <source src="../../public/assets/videos/ktgai4.mp4" type="video/mp4">
+    </video>
+    
+    <div class="top-frame">
+        <h2 id="ktgaiTitle" data-lang="ai.leftconsole.defaultTitle">Turbo Toad E1 - The Call</h2>
+    </div>
+
+    <div class="content-area slide-in-left">
+        <div class="left-content">
+            <video id="ktgaiVideo" controls>
+                <source type="video/mp4">
+            </video>
+            <p id="ktgaiDescription" data-lang="ai.leftconsole.defaultDescription">Experience the future of AI storytelling with interactive content and immersive digital experiences.</p>
+            
+            <div class="data-container">
+                <!-- SAFE Section -->
+                <div class="column" width="30%">
+                    <div class="title" data-lang="ai.leftconsole.safe">SAFE</div>
+                    <div class="safe-button">
+                        <div class="buttons">
+                            <a id="safeLink1" href="" target="_blank" rel="noopener">
+                                <button><img src="../../public/assets/icons/link_icon.png" alt="link"></button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOOR Section -->
+                <div class="column" width="30%">
+                    <div class="title" data-lang="ai.leftconsole.door">DOOR</div>
+                    <div class="content">
+                        <div class="door-box"></div>
+                    </div>
+                </div>
+
+                <!-- JOURNEYBOOK Section -->
+                <div class="column" width="30%">
+                    <div class="title" data-lang="ai.leftconsole.journeybook">JOURNEYBOOK</div>
+                    <div class="content journeybook-bars">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-content">
+            <button><img src="../../public/assets/icons/fave_icon.png" alt="Fave Icon"></button>
+            <button><img src="../../public/assets/icons/like_icon.png" alt="Like Icon"></button>
+        </div>
+    </div>
+
+    <script>
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            const video = document.querySelector('.bg-video');
+            if (savedTheme !== 'ktg' && video) {
+                video.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', function(event) {
+            initializeTheme();
+            
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+
+            window.addEventListener('message', function(event) {
+                if (event.data.type === 'updateSafeLinks') {
+                    updateSafeLinks(event.data.song);
+                }
+            });
+
+            function updateSafeLinks(song) {
+                console.log('Received updateSafeLinks message:', song);
+
+                const ktgaiVideo = document.getElementById('ktgaiVideo');
+                const videoSource = ktgaiVideo.querySelector('source');
+                if (videoSource) {
+                    videoSource.src = song.mp4;
+                    ktgaiVideo.load();
+                    console.log('Video source updated to:', song.mp4);
+                } else {
+                    console.error('Video source element not found in left console iframe');
+                }
+
+                const topFrame = document.getElementById('ktgaiTitle');
+                topFrame.textContent = song.title;
+                console.log('Title updated to:', song.title);
+
+                const safeColumn = document.querySelector('.safe-button .buttons');
+                if (song.safeLinks && song.safeLinks.length > 0) {
+                    safeColumn.innerHTML = `<a id="safeLink1" href="${song.safeLinks[0].url}" target="_blank" rel="noopener"><button><img src="../../public/assets/icons/link_icon.png" alt="link"> ${song.safeLinks[0].text}</button></a>`;
+                    console.log('Safe link updated to:', song.safeLinks[0].url, song.safeLinks[0].text);
+                } else {
+                    safeColumn.innerHTML = `<button><img src="../../public/assets/icons/link_icon.png" alt="link"> No Links</button>`;
+                }
+
+                const descriptionElement = document.getElementById('ktgaiDescription');
+                descriptionElement.textContent = song.description || 'No description available.';
+                console.log('Description updated to:', song.description);
+            }
+        });
+    </script>
+</body>
+</html>
