@@ -403,7 +403,7 @@
         }
         
         async function loadUserAvatars(walletId) {
-            // Firebase integration - replace with actual Firestore query
+            // Try Firebase first
             try {
                 const firebaseAuth = window.KTGFirebase || window.parent.KTGFirebase;
                 if (firebaseAuth && firebaseAuth.firestore) {
@@ -423,25 +423,18 @@
                 console.error('Firebase error:', error);
             }
             
-            // Fallback mock data for development
-            return [
-                {
-                    id: 'avatar_1',
-                    name: 'ShadowHunter',
-                    tagline: 'Mysterious and adventurous soul',
-                    isActive: true,
-                    tokensUsed: 5,
-                    createdAt: Date.now() - 86400000
-                },
-                {
-                    id: 'avatar_2',
-                    name: 'SunnyDays',
-                    tagline: 'Bringing positivity everywhere',
-                    isActive: false,
-                    tokensUsed: 3,
-                    createdAt: Date.now() - 172800000
-                }
-            ];
+            // Fallback to localStorage
+            try {
+                const storedAvatars = JSON.parse(localStorage.getItem('ktg_user_avatars') || '{}');
+                return Object.keys(storedAvatars).map(id => ({
+                    id,
+                    ...storedAvatars[id]
+                }));
+            } catch (error) {
+                console.error('localStorage error:', error);
+            }
+            
+            return [];
         }
         
         function createNewAvatar() {
@@ -498,6 +491,28 @@
             URL.revokeObjectURL(url);
         }
 
+        // Listen for avatar creation events
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'AVATAR_CREATED' || event.data.type === 'AVATAR_UPDATED') {
+                // Refresh avatar list when new avatar is created
+                setTimeout(() => {
+                    updateAvatarList();
+                }, 500);
+            }
+        });
+        
+        // Listen for localStorage changes
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'ktg_user_avatars' || event.key === 'ktg_active_avatar_id') {
+                updateAvatarList();
+            }
+        });
+        
+        // Refresh avatars periodically to catch updates
+        setInterval(() => {
+            updateAvatarList();
+        }, 5000);
+        
         // Initialize when page loads
         window.addEventListener('load', initializeWallet);
     </script>

@@ -7,3 +7,10 @@ masayoshi_son_challenge/node_modules
 Read Me - Activate Browser Use.txt
 Design Images KTG_WEBAPP
 aliens_and_monsters
+
+# Firebase and environment files
+FIREBASE_INFO/
+.env
+.env.local
+.env.production
+*.env
