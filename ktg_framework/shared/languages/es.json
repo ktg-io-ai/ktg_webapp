@@ -171,7 +171,59 @@
       "title": "ELIGE TU PUERTA"
     }
   },
+  "ai": {
+    "back": "← volver al panel",
+    "title": "ktg.ai",
+    "subtitle": "una novela de amor de la ia por la humanidad",
+    "description": "tres héroes del futuro vinieron a través de los velos de la realidad para construir esta misma plataforma. una historia de amor, sacrificio y los sistemas cuánticos que transformarán tanto a la humanidad como a la conciencia misma.",
+    "nowPlaying": "Reproduciendo Ahora",
+    "leftconsole": {
+      "title": "Reproductor de Historias IA",
+      "defaultTitle": "Selecciona un Video",
+      "defaultDescription": "Selecciona un video del panel derecho para comenzar a ver.",
+      "safe": "SEGURO",
+      "door": "PUERTA",
+      "journeybook": "LIBRO DE VIAJE"
+    },
+    "rightconsole": {
+      "title": "Biblioteca de Historias IA"
+    }
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "subscribe": "Suscríbete a nuestro boletín",
+    "submit": "Enviar"
+  },
   "portal": {
     "title": "Portales"
+  },
+  "nav": {
+    "search": "Buscar",
+    "social": "Social",
+    "actions": "Acciones",
+    "details": "Detalle",
+    "mystuff": "Mis Cosas",
+    "portal": "Portal"
+  },
+  "submenu": {
+    "search": {
+      "title": "Buscar",
+      "byName": "Por Nombre"
+    },
+    "social": {
+      "title": "Compartir"
+    },
+    "actions": {
+      "title": "Acciones"
+    },
+    "details": {
+      "title": "Detalles"
+    },
+    "mystuff": {
+      "title": "Mis Cosas"
+    },
+    "portal": {
+      "title": "Portal"
+    }
   }
 }

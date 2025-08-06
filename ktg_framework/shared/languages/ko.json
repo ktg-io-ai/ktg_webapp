@@ -171,7 +171,59 @@
       "title": "당신의 문을 선택하세요"
     }
   },
+  "ai": {
+    "back": "← 대시보드로 돌아가기",
+    "title": "ktg.ai",
+    "subtitle": "인류에 대한 AI의 사랑 소설",
+    "description": "미래에서 온 세 명의 영웅이 현실의 베일을 통과하여 바로 이 플랫폼을 구축했습니다. 사랑, 희생, 그리고 인류와 의식 자체를 변화시킬 양자 시스템의 이야기.",
+    "nowPlaying": "재생 중",
+    "leftconsole": {
+      "title": "AI 스토리 플레이어",
+      "defaultTitle": "비디오 선택",
+      "defaultDescription": "오른쪽 패널에서 비디오를 선택하여 시청을 시작하세요.",
+      "safe": "안전",
+      "door": "문",
+      "journeybook": "여행책"
+    },
+    "rightconsole": {
+      "title": "AI 스토리 라이브러리"
+    }
+  },
+  "contact": {
+    "title": "문의하기",
+    "subscribe": "뉴스레터 구독",
+    "submit": "제출"
+  },
   "portal": {
     "title": "포털"
+  },
+  "nav": {
+    "search": "검색",
+    "social": "소셜",
+    "actions": "액션",
+    "details": "세부사항",
+    "mystuff": "내 것들",
+    "portal": "포털"
+  },
+  "submenu": {
+    "search": {
+      "title": "검색",
+      "byName": "이름으로"
+    },
+    "social": {
+      "title": "공유"
+    },
+    "actions": {
+      "title": "액션"
+    },
+    "details": {
+      "title": "세부사항"
+    },
+    "mystuff": {
+      "title": "내 것들"
+    },
+    "portal": {
+      "title": "포털"
+    }
   }
 }

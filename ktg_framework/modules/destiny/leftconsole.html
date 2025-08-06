@@ -350,34 +350,6 @@
                     button.onclick = () => window.open(link.url, '_blank');
                     safeLinksContainer.appendChild(button);
                 });
-            }
-        }3d32d4';
-                        button.style.transform = 'translateY(-2px)';
-                        button.style.boxShadow = '0 4px 12px rgba(47, 39, 200, 0.4)';
-                    });
-                    
-                    button.addEventListener('mouseleave', () => {
-                        button.style.backgroundColor = '#2f27c8';
-                        button.style.transform = 'translateY(0)';
-                        button.style.boxShadow = '0 2px 8px rgba(47, 39, 200, 0.3)';
-                    });
-
-                    const a = document.createElement('a');
-                    a.href = link.url;
-                    a.target = '_blank';
-                    a.rel = 'noopener noreferrer';
-                    a.textContent = link.text;
-                    a.style.cssText = `
-                        color: #fff;
-                        text-decoration: none;
-                        display: block;
-                        width: 100%;
-                        height: 100%;
-                    `;
-
-                    button.appendChild(a);
-                    safeLinksContainer.appendChild(button);
-                });
             } else {
                 const button = document.createElement('button');
                 button.style.cssText = `
@@ -460,8 +432,44 @@
             }
         }
 
-        // Load current user's data when page loads
-        setTimeout(loadParticipantData, 500);
+        // Load user profile from localStorage
+        function loadUserProfile() {
+            const user = JSON.parse(localStorage.getItem('ktg_user') || '{}');
+            const avatar = JSON.parse(localStorage.getItem('ktg_current_avatar') || '{}');
+            const selectedImage = localStorage.getItem('ktg_selected_avatar_image');
+            
+            if (user.email) {
+                // Priority: selected image > user avatar > current avatar > default
+                const avatarImage = selectedImage || user.avatarImage || avatar.imageUrl || '../../public/assets/images/profile_default.png';
+                
+                updateParticipant({
+                    name: avatar.name || user.name || user.email.split('@')[0],
+                    image: avatarImage,
+                    tagline: avatar.tagline || 'KTG Player seeks adventure',
+                    safeLinks: [
+                        { text: 'Profile', url: '#' },
+                        { text: 'Contact', url: '#' }
+                    ]
+                });
+                
+                // Show current user indicator
+                const nameElement = document.getElementById('participant-name');
+                if (nameElement) {
+                    nameElement.innerHTML = (avatar.name || user.name || user.email.split('@')[0]) + ' <span style="color: #4CAF50; font-size: 12px;">(You)</span>';
+                }
+            } else {
+                // Fallback to default
+                updateParticipant({
+                    name: 'Guest Player',
+                    image: '../../public/assets/images/profile_default.png',
+                    tagline: 'Welcome to Karma the Game',
+                    safeLinks: []
+                });
+            }
+        }
+
+        // Load profile when page loads
+        setTimeout(loadUserProfile, 500);
     </script>
 </body>
 </html>

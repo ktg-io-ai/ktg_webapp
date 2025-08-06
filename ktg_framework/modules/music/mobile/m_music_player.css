@@ -1,0 +1,233 @@
+/* Mobile Music Player Styles */
+
+:root {
+    --primary-bg: #1a1a1a;
+    --secondary-bg: #1e1e1e;
+    --accent-color: #ff0000;
+    --text-color: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] {
+    --primary-bg: #ffffff;
+    --secondary-bg: #f5f5f5;
+    --text-color: #1a1a1a;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+    --primary-bg: #1a1a1a;
+    --secondary-bg: #2a2a2a;
+    --text-color: #f5f5dc;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--primary-bg);
+    color: var(--text-color);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    height: auto;
+    box-shadow: 0 4px 20px var(--shadow-color);
+    background-color: var(--secondary-bg);
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.music-source {
+    background-color: #444;
+    color: var(--text-color);
+    border: 1px solid #555;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    width: 60%;
+    margin-bottom: 5px;
+}
+
+.top-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#share-button {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+#close-button {
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.album-art {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.album-art img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    object-fit: contain;
+}
+
+.song-info {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.song-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.artist-name {
+    font-size: 14px;
+    color: #b3b3b3;
+}
+
+.share-count {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 12px;
+    color: #b3b3b3;
+}
+
+#progress-container {
+    width: 100%;
+    height: 6px;
+    background-color: #444;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+#progress-bar {
+    width: 0%;
+    height: 100%;
+    background-color: var(--accent-color);
+    border-radius: 3px;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.controls button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    transition: transform 0.5s;
+}
+
+.controls button:hover {
+    transform: scale(1.5);
+}
+
+.controls button img {
+    width: 100%;
+    height: 100%;
+}
+
+.karmathegame-button {
+    display: block;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.share-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.share-modal-content {
+    background-color: var(--secondary-bg);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 300px;
+    width: 90%;
+}
+
+.share-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.share-option {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.share-option img {
+    width: 30px;
+    height: 30px;
+}
+
+.close-modal {
+    background-color: #666;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}

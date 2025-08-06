@@ -171,7 +171,59 @@
       "title": "あなたのドアを選択"
     }
   },
+  "ai": {
+    "back": "← ダッシュボードに戻る",
+    "title": "ktg.ai",
+    "subtitle": "人類への愛のAI小説",
+    "description": "未来から来た3人の英雄が現実のベールを通り抜けて、まさにこのプラットフォームを構築しました。愛、犠牲、そして人類と意識そのものを変革する量子システムの物語。",
+    "nowPlaying": "再生中",
+    "leftconsole": {
+      "title": "AIストーリープレイヤー",
+      "defaultTitle": "ビデオを選択",
+      "defaultDescription": "右パネルからビデオを選択して視聴を開始してください。",
+      "safe": "安全",
+      "door": "ドア",
+      "journeybook": "ジャーニーブック"
+    },
+    "rightconsole": {
+      "title": "AIストーリーライブラリ"
+    }
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "subscribe": "ニュースレターを購読",
+    "submit": "送信"
+  },
   "portal": {
     "title": "ポータル"
+  },
+  "nav": {
+    "search": "検索",
+    "social": "ソーシャル",
+    "actions": "アクション",
+    "details": "詳細",
+    "mystuff": "マイスタッフ",
+    "portal": "ポータル"
+  },
+  "submenu": {
+    "search": {
+      "title": "検索",
+      "byName": "名前で"
+    },
+    "social": {
+      "title": "共有"
+    },
+    "actions": {
+      "title": "アクション"
+    },
+    "details": {
+      "title": "詳細"
+    },
+    "mystuff": {
+      "title": "マイスタッフ"
+    },
+    "portal": {
+      "title": "ポータル"
+    }
   }
 }

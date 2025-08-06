@@ -266,12 +266,118 @@
         .close-button:hover {
             color: red;
         }
+
+        /* Submenu Styles */
+        .submenu {
+            position: absolute;
+            top: 60px;
+            right: 60px;
+            background-color: rgba(1, 1, 1, 0.9);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            border: 5px solid #2f27c8;
+            padding: 20px;
+            border-radius: 20px;
+            z-index: 1001;
+            pointer-events: auto;
+            display: none;
+            width: min(480px, 90vw);
+            max-width: 90vw;
+        }
+
+        [data-theme="light"] .submenu {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e9ecef;
+        }
+
+        [data-theme="dark"] .submenu {
+            background-color: rgba(42, 42, 42, 0.9);
+            border: 1px solid #404040;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .portal-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: min(16px, 2.4vw);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+            min-width: 0;
+        }
+
+        .portal-button:hover {
+            background-color: var(--bg-secondary);
+            border-color: #2f27c8;
+            transform: scale(1.05);
+        }
+
+        [data-theme="light"] .portal-button:hover {
+            background-color: #f1f3f4;
+        }
+
+        [data-theme="dark"] .portal-button:hover {
+            background-color: #3a3a3a;
+        }
+
+        .portal-button img {
+            width: min(32px, 6.4vw);
+            height: min(32px, 6.4vw);
+            margin-bottom: min(8px, 1.6vw);
+        }
+
+        .portal-button span {
+            font-size: min(10px, 2vw);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
     </style>
 </head>
 <body>
     <div class="top-frame">
         <h2></h2>
-        <div class="buttons"></div>
+        <div class="buttons">
+            <button onclick="openPortalSubmenu()">
+                <img src="../../public/assets/icons/portal_icon.png" alt="Portal" style="width: 35px; height: 35px;">
+            </button>
+        </div>
+    </div>
+
+    <div id="portal-submenu" class="submenu" style="display: none;">
+        <h2 data-lang="dashboard.portals.title">Portals<span class="close-button" onclick="closePortalSubmenu()" style="float: right; cursor: pointer;">X</span></h2>
+        <div class="portal-grid">
+            <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/portal_icon.png" alt="portals"><span data-lang="dashboard.portals.title">PORTALS</span></a>
+            <a href="../destiny/opening.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/fave_icon.png" alt="destiny"><span data-lang="dashboard.portals.destiny">DESTINY</span></a>
+            <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/listing_icon.png" alt="listings"><span data-lang="dashboard.portals.listings">LISTINGS</span></a>
+            <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span data-lang="dashboard.portals.ai">KTG.AI</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span data-lang="dashboard.portals.web3">WEB3</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/vr_icon.png" alt="XR"><span data-lang="dashboard.portals.vr">VR/AR/XR</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span data-lang="dashboard.portals.dignbling">DIGN BLING</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/chess_icon.png" alt="chess"><span data-lang="dashboard.portals.chess">4 PLAY CHESS</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span data-lang="dashboard.portals.metaphysics">METAPHYSICS</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/globe_icon.png" alt="map"><span data-lang="dashboard.portals.map">MAP</span></a>
+        </div>
     </div>
 
     <div class="content-area">
@@ -300,7 +406,7 @@
                 <input type="text" class="form-input" data-translate-placeholder="destiny.newavatar.tagline_placeholder" placeholder="TAGLINE: A SEEKS B" required>
             </form>
             
-            <menu onclick="window.parent.location.href='makeavatar.html'">
+            <menu onclick="document.querySelector('form').dispatchEvent(new Event('submit'))">
                 <h2 data-translate="destiny.newavatar.next">NEXT</h2>
             </menu>
         </div>
@@ -371,34 +477,107 @@
             const selectedGender = document.querySelector('input[name="gender"]:checked');
             const tagline = form.querySelectorAll('input[type="text"]')[1].value;
 
-            const gender = selectedGender ? selectedGender.value : '';
-            const platform = 'web';
-            const avatar2D = '00000000-0000-0000-0000-000000000000';
+            if (!avatarname || !selectedGender || !tagline) {
+                alert('Please fill in all fields');
+                return;
+            }
 
+            const gender = selectedGender.value;
+            
             try {
-                const response = await fetch('/api/v2/avatar3d', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
+                // Save avatar to database
+                await saveAvatarToDatabase({
+                    name: avatarname,
+                    gender: gender,
+                    tagline: tagline
+                });
+                
+                // Store current avatar data for next step
+                localStorage.setItem('ktg_current_avatar', JSON.stringify({
+                    name: avatarname,
+                    gender: gender,
+                    tagline: tagline,
+                    isActive: true,
+                    createdAt: Date.now(),
+                    generationsUsed: 0
+                }));
+                
+                // Notify parent about avatar creation
+                window.parent.postMessage({
+                    type: 'AVATAR_CREATED',
+                    avatar: {
                         name: avatarname,
                         gender: gender,
-                        tagline: tagline,
-                        platform: platform,
-                        avatar2D: avatar2D
-                    })
-                });
-
-                if (response.ok) {
-                    window.parent.location.href = 'makeavatar.html';
-                } else {
-                    console.error('Failed to create avatar:', response.status);
+                        tagline: tagline
+                    }
+                }, '*');
+                
+                window.parent.location.href = 'makeavatar.html';
+                
+            } catch (error) {
+                console.error('Error creating avatar:', error);
+                alert('Error creating avatar. Please try again.');
+            }
+        });
+        
+        async function saveAvatarToDatabase(avatarData) {
+            const userData = JSON.parse(localStorage.getItem('ktg_user') || '{}');
+            if (!userData.walletId) {
+                throw new Error('No user logged in');
+            }
+            
+            const avatarId = 'avatar_' + Date.now();
+            const fullAvatarData = {
+                ...avatarData,
+                id: avatarId,
+                isActive: true,
+                createdAt: Date.now(),
+                tokensUsed: 0,
+                generationsUsed: 0,
+                imageUrl: '../../public/assets/images/profile_default.png', // Will be updated in makeavatar
+                doorChoice: null,
+                lastActive: Date.now()
+            };
+            
+            try {
+                // Try Firebase first
+                const firebaseAuth = window.KTGFirebase || window.parent.KTGFirebase;
+                if (firebaseAuth && firebaseAuth.firestore) {
+                    await firebaseAuth.firestore.collection('users').doc(userData.walletId).update({
+                        [`avatars.${avatarId}`]: fullAvatarData,
+                        activeAvatarId: avatarId,
+                        lastUpdated: Date.now()
+                    });
+                    console.log('Avatar saved to Firebase');
+                    return;
                 }
             } catch (error) {
-                console.error('Error:', error);
-                // Fallback navigation
-                window.parent.location.href = 'makeavatar.html';
+                console.error('Firebase save failed:', error);
+            }
+            
+            // Fallback: save to localStorage
+            const existingAvatars = JSON.parse(localStorage.getItem('ktg_user_avatars') || '{}');
+            existingAvatars[avatarId] = fullAvatarData;
+            localStorage.setItem('ktg_user_avatars', JSON.stringify(existingAvatars));
+            localStorage.setItem('ktg_active_avatar_id', avatarId);
+            console.log('Avatar saved to localStorage');
+        }
+
+        function openPortalSubmenu() {
+            document.getElementById("portal-submenu").style.display = "block";
+        }
+
+        function closePortalSubmenu() {
+            document.getElementById("portal-submenu").style.display = "none";
+        }
+
+        // Click outside to close submenu
+        document.addEventListener('click', function(event) {
+            const submenu = document.getElementById('portal-submenu');
+            const button = document.querySelector('button[onclick="openPortalSubmenu()"]');
+            
+            if (submenu.style.display === 'block' && !submenu.contains(event.target) && !button.contains(event.target)) {
+                submenu.style.display = 'none';
             }
         });
     </script>

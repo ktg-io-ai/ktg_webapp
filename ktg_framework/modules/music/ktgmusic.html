@@ -372,6 +372,128 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-hover);
         }
+
+        /* Modal Overlay Styles */
+        .config-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            display: none;
+        }
+
+        .config-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(17, 17, 17, 0.9);
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px;
+            width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 2001;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        [data-theme="ktg"] .config-popup {
+            border: 5px solid #2f27c8;
+            box-shadow: none;
+        }
+
+        .config-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #2f27c8;
+        }
+
+        .config-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        .config-option label {
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        [data-theme="light"] .config-popup {
+            color: #000;
+        }
+
+        [data-theme="light"] .config-option label {
+            color: #000;
+        }
+
+        /* Wallet Popup Styles */
+        .token-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .token-card:hover {
+            border-color: #2f27c8;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .token-card.diamond {
+            background: linear-gradient(45deg, #ff6b6b, #ffd700);
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .token-count {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2f27c8;
+            margin-bottom: 5px;
+        }
+        
+        .token-card.diamond .token-count {
+            color: #000;
+        }
+        
+        .token-type {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .token-price {
+            font-size: 10px;
+            opacity: 0.6;
+            margin-top: 5px;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        
+        .history-date {
+            opacity: 0.6;
+        }
     </style>
     
     <script src="../../shared/js/theme-icons.js"></script>
@@ -395,38 +517,33 @@
             </div>
             <ul>
                 <li onclick="openSubmenu('search')" class="slide-in-left">
-                    <img src="../../public/assets/icons/about_icon.png" alt="Search">
+                    <img src="../../public/assets/icons/about_icon.png" alt="Search" class="theme-icon" data-ktg="../../public/assets/icons/about_icon.png" data-light="../../public/assets/icons/search_icon-blk.png" data-dark="../../public/assets/icons/search_icon-wht.png">
                     <span data-lang="music.sidebar.search">Search</span>
                 </li>
                 <li onclick="openSubmenu('social')" class="slide-in-left">
-                    <img src="../../public/assets/icons/social_icon.png" alt="Social">
+                    <img src="../../public/assets/icons/social_icon.png" alt="Social" class="theme-icon" data-ktg="../../public/assets/icons/social_icon.png" data-light="../../public/assets/icons/social_icon-blk.png" data-dark="../../public/assets/icons/social_icon-wht.png">
                     <span data-lang="music.sidebar.social">Social</span>
                 </li>
                 <li onclick="openSubmenu('actions')" class="slide-in-left">
-                    <img src="../../public/assets/icons/game_icon.png" alt="Actions">
+                    <img src="../../public/assets/icons/game_icon.png" alt="Actions" class="theme-icon" data-ktg="../../public/assets/icons/game_icon.png" data-light="../../public/assets/icons/game_icon-blk.png" data-dark="../../public/assets/icons/game_icon-wht.png">
                     <span data-lang="music.sidebar.actions">Actions</span>
                 </li>
                 <li onclick="openSubmenu('details')" class="slide-in-left">
-                    <img src="../../public/assets/icons/detail_icon.png" alt="Details">
+                    <img src="../../public/assets/icons/detail_icon.png" alt="Details" class="theme-icon" data-ktg="../../public/assets/icons/detail_icon.png" data-light="../../public/assets/icons/detail_icon-blk.png" data-dark="../../public/assets/icons/detail_icon-wht.png">
                     <span data-lang="music.sidebar.details">Detail</span>
                 </li>
                 <li onclick="openSubmenu('mystuff')" class="slide-in-left">
-                    <img src="../../public/assets/icons/mystuff_icon.png" alt="My Stuff">
+                    <img src="../../public/assets/icons/mystuff_icon.png" alt="My Stuff" class="theme-icon" data-ktg="../../public/assets/icons/mystuff_icon.png" data-light="../../public/assets/icons/mystuff_icon-blk.png" data-dark="../../public/assets/icons/mystuff_icon-wht.png">
                     <span data-lang="music.sidebar.mystuff">My Stuff</span>
                 </li>
-                <li class="slide-in-left">
-                    <a href="../destiny/gameconsole.html" target="_parent">
-                        <img src="../../public/assets/icons/listing_icon.png" alt="The Grid">
-                        <span data-lang="music.sidebar.grid">The Grid</span>
-                    </a>
-                </li>
+                
             </ul>
         </div>
 
         <div class="main-content">
             <div class="top-bar fade-in">
                 <div class="music-buttons">
-                    <button onclick="window.open('music_player.html', '_blank', 'width=500,height=150')" style="background: none; border: none; cursor: pointer;">
+                    <button onclick="window.open('music/m_music_player.html', '_blank', 'width=500,height=950')" style="background: none; border: none; cursor: pointer;">
                         <img src="../../public/assets/icons/music_player_icon.png" alt="Open Music Player" style="width: 30px; height: 30px;">
                     </button>
                 </div>
@@ -445,7 +562,7 @@
             </div>
         </div>
 
-        <div id="submenu-container" class="submenu-container">
+        <div id="submenu-container" class="submenu-container" onclick="closeAllSubmenus(event)">
             <audio id="musicPlayer" src="../../public/assets/ktgmusic/music/guru_and_lucy_voyage_to_yonder_9.mp3" loop></audio>
             
             <div id="search-submenu" class="submenu">
@@ -462,15 +579,15 @@
             <div id="social-submenu" class="submenu">
                 <h2 data-lang="music.submenus.social.title">Share<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
                 <ul>
-                    <li><button><img src="../../public/assets/icons/instagram_icon.png" alt="Instagram Icon"> <span data-lang="music.submenus.social.instagram">Instagram</span></button></li>
+                    <li><button><img src="../../public/assets/icons/instagram_icon.png" alt="Instagram Icon" class="theme-icon" data-ktg="../../public/assets/icons/instagram_icon.png" data-light="../../public/assets/icons/instagram_icon-blk.png" data-dark="../../public/assets/icons/instagram_icon-wht.png"> <span data-lang="music.submenus.social.instagram">Instagram</span></button></li>
                     <li><button><img src="../../public/assets/icons/facebook_icon.png" alt="FaceBook Icon"> <span data-lang="music.submenus.social.facebook">FaceBook</span></button></li>
-                    <li><button><img src="../../public/assets/icons/linkedin_icon.png" alt="Linkedin Icon"> <span data-lang="music.submenus.social.linkedin">LinkedIn</span></button></li>
-                    <li><button><img src="../../public/assets/icons/discord_icon.png" alt="Discord Icon"> <span data-lang="music.submenus.social.discord">Discord</span></button></li>
-                    <li><button><img src="../../public/assets/icons/telegram_icon.png" alt="Telegram Icon"> <span data-lang="music.submenus.social.telegram">Telegram</span></button></li>
+                    <li><button><img src="../../public/assets/icons/linkedin_icon.png" alt="Linkedin Icon" class="theme-icon" data-ktg="../../public/assets/icons/linkedin_icon.png" data-light="../../public/assets/icons/linkedin_icon-blk.png" data-dark="../../public/assets/icons/linkedin_icon-wht.png"> <span data-lang="music.submenus.social.linkedin">LinkedIn</span></button></li>
+                    <li><button><img src="../../public/assets/icons/discord_icon.png" alt="Discord Icon" class="theme-icon" data-ktg="../../public/assets/icons/discord_icon.png" data-light="../../public/assets/icons/discord_icon-blk.png" data-dark="../../public/assets/icons/discord_icon-wht.png"> <span data-lang="music.submenus.social.discord">Discord</span></button></li>
+                    <li><button><img src="../../public/assets/icons/telegram_icon.png" alt="Telegram Icon" class="theme-icon" data-ktg="../../public/assets/icons/telegram_icon.png" data-light="../../public/assets/icons/telegram_icon-blk.png" data-dark="../../public/assets/icons/telegram_icon-wht.png"> <span data-lang="music.submenus.social.telegram">Telegram</span></button></li>
                     <li><button><img src="../../public/assets/icons/twitter_icon.png" alt="Twitter X Icon"> <span data-lang="music.submenus.social.twitter">Twitter X</span></button></li>
-                    <li><button><img src="../../public/assets/icons/tiktok_icon.png" alt="TikTok Icon"> <span data-lang="music.submenus.social.tiktok">TicTok</span></button></li>
+                    <li><button><img src="../../public/assets/icons/tiktok_icon.png" alt="TikTok Icon" class="theme-icon" data-ktg="../../public/assets/icons/tiktok_icon.png" data-light="../../public/assets/icons/tiktok_icon-blk.png" data-dark="../../public/assets/icons/tiktok_icon-wht.png"> <span data-lang="music.submenus.social.tiktok">TicTok</span></button></li>
                     <li><button><img src="../../public/assets/icons/snap_icon.png" alt="Snap Chat Icon"> <span data-lang="music.submenus.social.snapchat">SnapChat</span></button></li>
-                    <li><button><img src="../../public/assets/icons/threads_icon.png" alt="Threads Icon"> <span data-lang="music.submenus.social.threads">Threads</span></button></li>
+                    <li><button><img src="../../public/assets/icons/threads_icon.png" alt="Threads Icon" class="theme-icon" data-ktg="../../public/assets/icons/threads_icon.png" data-light="../../public/assets/icons/threads_icon-blk.png" data-dark="../../public/assets/icons/threads_icon-wht.png"> <span data-lang="music.submenus.social.threads">Threads</span></button></li>
                 </ul>
             </div>
             
@@ -501,10 +618,55 @@
                     <li><button><img src="../../public/assets/icons/bucket_icon.png" alt="BucketList Icon"> <span data-lang="music.submenus.mystuff.bucketlist">My BucketList</span></button></li>
                     <li><button><img src="../../public/assets/icons/email_icon.png" alt="Email Icon"> <span data-lang="music.submenus.mystuff.email">Email</span></button></li>
                     <li><button><img src="../../public/assets/icons/calendar_icon.png" alt="Calendar Icon"> <span data-lang="music.submenus.mystuff.calendar">Calendar</span></button></li>
-                    <li><button><img src="../../public/assets/icons/wallet_icon.png" alt="Wallet Icon"> <span data-lang="music.submenus.mystuff.wallet">Wallet</span></button></li>
+                    <li><button onclick="openWalletPopup()"><img src="../../public/assets/icons/wallet_icon.png" alt="Wallet Icon"> <span data-lang="music.submenus.mystuff.wallet">Wallet</span></button></li>
                     <li><button><img src="../../public/assets/icons/config_icon.png" alt="Config Icon"> <span data-lang="music.submenus.mystuff.config">Config</span></button></li>
                     <li><button><img src="../../public/assets/icons/bail_icon.png" alt="Bail Icon"> <span data-lang="music.submenus.mystuff.bail">Bail</span></button></li>
                 </ul>
+            </div>
+        </div>
+
+        <!-- Wallet Popup -->
+        <div id="wallet-overlay" class="config-overlay" onclick="closeWalletPopup()">
+            <div class="config-popup" onclick="event.stopPropagation()">
+                <h2>💰 Wallet <span class="close-button" onclick="closeWalletPopup()">X</span></h2>
+                
+                <div class="config-section">
+                    <h3 style="color: #2f27c8; margin-bottom: 10px;">💰 Token Balance</h3>
+                    <div class="token-grid" id="tokenGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                        <!-- Tokens will be populated by JavaScript -->
+                    </div>
+                    <div class="action-buttons" style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button class="buy-button" onclick="buyTokens()" style="background: linear-gradient(45deg, #2f27c8, #4fb6c1); flex: 1;">Buy More Tokens</button>
+                        <button onclick="refreshWallet()" style="flex: 1;">Refresh Balance</button>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 style="color: #2f27c8; margin-bottom: 10px;">🔗 Wallet Information</h3>
+                    <div class="config-option">
+                        <label>Wallet ID:</label>
+                        <span class="wallet-value" id="walletId" style="color: #2f27c8; font-family: monospace;">Loading...</span>
+                    </div>
+                    <div class="config-option">
+                        <label>Email:</label>
+                        <span class="wallet-value" id="walletEmail" style="color: #2f27c8; font-family: monospace;">Loading...</span>
+                    </div>
+                    <div class="config-option">
+                        <label>Crypto Wallet:</label>
+                        <span class="wallet-value" id="cryptoWallet" style="color: #2f27c8; font-family: monospace;">Not Connected</span>
+                    </div>
+                    <div class="action-buttons" style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button onclick="connectCryptoWallet()" style="flex: 1;">Connect Crypto Wallet</button>
+                        <button onclick="exportWallet()" style="flex: 1;">Export Wallet</button>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 style="color: #2f27c8; margin-bottom: 10px;">📊 Recent Activity</h3>
+                    <div id="tokenHistory" style="max-height: 200px; overflow-y: auto;">
+                        <!-- History will be populated by JavaScript -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -606,25 +768,14 @@
             }
         }
         
-        // Click outside to close submenus
-        document.addEventListener('click', function(event) {
-            const submenuContainer = document.getElementById('submenu-container');
-            const sidebarItems = document.querySelectorAll('.sidebar li');
-            
-            let clickedOnSidebar = false;
-            sidebarItems.forEach(item => {
-                if (item.contains(event.target)) {
-                    clickedOnSidebar = true;
-                }
-            });
-            
-            if (!submenuContainer.contains(event.target) && !clickedOnSidebar) {
+        function closeAllSubmenus(event) {
+            if (event.target === event.currentTarget) {
                 const submenus = document.querySelectorAll('.submenu');
                 submenus.forEach(submenu => {
                     submenu.style.display = 'none';
                 });
             }
-        });
+        }
 
         function closeSubmenu(closeButton) {
             const submenu = closeButton.closest('.submenu');
@@ -683,6 +834,163 @@
 
         // Make queueSong available globally for iframe communication
         window.queueSong = queueSong;
+        
+        function openWalletPopup() {
+            document.getElementById('wallet-overlay').style.display = 'block';
+            initializeWallet();
+        }
+
+        function closeWalletPopup() {
+            document.getElementById('wallet-overlay').style.display = 'none';
+        }
+
+        // Wallet functionality
+        let currentWallet = null;
+
+        async function initializeWallet() {
+            try {
+                if (!window.walletManager) {
+                    const script = document.createElement('script');
+                    script.src = '../../shared/js/wallet-manager.js';
+                    document.head.appendChild(script);
+                    await new Promise(resolve => {
+                        script.onload = resolve;
+                    });
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                currentWallet = window.walletManager;
+                await currentWallet.loadWallet();
+                
+                updateWalletDisplay();
+                updateTokenGrid();
+                updateWalletInfo();
+                updateTokenHistory();
+                
+            } catch (error) {
+                console.error('Error initializing wallet:', error);
+            }
+        }
+
+        function updateTokenGrid() {
+            if (!currentWallet) return;
+            
+            const tokenGrid = document.getElementById('tokenGrid');
+            const tokens = currentWallet.tokens;
+            
+            let html = '';
+            
+            const availableTokens = [1, 3, 6, 9];
+            availableTokens.forEach(i => {
+                const tokenType = `${i}life`;
+                const count = tokens[tokenType] || 0;
+                const price = currentWallet.getTokenPrice(tokenType);
+                
+                html += `
+                    <div class="token-card">
+                        <div class="token-count">${count}</div>
+                        <div class="token-type">${i}-Life Token</div>
+                        <div class="token-price">$${price}</div>
+                    </div>
+                `;
+            });
+            
+            const diamondCount = tokens['diamond'] || 0;
+            html += `
+                <div class="token-card diamond">
+                    <div class="token-count">${diamondCount}</div>
+                    <div class="token-type">💎 Diamond</div>
+                    <div class="token-price">$999.00</div>
+                </div>
+            `;
+            
+            tokenGrid.innerHTML = html;
+        }
+
+        function updateWalletInfo() {
+            if (!currentWallet) return;
+            
+            document.getElementById('walletId').textContent = currentWallet.walletId || 'Not Set';
+            document.getElementById('walletEmail').textContent = currentWallet.email || 'Not Set';
+            document.getElementById('cryptoWallet').textContent = currentWallet.cryptoWallet || 'Not Connected';
+        }
+
+        function updateTokenHistory() {
+            if (!currentWallet) return;
+            
+            const historyDiv = document.getElementById('tokenHistory');
+            const history = currentWallet.tokenHistory.slice(-10).reverse();
+            
+            if (history.length === 0) {
+                historyDiv.innerHTML = '<div class="history-item">No recent activity</div>';
+                return;
+            }
+            
+            let html = '';
+            history.forEach(item => {
+                const date = new Date(item.timestamp).toLocaleDateString();
+                const action = item.action === 'added' ? '➕' : '➖';
+                const purpose = item.purpose ? ` (${item.purpose})` : '';
+                
+                html += `
+                    <div class="history-item">
+                        <span>${action} ${item.type}${purpose}</span>
+                        <span class="history-date">${date}</span>
+                    </div>
+                `;
+            });
+            
+            historyDiv.innerHTML = html;
+        }
+
+        function updateWalletDisplay() {
+            if (!currentWallet) return;
+            currentWallet.cleanExpiredTokens();
+        }
+
+        async function refreshWallet() {
+            if (!currentWallet) return;
+            await currentWallet.loadWallet();
+            updateTokenGrid();
+            updateTokenHistory();
+        }
+
+        function buyTokens() {
+            alert('Token purchase interface coming soon!');
+        }
+
+        function connectCryptoWallet() {
+            if (!currentWallet) return;
+            const wallet = prompt('Enter your crypto wallet address:');
+            if (wallet) {
+                currentWallet.cryptoWallet = wallet;
+                currentWallet.saveWallet();
+                updateWalletInfo();
+            }
+        }
+
+        function exportWallet() {
+            if (!currentWallet) return;
+            const walletData = {
+                walletId: currentWallet.walletId,
+                email: currentWallet.email,
+                tokens: currentWallet.tokens,
+                cryptoWallet: currentWallet.cryptoWallet,
+                tokenHistory: currentWallet.tokenHistory
+            };
+            
+            const dataStr = JSON.stringify(walletData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `ktg-wallet-${currentWallet.walletId}.json`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        }
         
         window.addEventListener('load', () => {
             // Initialize theme and music

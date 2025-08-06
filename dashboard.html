@@ -287,6 +287,54 @@
         .music-buttons {
             margin-right: 10px;
         }
+
+        /* Wallet Popup Styles */
+        .wallet-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wallet-popup-content {
+            width: 90%;
+            max-width: 800px;
+            height: 80%;
+            background: #1a1a1a;
+            border-radius: 15px;
+            border: 3px solid #2f27c8;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wallet-popup iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .wallet-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 2001;
+        }
+
+        .wallet-close-btn:hover {
+            color: #ff6b6b;
+        }
     </style>
 </head>
 <body style="overflow: hidden;">
@@ -328,8 +376,8 @@
         <div class="main-content">
             <div class="top-bar fade-in">
                 <div class="music-buttons">
-                    <button onclick="window.open('../KTGMUSIC/music_player.html', '_blank', 'width=500,height=150')" style="background: none; border: none; cursor: pointer;">
-                        <img src="../assets/music_player_icon.png" alt="Open Music Player" style="width: 30px; height: 30px;">
+                    <button onclick="window.open('ktg_framework/modules/music/mobile/m_music_player.html', '_blank', 'width=500,height=150')" style="background: none; border: none; cursor: pointer;">
+                        <img src="assets/music_player_icon.png" alt="Open Music Player" style="width: 30px; height: 30px;">
                     </button>
                     
                 </div>
@@ -497,11 +545,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="DESTINY/login.html">
-                        <button>
+                        <button onclick="openWalletPopup()">
                             <img src="assets/wallet_icon.png" alt="Wallet Icon"> Wallet
                         </button>
-                        </a>
                     </li>
                     <li>
                         <a href="DESTINY/login.html">
@@ -519,6 +565,14 @@
                     </li>
                 </ul>
             </div>
+        </div>
+    </div>
+
+    <!-- Wallet Popup -->
+    <div id="walletPopup" class="wallet-popup">
+        <div class="wallet-popup-content">
+            <button class="wallet-close-btn" onclick="closeWalletPopup()">×</button>
+            <iframe src="ktg_framework/modules/wallet/wallet-popup.html"></iframe>
         </div>
     </div>
 
@@ -566,6 +620,25 @@
         visitCount++;
         localStorage.setItem('pageVisitCount', visitCount);
         visitCountSpan.textContent = visitCount;
+
+        // Wallet popup functions
+        function openWalletPopup() {
+            const walletPopup = document.getElementById('walletPopup');
+            if (walletPopup) {
+                walletPopup.style.display = 'block';
+            }
+        }
+
+        function closeWalletPopup() {
+            const walletPopup = document.getElementById('walletPopup');
+            if (walletPopup) {
+                walletPopup.style.display = 'none';
+            }
+        }
+
+        // Make functions global
+        window.openWalletPopup = openWalletPopup;
+        window.closeWalletPopup = closeWalletPopup;
 
     </script>
     <script>

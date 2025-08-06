@@ -3,556 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC is an AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement. Discover AI-driven income models & immersive experiences.">
-    <meta name="keywords" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC, AI, Social Platform, Lifestyle Platform, Influencer Marketing, Digital Engagement, AI Advertising, Web3, NFT, Metaverse, SoftBank, Investment, Startup">
-    <meta name="author" content="KTG.IO Platform">
-    <meta property="og:title" content="KTG: AI-Driven Social & Lifestyles Platform">
-    <meta property="og:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.karmathegame.org">
-    <meta property="og:image" content="../../public/assets/images/game_logo.png">
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="KTG: AI-Driven Social & Lifestyles Platform">
-    <meta property="twitter:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
-    <meta property="twitter:image" content="../../public/assets/icons/kgz_icon.png">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="../../public/assets/icons/kgz_icon.png"/>
-    
-    <title>Karma the Game of Destiny</title>
-    
+    <title data-lang="destiny.makeavatar.title">Customize Avatar - Karma the Game</title>
+    <link rel="stylesheet" href="../../shared/styles/global.css">
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/wallet-manager.js"></script>
+    <script src="../../shared/js/ai-avatar-service.js"></script>
     <style>
-        :root {
-            --bg-primary: #111;
-            --bg-secondary: #222;
-            --text-primary: #fff;
-            --text-secondary: #ccc;
-            --accent-color: #2f27c8;
-            --accent-hover: #4fb6c1;
-            --border-radius: 20px;
-            --transition: all 0.3s ease;
-        }
-
-        [data-theme="light"] {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --text-primary: #1a1a1a;
-            --text-secondary: #6c757d;
-            --accent-color: #2f27c8;
-            --accent-hover: #4fb6c1;
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2a2a2a;
-            --text-primary: #f5f5dc;
-            --text-secondary: #b8b8b8;
-            --accent-color: #2f27c8;
-            --accent-hover: #4fb6c1;
-        }
-
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            overflow: hidden;
-        }
-
-        .container {
-            display: flex;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 80px;
-            background-color: var(--bg-primary);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            position: fixed;
-            height: 100%;
-            overflow-y: auto;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            margin-top: 53px;
-            scrollbar-width: none;
-        }
-
-        .sidebar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .sidebar .logo {
-            margin-top: 10px;
-        }
-
-        .sidebar .logo img {
-            width: 60px;
-            margin-bottom: 50px;
-            max-height: 150px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .sidebar .logo img:hover {
-            transform: scale(1.1);
-        }
-
-        /* Back Button */
-        .back-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 20px;
-            margin-top: 150px;
-            transition: var(--transition);
-        }
-
-        .back-button:hover {
-            transform: scale(1.1);
-        }
-
-        .back-button svg {
-            width: 30px;
-            height: 30px;
-            color: var(--text-primary);
-        }
-
-        /* Main Content Area */
-        .main-content {
-            flex-grow: 1;
-            padding: 3px 5px 0 0;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .main-area {
-            display: flex;
-            height: calc(100vh - 50px);
-            padding-top: 0;
-            margin-top: 53px;
-        }
-
-        .main-frame {
-            width: 50%;
-            height: 100%;
-            border: none;
-            border-radius: 0;
-            background-color: var(--bg-secondary);
-            margin-left: 123px;
-        }
-
-        .right-frame {
-            width: 50%;
-            height: 100%;
-            background-color: var(--bg-secondary);
-            border: none;
-            border-radius: 0;
-            margin-left: 0;
+            padding: 0;
+            overflow-x: hidden;
             overflow-y: auto;
         }
 
         /* Top Bar */
         .top-bar {
-            background-color: var(--bg-primary);
+            background-color: var(--topbar-bg);
             height: 50px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
+            padding: 0 22px;
             z-index: 999;
             width: 100%;
             position: fixed;
             top: 0;
             left: 0;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="ktg"] .top-bar {
+            border-bottom: none;
+            box-shadow: none;
+        }
+
+        [data-theme="dark"] .top-bar {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         .top-bar h1 {
             margin: 0;
             font-size: 16px;
             color: var(--text-primary);
+            font-weight: 600;
         }
 
         .top-bar .song-title {
             margin-left: 20px;
             padding-right: 50px;
-            font-size: 16px;
             color: var(--text-primary);
             display: flex;
             align-items: center;
         }
 
-        /* Music Controls */
         #musicToggle {
             background: none;
             border: none;
             cursor: pointer;
             margin-right: 10px;
             vertical-align: middle;
-            padding: 5px;
         }
 
         #musicToggle img {
-            width: 30px;
-            height: 30px;
+            width: 24px;
+            height: 24px;
         }
 
-        /* Portal Button */
-        .portal-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-            transition: var(--transition);
+        .music-buttons {
+            margin-right: 10px;
         }
 
-        .portal-button:hover {
-            transform: scale(1.1);
-        }
-
-        .portal-button img {
-            width: 30px;
-            height: 30px;
-        }
-
-        /* Submenu Container */
-        .submenu-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            pointer-events: none;
-        }
-
-        /* Submenu Styles */
-        .submenu {
-            position: absolute;
-            top: 60px;
-            right: 20px;
-            background-color: rgba(0, 0, 0, 0.9);
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-            border: 1px solid #ccc;
+        /* Main content container */
+        .main-content {
+            margin-top: 50px;
+            min-height: calc(100vh - 50px);
             padding: 20px;
-            min-width: 300px;
-            border-radius: var(--border-radius);
-            z-index: 1001;
-            pointer-events: auto;
-            display: none;
         }
 
-        [data-theme="light"] .submenu {
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 1px solid #ccc;
+        .avatar-customizer {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            text-align: center;
         }
 
-        [data-theme="dark"] .submenu {
-            background-color: rgba(42, 42, 42, 0.9);
-            border: 1px solid #ccc;
-        }
-
-        [data-theme="ktg"] .submenu {
-            background: transparent;
-            border: none;
-        }
-
-        [data-theme="ktg"] .submenu button {
-            background: transparent;
-            border: none;
-        }
-
-        .portal-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .submenu h2 {
-            margin-top: 0;
+        .avatar-customizer h2 {
             color: var(--text-primary);
+            margin-bottom: 30px;
         }
 
-        .submenu button {
-            background-color: rgba(51, 51, 51, 0.9);
-            color: var(--text-primary);
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-            cursor: pointer;
-            border-radius: 12px;
-            transition: var(--transition);
+        .avatar-display {
+            width: 300px;
+            height: 300px;
+            border-radius: 20px;
+            margin: 20px auto;
+            background: var(--bg-primary);
             display: flex;
             align-items: center;
+            justify-content: center;
+            border: 3px solid var(--accent-color);
+            position: relative;
         }
 
-        .submenu button:hover {
-            background-color: rgba(68, 68, 68, 0.9);
-            border-color: #4fb6c1;
-        }
-
-        [data-theme="light"] .submenu button {
-            background-color: rgba(245, 245, 245, 0.9);
-            color: var(--text-primary);
-        }
-
-        [data-theme="light"] .submenu button:hover {
-            background-color: rgba(241, 243, 244, 0.9);
-        }
-
-        [data-theme="dark"] .submenu button {
-            background-color: rgba(58, 58, 58, 0.9);
-            color: var(--text-primary);
-        }
-
-        [data-theme="dark"] .submenu button:hover {
-            background-color: rgba(74, 74, 74, 0.9);
-        }
-
-        .submenu button img {
-            max-width: 25px;
-            max-height: 25px;
-            margin-right: 5px;
-            vertical-align: middle;
-        }
-
-        .submenu a {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-            padding: 0;
-            border-radius: var(--border-radius);
-        }
-
-        .close-button {
-            float: right;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        .close-button:hover {
-            color: red;
-        }
-
-        /* Animations */
-        .slide-in-left {
-            opacity: 0;
-            transform: translateX(-100%);
-            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
-        }
-
-        .slide-in-left.active {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .fade-in {
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
-        }
-
-        .fade-in.active {
-            opacity: 1;
-        }
-
-        /* Background Video */
-        .bg-video {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .avatar-display img {
             width: 100%;
             height: 100%;
+            border-radius: 17px;
             object-fit: cover;
-            z-index: -1;
         }
 
-        /* Theme-specific video display */
-        [data-theme="light"] .bg-video,
-        [data-theme="dark"] .bg-video {
-            display: none;
+        .avatar-placeholder {
+            color: var(--text-secondary);
+            font-size: 16px;
         }
 
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 3px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
+        .generation-counter {
+            position: absolute;
+            top: -15px;
+            right: -15px;
             background: var(--accent-color);
-            border-radius: 3px;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .prompt-section {
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .prompt-section label {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .prompt-textarea {
+            width: 100%;
+            height: 100px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .prompt-textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .action-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .action-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .action-btn.secondary {
+            background: #666;
+        }
+
+        .action-btn.secondary:hover {
+            background: #888;
+        }
+
+        .play-btn {
+            background: #28a745;
+            font-size: 18px;
+            padding: 20px 40px;
+        }
+
+        .play-btn:hover {
+            background: #218838;
+        }
+
+        .avatar-info {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .avatar-info h4 {
+            color: var(--text-primary);
+            margin-top: 0;
+        }
+
+        .avatar-info p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin: 8px 0;
+        }
+
+        .generation-warning {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .back-link {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-top: 20px;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+
+        .error-message {
+            color: #ff4444;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .success-message {
+            color: #44ff44;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        /* Theme Variables */
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: rgba(1, 1, 1, 0.9);
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --border-color: #2f27c8;
+            --hover-bg: #222;
+            --topbar-bg: #111;
+            --accent-color: #2f27c8;
+            --accent-hover: #1e1a8a;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: rgba(248, 249, 250, 0.9);
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --border-color: #e9ecef;
+            --hover-bg: #f1f3f4;
+            --topbar-bg: #ffffff;
+            --accent-color: #2f27c8;
+            --accent-hover: #1e1a8a;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: rgba(45, 45, 45, 0.9);
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --border-color: #404040;
+            --hover-bg: #3a3a3a;
+            --topbar-bg: #2d2d2d;
+            --accent-color: #2f27c8;
+            --accent-hover: #1e1a8a;
         }
     </style>
 </head>
-<body style="overflow: hidden;">
-    <!-- Background Video (KTG Mode only) -->
-    <video class="bg-video" autoplay muted loop>
-        <source src="../../public/assets/videos/makeavatar1.mp4" type="video/mp4">
-    </video>
-
-    <div class="container">
-        <div class="sidebar slide-in-left">
-            <div class="logo">
-                <a href="../../src/pages/dashboard.html" target="_parent">
-                    <img src="../../public/assets/images/game_logo.png" alt="Game Logo">
-                </a>
-            </div>
-            <div>
-                <!-- Back Button -->
-                <button class="back-button" onclick="window.history.back()" aria-label="Go Back">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                    </svg>
-                </button>
-            </div>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="music-buttons">
+            <button onclick="window.open('../music/mobile/m_music_player.html', '_blank', 'width=500,height=950')" style="background: none; border: none; cursor: pointer;">
+                <img src="../../public/assets/icons/music_player_icon.png" alt="Open Music Player" style="width: 24px; height: 24px;">
+            </button>
         </div>
-
-        <div class="main-content">
-            <div class="top-bar fade-in">
-                <h1 data-translate="destiny.title">Karma the Game of Destiny</h1>
-                <div class="song-title">
-                    <button id="musicToggle">
-                        <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle">
-                    </button>
-                    <span data-translate="destiny.makeavatar.playing">PLAYING: (Original Soundtrack) Lucys Booth Loading</span>
-                </div>
-                <button class="portal-button" onclick="openSubmenu('portal')">
-                    <img src="../../public/assets/icons/portal_icon.png" alt="Portal" class="portal-icon">
-                </button>
-            </div>
-
-            <div class="main-area">
-                <iframe src="leftconsole_makeavatar.html" class="main-frame fade-in" id="mainFrame"></iframe>
-                <iframe src="rightconsole_makeavatar.html" class="right-frame fade-in" id="rightFrame"></iframe>
-            </div>
-        </div>
-
-        <div id="submenu-container" class="submenu-container">
-            <!-- Portal Submenu -->
-            <div id="portal-submenu" class="submenu">
-                <h2 data-translate="portal.title">Portals <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>
-                <div class="portal-grid">
-                    <button><a href="opening.html" target="_parent"><img src="../../public/assets/icons/fave_icon.png" alt="destiny" class="destiny-icon"> DESTINY</a></button>
-                    <button><a href="../music/ktgmusic.html" target="_parent"><img src="../../public/assets/icons/qr_icon.png" alt="ktgmusic" class="music-icon"> KTG.MUSIC</a></button>
-                    <button><a href="../ai/ktgai.html" target="_parent"><img src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai" class="ktgai-icon"> KTG.AI</a></button>
-                    <button><a href="../about/creator.html" target="_parent"><img src="../../public/assets/icons/merch_icon.png" alt="merch" class="merch-icon"> MERCH</a></button>
-                    <button><a href="../about/creator.html" target="_parent"><img src="../../public/assets/icons/kgz_white_icon.png" alt="web3" class="web3-icon"> WEB3</a></button>
-                    <button><a href="../lifestyles/listingsconsole.html" target="_parent"><img src="../../public/assets/icons/listing_icon.png" alt="listings" class="listings-icon"> LISTINGS</a></button>
-                </div>
-            </div>
-            <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/lucys_booth_loading.mp3" loop></audio>
+        <h1 data-lang="destiny.title">Karma the Game of Destiny</h1>
+        <div class="song-title">
+            <button id="musicToggle">
+                <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle">
+            </button>
+            <span data-lang="music.playing">PLAYING</span>: <span id="currentSongTitle">Game Console Loading</span>
         </div>
     </div>
 
-    <!-- Framework Scripts -->
-    <script src="../../shared/js/language.js"></script>
-    <script src="../../shared/js/theme.js"></script>
-    <script src="../../shared/js/music.js"></script>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="avatar-customizer">
+        <h2 data-lang="destiny.makeavatar.prompt_title">CUSTOMIZE YOUR AVATAR</h2>
+        
+        <div class="avatar-display" id="avatarDisplay">
+            <div class="avatar-placeholder">Loading avatar...</div>
+            <div class="generation-counter" id="generationCounter">1/3</div>
+        </div>
+        
+        <div class="avatar-info">
+            <h4>Current Avatar</h4>
+            <p><strong>Name:</strong> <span id="avatarName">-</span></p>
+            <p><strong>Gender:</strong> <span id="avatarGender">-</span></p>
+            <p><strong>Tagline:</strong> <span id="avatarTagline">-</span></p>
+        </div>
+        
+        <div class="prompt-section">
+            <label for="customPrompt" data-lang="destiny.makeavatar.prompt_placeholder">DESCRIBE THE AVATAR AND THE SCENE</label>
+            <textarea 
+                id="customPrompt" 
+                class="prompt-textarea" 
+                placeholder="Describe how you want your avatar to look... (e.g., wearing a red jacket, standing in a forest, with blue eyes)"
+                maxlength="500"
+            ></textarea>
+            <div style="text-align: right; color: var(--text-secondary); font-size: 12px; margin-top: 5px;">
+                <span id="charCount">0</span>/500 characters
+            </div>
+        </div>
+        
+        <div id="generationWarning" class="generation-warning" style="display: none;">
+            You have used all 3 generations! The REIMAGINE button will now cycle through your existing images.
+        </div>
+        
+        <div class="action-buttons">
+            <button class="action-btn" id="reimagineBtn" onclick="reimagineAvatar()" data-lang="destiny.makeavatar.reimagine">REIMAGINE</button>
+            <button class="action-btn play-btn" onclick="playGame()" data-lang="destiny.makeavatar.play">PLAY</button>
+        </div>
+        
+        <div id="message" class="error-message" style="display: none;"></div>
+        
+        <a href="newavatar.html" class="back-link">← Back to Avatar Creation</a>
+        
+        <div style="margin-top: 30px; padding: 20px; background: var(--bg-primary); border-radius: 10px; text-align: left;">
+            <h4 style="color: var(--text-primary); margin-top: 0;">Avatar Customization Rules</h4>
+            <ul style="color: var(--text-secondary); font-size: 14px;">
+                <li>You get 3 total generations to perfect your avatar</li>
+                <li>Each generation remembers your chosen gender</li>
+                <li>After 3 generations, REIMAGINE cycles through existing images</li>
+                <li>Your avatar represents your classified ad post in Destiny</li>
+                <li>Click PLAY when you're satisfied with your avatar</li>
+            </ul>
+        </div>
+    </div>
+    </div>
 
     <script>
-        // Initialize theme and language
-        document.addEventListener('DOMContentLoaded', function() {
-            // Apply saved theme
-            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            
-            // Initialize language
-            if (typeof langManager !== 'undefined') {
-                langManager.updateUI();
-            }
-            
-            // Initialize music with default OFF
-            if (typeof initializeMusic === 'function') {
-                initializeMusic('lucys_booth_loading.mp3', false);
-            }
-            
-            // Animation triggers
-            setTimeout(() => {
-                const slideInLeftElements = document.querySelectorAll('.slide-in-left');
-                slideInLeftElements.forEach(el => el.classList.add('active'));
-
-                const fadeInElements = document.querySelectorAll('.fade-in');
-                fadeInElements.forEach(el => el.classList.add('active'));
-            }, 100);
-        });
-
-        // Listen for theme changes from config
-        window.addEventListener('message', function(event) {
-            if (event.data && event.data.type === 'THEME_CHANGE') {
-                const newTheme = event.data.theme;
-                document.documentElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('ktg-theme', newTheme);
-            }
-        });
-
-        // Listen for storage changes (theme and language updates from other tabs/windows)
-        window.addEventListener('storage', function(event) {
-            if (event.key === 'ktg-theme') {
-                const newTheme = event.newValue || 'ktg';
-                document.documentElement.setAttribute('data-theme', newTheme);
-            } else if (event.key === 'ktg-language') {
-                const newLanguage = event.newValue || 'en';
-                if (typeof langManager !== 'undefined') {
-                    langManager.changeLanguage(newLanguage);
-                }
-                // Broadcast to iframes
-                const mainFrame = document.getElementById('mainFrame');
-                const rightFrame = document.getElementById('rightFrame');
-                if (mainFrame && mainFrame.contentWindow) {
-                    mainFrame.contentWindow.postMessage({type: 'LANGUAGE_CHANGE', language: newLanguage}, '*');
-                }
-                if (rightFrame && rightFrame.contentWindow) {
-                    rightFrame.contentWindow.postMessage({type: 'LANGUAGE_CHANGE', language: newLanguage}, '*');
-                }
-            }
-        });
-
-        // Submenu functionality
-        function openSubmenu(submenu) {
-            const submenus = document.querySelectorAll('.submenu');
-            submenus.forEach(submenu => {
-                submenu.style.display = 'none';
-            });
-
-            const selectedSubmenu = document.getElementById(submenu + '-submenu');
-            if (selectedSubmenu) {
-                selectedSubmenu.style.display = 'block';
-            }
-        }
-
-        function closeSubmenu(closeButton) {
-            const submenu = closeButton.closest('.submenu');
-            submenu.style.display = 'none';
-        }
-
-        // Click outside to close submenu
-        document.addEventListener('click', function(event) {
-            const submenus = document.querySelectorAll('.submenu');
-            const portalButton = document.querySelector('.portal-button');
-            
-            let clickedInsideSubmenu = false;
-            submenus.forEach(submenu => {
-                if (submenu.contains(event.target)) {
-                    clickedInsideSubmenu = true;
-                }
-            });
-            
-            if (!clickedInsideSubmenu && !portalButton.contains(event.target)) {
-                submenus.forEach(submenu => {
-                    submenu.style.display = 'none';
-                });
-            }
-        });
-
-        // Music toggle functionality
-        const musicPlayer = document.getElementById('musicPlayer');
-        const musicToggle = document.getElementById('musicToggle');
+        // Music player functionality
+        const musicPlayer = document.createElement('audio');
+        musicPlayer.src = '../../public/assets/ktgmusic/audio/game_console_loading.mp3';
+        musicPlayer.loop = true;
+        musicPlayer.volume = 0.5;
+        document.body.appendChild(musicPlayer);
 
         function toggleMusic() {
             if (musicPlayer.paused) {
@@ -562,7 +389,248 @@
             }
         }
 
-        musicToggle.addEventListener('click', toggleMusic);
+        document.getElementById('musicToggle').addEventListener('click', toggleMusic);
+        let currentAvatar = null;
+        let generationCount = 0;
+        let maxGenerations = 3;
+        let generatedImages = [];
+        let currentImageIndex = 0;
+        
+        // Initialize theme and language
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+        }
+        
+        // Check if user is logged in and has avatar
+        function checkAvatarStatus() {
+            const user = JSON.parse(localStorage.getItem('ktg_user') || '{}');
+            if (!user.email || !user.walletId) {
+                alert('Please login first.');
+                window.location.href = 'login.html';
+                return false;
+            }
+            
+            const savedAvatar = localStorage.getItem('ktg_current_avatar');
+            if (!savedAvatar) {
+                alert('No avatar found. Please create an avatar first.');
+                window.location.href = 'newavatar.html';
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Load current avatar
+        function loadCurrentAvatar() {
+            const savedAvatar = localStorage.getItem('ktg_current_avatar');
+            if (savedAvatar) {
+                currentAvatar = JSON.parse(savedAvatar);
+                generationCount = currentAvatar.generationCount || 1;
+                
+                // Update UI
+                document.getElementById('avatarName').textContent = currentAvatar.name;
+                document.getElementById('avatarGender').textContent = currentAvatar.gender;
+                document.getElementById('avatarTagline').textContent = currentAvatar.tagline;
+                
+                // Display avatar image
+                const avatarDisplay = document.getElementById('avatarDisplay');
+                avatarDisplay.innerHTML = `
+                    <img src="${currentAvatar.imageUrl}" alt="Current Avatar">
+                    <div class="generation-counter" id="generationCounter">${generationCount}/${maxGenerations}</div>
+                `;
+                
+                // Add to generated images array
+                if (!generatedImages.includes(currentAvatar.imageUrl)) {
+                    generatedImages.push(currentAvatar.imageUrl);
+                }
+                
+                // Update generation warning
+                updateGenerationWarning();
+            }
+        }
+        
+        // Update generation warning
+        function updateGenerationWarning() {
+            const warning = document.getElementById('generationWarning');
+            const reimagineBtn = document.getElementById('reimagineBtn');
+            
+            if (generationCount >= maxGenerations) {
+                warning.style.display = 'block';
+                reimagineBtn.textContent = 'CYCLE IMAGES';
+            } else {
+                warning.style.display = 'none';
+                reimagineBtn.textContent = 'REIMAGINE';
+            }
+            
+            document.getElementById('generationCounter').textContent = `${generationCount}/${maxGenerations}`;
+        }
+        
+        // Reimagine avatar
+        async function reimagineAvatar() {
+            if (!currentAvatar) return;
+            
+            const customPrompt = document.getElementById('customPrompt').value.trim();
+            const messageDiv = document.getElementById('message');
+            const reimagineBtn = document.getElementById('reimagineBtn');
+            
+            // Clear previous messages
+            messageDiv.style.display = 'none';
+            
+            // Disable button with visual feedback
+            reimagineBtn.disabled = true;
+            reimagineBtn.style.opacity = '0.6';
+            const originalText = reimagineBtn.textContent;
+            reimagineBtn.textContent = 'Generating...';
+            
+            try {
+                if (generationCount >= maxGenerations) {
+                    // Cycle through existing images
+                    currentImageIndex = (currentImageIndex + 1) % generatedImages.length;
+                    const imageUrl = generatedImages[currentImageIndex];
+                    
+                    // Update display
+                    const avatarDisplay = document.getElementById('avatarDisplay');
+                    avatarDisplay.innerHTML = `
+                        <img src="${imageUrl}" alt="Current Avatar">
+                        <div class="generation-counter">${generationCount}/${maxGenerations}</div>
+                    `;
+                    
+                    // Update current avatar
+                    currentAvatar.imageUrl = imageUrl;
+                    localStorage.setItem('ktg_current_avatar', JSON.stringify(currentAvatar));
+                    
+                } else {
+                    // Generate new image using AI service (Hugging Face first)
+                    const prompt = customPrompt || `${currentAvatar.gender} character, ${currentAvatar.tagline}`;
+                    
+                    const newImageUrl = await window.aiAvatarService.generateWithHuggingFace(prompt, currentAvatar.gender, currentAvatar.name);
+                    
+                    currentAvatar.imageUrl = newImageUrl;
+                    generationCount++;
+                    
+                    // Add new image to array
+                    if (!generatedImages.includes(newImageUrl)) {
+                        generatedImages.push(newImageUrl);
+                        currentImageIndex = generatedImages.length - 1;
+                    }
+                    
+                    // Update display
+                    const avatarDisplay = document.getElementById('avatarDisplay');
+                    avatarDisplay.innerHTML = `
+                        <img src="${newImageUrl}" alt="Current Avatar">
+                        <div class="generation-counter">${generationCount}/${maxGenerations}</div>
+                    `;
+                    
+                    // Save updated avatar immediately
+                    localStorage.setItem('ktg_current_avatar', JSON.stringify(currentAvatar));
+                    
+                    showMessage('Avatar reimagined with Hugging Face AI!', 'success');
+                }
+                
+                updateGenerationWarning();
+                
+            } catch (error) {
+                console.error('Error reimagining avatar:', error);
+                showMessage('Hugging Face failed. Trying Pollinations...', 'error');
+                
+                // Fallback to Pollinations if Hugging Face fails
+                try {
+                    const fallbackUrl = await window.aiAvatarService.generateWithPollinations(prompt, currentAvatar.gender, currentAvatar.name);
+                    currentAvatar.imageUrl = fallbackUrl;
+                    generationCount++;
+                    
+                    if (!generatedImages.includes(fallbackUrl)) {
+                        generatedImages.push(fallbackUrl);
+                        currentImageIndex = generatedImages.length - 1;
+                    }
+                    
+                    const avatarDisplay = document.getElementById('avatarDisplay');
+                    avatarDisplay.innerHTML = `
+                        <img src="${fallbackUrl}" alt="Current Avatar">
+                        <div class="generation-counter">${generationCount}/${maxGenerations}</div>
+                    `;
+                    
+                    localStorage.setItem('ktg_current_avatar', JSON.stringify(currentAvatar));
+                    updateGenerationWarning();
+                    showMessage('Avatar generated with Pollinations!', 'success');
+                } catch (fallbackError) {
+                    showMessage('Both AI services failed. Please try again.', 'error');
+                }
+            } finally {
+                // Re-enable button after delay
+                setTimeout(() => {
+                    reimagineBtn.disabled = false;
+                    reimagineBtn.style.opacity = '1';
+                    reimagineBtn.textContent = originalText;
+                }, 2000); // 2 second delay
+            }
+        }
+        
+        // Play game
+        function playGame() {
+            if (!currentAvatar) {
+                showMessage('No avatar available. Please create an avatar first.', 'error');
+                return;
+            }
+            
+            // Save final avatar with current generation count
+            currentAvatar.generationCount = generationCount;
+            
+            // Save to both locations for consistency
+            localStorage.setItem('ktg_current_avatar', JSON.stringify(currentAvatar));
+            
+            const user = JSON.parse(localStorage.getItem('ktg_user') || '{}');
+            user.avatar = {...currentAvatar};
+            user.avatarImage = currentAvatar.imageUrl;
+            localStorage.setItem('ktg_user', JSON.stringify(user));
+            
+            // Force save the selected avatar image
+            localStorage.setItem('ktg_selected_avatar_image', currentAvatar.imageUrl);
+            
+            showMessage('Avatar saved! Redirecting to game...', 'success');
+            
+            setTimeout(() => {
+                window.location.href = 'chooseyourdoor.html';
+            }, 1000);
+        }
+        
+        // Character counter
+        document.getElementById('customPrompt').addEventListener('input', function() {
+            const charCount = this.value.length;
+            document.getElementById('charCount').textContent = charCount;
+        });
+        
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
+            messageDiv.style.display = 'block';
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', () => {
+            initializeTheme();
+            
+            // Initialize AI service
+            if (window.aiAvatarService) {
+                window.aiAvatarService.setGeminiApiKey('AIzaSyASDSIx0pZaMjas6pVubc89D6eLa1KqFwU');
+            }
+            
+            if (checkAvatarStatus()) {
+                loadCurrentAvatar();
+            }
+            
+            if (typeof langManager !== 'undefined') {
+                const savedLanguage = localStorage.getItem('ktg-language') || 'en';
+                langManager.setLanguage(savedLanguage);
+                langManager.updateUI();
+            }
+        });
+        
+        // Make functions available globally
+        window.reimagineAvatar = reimagineAvatar;
+        window.playGame = playGame;
     </script>
 </body>
 </html>

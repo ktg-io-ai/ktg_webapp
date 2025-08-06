@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTG Wallet</title>
+    <link rel="stylesheet" href="../../shared/styles/global.css">
+    <style>
+        body {
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            font-family: Arial, sans-serif;
+        }
+        
+        .wallet-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .wallet-section h2 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .token-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .token-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .token-card:hover {
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .token-card.diamond {
+            background: linear-gradient(45deg, #ff6b6b, #ffd700);
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .token-count {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+        
+        .token-card.diamond .token-count {
+            color: #000;
+        }
+        
+        .token-type {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .token-price {
+            font-size: 10px;
+            opacity: 0.6;
+            margin-top: 5px;
+        }
+        
+        .wallet-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .wallet-info label {
+            font-weight: bold;
+        }
+        
+        .wallet-value {
+            color: var(--accent-color);
+            font-family: monospace;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            background: var(--secondary-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--accent-color);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        .buy-button {
+            background: linear-gradient(45deg, #2f27c8, #4fb6c1);
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        
+        .history-date {
+            opacity: 0.6;
+        }
+        
+        .avatar-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .avatar-info {
+            flex-grow: 1;
+        }
+        
+        .avatar-name {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 4px;
+        }
+        
+        .avatar-tagline {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+        
+        .avatar-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .avatar-status.active {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4CAF50;
+        }
+        
+        .avatar-status.inactive {
+            background: rgba(158, 158, 158, 0.3);
+            color: #9E9E9E;
+        }
+        
+        .expiry-warning {
+            background: rgba(255, 165, 0, 0.2);
+            border: 1px solid orange;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 12px;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="wallet-section fade-in">
+        <h2>💰 Token Balance</h2>
+        <div class="expiry-warning">
+            ⚠️ All tokens expire in 30 days. Use them or lose them!
+        </div>
+        <div class="token-grid" id="tokenGrid">
+            <!-- Tokens will be populated by JavaScript -->
+        </div>
+        <div class="action-buttons">
+            <button class="buy-button" onclick="buyTokens()">Buy More Tokens</button>
+            <button onclick="refreshWallet()">Refresh Balance</button>
+        </div>
+    </div>
+
+    <div class="wallet-section fade-in">
+        <h2>🔗 Wallet Information</h2>
+        <div class="wallet-info">
+            <label>Wallet ID:</label>
+            <span class="wallet-value" id="walletId">Loading...</span>
+        </div>
+        <div class="wallet-info">
+            <label>Email:</label>
+            <span class="wallet-value" id="walletEmail">Loading...</span>
+        </div>
+        <div class="wallet-info">
+            <label>Crypto Wallet:</label>
+            <span class="wallet-value" id="cryptoWallet">Not Connected</span>
+        </div>
+        <div class="action-buttons">
+            <button onclick="connectCryptoWallet()">Connect Crypto Wallet</button>
+            <button onclick="exportWallet()">Export Wallet</button>
+        </div>
+    </div>
+
+    <div class="wallet-section fade-in">
+        <h2>👤 My Avatars</h2>
+        <div id="avatarList">
+            <!-- Avatars will be populated by JavaScript -->
+        </div>
+        <div class="action-buttons">
+            <button onclick="createNewAvatar()">Create New Avatar</button>
+            <button onclick="refreshAvatars()">Refresh List</button>
+        </div>
+    </div>
+
+    <div class="wallet-section fade-in">
+        <h2>📊 Recent Activity</h2>
+        <div id="tokenHistory">
+            <!-- History will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script src="../../shared/js/wallet-manager.js"></script>
+    <script>
+        let currentWallet = null;
+
+        async function initializeWallet() {
+            try {
+                // Wait for wallet manager to initialize
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                currentWallet = window.walletManager;
+                await currentWallet.loadWallet();
+                
+                updateWalletDisplay();
+                updateTokenGrid();
+                updateWalletInfo();
+                updateAvatarList();
+                updateTokenHistory();
+                
+                // Add fade-in animation
+                document.querySelectorAll('.fade-in').forEach((el, index) => {
+                    setTimeout(() => {
+                        el.classList.add('active');
+                    }, index * 200);
+                });
+                
+            } catch (error) {
+                console.error('Error initializing wallet:', error);
+            }
+        }
+
+        function updateTokenGrid() {
+            const tokenGrid = document.getElementById('tokenGrid');
+            const tokens = currentWallet.tokens;
+            
+            let html = '';
+            
+            // Regular life tokens
+            for (let i = 1; i <= 9; i++) {
+                const tokenType = `${i}life`;
+                const count = tokens[tokenType] || 0;
+                const price = currentWallet.getTokenPrice(tokenType);
+                
+                html += `
+                    <div class="token-card">
+                        <div class="token-count">${count}</div>
+                        <div class="token-type">${i}-Life Token</div>
+                        <div class="token-price">$${price}</div>
+                    </div>
+                `;
+            }
+            
+            // Diamond token
+            const diamondCount = tokens['diamond'] || 0;
+            html += `
+                <div class="token-card diamond">
+                    <div class="token-count">${diamondCount}</div>
+                    <div class="token-type">💎 Diamond</div>
+                    <div class="token-price">$999.00</div>
+                </div>
+            `;
+            
+            tokenGrid.innerHTML = html;
+        }
+
+        function updateWalletInfo() {
+            document.getElementById('walletId').textContent = currentWallet.walletId || 'Not Set';
+            document.getElementById('walletEmail').textContent = currentWallet.email || 'Not Set';
+            document.getElementById('cryptoWallet').textContent = currentWallet.cryptoWallet || 'Not Connected';
+        }
+
+        function updateTokenHistory() {
+            const historyDiv = document.getElementById('tokenHistory');
+            const history = currentWallet.tokenHistory.slice(-10).reverse(); // Last 10 items
+            
+            if (history.length === 0) {
+                historyDiv.innerHTML = '<div class="history-item">No recent activity</div>';
+                return;
+            }
+            
+            let html = '';
+            history.forEach(item => {
+                const date = new Date(item.timestamp).toLocaleDateString();
+                const action = item.action === 'added' ? '➕' : '➖';
+                const purpose = item.purpose ? ` (${item.purpose})` : '';
+                
+                html += `
+                    <div class="history-item">
+                        <span>${action} ${item.type}${purpose}</span>
+                        <span class="history-date">${date}</span>
+                    </div>
+                `;
+            });
+            
+            historyDiv.innerHTML = html;
+        }
+
+        function updateWalletDisplay() {
+            // Clean expired tokens
+            currentWallet.cleanExpiredTokens();
+        }
+
+        async function updateAvatarList() {
+            const avatarListDiv = document.getElementById('avatarList');
+            
+            try {
+                // Get current user data
+                const userData = JSON.parse(localStorage.getItem('ktg_user') || '{}');
+                if (!userData.walletId) {
+                    avatarListDiv.innerHTML = '<div class="avatar-item">Please login to view avatars</div>';
+                    return;
+                }
+                
+                // Load avatars from Firebase
+                const avatars = await loadUserAvatars(userData.walletId);
+                
+                if (avatars.length === 0) {
+                    avatarListDiv.innerHTML = '<div class="avatar-item">No avatars created yet</div>';
+                    return;
+                }
+                
+                let html = '';
+                avatars.forEach(avatar => {
+                    const statusClass = avatar.isActive ? 'active' : 'inactive';
+                    const statusText = avatar.isActive ? 'ACTIVE' : 'INACTIVE';
+                    const ageText = avatar.tokensUsed ? `Age: ${avatar.tokensUsed} tokens` : 'New';
+                    
+                    html += `
+                        <div class="avatar-item">
+                            <div class="avatar-info">
+                                <div class="avatar-name">${avatar.name}</div>
+                                <div class="avatar-tagline">${avatar.tagline}</div>
+                                <div class="avatar-tagline">${ageText}</div>
+                                <span class="avatar-status ${statusClass}">${statusText}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                avatarListDiv.innerHTML = html;
+                
+            } catch (error) {
+                console.error('Error loading avatars:', error);
+                avatarListDiv.innerHTML = '<div class="avatar-item">Error loading avatars</div>';
+            }
+        }
+        
+        async function loadUserAvatars(walletId) {
+            // Firebase integration - replace with actual Firestore query
+            try {
+                const firebaseAuth = window.KTGFirebase || window.parent.KTGFirebase;
+                if (firebaseAuth && firebaseAuth.firestore) {
+                    const userDoc = await firebaseAuth.firestore.collection('users').doc(walletId).get();
+                    if (userDoc.exists) {
+                        const userData = userDoc.data();
+                        const avatars = userData.avatars || {};
+                        
+                        // Convert object to array with IDs
+                        return Object.keys(avatars).map(id => ({
+                            id,
+                            ...avatars[id]
+                        }));
+                    }
+                }
+            } catch (error) {
+                console.error('Firebase error:', error);
+            }
+            
+            // Fallback mock data for development
+            return [
+                {
+                    id: 'avatar_1',
+                    name: 'ShadowHunter',
+                    tagline: 'Mysterious and adventurous soul',
+                    isActive: true,
+                    tokensUsed: 5,
+                    createdAt: Date.now() - 86400000
+                },
+                {
+                    id: 'avatar_2',
+                    name: 'SunnyDays',
+                    tagline: 'Bringing positivity everywhere',
+                    isActive: false,
+                    tokensUsed: 3,
+                    createdAt: Date.now() - 172800000
+                }
+            ];
+        }
+        
+        function createNewAvatar() {
+            parent.postMessage({
+                type: 'CREATE_AVATAR'
+            }, '*');
+        }
+        
+        function refreshAvatars() {
+            updateAvatarList();
+        }
+
+        async function refreshWallet() {
+            await currentWallet.loadWallet();
+            updateTokenGrid();
+            updateAvatarList();
+            updateTokenHistory();
+        }
+
+        function buyTokens() {
+            // Open token purchase interface
+            parent.postMessage({
+                type: 'OPEN_TOKEN_STORE'
+            }, '*');
+        }
+
+        function connectCryptoWallet() {
+            const wallet = prompt('Enter your crypto wallet address:');
+            if (wallet) {
+                currentWallet.cryptoWallet = wallet;
+                currentWallet.saveWallet();
+                updateWalletInfo();
+            }
+        }
+
+        function exportWallet() {
+            const walletData = {
+                walletId: currentWallet.walletId,
+                email: currentWallet.email,
+                tokens: currentWallet.tokens,
+                cryptoWallet: currentWallet.cryptoWallet,
+                tokenHistory: currentWallet.tokenHistory
+            };
+            
+            const dataStr = JSON.stringify(walletData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `ktg-wallet-${currentWallet.walletId}.json`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', initializeWallet);
+    </script>
+</body>
+</html>

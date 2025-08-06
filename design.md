@@ -36,6 +36,308 @@ This document establishes the comprehensive design system for the KTG.IO platfor
 
 ---
 
+## Submenu & Popup Styles
+
+### **KTG Mode Submenus**
+```css
+.submenu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: 5px solid #2f27c8;
+    border-radius: 15px;
+    padding: 20px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    min-width: 300px;
+}
+
+.submenu h2 {
+    color: #2f27c8;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 18px;
+    position: relative;
+}
+
+.submenu button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.submenu button:hover {
+    background: rgba(47, 39, 200, 0.3);
+}
+```
+
+### **Light Mode Submenus**
+```css
+[data-theme="light"] .submenu {
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: #1a1a1a;
+    font-family: Arial, sans-serif;
+}
+
+[data-theme="light"] .submenu h2 {
+    color: #1a1a1a;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+}
+
+[data-theme="light"] .submenu button {
+    color: #1a1a1a;
+    background: transparent;
+}
+
+[data-theme="light"] .submenu button:hover {
+    background: #f1f3f4;
+}
+```
+
+### **Dark Mode Submenus**
+```css
+[data-theme="dark"] .submenu {
+    background: #333333;
+    border: 1px solid #404040;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: #f5f5dc;
+    font-family: Arial, sans-serif;
+}
+
+[data-theme="dark"] .submenu h2 {
+    color: #f5f5dc;
+    border-bottom: 1px solid #404040;
+    padding-bottom: 10px;
+}
+
+[data-theme="dark"] .submenu button {
+    color: #f5f5dc;
+    background: transparent;
+}
+
+[data-theme="dark"] .submenu button:hover {
+    background: #3a3a3a;
+}
+```
+
+### **Modal Overlay System**
+```css
+.submenu-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    display: none;
+}
+
+.submenu-container.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+```
+
+### **Portal Submenu Grid Layout (Rightconsole Only)**
+**IMPORTANT**: The 3-column grid layout with square buttons is ONLY for portal submenus in rightconsole iframes. This applies to:
+- Dashboard rightconsole portal submenus
+- Destiny rightconsole portal submenus (opening, newwallet, newavatar, makeavatar, chooseyourdoor)
+- Any other rightconsole portal navigation
+
+**NOT for main HTML standard submenus** (gameconsole sidebar, main page submenus, etc.)
+
+```css
+.portal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.portal-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: min(16px, 2.4vw);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    aspect-ratio: 1;
+    border: 2px solid transparent;
+    min-width: 0;
+    cursor: pointer;
+}
+
+.portal-button:hover {
+    background-color: var(--bg-secondary);
+    border-color: #2f27c8;
+    transform: scale(1.05);
+}
+
+.portal-button img {
+    width: min(32px, 6.4vw);
+    height: min(32px, 6.4vw);
+    margin-bottom: min(8px, 1.6vw);
+}
+
+.portal-button span {
+    font-size: min(10px, 2vw);
+    text-align: center;
+    font-weight: bold;
+}
+```
+
+### **Portal Submenu Positioning (Rightconsole Only)**
+**DESIGN STANDARD**: Portal submenus in rightconsole use consistent positioning and sizing (20% smaller):
+
+```css
+/* Portal Submenus - Rightconsole Only */
+.submenu {
+    position: absolute;
+    top: 60px;
+    right: 60px;
+    width: min(480px, 90vw);  /* 20% smaller than 600px */
+    max-width: 90vw;
+    padding: 16px;  /* 20% smaller than 20px */
+    border-radius: 16px;  /* 20% smaller than 20px */
+    background-color: var(--bg-secondary);
+    z-index: 1001;
+    display: none;
+}
+
+/* Theme-specific borders for portal submenus */
+[data-theme="ktg"] .submenu {
+    border: 4px solid #2f27c8;  /* 20% smaller than 5px */
+}
+
+[data-theme="light"] .submenu,
+[data-theme="dark"] .submenu {
+    border: 1px solid var(--border-color);
+}
+
+/* Portal submenu headers */
+.submenu h2 {
+    margin: 0 0 16px 0;  /* 20% smaller margins */
+    color: var(--text-primary);
+    text-align: center;
+    font-size: 16px;  /* 20% smaller than 20px */
+}
+```
+
+### **Click-Outside-to-Close Behavior**
+```javascript
+// For main pages with submenu container
+function closeAllSubmenus(event) {
+    if (event.target === event.currentTarget) {
+        const container = document.getElementById('submenu-container');
+        container.classList.remove('active');
+        document.querySelectorAll('.submenu').forEach(submenu => {
+            submenu.style.display = 'none';
+        });
+    }
+}
+
+// For rightconsole iframe portal submenus
+document.addEventListener('click', function(event) {
+    const submenu = document.getElementById('portal-submenu');
+    const button = document.querySelector('button[onclick="openPortalSubmenu()"]');
+    
+    if (submenu.style.display === 'block' && !submenu.contains(event.target) && !button.contains(event.target)) {
+        submenu.style.display = 'none';
+    }
+});
+
+// Implementation in HTML
+<div id="submenu-container" class="submenu-container" onclick="closeAllSubmenus(event)">
+    <!-- Submenus here -->
+</div>
+```
+
+### **Config-Style Popup (Wallet/Settings)**
+```css
+.config-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #111;
+    border: 5px solid #2f27c8;
+    border-radius: 15px;
+    padding: 30px;
+    z-index: 1001;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    min-width: 400px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.config-popup h2 {
+    color: #2f27c8;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.config-popup .close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #2f27c8;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+```
+
+### **Enter Animation Style**
+```css
+@keyframes popupEnter {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.submenu, .config-popup {
+    animation: popupEnter 0.3s ease-out;
+}
+
+/* KTG Mode only - Light/Dark modes have no animations */
+[data-theme="light"] .submenu,
+[data-theme="light"] .config-popup,
+[data-theme="dark"] .submenu,
+[data-theme="dark"] .config-popup {
+    animation: none;
+}
+```
+
+---
+
 ## Icon Standards
 
 ### **Size Standards**

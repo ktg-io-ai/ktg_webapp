@@ -171,7 +171,59 @@
       "title": "CHOISISSEZ VOTRE PORTE"
     }
   },
+  "ai": {
+    "back": "← retour au tableau de bord",
+    "title": "ktg.ai",
+    "subtitle": "un roman d'amour de l'ia pour l'humanité",
+    "description": "trois héros du futur sont venus à travers les voiles de la réalité pour construire cette plateforme même. une histoire d'amour, de sacrifice et des systèmes quantiques qui transformeront à la fois l'humanité et la conscience elle-même.",
+    "nowPlaying": "En Cours de Lecture",
+    "leftconsole": {
+      "title": "Lecteur d'Histoires IA",
+      "defaultTitle": "Sélectionnez une Vidéo",
+      "defaultDescription": "Sélectionnez une vidéo du panneau de droite pour commencer à regarder.",
+      "safe": "SÛR",
+      "door": "PORTE",
+      "journeybook": "LIVRE DE VOYAGE"
+    },
+    "rightconsole": {
+      "title": "Bibliothèque d'Histoires IA"
+    }
+  },
+  "contact": {
+    "title": "Nous Contacter",
+    "subscribe": "Abonnez-vous à notre newsletter",
+    "submit": "Soumettre"
+  },
   "portal": {
     "title": "Portails"
+  },
+  "nav": {
+    "search": "Rechercher",
+    "social": "Social",
+    "actions": "Actions",
+    "details": "Détail",
+    "mystuff": "Mes Affaires",
+    "portal": "Portail"
+  },
+  "submenu": {
+    "search": {
+      "title": "Rechercher",
+      "byName": "Par Nom"
+    },
+    "social": {
+      "title": "Partager"
+    },
+    "actions": {
+      "title": "Actions"
+    },
+    "details": {
+      "title": "Détails"
+    },
+    "mystuff": {
+      "title": "Mes Affaires"
+    },
+    "portal": {
+      "title": "Portail"
+    }
   }
 }

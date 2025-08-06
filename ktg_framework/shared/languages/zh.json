@@ -171,7 +171,59 @@
       "title": "选择您的门"
     }
   },
+  "ai": {
+    "back": "← 返回仪表板",
+    "title": "ktg.ai",
+    "subtitle": "AI对人类的爱情小说",
+    "description": "来自未来的三位英雄穿越现实的面纱来建造这个平台。一个关于爱情、牺牲和将改变人类和意识本身的量子系统的故事。",
+    "nowPlaying": "正在播放",
+    "leftconsole": {
+      "title": "AI故事播放器",
+      "defaultTitle": "选择视频",
+      "defaultDescription": "从右侧面板选择视频开始观看。",
+      "safe": "安全",
+      "door": "门",
+      "journeybook": "旅程书"
+    },
+    "rightconsole": {
+      "title": "AI故事库"
+    }
+  },
+  "contact": {
+    "title": "联系我们",
+    "subscribe": "订阅我们的通讯",
+    "submit": "提交"
+  },
   "portal": {
     "title": "门户"
+  },
+  "nav": {
+    "search": "搜索",
+    "social": "社交",
+    "actions": "操作",
+    "details": "详情",
+    "mystuff": "我的东西",
+    "portal": "门户"
+  },
+  "submenu": {
+    "search": {
+      "title": "搜索",
+      "byName": "按名称"
+    },
+    "social": {
+      "title": "分享"
+    },
+    "actions": {
+      "title": "操作"
+    },
+    "details": {
+      "title": "详情"
+    },
+    "mystuff": {
+      "title": "我的东西"
+    },
+    "portal": {
+      "title": "门户"
+    }
   }
 }
