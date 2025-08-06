@@ -259,6 +259,20 @@
         .submenu button:hover {
             background-color: var(--bg-secondary);
         }
+        
+        .portal-button-grid:hover {
+            background-color: var(--bg-secondary) !important;
+            border-color: #2f27c8 !important;
+            transform: scale(1.05) !important;
+        }
+        
+        [data-theme="light"] .portal-button-grid:hover {
+            background-color: #f1f3f4 !important;
+        }
+        
+        [data-theme="dark"] .portal-button-grid:hover {
+            background-color: #3a3a3a !important;
+        }
 
         .submenu button img {
             max-width: 25px;
@@ -622,6 +636,22 @@
                     <li><button><img src="../../public/assets/icons/config_icon.png" alt="Config Icon"> <span data-lang="music.submenus.mystuff.config">Config</span></button></li>
                     <li><button><img src="../../public/assets/icons/bail_icon.png" alt="Bail Icon"> <span data-lang="music.submenus.mystuff.bail">Bail</span></button></li>
                 </ul>
+            </div>
+            
+            <div id="portal-submenu" class="submenu">
+                <h2>Portals <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>
+                <div class="portal-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                    <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="theme-icon" data-ktg="../../public/assets/icons/portal_icon.png" data-light="../../public/assets/icons/portal_icon-blk.png" data-dark="../../public/assets/icons/portal_icon-wht.png" src="../../public/assets/icons/portal_icon.png" alt="portals" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">PORTALS</span></a>
+                    <a href="../destiny/opening.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="destiny-icon" src="../../public/assets/icons/fave_icon.png" alt="destiny" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">DESTINY</span></a>
+                    <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="listings-icon" src="../../public/assets/icons/listing_icon.png" alt="listings" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">LISTINGS</span></a>
+                    <a href="../ai/ktgai.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="ktgai-icon" src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">KTG.AI</span></a>
+                    <a href="../about/creator.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">WEB3</span></a>
+                    <a href="../about/creator.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">VR/AR/XR</span></a>
+                    <a href="../about/creator.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">DIGN BLING</span></a>
+                    <a href="../about/creator.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="theme-icon" data-ktg="../../public/assets/icons/chess_icon.png" data-light="../../public/assets/icons/chess_icon-blk.png" data-dark="../../public/assets/icons/chess_icon-wht.png" src="../../public/assets/icons/chess_icon.png" alt="chess" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">4 PLAY CHESS</span></a>
+                    <a href="../about/creator.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">METAPHYSICS</span></a>
+                    <a href="../about/creator.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">MAP</span></a>
+                </div>
             </div>
         </div>
 
