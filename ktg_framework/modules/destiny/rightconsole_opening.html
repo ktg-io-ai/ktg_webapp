@@ -158,6 +158,92 @@
             color: var(--accent-color);
         }
 
+        /* Submenu Styles */
+        .submenu {
+            position: absolute;
+            top: 60px;
+            right: 60px;
+            background-color: rgba(1, 1, 1, 0.9);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            border: 5px solid #2f27c8;
+            padding: 20px;
+            border-radius: 20px;
+            z-index: 1001;
+            pointer-events: auto;
+            display: none;
+            width: min(480px, 90vw);
+            max-width: 90vw;
+        }
+
+        [data-theme="light"] .submenu {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e9ecef;
+        }
+
+        [data-theme="dark"] .submenu {
+            background-color: rgba(42, 42, 42, 0.9);
+            border: 1px solid #404040;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .portal-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: min(16px, 2.4vw);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+            min-width: 0;
+        }
+
+        .portal-button:hover {
+            background-color: var(--bg-secondary);
+            border-color: #2f27c8;
+            transform: scale(1.05);
+        }
+
+        [data-theme="light"] .portal-button:hover {
+            background-color: #f1f3f4;
+        }
+
+        [data-theme="dark"] .portal-button:hover {
+            background-color: #3a3a3a;
+        }
+
+        .portal-button img {
+            width: min(32px, 6.4vw);
+            height: min(32px, 6.4vw);
+            margin-bottom: min(8px, 1.6vw);
+        }
+
+        .portal-button span {
+            font-size: min(10px, 2vw);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
         /* Animations */
         .fade-in {
             opacity: 0;
@@ -173,6 +259,27 @@
 <body>
     <div class="top-frame">
         <h2></h2>
+        <div class="buttons">
+            <button onclick="openPortalSubmenu()">
+                <img src="../../public/assets/icons/portal_icon.png" alt="Portal" style="width: 35px; height: 35px;">
+            </button>
+        </div>
+    </div>
+
+    <div id="portal-submenu" class="submenu" style="display: none;">
+        <h2 data-lang="dashboard.portals.title">Portals<span class="close-button" onclick="closePortalSubmenu()" style="float: right; cursor: pointer;">X</span></h2>
+        <div class="portal-grid">
+            <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/portal_icon.png" alt="portals"><span data-lang="dashboard.portals.title">PORTALS</span></a>
+            <a href="../destiny/opening.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/fave_icon.png" alt="destiny"><span data-lang="dashboard.portals.destiny">DESTINY</span></a>
+            <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/listing_icon.png" alt="listings"><span data-lang="dashboard.portals.listings">LISTINGS</span></a>
+            <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span data-lang="dashboard.portals.ai">KTG.AI</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span data-lang="dashboard.portals.web3">WEB3</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/vr_icon.png" alt="XR"><span data-lang="dashboard.portals.vr">VR/AR/XR</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span data-lang="dashboard.portals.dignbling">DIGN BLING</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/chess_icon.png" alt="chess"><span data-lang="dashboard.portals.chess">4 PLAY CHESS</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span data-lang="dashboard.portals.metaphysics">METAPHYSICS</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/globe_icon.png" alt="map"><span data-lang="dashboard.portals.map">MAP</span></a>
+        </div>
     </div>
 
     <div class="content-area">
@@ -218,6 +325,24 @@
 
             const fadeInElements = document.querySelectorAll('.fade-in');
             fadeInElements.forEach(el => el.classList.add('active'));
+        });
+
+        function openPortalSubmenu() {
+            document.getElementById("portal-submenu").style.display = "block";
+        }
+
+        function closePortalSubmenu() {
+            document.getElementById("portal-submenu").style.display = "none";
+        }
+
+        // Click outside to close submenu
+        document.addEventListener('click', function(event) {
+            const submenu = document.getElementById('portal-submenu');
+            const button = document.querySelector('button[onclick="openPortalSubmenu()"]');
+            
+            if (submenu.style.display === 'block' && !submenu.contains(event.target) && !button.contains(event.target)) {
+                submenu.style.display = 'none';
+            }
         });
     </script>
 </body>

@@ -438,9 +438,7 @@
                     </button>
                     <span data-translate="destiny.opening.nowPlaying">PLAYING: (Original Soundtrack) Opening Scene</span>
                 </div>
-                <button class="portal-button" onclick="openSubmenu('portal')">
-                    <img src="../../public/assets/icons/portal_icon.png" alt="Portal" class="portal-icon">
-                </button>
+
             </div>
 
             <div class="main-area">
@@ -449,21 +447,7 @@
             </div>
         </div>
 
-        <div id="submenu-container" class="submenu-container">
-            <!-- Portal Submenu -->
-            <div id="portal-submenu" class="submenu">
-                <h2 data-translate="portal.title">Portals <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>
-                <div class="portal-grid">
-                    <button><a href="opening.html" target="_parent"><img src="../../public/assets/icons/fave_icon.png" alt="destiny" class="destiny-icon"> DESTINY</a></button>
-                    <button><a href="../music/ktgmusic.html" target="_parent"><img src="../../public/assets/icons/qr_icon.png" alt="ktgmusic" class="music-icon"> KTG.MUSIC</a></button>
-                    <button><a href="../ai/ktgai.html" target="_parent"><img src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai" class="ktgai-icon"> KTG.AI</a></button>
-                    <button><a href="../about/creator.html" target="_parent"><img src="../../public/assets/icons/merch_icon.png" alt="merch" class="merch-icon"> MERCH</a></button>
-                    <button><a href="../about/creator.html" target="_parent"><img src="../../public/assets/icons/kgz_white_icon.png" alt="web3" class="web3-icon"> WEB3</a></button>
-                    <button><a href="../lifestyles/listingsconsole.html" target="_parent"><img src="../../public/assets/icons/listing_icon.png" alt="listings" class="listings-icon"> LISTINGS</a></button>
-                </div>
-            </div>
-            <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/opening_scene.mp3" loop></audio>
-        </div>
+        <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/opening_scene.mp3" loop></audio>
     </div>
 
     <script>
@@ -602,5 +586,174 @@
     </script>
     <script src="../../shared/js/language.js"></script>
     <script src="../../shared/js/theme-icons.js"></script>
+    <script src="../../shared/js/wallet-manager.js"></script>
+    
+    <!-- Registration Modal -->
+    <div id="registration-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000;">
+        <div style="background: var(--bg-secondary); padding: 30px; border-radius: 20px; text-align: center; max-width: 400px; width: 90%;">
+            <h3 style="color: var(--text-primary); margin-top: 0;">Register for Destiny</h3>
+            <p style="color: var(--text-secondary);">Choose your token to enter the game:</p>
+            
+            <div id="wallet-info" style="background: var(--bg-primary); padding: 15px; border-radius: 10px; margin: 15px 0; text-align: left;">
+                <h4 style="margin: 0 0 10px 0; color: var(--text-primary);">Your Wallet</h4>
+                <div id="wallet-tokens" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; font-size: 12px;">
+                    <!-- Wallet tokens will be populated here -->
+                </div>
+            </div>
+            
+            <div id="token-selector" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0;">
+                <!-- Token options will be populated here -->
+            </div>
+            
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                <button onclick="confirmRegistration()" style="background: var(--accent-color); color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer;">Register & Play</button>
+                <button onclick="closeRegistrationModal()" style="background: #666; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer;">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let selectedToken = '3life';
+        
+        // Check login status and initialize wallet
+        function checkLoginStatus() {
+            const user = JSON.parse(localStorage.getItem('ktg_user') || '{}');
+            return user.email && user.walletId;
+        }
+        
+        // Open registration modal
+        function openRegistrationModal() {
+            if (!checkLoginStatus()) {
+                alert('Please login first to register for Destiny.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            updateWalletDisplay();
+            populateTokenSelector();
+            document.getElementById('registration-modal').style.display = 'flex';
+        }
+        
+        // Close registration modal
+        function closeRegistrationModal() {
+            document.getElementById('registration-modal').style.display = 'none';
+        }
+        
+        // Update wallet display
+        function updateWalletDisplay() {
+            const walletTokens = document.getElementById('wallet-tokens');
+            walletTokens.innerHTML = '';
+            
+            Object.keys(window.walletManager.tokens).forEach(tokenType => {
+                const count = window.walletManager.getTokenCount(tokenType);
+                const tokenDiv = document.createElement('div');
+                tokenDiv.innerHTML = `${tokenType}: ${count}`;
+                tokenDiv.style.color = count > 0 ? 'var(--text-primary)' : 'var(--text-secondary)';
+                walletTokens.appendChild(tokenDiv);
+            });
+        }
+        
+        // Populate token selector
+        function populateTokenSelector() {
+            const tokenSelector = document.getElementById('token-selector');
+            tokenSelector.innerHTML = '';
+            
+            Object.keys(window.walletManager.tokens).forEach(tokenType => {
+                const count = window.walletManager.getTokenCount(tokenType);
+                const price = window.walletManager.getTokenPrice(tokenType);
+                
+                const tokenOption = document.createElement('div');
+                tokenOption.className = 'token-option';
+                tokenOption.style.cssText = `
+                    background: var(--bg-primary);
+                    color: var(--text-primary);
+                    border: 2px solid ${tokenType === selectedToken ? 'var(--accent-hover)' : 'transparent'};
+                    padding: 15px 10px;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    text-align: center;
+                    transition: all 0.3s ease;
+                `;
+                
+                tokenOption.innerHTML = `
+                    <div style="font-weight: bold; font-size: 14px;">${tokenType}</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">$${price}</div>
+                    <div style="font-size: 10px; margin-top: 5px;">Owned: ${count}</div>
+                `;
+                
+                tokenOption.onclick = () => {
+                    selectedToken = tokenType;
+                    populateTokenSelector();
+                };
+                
+                if (count === 0) {
+                    tokenOption.style.opacity = '0.5';
+                    tokenOption.style.cursor = 'not-allowed';
+                }
+                
+                tokenSelector.appendChild(tokenOption);
+            });
+        }
+        
+        // Confirm registration
+        async function confirmRegistration() {
+            if (!window.walletManager.hasToken(selectedToken)) {
+                alert(`You don't have any ${selectedToken} tokens. Please purchase tokens from your wallet.`);
+                return;
+            }
+            
+            const result = await window.gameRegistrationManager.registerForDestiny(selectedToken);
+            
+            if (result.success) {
+                alert(result.message);
+                closeRegistrationModal();
+                // Redirect to avatar creation
+                window.location.href = 'newavatar.html';
+            } else {
+                alert(result.message);
+            }
+        }
+        
+        // Add registration button to right console
+        window.addEventListener('load', () => {
+            // Wait for iframe to load then add registration functionality
+            setTimeout(() => {
+                const rightFrame = document.getElementById('rightFrame');
+                if (rightFrame && rightFrame.contentWindow) {
+                    try {
+                        const rightDoc = rightFrame.contentDocument || rightFrame.contentWindow.document;
+                        const registerButton = rightDoc.querySelector('button[onclick*="newwallet.html"]');
+                        if (registerButton) {
+                            // Add register for destiny button
+                            const destinyButton = document.createElement('button');
+                            destinyButton.innerHTML = 'REGISTER FOR DESTINY';
+                            destinyButton.style.cssText = `
+                                background: var(--accent-color);
+                                color: white;
+                                border: none;
+                                padding: 15px 30px;
+                                border-radius: 20px;
+                                cursor: pointer;
+                                font-size: 16px;
+                                margin: 10px;
+                                width: calc(100% - 20px);
+                            `;
+                            destinyButton.onclick = () => {
+                                parent.openRegistrationModal();
+                            };
+                            registerButton.parentNode.insertBefore(destinyButton, registerButton.nextSibling);
+                        }
+                    } catch (e) {
+                        console.log('Could not access iframe content:', e);
+                    }
+                }
+            }, 2000);
+        });
+        
+        // Make functions available globally
+        window.openRegistrationModal = openRegistrationModal;
+        window.closeRegistrationModal = closeRegistrationModal;
+        window.confirmRegistration = confirmRegistration;
+    </script>
 </body>
 </html>

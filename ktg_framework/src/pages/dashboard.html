@@ -470,6 +470,32 @@
             font-weight: bold;
         }
 
+        [data-theme="light"] .config-popup {
+            color: #000;
+        }
+
+        [data-theme="light"] .config-option label {
+            color: #000;
+        }
+
+        [data-theme="light"] .submenu button {
+            background-color: transparent;
+            border: none;
+        }
+
+        [data-theme="light"] .submenu button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] .submenu button {
+            background-color: transparent;
+            border: none;
+        }
+
+        [data-theme="dark"] .submenu button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
         .config-popup select, .config-popup input[type="range"] {
             background: var(--bg-primary);
             color: var(--text-primary);
@@ -551,6 +577,64 @@
         .theme-ktg { background: linear-gradient(45deg, #111, #2f27c8); }
         .theme-light { background: linear-gradient(45deg, #ffffff, #f8f9fa); }
         .theme-dark { background: linear-gradient(45deg, #1a1a1a, #2d2d2d); }
+
+        /* Wallet Popup Styles */
+        .token-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .token-card:hover {
+            border-color: #2f27c8;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .token-card.diamond {
+            background: linear-gradient(45deg, #ff6b6b, #ffd700);
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .token-count {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2f27c8;
+            margin-bottom: 5px;
+        }
+        
+        .token-card.diamond .token-count {
+            color: #000;
+        }
+        
+        .token-type {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .token-price {
+            font-size: 10px;
+            opacity: 0.6;
+            margin-top: 5px;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        
+        .history-date {
+            opacity: 0.6;
+        }
     </style>
     <script src="../../shared/js/language.js"></script>
     <script src="../../shared/js/theme-icons.js"></script>
@@ -567,23 +651,23 @@
             </div>
             <ul>
                 <li onclick="openSubmenu('search')" class="slide-in-left"> 
-                    <img src="../../public/assets/icons/about_icon.png" alt="About">
+                    <img src="../../public/assets/icons/about_icon.png" alt="About" class="theme-icon" data-ktg="../../public/assets/icons/about_icon.png" data-light="../../public/assets/icons/search_icon-blk.png" data-dark="../../public/assets/icons/search_icon-wht.png">
                     <span data-lang="dashboard.sidebar.about">About</span>
                 </li>
                 <li onclick="openSubmenu('socialize')" class="slide-in-left">
-                    <img src="../../public/assets/icons/social_icon.png" alt="Influencers">
+                    <img src="../../public/assets/icons/social_icon.png" alt="Influencers" class="theme-icon" data-ktg="../../public/assets/icons/social_icon.png" data-light="../../public/assets/icons/social_icon-blk.png" data-dark="../../public/assets/icons/social_icon-wht.png">
                     <span data-lang="dashboard.sidebar.influencers">Influencers</span>
                 </li>
                 <li onclick="openSubmenu('actions')" class="slide-in-left">
-                    <img src="../../public/assets/icons/game_icon.png" alt="Advertisers">
+                    <img src="../../public/assets/icons/game_icon.png" alt="Advertisers" class="theme-icon" data-ktg="../../public/assets/icons/game_icon.png" data-light="../../public/assets/icons/game_icon-blk.png" data-dark="../../public/assets/icons/game_icon-wht.png">
                     <span data-lang="dashboard.sidebar.advertisers">Advertisers</span>
                 </li>
                 <li onclick="openSubmenu('details')" class="slide-in-left">
-                    <img src="../../public/assets/icons/detail_icon.png" alt="Investors">
+                    <img src="../../public/assets/icons/detail_icon.png" alt="Investors" class="theme-icon" data-ktg="../../public/assets/icons/detail_icon.png" data-light="../../public/assets/icons/detail_icon-blk.png" data-dark="../../public/assets/icons/detail_icon-wht.png">
                     <span data-lang="dashboard.sidebar.investors">Investors</span>
                 </li>
                 <li onclick="openSubmenu('mystuff')" class="slide-in-left">
-                    <img src="../../public/assets/icons/mystuff_icon.png" alt="My Stuff">
+                    <img src="../../public/assets/icons/mystuff_icon.png" alt="My Stuff" class="theme-icon" data-ktg="../../public/assets/icons/mystuff_icon.png" data-light="../../public/assets/icons/mystuff_icon-blk.png" data-dark="../../public/assets/icons/mystuff_icon-wht.png">
                     <span data-lang="dashboard.sidebar.mystuff">My Stuff</span>
                     <p id="pageVisitCounter"><span data-lang="dashboard.visits">Visits</span>: <span id="visitCount">0</span></p>
                 </li> 
@@ -593,7 +677,7 @@
         <div class="main-content">
             <div class="top-bar">
                 <div class="music-buttons">
-                    <button onclick="window.open('../../modules/music/player.html', '_blank', 'width=500,height=150')" style="background: none; border: none; cursor: pointer;">
+                    <button onclick="window.open('../../modules/music/mobile/m_music_player.html', '_blank', 'width=500,height=150')" style="background: none; border: none; cursor: pointer;">
                         <img src="../../public/assets/icons/music_player_icon.png" alt="Open Music Player" style="width: 24px; height: 24px;">
                     </button>
                 </div>
@@ -761,11 +845,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="../../modules/web3/wallet.html">
-                        <button>
+                        <button onclick="openWalletPopup()">
                             <img src="../../public/assets/icons/wallet_icon.png" alt="Wallet Icon"> <span data-lang="dashboard.submenus.mystuff.wallet">Wallet</span>
                         </button>
-                        </a>
                     </li>
                     <li>
                         <button onclick="openConfigPopup()">
@@ -834,6 +916,51 @@
                     <div class="config-option">
                         <label>Volume:</label>
                         <input type="range" min="0" max="100" value="50" id="volumeSlider" onchange="setVolume(this.value)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wallet Popup -->
+        <div id="wallet-overlay" class="config-overlay" onclick="closeWalletPopup()">
+            <div class="config-popup" onclick="event.stopPropagation()">
+                <h2>💰 Wallet <span class="close-button" onclick="closeWalletPopup()">X</span></h2>
+                
+                <div class="config-section">
+                    <h3 style="color: #2f27c8; margin-bottom: 10px;">💰 Token Balance</h3>
+                    <div class="token-grid" id="tokenGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                        <!-- Tokens will be populated by JavaScript -->
+                    </div>
+                    <div class="action-buttons" style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button class="buy-button" onclick="buyTokens()" style="background: linear-gradient(45deg, #2f27c8, #4fb6c1); flex: 1;">Buy More Tokens</button>
+                        <button onclick="refreshWallet()" style="flex: 1;">Refresh Balance</button>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 style="color: #2f27c8; margin-bottom: 10px;">🔗 Wallet Information</h3>
+                    <div class="config-option">
+                        <label>Wallet ID:</label>
+                        <span class="wallet-value" id="walletId" style="color: #2f27c8; font-family: monospace;">Loading...</span>
+                    </div>
+                    <div class="config-option">
+                        <label>Email:</label>
+                        <span class="wallet-value" id="walletEmail" style="color: #2f27c8; font-family: monospace;">Loading...</span>
+                    </div>
+                    <div class="config-option">
+                        <label>Crypto Wallet:</label>
+                        <span class="wallet-value" id="cryptoWallet" style="color: #2f27c8; font-family: monospace;">Not Connected</span>
+                    </div>
+                    <div class="action-buttons" style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button onclick="connectCryptoWallet()" style="flex: 1;">Connect Crypto Wallet</button>
+                        <button onclick="exportWallet()" style="flex: 1;">Export Wallet</button>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 style="color: #2f27c8; margin-bottom: 10px;">📊 Recent Activity</h3>
+                    <div id="tokenHistory" style="max-height: 200px; overflow-y: auto;">
+                        <!-- History will be populated by JavaScript -->
                     </div>
                 </div>
             </div>
@@ -1030,6 +1157,164 @@
             if (musicPlayer) {
                 musicPlayer.volume = volume / 100;
             }
+        }
+
+        function openWalletPopup() {
+            document.getElementById('wallet-overlay').style.display = 'block';
+            initializeWallet();
+        }
+
+        function closeWalletPopup() {
+            document.getElementById('wallet-overlay').style.display = 'none';
+        }
+
+        // Wallet functionality
+        let currentWallet = null;
+
+        async function initializeWallet() {
+            try {
+                // Load wallet manager if not already loaded
+                if (!window.walletManager) {
+                    const script = document.createElement('script');
+                    script.src = '../../shared/js/wallet-manager.js';
+                    document.head.appendChild(script);
+                    await new Promise(resolve => {
+                        script.onload = resolve;
+                    });
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                currentWallet = window.walletManager;
+                await currentWallet.loadWallet();
+                
+                updateWalletDisplay();
+                updateTokenGrid();
+                updateWalletInfo();
+                updateTokenHistory();
+                
+            } catch (error) {
+                console.error('Error initializing wallet:', error);
+            }
+        }
+
+        function updateTokenGrid() {
+            if (!currentWallet) return;
+            
+            const tokenGrid = document.getElementById('tokenGrid');
+            const tokens = currentWallet.tokens;
+            
+            let html = '';
+            
+            const availableTokens = [1, 3, 6, 9];
+            availableTokens.forEach(i => {
+                const tokenType = `${i}life`;
+                const count = tokens[tokenType] || 0;
+                const price = currentWallet.getTokenPrice(tokenType);
+                
+                html += `
+                    <div class="token-card">
+                        <div class="token-count">${count}</div>
+                        <div class="token-type">${i}-Life Token</div>
+                        <div class="token-price">$${price}</div>
+                    </div>
+                `;
+            });
+            
+            const diamondCount = tokens['diamond'] || 0;
+            html += `
+                <div class="token-card diamond">
+                    <div class="token-count">${diamondCount}</div>
+                    <div class="token-type">💎 Diamond</div>
+                    <div class="token-price">$999.00</div>
+                </div>
+            `;
+            
+            tokenGrid.innerHTML = html;
+        }
+
+        function updateWalletInfo() {
+            if (!currentWallet) return;
+            
+            document.getElementById('walletId').textContent = currentWallet.walletId || 'Not Set';
+            document.getElementById('walletEmail').textContent = currentWallet.email || 'Not Set';
+            document.getElementById('cryptoWallet').textContent = currentWallet.cryptoWallet || 'Not Connected';
+        }
+
+        function updateTokenHistory() {
+            if (!currentWallet) return;
+            
+            const historyDiv = document.getElementById('tokenHistory');
+            const history = currentWallet.tokenHistory.slice(-10).reverse();
+            
+            if (history.length === 0) {
+                historyDiv.innerHTML = '<div class="history-item">No recent activity</div>';
+                return;
+            }
+            
+            let html = '';
+            history.forEach(item => {
+                const date = new Date(item.timestamp).toLocaleDateString();
+                const action = item.action === 'added' ? '➕' : '➖';
+                const purpose = item.purpose ? ` (${item.purpose})` : '';
+                
+                html += `
+                    <div class="history-item">
+                        <span>${action} ${item.type}${purpose}</span>
+                        <span class="history-date">${date}</span>
+                    </div>
+                `;
+            });
+            
+            historyDiv.innerHTML = html;
+        }
+
+        function updateWalletDisplay() {
+            if (!currentWallet) return;
+            currentWallet.cleanExpiredTokens();
+        }
+
+        async function refreshWallet() {
+            if (!currentWallet) return;
+            await currentWallet.loadWallet();
+            updateTokenGrid();
+            updateTokenHistory();
+        }
+
+        function buyTokens() {
+            alert('Token purchase interface coming soon!');
+        }
+
+        function connectCryptoWallet() {
+            if (!currentWallet) return;
+            const wallet = prompt('Enter your crypto wallet address:');
+            if (wallet) {
+                currentWallet.cryptoWallet = wallet;
+                currentWallet.saveWallet();
+                updateWalletInfo();
+            }
+        }
+
+        function exportWallet() {
+            if (!currentWallet) return;
+            const walletData = {
+                walletId: currentWallet.walletId,
+                email: currentWallet.email,
+                tokens: currentWallet.tokens,
+                cryptoWallet: currentWallet.cryptoWallet,
+                tokenHistory: currentWallet.tokenHistory
+            };
+            
+            const dataStr = JSON.stringify(walletData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `ktg-wallet-${currentWallet.walletId}.json`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
         }
     </script>
 </body>

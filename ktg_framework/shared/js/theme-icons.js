@@ -98,6 +98,15 @@ const themeIcons = {
 };
 
 function updateThemeIcons(theme) {
+    // Update generic theme icons with data attributes
+    const genericThemeIcons = document.querySelectorAll('.theme-icon');
+    genericThemeIcons.forEach(icon => {
+        const iconSrc = icon.getAttribute(`data-${theme}`);
+        if (iconSrc) {
+            icon.src = iconSrc;
+        }
+    });
+
     // Update portal icons
     const destinyIcons = document.querySelectorAll('.destiny-icon');
     destinyIcons.forEach(icon => {

@@ -207,7 +207,7 @@
 
     <div class="content-area slide-in-left">
         <div class="left-content">
-            <img src="../DESTINY/images/profile_AI_Angel.png" alt="Adult Listing">  
+            <img id="profileImage" src="../DESTINY/images/profile_AI_Angel.png" alt="Profile Image">  
             <div class="bottom-frame">
                 <div class="tagline">
                     <h2>The Intersection of Social Lifestyles platform for Adults and the AI Driven Gig Economy.</h2>
@@ -258,7 +258,29 @@
         </div>
     </div>
 	<script>
+        // Load user profile on page load
+        function loadUserProfile() {
+            try {
+                const userData = JSON.parse(localStorage.getItem('ktg_user') || '{}');
+                const profileImage = document.getElementById('profileImage');
+                
+                if (userData.profileImage) {
+                    profileImage.src = userData.profileImage;
+                } else {
+                    // Default profile image
+                    profileImage.src = '../DESTINY/images/profile_AI_Angel.png';
+                }
+                
+                // Update profile alt text
+                profileImage.alt = userData.name || 'Profile Image';
+                
+            } catch (error) {
+                console.error('Error loading user profile:', error);
+            }
+        }
         
+        // Initialize on page load
+        window.addEventListener('load', loadUserProfile);
     </script>
 </body>
 </html>

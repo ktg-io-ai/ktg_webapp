@@ -430,7 +430,7 @@
             <button><a href="https://discordapp.com/users/1177985292297314391" target="_blank" rel="noopener"><img src="../../public/assets/icons/discord_icon.png" alt="Fave Icon"></a></button>
             <button><a href="https://t.me/karmathegame" target="_blank" rel="noopener"><img src="../../public/assets/icons/telegram_icon.png" alt="Telegram Icon"></a></button>
             <button><a href="https://www.threads.com/@karmathegame?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener"><img src="../../public/assets/icons/threads_icon.png" alt="QR Icon"></a></button>
-            <button onclick="openContactForm()"><img src="../../public/assets/icons/contact_icon.png" alt="contact icon"></button>
+            <button onclick="openContactForm()"><img src="../../public/assets/icons/wallet_icon.png" alt="wallet icon" class="theme-icon" data-ktg="../../public/assets/icons/wallet_icon.png" data-light="../../public/assets/icons/wallet_icon-blk.png" data-dark="../../public/assets/icons/wallet_icon-wht.png"></button>
         </div>
     </div>
 
@@ -466,12 +466,23 @@
         window.addEventListener('message', (event) => {
             if (event.data.type === 'themeChange') {
                 document.documentElement.setAttribute('data-theme', event.data.theme);
+                updateThemeIcons(event.data.theme);
             } else if (event.data.type === 'languageChange') {
                 if (typeof initializeLanguage === 'function') {
                     initializeLanguage();
                 }
             }
         });
+
+        function updateThemeIcons(theme) {
+            const themeIcons = document.querySelectorAll('.theme-icon');
+            themeIcons.forEach(icon => {
+                const iconSrc = icon.getAttribute(`data-${theme}`);
+                if (iconSrc) {
+                    icon.src = iconSrc;
+                }
+            });
+        }
 
         function toggleView(view) {
             const gridView = document.getElementById('grid-view');

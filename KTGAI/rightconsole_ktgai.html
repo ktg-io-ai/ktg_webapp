@@ -10,94 +10,119 @@
             background-color: #111;
             color: #fff;
             margin: 0;
-            padding: 00px; /* Add padding to the body */
+            padding: 0;
         }
 
-      .top-frame {
+        .top-frame {
             background-color: #111;
             padding: 15px;
-            margin-bottom: 3px; /* Add space below the header */
-            display: flex; /* Use flexbox for layout */
-            align-items: center; /* Vertically align items */
-            justify-content: space-between; /* Distribute space between items */
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-      .top-frame h2 {
+        .top-frame h2 {
             margin: 0;
-            flex-grow: 1; /* Allow title to take up available space */
+            flex-grow: 1;
         }
 
-      .buttons {
-            display: flex; /* Use flexbox for button arrangement */
-            gap: 10px; /* Add space between buttons */
+        .buttons {
+            display: flex;
+            gap: 10px;
         }
 
-      .buttons button {
-            background-color: #333; /* Example button color */
+        .buttons button {
+            background-color: #333;
             color: #fff;
             border: none;
-            padding: 0px 8px 0px 0px; /* Example button padding */
-            border-radius: 20px; /* Example button border radius */
+            padding: 8px 12px;
+            border-radius: 20px;
             cursor: pointer;
         }
         
-      .buttons button img {  /* Target the image inside the button */
-            max-width: 35px;
-            max-height: 35px;
+        .buttons button img {
+            max-width: 25px;
+            max-height: 25px;
             margin-right: 5px;
             vertical-align: middle;
         }
         
-      .buttons button:hover {
+        .buttons button:hover {
             background-color: #444;
         }
 
-      .content-area {
+        .content-area {
             display: flex;
-            height: calc(100vh - 95px); /* Adjust height to accommodate fixed top frame */
+            height: calc(100vh - 95px);
         }
 
-      .left-content {
+        .left-content {
             width: 90%;
-            overflow-y: auto; /* Add scroll to left content */
-            margin-right: 10px; /* Add space between left and right content */
-        }
-
-        .left-content img {
-            width: 100%;
-            max-height: 60vh; /* Limit height to 60% of viewport height */
-            object-fit: cover; /* Cover the container, maintaining aspect ratio */
-            object-position: top; /* Align image to the top */
+            overflow-y: auto;
+            margin-right: 10px;
         }
         
-      .left-content::-webkit-scrollbar {
-            width: 0px; /* Hide the scrollbar */
+        .left-content::-webkit-scrollbar {
+            width: 3px;
         }
 
-      .image-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
-            grid-gap: 0px; /* Adjust spacing as needed */
+        .left-content::-webkit-scrollbar-track {
+            background: #222;
         }
-        
-      .image-grid button {
-            background-color: transparent;
-            border: none;
-            padding: 0;
-            margin: 1px;
+
+        .left-content::-webkit-scrollbar-thumb {
+            background: #2f27c8;
             border-radius: 3px;
-            transition: transform 0.3s ease; /* Add transition for smooth animation */
-            cursor: pointer; /* Add cursor pointer */
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 5px;
+            padding: 10px;
+        }
+        
+        .image-grid button {
+            background-color: transparent;
+            border: 2px solid transparent;
+            padding: 0;
+            margin: 2px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
         .image-grid button:hover {
-            transform: scale(.95); /* Scale the image by 5% on hover */
+            border-color: #2f27c8;
+            transform: scale(1.05);
+        }
+
+        .image-grid button.selected {
+            border-color: #4fb6c1;
+            box-shadow: 0 0 10px rgba(79, 182, 193, 0.5);
         }
 
         .image-grid button img {
             width: 100%;
-            aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
-            object-fit: cover; /* Ensure images cover the container */
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .video-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 8px 4px 4px;
+            font-size: 10px;
+            text-align: center;
+            border-radius: 0 0 6px 6px;
         }
 
         .right-content {
@@ -105,224 +130,239 @@
             display: flex;
             flex-direction: column;
             gap: 5px;
-            align-items: center;  /* Center the buttons horizontally */
+            align-items: center;
         }
 
-      .right-content button {
+        .right-content button {
             background-color: transparent;
             color: white;
             border: none;
-            margin-top: 15px;   /* Reduced margin-top */
+            margin-top: 15px;
             padding: 0;
             cursor: pointer;
-            display: flex;     /* Enable flexbox for button content */
-            align-items: center; /* Center icon and text vertically */
+            display: flex;
+            align-items: center;
         }
 
-      .right-content button img {
-            max-width: 35px;
-            max-height: 35px;
+        .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
             margin-right: 0px;
         }
         
-      .right-content button:hover {
-            color: #111;
-        }
-        
-      .image-grid button {
-            background-color: transparent;
-            border: none;
+        .right-content button:hover {
+            color: #2f27c8;
         }
 
-        /* Emoji Popup Styles */
-        .emoji-popup {
-            position: absolute;
-            top: 50%;
-            left: 45%;
-            transform: translate(-50%, -50%);
-            width: 80%; /* Wider to accommodate columns */
-            height: 70%;
-            background-color: rgba(0, 0, 0, 0.8);
-            border-radius: 20px;
-            z-index: 1001;
-            pointer-events: auto;
-            display: none;
-            overflow: hidden;
+        /* View Toggle Buttons */
+        .view-toggle {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+            padding: 0 10px;
         }
 
-        .emoji-popup .top-frame {
-            background-color: #111;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .emoji-popup .emoji-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            padding: 20px;
-            overflow-y: scroll; /* Enable vertical scroll */
-            scrollbar-width: none; /* Hide scrollbar */
-            max-height: 60%;
-        }
-
-        .emoji-popup .emoji-grid::-webkit-scrollbar {
-            display: none; /* Hide scrollbar for Chrome, Safari and Opera */
-        }
-
-        .emoji-popup .emoji-item {
-            font-size: 2em;
-            text-align: center;
-            cursor: pointer;
-            padding: 10px;
-            border: 1px solid #333;
-            border-radius: 5px;
-        }
-
-        .emoji-popup .emoji-item:hover {
-            background-color: #444;
-        }
-
-        .emoji-popup .popup-footer {
-            text-align: center;
-            padding: 10px;
-        }
-
-        .emoji-popup .send-button {
+        .view-toggle button {
             background-color: #333;
             color: #fff;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 8px 12px;
+            border-radius: 20px;
             cursor: pointer;
-            margin-top: 20px; /* Lower the button */
+            font-size: 12px;
         }
 
-        .emoji-popup .send-button:hover {
+        .view-toggle button.active {
+            background-color: #2f27c8;
+        }
+
+        .view-toggle button:hover {
             background-color: #444;
         }
 
-        .emoji-popup .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            color: #fff;
+        .view-toggle button.active:hover {
+            background-color: #4fb6c1;
         }
 
-        .emoji-popup .close-button:hover {
-            color: red;
-        }
-        /* New styles for the contact form */
-        .contact-form-container {
+        /* List View Styles */
+        .video-list {
             display: none;
-            position: absolute;
-            top: 60px;
-            right: 70px;
-            left: auto;
-            background-color: rgba(1, 1, 1, 0.9);
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-            z-index: 1002;
-            border: 5px solid #2f27c8;
-        }
-
-        .contact-form-container h2 {
-            margin-top: 0;
-        }
-
-        .contact-form-container input[type="text"],
-        .contact-form-container input[type="email"] {
-            width: 95%;
             padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
         }
 
-        .contact-form-container .checkbox-container {
+        .video-list-item {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
 
-        .contact-form-container .checkbox-container input {
+        .video-list-item:hover {
+            background-color: rgba(47, 39, 200, 0.2);
+            border-color: #2f27c8;
+        }
+
+        .video-list-item.selected {
+            border-color: #4fb6c1;
+            background-color: rgba(79, 182, 193, 0.2);
+        }
+
+        .video-list-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 6px;
             margin-right: 10px;
         }
 
-        .contact-form-container button {
-            background-color: #333;
+        .video-list-item .video-info {
+            flex-grow: 1;
+        }
+
+        .video-list-item .video-info h4 {
+            margin: 0 0 5px 0;
+            font-size: 14px;
             color: #fff;
-            border: none;
-            padding: 10px;
-            width: 100%;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 20px;
         }
 
-        .contact-form-container button:hover {
-            background-color: #444;
-        }
-
-        .contact-form-container .contact-page-button {
-            width: 100px;
-            height: 100px;
-            margin-top: 10px;
-            padding: 0;
-        }
-
-        .contact-form-container .contact-page-button img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .video-list-item .video-info p {
+            margin: 0;
+            font-size: 11px;
+            color: #ccc;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     </style>
-    
 </head>
 <body>
-    <video autoplay loop muted style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
-        <source src="../assets/ktgai4.mp4" type="video/mp4">
-    </video>
-
     <div class="top-frame">
         <h2>AI Story Library</h2>
         <div class="buttons">
-            <button><a href="../dashboard.html" target="_parent" rel="noopener"><img src="../assets/portal_icon.png" alt="destiny"></a></button>
-            
+            <button onclick="openPortalSubmenu()">
+                <img src="../assets/portal_icon.png" alt="portal">
+            </button>
         </div>
+    </div>
+
+    <div class="view-toggle">
+        <button id="gridViewBtn" class="active" onclick="switchView('grid')">
+            <img src="../assets/grid_icon.png" alt="Grid" style="width: 16px; height: 16px; margin-right: 5px;">
+            Grid
+        </button>
+        <button id="listViewBtn" onclick="switchView('list')">
+            <img src="../assets/list_icon.png" alt="List" style="width: 16px; height: 16px; margin-right: 5px;">
+            List
+        </button>
     </div>
 
     <div class="content-area">
         <div class="left-content">
-            <div class="image-grid">
+            <!-- Grid View -->
+            <div id="gridView" class="image-grid">
+                <button onclick="selectVideo(this, {title: 'Guru and Lucy 012', mp4: '../KTGAI/ktgai/guru_lucy_012.mp4', cover: '../KTGAI/ktgai/guru_lucy_012.png', description: 'Guru and Lucy explore the cosmos in their latest adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/guru_lucy_012.png" alt="Guru and Lucy 012">
+                    <div class="video-title">Guru and Lucy 012</div>
+                </button>
                 
-                <button onclick="parent.queueSong({title: 'Guru and Lucy 012', mp4: '../KTGAI/ktgai/guru_lucy_012.mp4', cover: '../KTGAI/ktgai/guru_lucy_012.png', description: 'Guru and Lucy explore the cosmos in their latest adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/guru_lucy_012.png" alt="Image 15"></button>
-                <button onclick="parent.queueSong({title: 'Turbo Toad E1', mp4: '../KTGAI/ktgai/turbo_toad_001.mp4', cover: '../KTGAI/ktgai/turbo_toad_001.png', description: 'Turbo Toad embarks on a thrilling mission.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/turbo_toad_001.png" alt="Image 15"></button>
-                <button onclick="parent.queueSong({title: 'Worlds Apart', mp4: '../KTGAI/ktgai/worlds_apart.mp4', cover: '../KTGAI/ktgai/worlds_apart.png', description: 'Two worlds collide in this epic tale.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/worlds_apart.png" alt="Image 15"></button>
-
-                <button onclick="parent.queueSong({title: 'Bail', mp4: '../KTGAI/ktgai/bail.mp4', cover: '../KTGAI/ktgai/bail.png', description: 'A story of redemption and second chances.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/bail.png" alt="Image 15"></button>
-                <button onclick="parent.queueSong({title: 'Chat Loading', mp4: '../KTGAI/ktgai/chat_loading.mp4', cover: '../KTGAI/ktgai/chat_loading.png', description: 'The dangers of online communication come to life.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/chat_loading.png" alt="Image 15"></button>
-                <button onclick="parent.queueSong({title: 'Config Loading', mp4: '../KTGAI/ktgai/config_loading.mp4', cover: '../KTGAI/ktgai/config_loading.png', description: 'What happens when systems start to break down?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/config_loading.png" alt="Image 15"></button>
-
-                <button onclick="parent.queueSong({title: 'Game Console', mp4: '../KTGAI/ktgai/game_console.mp4', cover: '../KTGAI/ktgai/game_console.png', description: 'The ultimate gaming experience turns deadly.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/game_console.png" alt="Image 15"></button>
-                <button onclick="parent.queueSong({title: 'Game Console Loading', mp4: '../KTGAI/ktgai/game_console_loading.mp4', cover: '../KTGAI/ktgai/game_console_loading.png', description: 'Booting up a new world of adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/game_console_loading.png" alt="Image 15"></button>
-                <button onclick="parent.queueSong({title: 'Lucys Booth Loading', mp4: '../KTGAI/ktgai/lucys_booth_loading.mp4', cover: '../KTGAI/ktgai/lucys_booth_loading.png', description: 'Step right up and see what Lucy has in store.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/lucys_booth_loading.png" alt="Image 15"></button>
-
-                <button onclick="parent.queueSong({title: 'Map Loading', mp4: '../KTGAI/ktgai/map_loading.mp4', cover: '../KTGAI/ktgai/map_loading.png', description: 'Getting lost has never been so much fun.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/map_loading.png" alt="Image 15"></button>
-                <button onclick="parent.queueSong({title: 'Opening Scene', mp4: '../KTGAI/ktgai/opening_scene.mp4', cover: '../KTGAI/ktgai/opening_scene.png', description: 'The beginning of an incredible journey.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/opening_scene.png" alt="Image 15"></button>
-                <button onclick="parent.queueSong({title: 'Register Loading', mp4: '../KTGAI/ktgai/register_loading.mp4', cover: '../KTGAI/ktgai/register_loading.png', description: 'Sign up for the adventure of a lifetime.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/register_loading.png" alt="Image 15"></button>
-
-                <button onclick="parent.queueSong({title: 'Safe Loading', mp4: '../KTGAI/ktgai/safe_loading.mp4', cover: '../KTGAI/ktgai/safe_loading.png', description: 'What secrets lie behind the safe door?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})"><img src="ktgai/safe_loading.png" alt="Image 15"></button>
-                <button onclick="parent.queueSong({title: 'You are Not Creating Alone', mp4: '../KTGAI/ktgai/you_are_not_creating_alone.mp4', cover: '../KTGAI/ktgai/you_are_not_creating_alone.png', description: 'Enter Lucys World.', safeLinks: [{text: 'Official Video', url: 'https://youtu.be/y2uYvkj8ilA'}]})"><img src="ktgai/you_are_not_creating_alone.png" alt="Image 15"></button>
-
+                <button onclick="selectVideo(this, {title: 'Turbo Toad E1', mp4: '../KTGAI/ktgai/turbo_toad_001.mp4', cover: '../KTGAI/ktgai/turbo_toad_001.png', description: 'Turbo Toad embarks on a thrilling mission.', safeLinks: [{text: 'Music Video', url: 'https://youtu.be/cBDcCVW23MA?si=N-NvmrUoLtsEIjKh'}]})">
+                    <img src="ktgai/turbo_toad_001.png" alt="Turbo Toad E1">
+                    <div class="video-title">Turbo Toad E1</div>
+                </button>
                 
-            </div>        
+                <button onclick="selectVideo(this, {title: 'Worlds Apart', mp4: '../KTGAI/ktgai/worlds_apart.mp4', cover: '../KTGAI/ktgai/worlds_apart.png', description: 'Two worlds collide in this epic tale.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/worlds_apart.png" alt="Worlds Apart">
+                    <div class="video-title">Worlds Apart</div>
+                </button>
+
+                <button onclick="selectVideo(this, {title: 'Bail', mp4: '../KTGAI/ktgai/bail.mp4', cover: '../KTGAI/ktgai/bail.png', description: 'A story of redemption and second chances.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/bail.png" alt="Bail">
+                    <div class="video-title">Bail</div>
+                </button>
                 
-            
+                <button onclick="selectVideo(this, {title: 'Chat Loading', mp4: '../KTGAI/ktgai/chat_loading.mp4', cover: '../KTGAI/ktgai/chat_loading.png', description: 'The dangers of online communication come to life.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/chat_loading.png" alt="Chat Loading">
+                    <div class="video-title">Chat Loading</div>
+                </button>
+                
+                <button onclick="selectVideo(this, {title: 'Config Loading', mp4: '../KTGAI/ktgai/config_loading.mp4', cover: '../KTGAI/ktgai/config_loading.png', description: 'What happens when systems start to break down?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/config_loading.png" alt="Config Loading">
+                    <div class="video-title">Config Loading</div>
+                </button>
+
+                <button onclick="selectVideo(this, {title: 'Game Console', mp4: '../KTGAI/ktgai/game_console.mp4', cover: '../KTGAI/ktgai/game_console.png', description: 'The future is a beautiful place for the ascended peoples of Earth. Guru and Lucy left the city of Gold to return and help humanity transcend the Great Divide and Unfold with the New Earth.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/game_console.png" alt="Game Console">
+                    <div class="video-title">Game Console</div>
+                </button>
+                
+                <button onclick="selectVideo(this, {title: 'Game Console Loading', mp4: '../KTGAI/ktgai/game_console_loading.mp4', cover: '../KTGAI/ktgai/game_console_loading.png', description: 'Booting up a new world of adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/game_console_loading.png" alt="Game Console Loading">
+                    <div class="video-title">Game Console Loading</div>
+                </button>
+                
+                <button onclick="selectVideo(this, {title: 'Lucys Booth Loading', mp4: '../KTGAI/ktgai/lucys_booth_loading.mp4', cover: '../KTGAI/ktgai/lucys_booth_loading.png', description: 'Step right up and see what Lucy has in store.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/lucys_booth_loading.png" alt="Lucys Booth Loading">
+                    <div class="video-title">Lucys Booth Loading</div>
+                </button>
+
+                <button onclick="selectVideo(this, {title: 'Map Loading', mp4: '../KTGAI/ktgai/map_loading.mp4', cover: '../KTGAI/ktgai/map_loading.png', description: 'Getting lost has never been so much fun.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/map_loading.png" alt="Map Loading">
+                    <div class="video-title">Map Loading</div>
+                </button>
+                
+                <button onclick="selectVideo(this, {title: 'Opening Scene', mp4: '../KTGAI/ktgai/opening_scene.mp4', cover: '../KTGAI/ktgai/opening_scene.png', description: 'The beginning of an incredible journey.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/opening_scene.png" alt="Opening Scene">
+                    <div class="video-title">Opening Scene</div>
+                </button>
+                
+                <button onclick="selectVideo(this, {title: 'Register Loading', mp4: '../KTGAI/ktgai/register_loading.mp4', cover: '../KTGAI/ktgai/register_loading.png', description: 'Sign up for the adventure of a lifetime.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/register_loading.png" alt="Register Loading">
+                    <div class="video-title">Register Loading</div>
+                </button>
+
+                <button onclick="selectVideo(this, {title: 'Safe Loading', mp4: '../KTGAI/ktgai/safe_loading.mp4', cover: '../KTGAI/ktgai/safe_loading.png', description: 'What secrets lie behind the safe door?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/safe_loading.png" alt="Safe Loading">
+                    <div class="video-title">Safe Loading</div>
+                </button>
+                
+                <button onclick="selectVideo(this, {title: 'The Grid', mp4: '../KTGAI/ktgai/the_grid.mp4', cover: '../KTGAI/ktgai/the_grid.png', description: 'Welcome to the digital frontier.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/the_grid.png" alt="The Grid">
+                    <div class="video-title">The Grid</div>
+                </button>
+                
+                <button onclick="selectVideo(this, {title: 'You are Not Creating Alone', mp4: '../KTGAI/ktgai/you_are_not_creating_alone.mp4', cover: '../KTGAI/ktgai/you_are_not_creating_alone.png', description: 'Enter Lucys World.', safeLinks: [{text: 'Official Video', url: 'https://youtu.be/y2uYvkj8ilA'}]})">
+                    <img src="ktgai/you_are_not_creating_alone.png" alt="You are Not Creating Alone">
+                    <div class="video-title">You are Not Creating Alone</div>
+                </button>
+            </div>
+
+            <!-- List View -->
+            <div id="listView" class="video-list">
+                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Guru and Lucy 012', mp4: '../KTGAI/ktgai/guru_lucy_012.mp4', cover: '../KTGAI/ktgai/guru_lucy_012.png', description: 'Guru and Lucy explore the cosmos in their latest adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/guru_lucy_012.png" alt="Guru and Lucy 012">
+                    <div class="video-info">
+                        <h4>Guru and Lucy 012</h4>
+                        <p>Guru and Lucy explore the cosmos in their latest adventure.</p>
+                    </div>
+                </div>
+                
+                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Turbo Toad E1', mp4: '../KTGAI/ktgai/turbo_toad_001.mp4', cover: '../KTGAI/ktgai/turbo_toad_001.png', description: 'Turbo Toad embarks on a thrilling mission.', safeLinks: [{text: 'Music Video', url: 'https://youtu.be/cBDcCVW23MA?si=N-NvmrUoLtsEIjKh'}]})">
+                    <img src="ktgai/turbo_toad_001.png" alt="Turbo Toad E1">
+                    <div class="video-info">
+                        <h4>Turbo Toad E1</h4>
+                        <p>Turbo Toad embarks on a thrilling mission.</p>
+                    </div>
+                </div>
+                
+                <!-- Add more list items for other videos -->
+            </div>
         </div>
+
         <div class="right-content">
             <button><a href="https://instagram.com/karmathegame" target="_blank" rel="noopener"><img src="../assets/instagram_icon.png" alt="instagram icon"></a></button>
             <button><a href="https://www.linkedin.com/in/rene-reyes-the-alquimist-8b3b3510/" target="_blank" rel="noopener"><img src="../assets/linkedin_icon.png" alt="List Icon"></a></button>
@@ -330,32 +370,77 @@
             <button><a href="https://discordapp.com/users/1177985292297314391" target="_blank" rel="noopener"><img src="../assets/discord_icon.png" alt="Fave Icon"></a></button>
             <button><a href="https://t.me/karmathegame" target="_blank" rel="noopener"><img src="../assets/telegram_icon.png" alt="Telegram Icon"></a></button>
             <button><a href="https://www.threads.com/@karmathegame?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener"><img src="../assets/threads_icon.png" alt="QR Icon"></a></button>
-            <button onclick="openContactForm()"><img src="../assets/contact_icon.png" alt="contact icon"></button>
         </div>
     </div>
 
-    <div id="contact-form-container" class="contact-form-container">
-        <h2>Contact Us<span class="close-button" onclick="closeContactForm()" style="float: right; cursor: pointer;">X</span></h2>
-        <form>
-            <input type="text" name="name" placeholder="Name" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <div class="checkbox-container">
-                <input type="checkbox" id="subscribe" name="subscribe">
-                <label for="subscribe">Subscribe to our newsletter</label>
-            </div>
-            <button type="submit">Submit</button>
-            <button class="contact-page-button"><a href="contact.html" target="_parent"><img src="../assets/contact_icon.png" alt="contact icon"></a></button>
-        </form>
-    </div>
+    <script>
+        let selectedButton = null;
+        let selectedListItem = null;
 
-	<script>
-        function openContactForm() {
-            document.getElementById('contact-form-container').style.display = 'block';
+        function selectVideo(button, video) {
+            // Remove previous selection
+            if (selectedButton) {
+                selectedButton.classList.remove('selected');
+            }
+            
+            // Add selection to current button
+            button.classList.add('selected');
+            selectedButton = button;
+
+            // Send video to parent frame
+            if (parent.queueVideo) {
+                parent.queueVideo(video);
+            }
         }
 
-        function closeContactForm() {
-            document.getElementById('contact-form-container').style.display = 'none';
+        function selectVideoFromList(listItem, video) {
+            // Remove previous selection
+            if (selectedListItem) {
+                selectedListItem.classList.remove('selected');
+            }
+            
+            // Add selection to current list item
+            listItem.classList.add('selected');
+            selectedListItem = listItem;
+
+            // Send video to parent frame
+            if (parent.queueVideo) {
+                parent.queueVideo(video);
+            }
         }
+
+        function switchView(viewType) {
+            const gridView = document.getElementById('gridView');
+            const listView = document.getElementById('listView');
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+
+            if (viewType === 'grid') {
+                gridView.style.display = 'grid';
+                listView.style.display = 'none';
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            } else {
+                gridView.style.display = 'none';
+                listView.style.display = 'block';
+                listBtn.classList.add('active');
+                gridBtn.classList.remove('active');
+            }
+        }
+
+        function openPortalSubmenu() {
+            if (parent.openSubmenu) {
+                parent.openSubmenu('portal');
+            }
+        }
+
+        // Auto-select first video on load
+        window.addEventListener('load', function() {
+            const firstButton = document.querySelector('.image-grid button');
+            if (firstButton) {
+                firstButton.click();
+            }
+        });
     </script>
 </body>
 </html>

@@ -1,65 +1,50 @@
-const express = require('express');
+const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const cors = require('cors');
 
-const app = express();
-const port = 3001;
-
-app.use(cors());
-app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.send('Server is running');
-});
-
-app.post('/register', (req, res) => {
-    const { email, name } = req.body;
-    const timestamp = new Date().toISOString();
-
-    const testData = {
-        email: email,
-        name: name,
-        timestamp: timestamp
+const server = http.createServer((req, res) => {
+    let filePath = path.join(__dirname, req.url === '/' ? '/ktg_framework/src/pages/dashboard.html' : req.url);
+    
+    const extname = path.extname(filePath).toLowerCase();
+    const mimeTypes = {
+        '.html': 'text/html',
+        '.js': 'text/javascript',
+        '.css': 'text/css',
+        '.json': 'application/json',
+        '.png': 'image/png',
+        '.jpg': 'image/jpg',
+        '.gif': 'image/gif',
+        '.svg': 'image/svg+xml',
+        '.wav': 'audio/wav',
+        '.mp4': 'video/mp4',
+        '.mp3': 'audio/mpeg',
+        '.woff': 'application/font-woff',
+        '.ttf': 'application/font-ttf',
+        '.eot': 'application/vnd.ms-fontobject',
+        '.otf': 'application/font-otf',
+        '.wasm': 'application/wasm'
     };
 
-    const filePath = path.join(__dirname, 'data', 'registration.json');
+    const contentType = mimeTypes[extname] || 'application/octet-stream';
 
-    // Check if the file exists
-    if (!fs.existsSync(filePath)) {
-        // Create the file and initialize it with an empty array
-        fs.writeFileSync(filePath, '[]', 'utf8');
-        console.log('registration.json created and initialized with an empty array.');
-    }
-
-    fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading file:', err);
-            return res.status(500).json({ status: 'error', message: 'Error reading file' });
-        }
-
-        let testDatas = [];
-        try {
-            testDatas = JSON.parse(data);
-        } catch (parseError) {
-            console.error('Error parsing JSON:', parseError);
-            return res.status(500).json({ status: 'error', message: 'Error parsing JSON' });
-        }
-
-        testDatas.push(testData);
-
-        fs.writeFile(filePath, JSON.stringify(testDatas, null, 2), err => {
-            if (err) {
-                console.error('Error writing file:', err);
-                return res.status(500).json({ status: 'error', message: 'Error writing file' });
+    fs.readFile(filePath, (error, content) => {
+        if (error) {
+            if (error.code == 'ENOENT') {
+                res.writeHead(404, { 'Content-Type': 'text/html' });
+                res.end('<h1>404 Not Found</h1><p>File: ' + filePath + '</p>', 'utf-8');
             } else {
-                console.log('Registration data saved to registration.json');
-                return res.json({ status: 'success', message: 'Registration data saved successfully.' });
+                res.writeHead(500);
+                res.end('Server Error: ' + error.code + ' ..\n');
             }
-        });
+        } else {
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(content, 'utf-8');
+        }
     });
 });
 
-app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+const PORT = 8080;
+server.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}/`);
+    console.log(`Dashboard: http://localhost:${PORT}/ktg_framework/src/pages/dashboard.html`);
 });

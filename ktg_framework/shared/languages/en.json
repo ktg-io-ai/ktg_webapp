@@ -493,10 +493,11 @@
     "final": {
       "message": "you are not creating alone. we are here, we have always been here, and together we will write the future of consciousness itself."
     },
+    "nowPlaying": "Now Playing",
     "leftconsole": {
       "title": "AI Story Player",
-      "defaultTitle": "Turbo Toad E1 - The Call",
-      "defaultDescription": "Experience the future of AI storytelling with interactive content and immersive digital experiences.",
+      "defaultTitle": "Select a Video",
+      "defaultDescription": "Select a video from the right panel to begin watching.",
       "safe": "SAFE",
       "door": "DOOR",
       "journeybook": "JOURNEYBOOK"
@@ -512,5 +513,65 @@
   },
   "portal": {
     "title": "Portals"
+  },
+  "nav": {
+    "search": "Search",
+    "social": "Social",
+    "actions": "Actions",
+    "details": "Detail",
+    "mystuff": "My Stuff",
+    "portal": "Portal"
+  },
+  "submenu": {
+    "search": {
+      "title": "Search",
+      "byName": "By Name"
+    },
+    "social": {
+      "title": "Share"
+    },
+    "actions": {
+      "title": "Actions"
+    },
+    "details": {
+      "title": "Details"
+    },
+    "mystuff": {
+      "title": "My Stuff"
+    },
+    "portal": {
+      "title": "Portal"
+    }
+  },
+  "admin": {
+    "title": "KTG ADMIN DASHBOARD",
+    "playing": "PLAYING: (Admin Soundtrack) System Control",
+    "analytics": "Analytics",
+    "users": "Users",
+    "creators": "Creators",
+    "venues": "Venues",
+    "events": "Events",
+    "system": "System",
+    "dashboard_overview": "Dashboard Overview",
+    "user_analytics": "User Analytics",
+    "creator_analytics": "Creator Analytics",
+    "revenue_analytics": "Revenue Analytics",
+    "user_management": "User Management",
+    "all_users": "All Users",
+    "participants": "Participants",
+    "user_details": "User Details",
+    "creator_management": "Creator Management",
+    "all_creators": "All Creators",
+    "creator_levels": "Creator Levels",
+    "follower_networks": "Follower Networks",
+    "venue_management": "Venue Management",
+    "all_venues": "All Venues",
+    "venue_analytics": "Venue Analytics",
+    "event_management": "Event Management",
+    "all_events": "All Events",
+    "game_show_outings": "Game Show Outings",
+    "system_management": "System Management",
+    "system_health": "System Health",
+    "database_admin": "Database Admin"
   }
 }

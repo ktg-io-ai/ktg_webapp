@@ -10,137 +10,167 @@
             background-color: #111;
             color: #fff;
             margin: 0;
-            padding: 00px; /* Add padding to the body */
+            padding: 0;
         }
 
-      .top-frame {
+        .top-frame {
             background-color: #111;
             padding: 19px;
-            margin-bottom: 3px; /* Add space below the header */
-            display: flex; /* Use flexbox for layout */
-            align-items: center; /* Vertically align items */
-            justify-content: space-between; /* Distribute space between items */
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-      .top-frame h2 {
+        .top-frame h2 {
             margin: 0;
-            flex-grow: 1; /* Allow title to take up available space */
+            flex-grow: 1;
         }
 
-      .buttons {
-            display: flex; /* Use flexbox for button arrangement */
-            gap: 10px; /* Add space between buttons */
+        .buttons {
+            display: flex;
+            gap: 10px;
         }
 
-      .buttons button {
-            background-color: #333; /* Example button color */
+        .buttons button {
+            background-color: #333;
             color: #fff;
             border: none;
-            padding: 0px 8px 0px 0px; /* Example button padding */
-            border-radius: 20px; /* Example button border radius */
+            padding: 8px 12px;
+            border-radius: 20px;
             cursor: pointer;
         }
         
-      .buttons button img {  /* Target the image inside the button */
-            max-width: 35px;
-            max-height: 35px;
+        .buttons button img {
+            max-width: 25px;
+            max-height: 25px;
             margin-right: 5px;
             vertical-align: middle;
         }
         
-      .buttons button:hover {
+        .buttons button:hover {
             background-color: #444;
         }
 
-      .content-area {
+        .content-area {
             display: flex;
-            height: calc(100vh - 95px); /* Adjust height to accommodate fixed top frame */
+            height: calc(100vh - 95px);
         }
 
         .left-content {
             width: 90%;
-            overflow-y: auto; /* Add scroll to left content */
-            margin-right: 10px; /* Add space between left and right content */
+            overflow-y: auto;
+            margin-right: 10px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            background-color: #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: rgba(47, 39, 200, 0.8);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background-color: rgba(47, 39, 200, 1);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .play-button::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 4px;
         }
 
         #ktgaiVideo {
             width: 100%;
-            max-height: 100vh;
-            aspect-ratio: 16 / 9; /* Enforce landscape aspect ratio */
-            object-fit: contain; /* Make sure the video fits within its container */
+            height: auto;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+            display: none;
         }
         
-      .left-content::-webkit-scrollbar {
-            width: 0px; /* Hide the scrollbar */
+        .left-content::-webkit-scrollbar {
+            width: 0px;
         }
 
-        @keyframes slideInLeft {
-            from {
-                transform: translateX(-100%);
-            }
-            to {
-                transform: translateX(0);
-            }
-        }
-
-      
-          
-       .right-content {
+        .right-content {
             width: 10%;
             display: flex;
             flex-direction: column;
             gap: 5px;
-            align-items: center;  /* Center the buttons horizontally */
+            align-items: center;
         }
 
-      .right-content button {
+        .right-content button {
             background-color: transparent;
             color: white;
             border: none;
-            margin-top: 15px;   /* Reduced margin-top */
+            margin-top: 15px;
             padding: 0;
             cursor: pointer;
-            display: flex;     /* Enable flexbox for button content */
-            align-items: center; /* Center icon and text vertically */
+            display: flex;
+            align-items: center;
         }
 
-      .right-content button img {
+        .right-content button img {
             max-width: 25px;
             max-height: 25px;
             margin-right: 0px;
         }
         
-      .right-content button:hover {
-            color: #111;
-        }
-        
-      .image-grid button {
-            background-color: transparent;
-            border: none;
+        .right-content button:hover {
+            color: #2f27c8;
         }
 
         /* Container for SAFE, DOOR, JOURNEYBOOK */
         .data-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 equal width columns */
+            grid-template-columns: repeat(3, 1fr);
             gap: 40px;
             max-width: 95%;
             margin: auto;
-            justify-content: space-between; /* Distribute space between columns */
+            justify-content: space-between;
         }
 
-        /* Individual column */
-      .column {
+        .column {
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* Align items to the left */
-            justify-content: flex-start; /* Align items to the left */
+            align-items: flex-start;
+            justify-content: flex-start;
             padding: 5px;
-            /* background-color: #111; */
             border-radius: 3px;
         }
 
-        /* Title styling */
         .title {
             font-weight: bold;
             font-size: 16px;
@@ -151,8 +181,6 @@
             margin-bottom: 5px;
         }
 
-        
-		/* Content Styling */
         .content {
             margin-top: 5px;
             display: flex;
@@ -160,14 +188,13 @@
             align-items: left;
             width: 100%;
         }
-        /* SAFE Image */
+
         .safe-image img {
             width: 40px;
             height: 40px;
             border-radius: 8px;
         }
 
-        /* DOOR Red Box */
         .door-box {
             width: 40px;
             height: 40px;
@@ -175,7 +202,6 @@
             border-radius: 5px;
         }
 
-        /* JOURNEYBOOK Progress Graph */
         .journeybook-bars {
             display: flex;
             flex-direction: column;
@@ -192,41 +218,49 @@
         .bar2 { background-color: yellow; width: 50%; }
         .bar3 { background-color: red; width: 85%; }
 
-        .bottom-frame {
-            padding-left: 20px;
-
+        .video-description {
+            margin: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #2f27c8;
         }
-
-        
     </style>
 </head>
 <body>
-<video autoplay loop muted style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
-        <source src="../assets/ktgai4.mp4" type="video/mp4">
-    </video>
     <div class="top-frame">
-        <h2 id="ktgaiTitle">Turbo Toad E1 - The Call</h2>
+        <h2 id="ktgaiTitle">Select a Video</h2>
     </div>
 
     <div class="content-area slide-in-left">
         <div class="left-content">
-            <video id="ktgaiVideo" controls>
-                <source type="video/mp4"></source>
-            </video>
-            <p id="ktgaiDescription" style="margin: 20px;"></p>
+            <div class="video-container">
+                <img id="videoThumbnail" class="video-thumbnail" src="../KTGAI/ktgai/guru_lucy_012.png" alt="Video Thumbnail">
+                <button class="play-button" id="playButton" onclick="playVideo()"></button>
+                <video id="ktgaiVideo" controls>
+                    <source type="video/mp4">
+                </video>
+            </div>
+            
+            <div class="video-description">
+                <p id="ktgaiDescription">Select a video from the right panel to begin watching.</p>
+            </div>
+
             <div class="data-container">
                 <!-- SAFE Section -->
-                <div class="column" width="30%">
+                <div class="column">
                     <div class="title">SAFE</div>
                     <div class="safe-button">
                         <div class="buttons">
-                            <a id="safeLink1" href="" target="_blank" rel="noopener"><button><img src="../assets/link_icon.png" alt="destiny"></button></a>
+                            <a id="safeLink1" href="#" target="_blank" rel="noopener">
+                                <button><img src="../assets/link_icon.png" alt="link"> Link</button>
+                            </a>
                         </div>
                     </div>
                 </div>
 
                 <!-- DOOR Section -->
-                <div class="column" width="30%">
+                <div class="column">
                     <div class="title">DOOR</div>
                     <div class="content">
                         <div class="door-box"></div>
@@ -234,7 +268,7 @@
                 </div>
 
                 <!-- JOURNEYBOOK Section -->
-                <div class="column" width="30%">
+                <div class="column">
                     <div class="title">JOURNEYBOOK</div>
                     <div class="content journeybook-bars">
                         <div class="bar bar1"></div>
@@ -243,7 +277,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="right-content">
@@ -251,49 +284,99 @@
             <button><img src="../assets/like_icon.png" alt="Like Icon"></button>
         </div>
     </div>
+
     <script>
-        window.addEventListener('DOMContentLoaded', function(event) {
+        let currentVideo = null;
+        let isVideoPlaying = false;
+
+        function playVideo() {
+            if (!currentVideo) return;
+
+            const video = document.getElementById('ktgaiVideo');
+            const thumbnail = document.getElementById('videoThumbnail');
+            const playButton = document.getElementById('playButton');
+
+            if (!isVideoPlaying) {
+                // Show video, hide thumbnail and play button
+                thumbnail.style.display = 'none';
+                playButton.style.display = 'none';
+                video.style.display = 'block';
+                video.play();
+                isVideoPlaying = true;
+            }
+        }
+
+        function openVideoPopup() {
+            if (currentVideo && parent.openVideoPopup) {
+                parent.openVideoPopup(currentVideo.mp4);
+            }
+        }
+
+        // Add double-click to open popup
+        document.getElementById('videoThumbnail').addEventListener('dblclick', openVideoPopup);
+        document.getElementById('ktgaiVideo').addEventListener('dblclick', openVideoPopup);
+
+        window.addEventListener('DOMContentLoaded', function() {
             window.addEventListener('message', function(event) {
-                if (event.data.type === 'updateSafeLinks') {
-                    updateSafeLinks(event.data.song);
+                if (event.data.type === 'updateVideo') {
+                    updateVideo(event.data.video);
                 }
             });
 
-            function updateSafeLinks(song) {
-                console.log('Received updateSafeLinks message:', song);
+            function updateVideo(video) {
+                console.log('Received updateVideo message:', video);
+                currentVideo = video;
 
                 const ktgaiVideo = document.getElementById('ktgaiVideo');
                 const videoSource = ktgaiVideo.querySelector('source');
+                const thumbnail = document.getElementById('videoThumbnail');
+                const playButton = document.getElementById('playButton');
+
+                // Reset to thumbnail view
+                ktgaiVideo.style.display = 'none';
+                thumbnail.style.display = 'block';
+                playButton.style.display = 'flex';
+                isVideoPlaying = false;
+
+                // Update video source
                 if (videoSource) {
-                    videoSource.src = song.mp4;
+                    videoSource.src = video.mp4;
                     ktgaiVideo.load();
-                    console.log('Video source updated to:', song.mp4);
-                    console.error('Video loading error');
-                } else {
-                    console.error('Video source element not found in left console iframe');
+                    console.log('Video source updated to:', video.mp4);
                 }
 
+                // Update thumbnail
+                thumbnail.src = video.cover;
+                thumbnail.alt = video.title;
+
+                // Update title
                 const topFrame = document.getElementById('ktgaiTitle');
-                topFrame.textContent = song.title;
-                console.log('Title updated to:', song.title);
+                topFrame.textContent = video.title;
 
+                // Update safe links
                 const safeColumn = document.querySelector('.safe-button .buttons');
-                if (song.safeLinks && song.safeLinks.length > 0) {
-                    safeColumn.innerHTML = `<a id="safeLink1" href="${song.safeLinks[0].url}" target="_blank" rel="noopener"><button><img src="assets/link_icon.png" alt="destiny"></button> ${song.safeLinks[0].text}</a>`;
-                    console.log('Safe link updated to:', song.safeLinks[0].url, song.safeLinks[0].text);
+                if (video.safeLinks && video.safeLinks.length > 0) {
+                    safeColumn.innerHTML = `<a id="safeLink1" href="${video.safeLinks[0].url}" target="_blank" rel="noopener"><button><img src="../assets/link_icon.png" alt="link"> ${video.safeLinks[0].text}</button></a>`;
                 }
 
+                // Update description
                 const descriptionElement = document.getElementById('ktgaiDescription');
-                descriptionElement.textContent = song.description || 'No description available.';
-                console.log('Description updated to:', song.description);
+                descriptionElement.textContent = video.description || 'No description available.';
             }
+
+            // Handle video ended event
+            document.getElementById('ktgaiVideo').addEventListener('ended', function() {
+                const video = document.getElementById('ktgaiVideo');
+                const thumbnail = document.getElementById('videoThumbnail');
+                const playButton = document.getElementById('playButton');
+
+                // Return to thumbnail view
+                video.style.display = 'none';
+                thumbnail.style.display = 'block';
+                playButton.style.display = 'flex';
+                isVideoPlaying = false;
+            });
         });
     </script>
-    <style>
-        .buttons button a {
-            color: #fff;
-            text-decoration: none;
-        }
-    </style>
 </body>
 </html>
