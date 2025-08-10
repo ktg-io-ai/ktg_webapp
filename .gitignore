@@ -14,3 +14,7 @@ FIREBASE_INFO/
 .env.local
 .env.production
 *.env
+
+# AI API configurations
+leonardo-config.js
+ai-config.js

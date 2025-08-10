@@ -93,8 +93,7 @@
         }
 
         .login-container {
-            width: 100%;
-            max-width: 400px;
+            width: 400px;
             margin: 0 auto;
         }
 
@@ -130,18 +129,27 @@
 
         /* Portal Button */
         .portal-button {
-            background-color: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-primary);
             color: var(--text-primary);
-            border: none;
-            padding: 0 8px 0 0;
-            border-radius: 20px;
-            cursor: pointer;
-            vertical-align: middle;
-            transition: background-color 0.3s ease;
+            text-decoration: none;
+            padding: min(16px, 2.4vw);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+            min-width: 0;
+            box-shadow: 5px 5px 10px rgba(155, 144, 239, 0.3);
         }
 
         .portal-button:hover {
-            background-color: var(--accent-hover);
+            background-color: var(--bg-secondary);
+            border-color: #2f27c8;
+            transform: scale(1.05);
+            border: 2px solid #2f27c8;
         }
 
         .portal-button img {
@@ -202,27 +210,7 @@
             gap: 12px;
         }
 
-        .portal-button {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            text-decoration: none;
-            padding: min(16px, 2.4vw);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            aspect-ratio: 1;
-            border: 2px solid transparent;
-            min-width: 0;
-        }
-
-        .portal-button:hover {
-            background-color: var(--bg-secondary);
-            border-color: #2f27c8;
-            transform: scale(1.05);
-        }
+        
 
         [data-theme="light"] .portal-button:hover {
             background-color: #f1f3f4;
@@ -348,19 +336,229 @@
             font-size: 20px;
             cursor: pointer;
         }
+
+         .form-input {
+            width: 400px;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #2f27c8;
+            border-radius: 10px;
+            background-color: var(--bg-secondary);
+            color: #555;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+      
+
+        [data-theme="light"] .form-input {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .form-input {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .footer {
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            width: 100%;
+            margin-top: 40px;
+            padding: 15px 0;
+        }
+
+        .footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent-color);
+        }
+        
+        .login-instructions {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #111;
+            border-radius: 8px;
+            border: 1px solid var(--accent-color);
+            opacity: 0.8;
+        }
+        
+        .login-instructions p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .login-instructions strong {
+            color: var(--accent-color);
+        }
+        
+        [data-theme="light"] .login-instructions {
+            background-color: rgba(47, 39, 200, 0.05);
+        }
+        
+        [data-theme="dark"] .login-instructions {
+            background-color: rgba(47, 39, 200, 0.15);
+        }
+        
+        /* Hide scrollbar */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        
+        * {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .avatar-list-container {
+            margin: 20px 0;
+        }
+        
+        .avatar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .saved-avatars-label {
+            color: var(--text-primary);
+            font-size: 12px;
+            opacity: 0.8;
+            text-transform: lowercase;
+        }
+        
+        .register-new-link {
+            color: var(--accent-color);
+            font-size: 12px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        .register-new-link:hover {
+            color: var(--accent-hover);
+        }
+        
+        .avatar-list {
+            max-height: 180px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: rgba(17, 17, 17, 0.3);
+        }
+        
+        .avatar-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border-left: 4px solid var(--accent-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .avatar-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(2px);
+        }
+        
+        .avatar-info {
+            flex-grow: 1;
+        }
+        
+        .avatar-name {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+        
+        .avatar-tagline {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+            color: var(--text-secondary);
+        }
+        
+        .avatar-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 9px;
+            font-weight: bold;
+        }
+        
+        .avatar-status.active {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4CAF50;
+        }
+        
+        .avatar-status.inactive {
+            background: rgba(158, 158, 158, 0.3);
+            color: #9E9E9E;
+        }
+        
+        [data-theme="light"] .avatar-list {
+            background-color: rgba(248, 249, 250, 0.5);
+        }
+        
+        [data-theme="dark"] .avatar-list {
+            background-color: rgba(42, 42, 42, 0.5);
+        }
+        
+        .login-btn, .enter-game-btn {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid var(--accent-color);
+            border-radius: 10px;
+            background-color: transparent;
+            color: var(--accent-color);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .login-btn:hover, .enter-game-btn:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+        }
+        
+        .enter-game-btn {
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+        }
+        
+        .enter-game-btn:hover {
+            background-color: var(--accent-hover);
+        }
     </style>
     
     <script src="../../shared/js/theme-icons.js"></script>
     <script src="../../shared/js/language.js"></script>
-    <script src="../../shared/js/firebase-config.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="../../shared/js/ktg-auth.js"></script>
+
+    
 </head>
 <body>
-    <video class="bg-video" autoplay loop muted>
-        <source src="../../public/assets/videos/login2.mp4" type="video/mp4">
+    <video class="bg-video" autoplay muted playsinline>
+        <source src="../../public/assets/videos/login4.mp4" type="video/mp4">
     </video>
 
     <div class="container">
@@ -382,11 +580,44 @@
         </div>
 
         <div class="main-content">
-            <div class="login-container">
-                <iframe src="rightconsole_login.html" style="width: 100%; height: 500px; border: none; background: transparent;" id="loginFrame"></iframe>
+            <div class="login-container fade-in">
+                <h2 data-lang="destiny.login.loginTitle" style="text-align: center; margin-bottom: 20px;">LOGIN</h2>
+                
+                <div class="login-instructions">
+                    <p>Use <strong>email@domain.com</strong> for account access</p>
+                    <p>Use <strong>AvatarName</strong> for avatar login</p>
+                </div>
+                
+                <div class="avatar-list-container">
+                    <div class="avatar-header">
+                        <span class="saved-avatars-label">saved avatars</span>
+                        <a href="opening.html" class="register-new-link">← Back to Opening</a>
+                    </div>
+                    <div id="avatarList" class="avatar-list">
+                        <!-- Avatars will be populated here -->
+                    </div>
+                </div>
+                
+                <input type="text" class="form-input" id="loginInput" placeholder="EMAIL OR AVATAR NAME" data-lang-placeholder="destiny.login.emailPlaceholder" required>
+                <input type="password" class="form-input" id="passwordInput" placeholder="PASSWORD" data-lang-placeholder="destiny.login.passwordPlaceholder" required>
+                <button class="login-btn" onclick="handleLogin()">
+                    LOGIN
+                </button>
+                
+                <button id="enterGameBtn" class="enter-game-btn" onclick="enterGame()" style="display: none;">
+                    ENTER GAME
+                </button>
+                
+                <div id="login-status" style="text-align: center; margin-top: 10px; color: var(--text-secondary); font-size: 14px;"></div>
             </div>
         </div>
 
+        <div class="footer">
+            <a href="#" data-lang="destiny.login.terms">TERMS OF SERVICE</a>
+            <a href="#" data-lang="destiny.login.privacy">PRIVACY POLICY</a>
+            <a href="#" data-lang="destiny.login.rules">RULES OF THE GAME</a>
+        </div>
+        <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/game_console_loading.mp3" loop></audio>
         <div id="submenu-container" class="submenu-container">
             <!-- Portal Submenu -->
             <div id="portal-submenu" class="submenu">
@@ -397,15 +628,15 @@
                     <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img class="listings-icon" src="../../public/assets/icons/listing_icon.png" alt="listings"><span data-lang="dashboard.portals.listings">LISTINGS</span></a>
                     <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img class="ktgai-icon" src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span data-lang="dashboard.portals.ai">KTG.AI</span></a>
                     <a href="../music/ktgmusic.html" target="_parent" class="portal-button"><img class="music-icon" src="../../public/assets/icons/qr_icon.png" alt="ktgmusic"><span data-lang="dashboard.portals.music">KTG.MUSIC</span></a>
-                    <a href="../about/creator.html" target="_parent" class="portal-button"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span data-lang="dashboard.portals.web3">WEB3</span></a>
-                    <a href="../about/creator.html" target="_parent" class="portal-button"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR"><span data-lang="dashboard.portals.vr">VR/AR/XR</span></a>
-                    <a href="../about/creator.html" target="_parent" class="portal-button"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span data-lang="dashboard.portals.dignbling">DIGN BLING</span></a>
-                    <a href="../about/creator.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/chess_icon.png" data-light="../../public/assets/icons/chess_icon-blk.png" data-dark="../../public/assets/icons/chess_icon-wht.png" src="../../public/assets/icons/chess_icon.png" alt="chess"><span data-lang="dashboard.portals.chess">4 PLAY CHESS</span></a>
-                    <a href="../about/creator.html" target="_parent" class="portal-button"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span data-lang="dashboard.portals.metaphysics">METAPHYSICS</span></a>
-                    <a href="../about/creator.html" target="_parent" class="portal-button"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map"><span data-lang="dashboard.portals.map">MAP</span></a>
+                    <a href="../web3/dashboard_web3.html" target="_parent" class="portal-button"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span data-lang="dashboard.portals.web3">WEB3</span></a>
+                    <a href="../vr/ktgxr.html" target="_parent" class="portal-button"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR"><span data-lang="dashboard.portals.vr">VR/AR/XR</span></a>
+                    <a href="../dignbling/dashboard_dign_bling.html" target="_parent" class="portal-button"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span data-lang="dashboard.portals.dignbling">DIGN BLING</span></a>
+                    <a href="../4playchess/4playchess.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/chess_icon.png" data-light="../../public/assets/icons/chess_icon-blk.png" data-dark="../../public/assets/icons/chess_icon-wht.png" src="../../public/assets/icons/chess_icon.png" alt="chess"><span data-lang="dashboard.portals.chess">4 PLAY CHESS</span></a>
+                    <a href="../metaphysics/dashboard_tarot.html" target="_parent" class="portal-button"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span data-lang="dashboard.portals.metaphysics">METAPHYSICS</span></a>
+                    <a href="../map/map.html" target="_parent" class="portal-button"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map"><span data-lang="dashboard.portals.map">MAP</span></a>
                 </div>
             </div>
-            <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/game_console_loading.mp3" loop></audio>
+            
         </div>
     </div>
 
@@ -569,10 +800,49 @@
             }
         }
 
-        // Make function available globally
+        // Login functionality
+        async function handleLogin() {
+            const loginInput = document.getElementById('loginInput').value.trim();
+            const passwordInput = document.getElementById('passwordInput').value;
+            const statusDiv = document.getElementById('login-status');
+            
+            if (!loginInput || !passwordInput) {
+                statusDiv.textContent = 'Please enter both email/avatar and password';
+                statusDiv.style.color = '#f44336';
+                return;
+            }
+            
+            statusDiv.textContent = 'Signing in...';
+            statusDiv.style.color = 'var(--text-secondary)';
+            
+            const result = await window.KTGAuth.login(loginInput, passwordInput);
+            
+            if (result.success) {
+                statusDiv.textContent = 'Login successful!';
+                statusDiv.style.color = '#4CAF50';
+                document.getElementById('enterGameBtn').style.display = 'block';
+            } else {
+                statusDiv.textContent = result.error || 'Login failed';
+                statusDiv.style.color = '#f44336';
+            }
+        }
+        
+        function enterGame() {
+            window.location.href = 'gameconsole.html';
+        }
+        
+        // Make functions available globally
         window.openGoogleSignIn = openGoogleSignIn;
+        window.handleLogin = handleLogin;
+        window.enterGame = enterGame;
 
         window.addEventListener('load', () => {
+            // Force video play
+            const video = document.querySelector('.bg-video');
+            if (video) {
+                video.play().catch(e => console.log('Video autoplay prevented'));
+            }
+            
             // Initialize theme and language
             initializeTheme();
             initializeMusic();

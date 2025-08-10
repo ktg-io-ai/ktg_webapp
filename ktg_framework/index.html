@@ -109,16 +109,19 @@
     
 </head>
 <body style="overflow: hidden;">
+    <video autoplay muted style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+        <source src="../ktg_framework/public/assets/videos/index3.mp4" type="video/mp4">
+    </video>
     
     <div class="top-bar fade-in">
                 <h1>KTG.IO</h1>
                 <div class="song-title">
                     <button id="musicToggle">
-                        <img src="assets/play_pause.png" alt="Music Toggle">
+                        <img src="../ktg_framework/public/assets/icons/play_pause.png" alt="Music Toggle">
                     </button>
                     PLAYING: Lucy Stage Right
                 </div>
-                <audio id="musicPlayer" src="assets/lucy_stage_right.mp3" loop></audio>
+                <audio id="musicPlayer" src="../ktg_framework/public/assets/ktgmusic/music/lucy_stage_right.mp3" loop></audio>
             </div>
    
 

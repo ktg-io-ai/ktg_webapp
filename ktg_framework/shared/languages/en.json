@@ -516,11 +516,15 @@
   },
   "nav": {
     "search": "Search",
-    "social": "Social",
-    "actions": "Actions",
-    "details": "Detail",
+    "influencers": "Influencers",
+    "advertisers": "Advertisers",
+    "investors": "Investors",
     "mystuff": "My Stuff",
+    "listings": "Listings",
     "portal": "Portal"
+  },
+  "music": {
+    "playing": "PLAYING"
   },
   "submenu": {
     "search": {
@@ -542,6 +546,39 @@
     "portal": {
       "title": "Portal"
     }
+  },
+  "games": {
+    "4playchess": {
+      "title": "4PlayChess",
+      "social": "Social",
+      "next": "Next",
+      "gold": "Gold",
+      "green": "Green",
+      "red": "Red",
+      "black": "Black"
+    },
+    "dignbling": {
+      "title": "Dignbling",
+      "social": "Social",
+      "wallet": "Wallet",
+      "item": "Item",
+      "quantity": "Quantity",
+      "value": "USD Value",
+      "gems": "Gems",
+      "diamonds": "Diamonds",
+      "convert": "Convert Gems to KTG",
+      "get_diamonds": "Get my Diamonds"
+    }
+  },
+  "portal": {
+    "title": "Portals",
+    "destiny": "DESTINY",
+    "listings": "LISTINGS",
+    "music": "MUSIC",
+    "ai": "KTG.AI",
+    "chess": "4PLAY CHESS",
+    "dignbling": "DIGN BLING",
+    "map": "MAP"
   },
   "admin": {
     "title": "KTG ADMIN DASHBOARD",
