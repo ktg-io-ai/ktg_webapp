@@ -349,12 +349,12 @@
     <div class="content-area">
         <div class="main-content">
             <h2 data-translate="destiny.newwallet.register_title">REGISTER NEW WALLET</h2>
-            <input type="email" class="form-input" data-translate-placeholder="destiny.newwallet.email_placeholder" placeholder="EMAIL ADDRESS" required>
-            <input type="password" class="form-input" data-translate-placeholder="destiny.newwallet.password_placeholder" placeholder="PASSWORD" required>
-            <input type="password" class="form-input" data-translate-placeholder="destiny.newwallet.password_again_placeholder" placeholder="PASSWORD AGAIN" required>
+            <input type="email" id="email" class="form-input" data-translate-placeholder="destiny.newwallet.email_placeholder" placeholder="EMAIL ADDRESS" required>
+            <input type="password" id="password" class="form-input" data-translate-placeholder="destiny.newwallet.password_placeholder" placeholder="PASSWORD" required>
+            <input type="password" id="confirmPassword" class="form-input" data-translate-placeholder="destiny.newwallet.password_again_placeholder" placeholder="PASSWORD AGAIN" required>
             
-            <menu onclick="window.parent.location.href='newavatar.html'">
-                <h2 data-translate="destiny.newwallet.next">NEXT</h2>
+            <menu onclick="registerWithEmail()">
+                <h2 data-translate="destiny.newwallet.next">REGISTER</h2>
             </menu>
         </div>
     </div>
@@ -365,6 +365,12 @@
         <a href="#" data-translate="destiny.newwallet.rules">RULES OF THE GAME</a>
     </div>
 
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="../../shared/js/firebase-config-clean.js"></script>
+    
     <!-- Framework Scripts -->
     <script src="../../shared/js/language.js"></script>
     <script src="../../shared/js/theme.js"></script>
@@ -415,6 +421,61 @@
 
         function closePortalSubmenu() {
             document.getElementById("portal-submenu").style.display = "none";
+        }
+
+        // Registration function
+        async function registerWithEmail() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!email || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            try {
+                const result = await window.firebaseAuth.signUp(email, password);
+                
+                if (result.success) {
+                    // Check if Game Master
+                    const isGameMaster = email.toLowerCase().includes('gamemaster') || email.toLowerCase().includes('admin');
+                    
+                    // Create user profile
+                    await window.firebaseDB.createUser({
+                        email: email,
+                        created_at: new Date().toISOString(),
+                        role: isGameMaster ? 'Game Master' : 'Player',
+                        permissions: isGameMaster ? ['admin', 'creator', 'player'] : ['player']
+                    });
+                    
+                    // Create wallet with starter tokens
+                    const starterTokens = isGameMaster ? {
+                        life_1: 1000,
+                        life_3: 1000, 
+                        life_6: 1000,
+                        life_9: 1000,
+                        diamond: 10
+                    } : {
+                        life_1: 10,
+                        life_3: 5
+                    };
+                    
+                    await window.firebaseDB.createWallet(starterTokens);
+                    
+                    alert(isGameMaster ? 'Game Master registered with 1000 tokens!' : 'Registration successful!');
+                    window.parent.location.href = 'newavatar.html';
+                } else {
+                    alert('Registration failed: ' + result.error);
+                }
+            } catch (error) {
+                alert('Registration error: ' + error.message);
+            }
         }
 
         // Click outside to close submenu

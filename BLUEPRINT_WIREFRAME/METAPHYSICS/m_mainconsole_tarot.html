@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alter's Tattoo Tarot - Mobile</title>
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: Helvetica, sans-serif;
+      margin: 0;
+      padding: 10px;
+      text-align: center;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Thin scrollbar */
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #333;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .section {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #222;
+      border-radius: 10px;
+    }
+
+    .section h2 {
+      margin-top: 0;
+      text-align: center;
+      color: #fff;
+      font-size: 1.2em;
+    }
+
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    /* Action buttons */
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .action-buttons button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 12px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      touch-action: manipulation;
+    }
+
+    .action-buttons button img {
+      max-width: 25px;
+      max-height: 25px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .action-buttons button:hover {
+      background-color: #444;
+    }
+
+    /* Cards display - vertical layout for mobile */
+    #card-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      width: 90%;
+      max-width: 280px;
+      background-color: #111;
+      border: 2px solid #333;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 0 auto;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .card img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .card-description {
+      text-align: left;
+      line-height: 1.4;
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    .card-name {
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #fff;
+      text-align: center;
+    }
+
+    /* Card meanings overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .menu-content {
+      position: relative;
+      margin: 20px auto;
+      max-width: 90%;
+      padding: 20px;
+      background-color: #222;
+      color: white;
+      border: 2px solid #444;
+      border-radius: 10px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .menu-content .card-meaning {
+      display: block;
+      color: #fff;
+      padding: 12px;
+      margin-bottom: 10px;
+      background-color: #333;
+      border-radius: 8px;
+      border: 1px solid #444;
+    }
+
+    .menu-content .card-name {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .menu-content .card-description {
+      font-size: 14px;
+      line-height: 1.4;
+      color: #ddd;
+    }
+
+    .menu-content h3 {
+      color: #16665b;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-size: 1.2em;
+      border-bottom: 2px solid #16665b;
+      padding-bottom: 5px;
+    }
+
+    .close-overlay {
+      position: sticky;
+      top: 0;
+      background-color: #222;
+      padding: 10px;
+      text-align: right;
+      border-bottom: 1px solid #444;
+    }
+
+    .close-overlay button {
+      background-color: #444;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Portal Links */
+    .portal-links {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .portal-links button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      touch-action: manipulation;
+    }
+
+    .portal-links button:hover {
+      background-color: #444;
+    }
+
+    .portal-links button img {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    /* Loading message */
+    .loading {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="section">
+    <h1>🔮 Alter's Tattoo Tarot</h1>
+    
+    <div class="action-buttons">
+      <button onclick="drawThree()">
+        <img src="../assets/tarot_icon.png" alt="Draw Cards">
+        Draw 3 Cards
+      </button>
+      <button onclick="openCardsPage()">
+        <img src="../assets/detail_icon.png" alt="Card Meanings">
+        Card Meanings
+      </button>
+      <button onclick="openExternalLink()">
+        <img src="../assets/ai_brain_logo_icon.png" alt="AI Alquimist">
+        AI Alquimist
+      </button>
+    </div>
+  </div>
+
+  <!-- Display area for the cards -->
+  <div class="section">
+    <h2>🃏 Your Reading</h2>
+    <div id="card-container">
+      <div class="loading">Click "Draw 3 Cards" to begin your reading...</div>
+    </div>
+  </div>
+
+  <!-- Portal Links Section -->
+  <div class="section">
+    <h2>🌐 PORTALS</h2>
+    <div class="portal-links">
+      <button onclick="window.parent.location.href='../dashboard.html'">
+        <img src="../assets/portal_icon.png" alt="portal">PORTALS
+      </button>
+      <button onclick="window.parent.location.href='../DESTINY/opening.html'">
+        <img src="../assets/fave_icon.png" alt="destiny">DESTINY
+      </button>
+      <button onclick="window.parent.location.href='../KTGMUSIC/mobile_ktgmusic.html'">
+        <img src="../assets/music_qr_link_icon.png" alt="music">KTG.MUSIC
+      </button>
+      <button onclick="window.parent.location.href='../KTGAI/mobile_ktgai.html'">
+        <img src="../assets/ai_brain_logo_icon.png" alt="ai">KTG.AI
+      </button>
+      <button onclick="window.parent.location.href='../MERCH/mobile_ktgmerch.html'">
+        <img src="../assets/merch_icon.png" alt="merch">MERCH
+      </button>
+      <button onclick="window.parent.location.href='../WEB3/mobile_dashboard_web3.html'">
+        <img src="../assets/kgz_white_icon.png" alt="web3">WEB3
+      </button>
+      <button onclick="window.parent.location.href='../VRARXR/mobile_dashboard_xr.html'">
+        <img src="../assets/vr_icon.png" alt="xr">VR/AR/XR
+      </button>
+      <button onclick="window.parent.location.href='../LIFESTYLES/mobile_listings.html'">
+        <img src="../assets/listing_icon.png" alt="listings">LISTINGS
+      </button>
+      <button onclick="window.parent.location.href='../DIGNBLING/mobile_dashboard_dign_bling.html'">
+        <img src="../assets/diamond_mine_icon.png" alt="diamond">DIGN BLING
+      </button>
+      <button onclick="window.parent.location.href='../4PLAYCHESS/mobile_dashboard_4play.html'">
+        <img src="../assets/chess_icon.png" alt="chess">4 PLAY CHESS
+      </button>
+      <button onclick="window.parent.location.href='../KTGTV/dashboard.html'">
+        <img src="../assets/ktgtv_icon.png" alt="ktgtv">KTG.TV
+      </button>
+      <button onclick="window.parent.location.href='../MEMDAO/dashboard.html'">
+        <img src="../assets/dao_icon.png" alt="memdao">MEM.DAO
+      </button>
+    </div>
+  </div>
+
+  <!-- Card meanings overlay -->
+  <div id="menu-overlay" class="overlay">
+    <div class="close-overlay">
+      <button onclick="closeCardsPage()">Close ×</button>
+    </div>
+    <div class="menu-content">
+      <h2>Tarot Card Meanings</h2>
+      
+      <h3>Major Arcana</h3>
+      <div class="card-meaning">
+        <div class="card-name">The Fool</div>
+        <div class="card-description">New beginnings, innocence, spontaneity, free spirit. The start of a journey with unlimited potential.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Magician</div>
+        <div class="card-description">Manifestation, resourcefulness, power, inspired action. You have the tools to achieve your goals.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The High Priestess</div>
+        <div class="card-description">Intuition, sacred knowledge, divine feminine, subconscious mind. Trust your inner wisdom.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Empress</div>
+        <div class="card-description">Femininity, beauty, nature, nurturing, abundance. Creative energy and maternal care.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Emperor</div>
+        <div class="card-description">Authority, establishment, structure, father figure. Leadership and control through discipline.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Hierophant</div>
+        <div class="card-description">Spiritual wisdom, religious beliefs, conformity, tradition. Learning from established institutions.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Lovers</div>
+        <div class="card-description">Love, harmony, relationships, values alignment. Important choices about partnerships.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Chariot</div>
+        <div class="card-description">Control, willpower, success, determination. Overcoming obstacles through focus and discipline.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Strength</div>
+        <div class="card-description">Strength, courage, persuasion, influence, compassion. Inner strength and gentle control.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Hermit</div>
+        <div class="card-description">Soul searching, introspection, inner guidance. Seeking truth through solitude and reflection.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Wheel of Fortune</div>
+        <div class="card-description">Good luck, karma, life cycles, destiny, turning point. Change and the cyclical nature of life.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Justice</div>
+        <div class="card-description">Justice, fairness, truth, cause and effect, law. Balance and accountability for actions.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Hanged Man</div>
+        <div class="card-description">Suspension, restriction, letting go, sacrifice. Gaining new perspective through patience.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Death</div>
+        <div class="card-description">Endings, beginnings, change, transformation, transition. Necessary endings leading to rebirth.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Temperance</div>
+        <div class="card-description">Balance, moderation, patience, purpose. Finding the middle path and harmony.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Devil</div>
+        <div class="card-description">Bondage, addiction, sexuality, materialism. Breaking free from limiting beliefs and behaviors.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Tower</div>
+        <div class="card-description">Sudden change, upheaval, chaos, revelation, awakening. Necessary destruction for rebuilding.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Star</div>
+        <div class="card-description">Hope, faith, purpose, renewal, spirituality. Healing and guidance after difficult times.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Moon</div>
+        <div class="card-description">Illusion, fear, anxiety, subconscious, intuition. Navigating uncertainty and hidden truths.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The Sun</div>
+        <div class="card-description">Positivity, fun, warmth, success, vitality. Joy, success, and positive energy.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Judgment</div>
+        <div class="card-description">Judgment, rebirth, inner calling, absolution. Spiritual awakening and second chances.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">The World</div>
+        <div class="card-description">Completion, accomplishment, travel, fulfillment. Achievement of goals and cosmic consciousness.</div>
+      </div>
+
+      <h3>Cups (Emotions & Relationships)</h3>
+      <div class="card-meaning">
+        <div class="card-name">Ace of Cups</div>
+        <div class="card-description">New love, emotional awakening, creativity, spirituality. The beginning of emotional fulfillment.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Two of Cups</div>
+        <div class="card-description">Unified love, partnership, mutual attraction. Deep connection and emotional harmony.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Three of Cups</div>
+        <div class="card-description">Celebration, friendship, creativity, community. Joy shared with others and social connections.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Four of Cups</div>
+        <div class="card-description">Apathy, contemplation, disconnectedness, boredom. Missing opportunities due to emotional withdrawal.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Five of Cups</div>
+        <div class="card-description">Regret, failure, disappointment, pessimism. Focusing on loss rather than remaining possibilities.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Six of Cups</div>
+        <div class="card-description">Revisiting the past, childhood memories, innocence, joy. Nostalgia and reconnecting with your inner child.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Seven of Cups</div>
+        <div class="card-description">Opportunities, choices, wishful thinking, illusion. Too many options leading to confusion and indecision.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Eight of Cups</div>
+        <div class="card-description">Disappointment, abandonment, withdrawal, escapism. Walking away from a situation that no longer serves you.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Nine of Cups</div>
+        <div class="card-description">Contentment, satisfaction, gratitude, wish fulfillment. Emotional fulfillment and getting what you want.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Ten of Cups</div>
+        <div class="card-description">Divine love, blissful relationships, harmony, alignment. Emotional fulfillment and happy family life.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Page of Cups</div>
+        <div class="card-description">Creative opportunities, intuitive messages, curiosity, possibility. New emotional experiences and creative inspiration.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Knight of Cups</div>
+        <div class="card-description">Creativity, romance, charm, imagination. Following your heart and pursuing your dreams with passion.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Queen of Cups</div>
+        <div class="card-description">Compassion, calm, comfort, intuition. Emotional maturity and nurturing others with empathy.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">King of Cups</div>
+        <div class="card-description">Emotional balance, compassion, diplomacy. Mastery over emotions and wise, caring leadership.</div>
+      </div>
+
+      <h3>Pentacles (Material & Career)</h3>
+      <div class="card-meaning">
+        <div class="card-name">Ace of Pentacles</div>
+        <div class="card-description">New financial opportunity, manifestation, prosperity. The seed of material success.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Two of Pentacles</div>
+        <div class="card-description">Multiple priorities, time management, adaptability. Juggling responsibilities and finding balance.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Three of Pentacles</div>
+        <div class="card-description">Collaboration, learning, implementation. Working with others to achieve shared goals.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Four of Pentacles</div>
+        <div class="card-description">Saving money, security, conservatism, scarcity, control. Holding onto resources but potentially missing opportunities.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Five of Pentacles</div>
+        <div class="card-description">Financial loss, poverty, lack mindset, isolation, worry. Temporary hardship and feeling left out in the cold.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Six of Pentacles</div>
+        <div class="card-description">Giving, receiving, sharing wealth, generosity, charity. Balance between giving and receiving resources.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Seven of Pentacles</div>
+        <div class="card-description">Long-term view, sustainable results, perseverance, investment. Patience while waiting for your efforts to pay off.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Eight of Pentacles</div>
+        <div class="card-description">Apprenticeship, repetitive tasks, mastery, skill development. Dedication to perfecting your craft through practice.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Nine of Pentacles</div>
+        <div class="card-description">Abundance, luxury, self-reliance, financial independence. Enjoying the fruits of your labor and personal success.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Ten of Pentacles</div>
+        <div class="card-description">Wealth, financial security, family, long-term success, contribution. Lasting prosperity and legacy building.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Page of Pentacles</div>
+        <div class="card-description">Manifestation, financial opportunity, skill development. New opportunities for learning and material growth.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Knight of Pentacles</div>
+        <div class="card-description">Hard work, productivity, routine, conservatism. Steady progress through methodical effort and reliability.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Queen of Pentacles</div>
+        <div class="card-description">Nurturing, practical, providing, working parent. Balancing material success with caring for others.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">King of Pentacles</div>
+        <div class="card-description">Financial success, business acumen, security, discipline. Mastery of the material world and generous leadership.</div>
+      </div>
+
+      <h3>Swords (Thoughts & Communication)</h3>
+      <div class="card-meaning">
+        <div class="card-name">Ace of Swords</div>
+        <div class="card-description">New ideas, mental clarity, breakthrough, raw power. The beginning of intellectual achievement.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Two of Swords</div>
+        <div class="card-description">Difficult decisions, weighing options, being at a crossroads. Mental conflict and indecision.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Three of Swords</div>
+        <div class="card-description">Heartbreak, emotional pain, sorrow, grief. Necessary emotional release and healing.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Four of Swords</div>
+        <div class="card-description">Rest, relaxation, meditation, contemplation, recovery. Taking time to recharge and reflect.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Five of Swords</div>
+        <div class="card-description">Conflict, disagreements, competition, defeat, winning at all costs. Victory that comes with a price.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Six of Swords</div>
+        <div class="card-description">Transition, change, rite of passage, releasing baggage. Moving toward calmer waters and better times.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Seven of Swords</div>
+        <div class="card-description">Betrayal, deception, getting away with something, acting strategically. Using cunning and stealth to achieve goals.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Eight of Swords</div>
+        <div class="card-description">Negative thoughts, self-imposed restriction, imprisonment, victim mentality. Feeling trapped by your own limiting beliefs.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Nine of Swords</div>
+        <div class="card-description">Anxiety, worry, fear, depression, nightmares. Mental anguish and overwhelming negative thoughts.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Ten of Swords</div>
+        <div class="card-description">Painful endings, deep wounds, betrayal, loss, crisis. Rock bottom before a new beginning.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Page of Swords</div>
+        <div class="card-description">New ideas, curiosity, thirst for knowledge, new ways of communicating. Mental energy and eagerness to learn.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Knight of Swords</div>
+        <div class="card-description">Ambitious, action-oriented, driven to succeed, fast-thinking. Charging ahead with determination and focus.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Queen of Swords</div>
+        <div class="card-description">Independent, unbiased judgment, clear boundaries, direct communication. Intellectual strength and honest wisdom.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">King of Swords</div>
+        <div class="card-description">Mental clarity, intellectual power, authority, truth. Mastery of the mind and fair, logical leadership.</div>
+      </div>
+
+      <h3>Wands (Action & Creativity)</h3>
+      <div class="card-meaning">
+        <div class="card-name">Ace of Wands</div>
+        <div class="card-description">Inspiration, new opportunities, growth, potential. The spark of creative energy.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Two of Wands</div>
+        <div class="card-description">Future planning, making decisions, leaving comfort zone. Personal power and planning ahead.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Three of Wands</div>
+        <div class="card-description">Expansion, foresight, overseas opportunities. Looking ahead and expanding horizons.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Four of Wands</div>
+        <div class="card-description">Celebration, joy, harmony, relaxation, homecoming. Achieving a milestone and celebrating with others.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Five of Wands</div>
+        <div class="card-description">Conflict, competition, tension, arguments. Struggling against others or internal conflicts.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Six of Wands</div>
+        <div class="card-description">Success, public recognition, progress, self-confidence. Victory and acknowledgment of your achievements.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Seven of Wands</div>
+        <div class="card-description">Challenge, competition, protection, perseverance. Standing your ground and defending your position.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Eight of Wands</div>
+        <div class="card-description">Speed, action, alignment, movement. Rapid progress and things falling into place quickly.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Nine of Wands</div>
+        <div class="card-description">Resilience, courage, persistence, test of faith. Nearly at the finish line despite obstacles.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Ten of Wands</div>
+        <div class="card-description">Burden, extra responsibility, hard work, completion. Carrying heavy loads but nearing the end.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Page of Wands</div>
+        <div class="card-description">Inspiration, ideas, discovery, limitless potential. Enthusiasm for new creative projects and adventures.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Knight of Wands</div>
+        <div class="card-description">Energy, passion, inspired action, adventure, impulsiveness. Charging forward with fiery determination.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">Queen of Wands</div>
+        <div class="card-description">Courage, confidence, independence, social butterfly, determination. Charismatic leadership and creative energy.</div>
+      </div>
+      <div class="card-meaning">
+        <div class="card-name">King of Wands</div>
+        <div class="card-description">Natural-born leader, vision, entrepreneur, honour. Mastery of creative energy and inspirational leadership.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to open external AI link
+    function openExternalLink() {
+      window.open('https://poe.com/Alquimist', '_blank');
+    }
+
+    // Function to open cards meanings overlay
+    function openCardsPage() {
+      document.getElementById('menu-overlay').style.display = 'block';
+    }
+
+    // Function to close cards meanings overlay
+    function closeCardsPage() {
+      document.getElementById('menu-overlay').style.display = 'none';
+    }
+
+    // Function to draw three random cards
+    function drawThree() {
+      const cardContainer = document.getElementById('card-container');
+      cardContainer.innerHTML = '';
+
+      const cards = [
+        "Ace_of_Cups", "Two_of_Cups", "Three_of_Cups", "Four_of_Cups", "Five_of_Cups",
+        "Six_of_Cups", "Seven_of_Cups", "Eight_of_Cups", "Nine_of_Cups", "Ten_of_Cups",
+        "Page_of_Cups", "Knight_of_Cups", "Queen_of_Cups", "King_of_Cups",
+        
+        "Ace_of_Pentacles", "Two_of_Pentacles", "Three_of_Pentacles", "Four_of_Pentacles", "Five_of_Pentacles",
+        "Six_of_Pentacless", "Seven_of_Pentacles", "Eight_of_Pentacles", "Nine_of_Pentacles", "Ten_of_Pentacles",
+        "Page_of_Pentacles", "Knight_of_Pentacles", "Queen_of_Pentacles", "King_of_Pentacles",
+        
+        "Ace_of_Swords", "Two_of_Swords", "Three_of_Swords", "Four_of_Swords", "Five_of_Swords",
+        "Six_of_Swords", "Seven_of_Swords", "Eight_of_Swords", "Nine_of_Swords", "Ten_of_Swords",
+        "Page_of_Swords", "Knight_of_Swords", "Queen_of_Swords", "King_of_Swords",
+        
+        "Ace_of_Wands", "Two_of_Wands", "Three_of_Wands", "Four_of_Wands", "Five_of_Wands",
+        "Six_of_Wands", "Seven_of_Wands", "Eight_of_Wands", "Nine_of_Wands", "Ten_of_Wands",
+        "Page_of_Wands", "Knight_of_Wands", "Queen_of_Wands", "King_of_Wands",
+        
+        "The_Fool", "Death", "Judgment", "Justice", "Strength", "Temperance", "The_Magician",
+        "The_Chariot", "The_Devil", "The_Emperor", "The_Empress", "The_Hanged_Man",
+        "The_Hierophant", "The_High_Priestess", "The_Lovers", "The_Moon", "The_Star",
+        "The_Tower", "The_World", "Wheel_of_Fortune"
+      ];
+
+      const drawnCards = [];
+      const uniqueIndices = [];
+
+      while (uniqueIndices.length < 3) {
+        const randomIndex = Math.floor(Math.random() * cards.length);
+        if (!uniqueIndices.includes(randomIndex)) {
+          uniqueIndices.push(randomIndex);
+          drawnCards.push(cards[randomIndex]);
+        }
+      }
+
+      drawnCards.forEach((cardName, index) => {
+        const cardDiv = document.createElement('div');
+        cardDiv.classList.add('card');
+
+        const cardNameDiv = document.createElement('div');
+        cardNameDiv.classList.add('card-name');
+        cardNameDiv.textContent = cardName.replace(/_/g, ' ');
+        cardDiv.appendChild(cardNameDiv);
+
+        const imagePath = `tarot/images/${cardName}.png`;
+        const descriptionPath = `tarot/meaning/${cardName}.txt`;
+
+        const cardImage = document.createElement('img');
+        cardImage.src = imagePath;
+        cardImage.alt = cardName;
+        cardImage.classList.add('card-image');
+        cardDiv.appendChild(cardImage);
+
+        const cardDescription = document.createElement('div');
+        cardDescription.classList.add('card-description');
+
+        fetch(descriptionPath)
+          .then(response => response.text())
+          .then(description => {
+            cardDescription.innerHTML = description;
+            cardDiv.appendChild(cardDescription);
+          })
+          .catch(error => {
+            cardDescription.textContent = "Description not found.";
+            cardDiv.appendChild(cardDescription);
+          });
+
+        cardContainer.appendChild(cardDiv);
+      });
+    }
+  </script>
+
+</body>
+</html>

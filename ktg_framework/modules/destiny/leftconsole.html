@@ -163,25 +163,46 @@
         .door-box {
             width: 40px;
             height: 40px;
-            background-color: red;
+            background-color: blue;
             border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
         }
 
         .journeybook-bars {
             display: flex;
             flex-direction: column;
             gap: 5px;
-            width: 80%;
+            width: 100%;
         }
 
-        .bar {
-            height: 10px;
-            border-radius: 5px;
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #333;
+            overflow: hidden;
+            position: relative;
         }
 
-        .bar1 { background-color: blue; width: 10%; }
-        .bar2 { background-color: yellow; width: 50%; }
-        .bar3 { background-color: red; width: 85%; }
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-blue { background-color: #2196F3; }
+        .progress-yellow { background-color: #FFC107; }
+        .progress-red { background-color: #F44336; }
+
+        .progress-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+        }
 
         .bottom-frame {
             padding-left: 20px;
@@ -263,15 +284,24 @@
                 <div class="column">
                     <div class="title" data-lang="destiny.gameconsole.door">DOOR</div>
                     <div class="content">
-                        <div class="door-box"></div>
+                        <div class="door-box" id="door-indicator">BLUE</div>
                     </div>
                 </div>
                 <div class="column">
                     <div class="title" data-lang="destiny.gameconsole.journeybook">JOURNEYBOOK</div>
                     <div class="content journeybook-bars">
-                        <div class="bar bar1"></div>
-                        <div class="bar bar2"></div>
-                        <div class="bar bar3"></div>
+                        <div class="progress-label">Values</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-blue" id="values-progress" style="width: 0%;"></div>
+                        </div>
+                        <div class="progress-label">Compatibility</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-yellow" id="compatibility-progress" style="width: 0%;"></div>
+                        </div>
+                        <div class="progress-label">Intimacy</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill progress-red" id="intimacy-progress" style="width: 0%;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -280,9 +310,9 @@
     </div>
 
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="../../shared/js/firebase-config.js"></script>
     <script src="../../shared/js/language.js"></script>
     <script>
@@ -432,32 +462,78 @@
             }
         }
 
-        // Load user profile from localStorage
-        function loadUserProfile() {
-            const user = JSON.parse(localStorage.getItem('ktg_user') || '{}');
-            const avatar = JSON.parse(localStorage.getItem('ktg_current_avatar') || '{}');
-            const selectedImage = localStorage.getItem('ktg_selected_avatar_image');
-            
-            if (user.email) {
-                // Priority: selected image > user avatar > current avatar > default
-                const avatarImage = selectedImage || user.avatarImage || avatar.imageUrl || '../../public/assets/images/profile_default.png';
+        // Load user profile and JourneyBook progress
+        async function loadUserProfile() {
+            try {
+                // Initialize Firebase
+                if (!firebase.apps.length) {
+                    firebase.initializeApp({
+                        apiKey: "AIzaSyDrgOGvn8NHuq3T_ODse8buij9KXg1WkzI",
+                        authDomain: "ktgio-3k38n.firebaseapp.com",
+                        projectId: "ktgio-3k38n",
+                        storageBucket: "ktgio-3k38n.firebasestorage.app",
+                        messagingSenderId: "416239278754",
+                        appId: "1:416239278754:web:028cd9fd6f13a5a4ed95fb"
+                    });
+                }
                 
+                const user = firebase.auth().currentUser;
+                if (user) {
+                    const db = firebase.firestore();
+                    
+                    // Load user data
+                    const userDoc = await db.collection('Users').doc(user.uid).get();
+                    if (userDoc.exists) {
+                        const userData = userDoc.data();
+                        
+                        // Load JourneyBook progress
+                        const journeyBookDoc = await db.collection('JourneyBooks').doc(user.uid).get();
+                        let progress = { values: 0, compatibility: 0, intimacy: 0 };
+                        
+                        if (journeyBookDoc.exists) {
+                            const journeyBookData = journeyBookDoc.data();
+                            progress = journeyBookData.progress || progress;
+                        }
+                        
+                        // Update participant display
+                        const avatarImage = userData.image ? `../../public/assets/${userData.image}` : '../../public/assets/images/profile_default.png';
+                        
+                        updateParticipant({
+                            name: userData.avatarName || userData.displayName || user.email.split('@')[0],
+                            image: avatarImage,
+                            tagline: userData.tagline || 'KTG Player seeks adventure',
+                            safeLinks: [
+                                { text: 'Profile', url: '#' },
+                                { text: 'JourneyBook', url: '../journeybook/journeybook.html' }
+                            ]
+                        });
+                        
+                        // Update door indicator
+                        updateDoorIndicator(userData.door || 'blue');
+                        
+                        // Update progress bars (150px = 100%, ~1px per 2 questions)
+                        updateProgressBars(progress);
+                        
+                        // Show current user indicator
+                        const nameElement = document.getElementById('participant-name');
+                        if (nameElement) {
+                            nameElement.innerHTML = (userData.avatarName || userData.displayName || user.email.split('@')[0]) + ' <span style="color: #4CAF50; font-size: 12px;">(You)</span>';
+                        }
+                        
+                        return;
+                    }
+                }
+                
+                // Fallback for non-authenticated users
                 updateParticipant({
-                    name: avatar.name || user.name || user.email.split('@')[0],
-                    image: avatarImage,
-                    tagline: avatar.tagline || 'KTG Player seeks adventure',
-                    safeLinks: [
-                        { text: 'Profile', url: '#' },
-                        { text: 'Contact', url: '#' }
-                    ]
+                    name: 'Guest Player',
+                    image: '../../public/assets/images/profile_default.png',
+                    tagline: 'Welcome to Karma the Game',
+                    safeLinks: []
                 });
                 
-                // Show current user indicator
-                const nameElement = document.getElementById('participant-name');
-                if (nameElement) {
-                    nameElement.innerHTML = (avatar.name || user.name || user.email.split('@')[0]) + ' <span style="color: #4CAF50; font-size: 12px;">(You)</span>';
-                }
-            } else {
+            } catch (error) {
+                console.error('Error loading user profile:', error);
                 // Fallback to default
                 updateParticipant({
                     name: 'Guest Player',
@@ -467,9 +543,39 @@
                 });
             }
         }
+        
+        function updateDoorIndicator(door) {
+            const doorElement = document.getElementById('door-indicator');
+            const doorColors = {
+                'blue': { bg: '#2196F3', text: 'BLUE' },
+                'yellow': { bg: '#FFC107', text: 'YELLOW' },
+                'red': { bg: '#F44336', text: 'RED' }
+            };
+            
+            const doorConfig = doorColors[door] || doorColors['blue'];
+            doorElement.style.backgroundColor = doorConfig.bg;
+            doorElement.textContent = doorConfig.text;
+        }
+        
+        function updateProgressBars(progress) {
+            // Calculate progress percentages (assuming ~75 questions per section)
+            // 150px = 100%, so 1px ≈ 0.67%, 2 questions ≈ 1.33%
+            const valuesPercent = Math.min((progress.values / 75) * 100, 100);
+            const compatibilityPercent = Math.min((progress.compatibility / 75) * 100, 100);
+            const intimacyPercent = Math.min((progress.intimacy / 75) * 100, 100);
+            
+            document.getElementById('values-progress').style.width = valuesPercent + '%';
+            document.getElementById('compatibility-progress').style.width = compatibilityPercent + '%';
+            document.getElementById('intimacy-progress').style.width = intimacyPercent + '%';
+        }
 
         // Load profile when page loads
-        setTimeout(loadUserProfile, 500);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for Firebase auth to initialize
+            firebase.auth().onAuthStateChanged(function(user) {
+                loadUserProfile();
+            });
+        });
     </script>
 </body>
 </html>

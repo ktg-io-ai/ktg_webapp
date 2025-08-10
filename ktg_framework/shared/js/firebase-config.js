@@ -3,7 +3,7 @@
 
 // Firebase configuration from environment
 const firebaseConfig = {
-  apiKey: "AIzaSyBfJgUnz0utndGYcYqfDskspGPhWcUTCWI",
+  apiKey: "AIzaSyDrgOGvn8NHuq3T_ODse8buij9KXg1WkzI",
   authDomain: "ktgio-3k38n.firebaseapp.com",
   projectId: "ktgio-3k38n",
   storageBucket: "ktgio-3k38n.firebasestorage.app",
@@ -43,6 +43,25 @@ window.KTGFirebase = {
     async signIn(email, password) {
       try {
         const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        return { success: true, user: userCredential.user };
+      } catch (error) {
+        return { success: false, error: error.message };
+      }
+    },
+
+    async signUp(email, password) {
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        return { success: true, user: userCredential.user };
+      } catch (error) {
+        return { success: false, error: error.message };
+      }
+    },
+
+    async signInWithGoogle() {
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const userCredential = await auth.signInWithPopup(provider);
         return { success: true, user: userCredential.user };
       } catch (error) {
         return { success: false, error: error.message };
