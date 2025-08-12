@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC is an AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement. Discover AI-driven income models & immersive experiences.">
+    <meta name="keywords" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC, AI, Social Platform, Lifestyle Platform, Influencer Marketing, Digital Engagement, AI Advertising, Web3, NFT, Metaverse, SoftBank, Investment, Startup">
+    <meta name="author" content="KTG.IO Platform">
+    <meta property="og:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="og:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.karmathegame.org">
+    <meta property="og:image" content="../../public/assets/images/game_logo.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="twitter:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="twitter:image" content="../../public/assets/icons/kgz_icon.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../../public/assets/icons/kgz_icon.png"/>
+    
+    <title>Karma the Game of Destiny</title>
+    
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+            --border-radius: 20px;
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Second Bar */
+        .second-bar {
+            background-color: var(--bg-secondary);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 33px;
+            z-index: 998;
+            width: 100%;
+            position: fixed;
+            top: 50px;
+            left: 0;
+            box-sizing: border-box;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            width: 97%;
+            flex-grow: 1;
+            padding: 10px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            margin-top: 100px;
+            margin-right: 10px;
+        }
+
+        .main-content::-webkit-scrollbar {
+            width: 1px;
+        }
+
+        .main-content::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 1px;
+        }
+        
+        /* VR Content Styling */
+        .vr-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .content-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 5px;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .vr-button {
+            background-color: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .vr-button:hover {
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+        }
+        
+        .vr-button a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: 15px;
+        }
+        
+        .vr-button img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .vr-button .button-text h4 {
+            margin: 0 0 5px 0;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+        
+        .vr-button .button-text p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        
+        /* Top Bar */
+        .top-bar {
+            background-color: #111;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 33px;
+            z-index: 999;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-primary);
+            flex-grow: 1;
+        }
+
+        .top-bar .song-title {
+            font-size: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+
+        /* Portal Button */
+        .portal-button {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: none;
+            padding: 0 8px 0 0;
+            border-radius: 20px;
+            cursor: pointer;
+            vertical-align: middle;
+            transition: background-color 0.3s ease;
+        }
+
+        .portal-button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .portal-button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        /* Submenu Container */
+        .submenu-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* Submenu Styles */
+        .submenu {
+            position: absolute;
+            top: 110px;
+            right: 33px;
+            background-color: rgba(1, 1, 1, 0.9);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            border: 5px solid #2f27c8;
+            padding: 20px;
+            border-radius: 20px;
+            z-index: 1001;
+            pointer-events: auto;
+            display: none;
+            width: min(480px, 90vw);
+            max-width: 90vw;
+        }
+
+        [data-theme="light"] .submenu {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e9ecef;
+        }
+
+        [data-theme="dark"] .submenu {
+            background-color: rgba(42, 42, 42, 0.9);
+            border: 1px solid #404040;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .portal-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: min(16px, 2.4vw);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+            min-width: 0;
+            box-shadow: 5px 5px 10px rgba(155, 144, 239, 0.3);
+        }
+
+        .portal-button:hover {
+            background-color: var(--bg-secondary);
+            border-color: #2f27c8;
+            transform: scale(1.05);
+        }
+
+        [data-theme="light"] .portal-button:hover {
+            background-color: #f1f3f4;
+        }
+
+        [data-theme="dark"] .portal-button:hover {
+            background-color: #3a3a3a;
+        }
+
+        .portal-button img {
+            width: min(32px, 6.4vw);
+            height: min(32px, 6.4vw);
+            margin-bottom: min(8px, 1.6vw);
+        }
+
+        .portal-button span {
+            font-size: min(10px, 2vw);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        /* Music Controls */
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            vertical-align: middle;
+            padding: 5px;
+        }
+
+        #musicToggle img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Animations */
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-100%);
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+
+        .slide-in-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+        }
+
+        /* Background Video */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Theme-specific video display */
+        [data-theme="light"] .bg-video,
+        [data-theme="dark"] .bg-video {
+            display: none;
+        }
+
+
+
+        
+         
+        .footer {
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            width: 100%;
+            margin-top: 40px;
+            padding: 15px 0;
+        }
+
+        .footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent-color);
+        }
+        
+        .login-instructions {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #111;
+            border-radius: 8px;
+            border: 1px solid var(--accent-color);
+            opacity: 0.8;
+        }
+        
+        .login-instructions p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .login-instructions strong {
+            color: var(--accent-color);
+        }
+        
+        [data-theme="light"] .login-instructions {
+            background-color: rgba(47, 39, 200, 0.05);
+        }
+        
+        [data-theme="dark"] .login-instructions {
+            background-color: rgba(47, 39, 200, 0.15);
+        }
+        
+        /* Hide scrollbar */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        
+        * {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        
+        
+        
+    </style>
+    
+    <script src="../../shared/js/theme-icons.js"></script>
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/firebase-config.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    
+</head>
+<body>
+    <video class="bg-video" autoplay muted playsinline>
+        <source src="../../public/assets/videos/login2.mp4" type="video/mp4">
+    </video>
+
+    <div class="container">
+        <div class="top-bar fade-in">
+            <h1 data-translate="destiny.title">Karma the Game of Destiny</h1>
+            <div class="song-title">
+                <button id="musicToggle">
+                    <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle">
+                </button>
+                <span data-translate="destiny.login.nowPlaying">PLAYING: (Original Soundtrack) Game Console Loading</span>
+            </div>
+        </div>
+        
+        <div class="second-bar fade-in">
+            <div></div>
+            <button class="portal-button" onclick="openSubmenu('portal')">
+                <img src="../../public/assets/icons/portal_icon.png" alt="Portal" class="portal-icon">
+            </button>
+        </div>
+
+        <div class="main-content">
+            <div class="vr-content fade-in">
+                <!-- Monaverse Spaces -->
+                <div class="content-section">
+                    <h3>Metaverse Spaces</h3>
+                    <div class="button-grid">
+                        <button class="vr-button slide-in-left">
+                            <a href="https://monaverse.com/spaces/guru-and-lucy-duet-low" target="_blank">
+                                <img src="../../public/assets/images/guru_lucy_meta_novis.png" alt="Guru & Lucy Novis Prime Low">
+                                <div class="button-text">
+                                    <h4>Guru & Lucy</h4>
+                                    <p>Novis Prime Low</p>
+                                </div>
+                            </a>
+                        </button>
+                        
+                        <button class="vr-button slide-in-left">
+                            <a href="https://monaverse.com/spaces/guru-and-lucy-duet" target="_blank">
+                                <img src="../../public/assets/images/guru_lucy_meta_yonder9.png" alt="Guru & Lucy Yonder 9">
+                                <div class="button-text">
+                                    <h4>Guru & Lucy</h4>
+                                    <p>Voyage to Yonder 9</p>
+                                </div>
+                            </a>
+                        </button>
+                        
+                        <button class="vr-button slide-in-left">
+                            <a href="https://monaverse.com/spaces/home-of-marchello" target="_blank">
+                                <img src="../../public/assets/images/marchello_sunflower.png" alt="Marchello's Crib">
+                                <div class="button-text">
+                                    <h4>Marchello's Crib</h4>
+                                    <p>Sunflower Fields</p>
+                                </div>
+                            </a>
+                        </button>
+                        
+                        <button class="vr-button slide-in-left">
+                            <a href="https://monaverse.com/spaces/home-of-the-antyul" target="_blank">
+                                <img src="../../public/assets/images/antyul_meta.png" alt="The Antyul">
+                                <div class="button-text">
+                                    <h4>The Antyul</h4>
+                                    <p>Live to Dance</p>
+                                </div>
+                            </a>
+                        </button>
+                        
+                        <button class="vr-button slide-in-left">
+                            <a href="https://monaverse.com/spaces/protect-my-peace" target="_blank">
+                                <img src="../../public/assets/images/Castro_meta.png" alt="Lu Castro">
+                                <div class="button-text">
+                                    <h4>Lu Castro</h4>
+                                    <p>Protect my Peace</p>
+                                </div>
+                            </a>
+                        </button>
+                        
+                        <button class="vr-button slide-in-left">
+                            <a href="https://www.karmathegame.org/demos/KarmaBuildPC2.zip" target="_blank">
+                                <img src="../../public/assets/images/marchello_download.png" alt="Marchello VR Demo">
+                                <div class="button-text">
+                                    <h4>Marchello VR Demo</h4>
+                                    <p>Download & Play</p>
+                                </div>
+                            </a>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- In World Videos -->
+                <div class="content-section">
+                    <h3>In World Videos</h3>
+                    <div class="button-grid">
+                        <button class="vr-button slide-in-left">
+                            <a href="https://youtu.be/iZWiw-mkRMU?si=O0ngtBtMtp1MyxyY" target="_blank">
+                                <img src="xr/taste.png" alt="Taste">
+                                <div class="button-text">
+                                    <h4>Taste</h4>
+                                    <p>Music Video</p>
+                                </div>
+                            </a>
+                        </button>
+                        
+                        <button class="vr-button slide-in-left">
+                            <a href="https://youtu.be/OH5HJOZ4dvg?si=WThUl7eGh6LmXHR7" target="_blank">
+                                <img src="xr/marchello.png" alt="Marchello">
+                                <div class="button-text">
+                                    <h4>Marchello</h4>
+                                    <p>Music Video</p>
+                                </div>
+                            </a>
+                        </button>
+                        
+                        <button class="vr-button slide-in-left">
+                            <a href="https://youtu.be/iF1Vt1UgJDA?si=d-UJbcV4QNoQsV6D" target="_blank">
+                                <img src="xr/the_drift.png" alt="The Drift">
+                                <div class="button-text">
+                                    <h4>The Drift</h4>
+                                    <p>Music Video</p>
+                                </div>
+                            </a>
+                        </button>
+                        
+                        <button class="vr-button slide-in-left">
+                            <a href="https://youtu.be/WkgSqKsZQJI?si=_xZ6u8mjyD5le1uQ" target="_blank">
+                                <img src="xr/casino.png" alt="Casino">
+                                <div class="button-text">
+                                    <h4>Casino</h4>
+                                    <p>Music Video</p>
+                                </div>
+                            </a>
+                        </button>
+
+                        <button class="vr-button slide-in-left">
+                            <a href="https://www.youtube.com/watch?v=agMf3txBMNw" target="_blank">
+                                <img src="xr/chat_vr.png" alt="Chat in the Realm">
+                                <div class="button-text">
+                                    <h4>Chat in the Realm</h4>
+                                    <p>Music Video</p>
+                                </div>
+                            </a>
+                        </button>
+
+                        <button class="vr-button slide-in-left">
+                            <a href="https://www.youtube.com/watch?v=dDg_7QdiFeQ" target="_blank">
+                                <img src="xr/duet_low_vr.png" alt="Casino">
+                                <div class="button-text">
+                                    <h4>Theme Duet Low on Novis Prime</h4>
+                                    <p>Music Video</p>
+                                </div>
+                            </a>
+                        </button>
+
+                        <button class="vr-button slide-in-left">
+                            <a href="https://www.youtube.com/watch?v=HzhEBOo7E1o" target="_blank">
+                                <img src="xr/map_loading_vr.png" alt="Map Loading Crysalis 12">
+                                <div class="button-text">
+                                    <h4>Map Loading Crysalis 12</h4>
+                                    <p>Music Video</p>
+                                </div>
+                            </a>
+                        </button>
+
+                        <button class="vr-button slide-in-left">
+                            <a href="https://www.youtube.com/watch?v=8rsfnDYlQgo" target="_blank">
+                                <img src="xr/guru_and_lucy_voyage_to_yonder9_vr.png" alt="Guru and Lucy">
+                                <div class="button-text">
+                                    <h4>Guru and Lucy Voyage to Yonder 9</h4>
+                                    <p>Music Video</p>
+                                </div>
+                            </a>
+                        </button>
+
+                        <button class="vr-button slide-in-left">
+                            <a href="https://youtu.be/4se3qKdQ068?si=kdz8iCadyj4zT_Tz" target="_blank">
+                                <img src="xr/sunflower_vr.png" alt="Sunflower VR">
+                                <div class="button-text">
+                                    <h4>Sunflower</h4>
+                                    <p>Music Video</p>
+                                </div>
+                            </a>
+                        </button>
+
+                        <button class="vr-button slide-in-left">
+                            <a href="https://youtu.be/caPdrHL11eI?si=Vk21Iwi1QQjF02Zs" target="_blank">
+                                <img src="xr/protect_my_peace_vr.png" alt="Sunflower VR">
+                                <div class="button-text">
+                                    <h4>Protect My Peace</h4>
+                                    <p>Music Video</p>
+                                </div>
+                            </a>
+                        </button>
+
+                        
+
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="#" data-lang="destiny.login.terms">TERMS OF SERVICE</a>
+            <a href="#" data-lang="destiny.login.privacy">PRIVACY POLICY</a>
+            <a href="#" data-lang="destiny.login.rules">RULES OF THE GAME</a>
+        </div>
+        <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/game_console_loading.mp3" loop></audio>
+        <div id="submenu-container" class="submenu-container">
+            <!-- Portal Submenu -->
+            <div id="portal-submenu" class="submenu">
+                <h2 data-translate="portal.title">Portals <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>
+                <div class="portal-grid">
+                    <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/portal_icon.png" data-light="../../public/assets/icons/portal_icon-blk.png" data-dark="../../public/assets/icons/portal_icon-wht.png" src="../../public/assets/icons/portal_icon.png" alt="portals"><span data-lang="dashboard.portals.title">PORTALS</span></a>
+                    <a href="../destiny/opening.html" target="_parent" class="portal-button"><img class="destiny-icon" src="../../public/assets/icons/fave_icon.png" alt="destiny"><span data-lang="dashboard.portals.destiny">DESTINY</span></a>
+                    <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img class="listings-icon" src="../../public/assets/icons/listing_icon.png" alt="listings"><span data-lang="dashboard.portals.listings">LISTINGS</span></a>
+                    <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img class="ktgai-icon" src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span data-lang="dashboard.portals.ai">KTG.AI</span></a>
+                    <a href="../music/ktgmusic.html" target="_parent" class="portal-button"><img class="music-icon" src="../../public/assets/icons/qr_icon.png" alt="ktgmusic"><span data-lang="dashboard.portals.music">KTG.MUSIC</span></a>
+                    <a href="../web3/dashboard_web3.html" target="_parent" class="portal-button"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span data-lang="dashboard.portals.web3">WEB3</span></a>
+                    <a href="../vr/dashboard_xr.html" target="_parent" class="portal-button"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR"><span data-lang="dashboard.portals.vr">VR/AR/XR</span></a>
+                    <a href="../dignbling/dashboard_dign_bling.html" target="_parent" class="portal-button"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span data-lang="dashboard.portals.dignbling">DIGN BLING</span></a>
+                    <a href="../4playchess/4playchess.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/chess_icon.png" data-light="../../public/assets/icons/chess_icon-blk.png" data-dark="../../public/assets/icons/chess_icon-wht.png" src="../../public/assets/icons/chess_icon.png" alt="chess"><span data-lang="dashboard.portals.chess">4 PLAY CHESS</span></a>
+                    <a href="../metaphysics/dashboard_tarot.html" target="_parent" class="portal-button"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span data-lang="dashboard.portals.metaphysics">METAPHYSICS</span></a>
+                    <a href="../map/map.html" target="_parent" class="portal-button"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map"><span data-lang="dashboard.portals.map">MAP</span></a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Google Sign-In Modal -->
+    <div id="googleSignInModal" class="google-signin">
+        <button class="close-btn" onclick="closeGoogleSignIn()">&times;</button>
+        <h3>Sign in with Google</h3>
+        <div id="g_id_onload"
+             data-client_id="416239278754-YOUR_OAUTH_CLIENT_ID.apps.googleusercontent.com"
+             data-callback="handleGoogleSignIn"
+             data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin"
+             data-type="standard"
+             data-size="large"
+             data-theme="outline"
+             data-text="signin_with"
+             data-shape="rectangular"
+             data-logo_alignment="left">
+        </div>
+    </div>
+
+    <script>
+        function openSubmenu(submenu) {
+            const selectedSubmenu = document.getElementById(submenu + '-submenu');
+            if (selectedSubmenu) {
+                if (selectedSubmenu.style.display === 'block') {
+                    selectedSubmenu.style.display = 'none';
+                } else {
+                    const submenus = document.querySelectorAll('.submenu');
+                    submenus.forEach(menu => {
+                        menu.style.display = 'none';
+                    });
+                    selectedSubmenu.style.display = 'block';
+                }
+            }
+        }
+
+        function closeSubmenu(closeButton) {
+            const submenu = closeButton.closest('.submenu');
+            submenu.style.display = 'none';
+        }
+
+        // Click outside to close submenu
+        document.addEventListener('click', function(event) {
+            const submenus = document.querySelectorAll('.submenu');
+            const portalButton = document.querySelector('.portal-button');
+            
+            let clickedInsideSubmenu = false;
+            submenus.forEach(submenu => {
+                if (submenu.contains(event.target)) {
+                    clickedInsideSubmenu = true;
+                }
+            });
+            
+            if (!clickedInsideSubmenu && !portalButton.contains(event.target)) {
+                submenus.forEach(submenu => {
+                    submenu.style.display = 'none';
+                });
+            }
+        });
+
+        // Music controls
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicToggle = document.getElementById('musicToggle');
+
+        function toggleMusic() {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+            
+            // Update icon for Light/Dark modes
+            const currentTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            if (typeof updateMusicToggleIcon === 'function') {
+                updateMusicToggleIcon(currentTheme);
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // Initialize theme and animations
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            if (typeof updateThemeIcons === 'function') {
+                updateThemeIcons(savedTheme);
+            }
+            
+            // Apply theme-specific settings
+            const video = document.querySelector('.bg-video');
+            if (savedTheme === 'ktg') {
+                if (video) video.style.display = 'block';
+            } else {
+                if (video) video.style.display = 'none';
+            }
+        }
+
+        // Auto-play music based on settings (default off)
+        function initializeMusic() {
+            const autoplayEnabled = localStorage.getItem('ktg-autoplay') === 'true';
+            const volume = parseFloat(localStorage.getItem('ktg-volume')) || 0.5;
+            
+            if (musicPlayer) {
+                musicPlayer.volume = volume;
+                // Default music off - only play if explicitly enabled
+                if (autoplayEnabled) {
+                    musicPlayer.play().catch(e => console.log('Autoplay prevented'));
+                }
+            }
+        }
+
+        // Google Sign-In functions
+        function openGoogleSignIn() {
+            document.getElementById('googleSignInModal').style.display = 'block';
+        }
+
+        function closeGoogleSignIn() {
+            document.getElementById('googleSignInModal').style.display = 'none';
+        }
+
+        async function handleGoogleSignIn(response) {
+            try {
+                const credential = response.credential;
+                const payload = JSON.parse(atob(credential.split('.')[1]));
+                
+                // Wait for Firebase to initialize
+                if (!window.KTGFirebase.initialized) {
+                    await window.KTGFirebase.init();
+                }
+                
+                // Sign in with Firebase using Google credentials
+                const result = await firebase.auth().signInWithCredential(
+                    firebase.auth.GoogleAuthProvider.credential(credential)
+                );
+                
+                const userData = {
+                    email: payload.email,
+                    name: payload.name,
+                    picture: payload.picture,
+                    walletId: result.user.uid,
+                    createdAt: Date.now(),
+                    provider: 'google',
+                    firebaseUid: result.user.uid
+                };
+                
+                localStorage.setItem('ktg_user', JSON.stringify(userData));
+                
+                closeGoogleSignIn();
+                
+                // Redirect to opening page
+                setTimeout(() => {
+                    window.location.href = 'opening.html';
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Google sign-in error:', error);
+                alert('Google sign-in failed: ' + error.message);
+            }
+        }
+
+        // Make function available globally
+        window.openGoogleSignIn = openGoogleSignIn;
+
+        window.addEventListener('load', () => {
+            // Initialize theme and language
+            initializeTheme();
+            initializeMusic();
+            
+            // Ensure language system is working
+            setTimeout(() => {
+                if (typeof langManager !== 'undefined') {
+                    langManager.updateUI();
+                } else {
+                    // Fallback: show actual text instead of placeholders
+                    document.querySelector('[data-lang="destiny.login.title"]').textContent = 'Karma the Game of Destiny';
+                    document.querySelector('[data-lang="destiny.login.nowPlaying"]').textContent = 'PLAYING: (Original Soundtrack) Game Console Loading';
+                }
+            }, 100);
+
+            // Animations
+            setTimeout(() => {
+                const slideInLeftElements = document.querySelectorAll('.slide-in-left');
+                slideInLeftElements.forEach(el => el.classList.add('active'));
+            }, 100);
+
+            setTimeout(() => {
+                const fadeInElements = document.querySelectorAll('.fade-in');
+                fadeInElements.forEach(el => el.classList.add('active'));
+            }, 500);
+        });
+    </script>
+</body>
+</html>

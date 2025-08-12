@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+        .test-section {
+            background-color: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: 1px solid #444;
+        }
+        button {
+            background-color: #2f27c8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4fb6c1;
+        }
+        .result {
+            background-color: #333;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success { border-left: 4px solid #4CAF50; }
+        .error { border-left: 4px solid #f44336; }
+        .info { border-left: 4px solid #2196F3; }
+    </style>
+</head>
+<body>
+    <h1>🔥 Firebase Connection Test</h1>
+    
+    <div class="test-section">
+        <h2>Connection Status</h2>
+        <button onclick="testConnection()">Test Firebase Connection</button>
+        <div id="connectionResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Authentication Test</h2>
+        <button onclick="testAuth()">Check Auth Status</button>
+        <button onclick="testSignIn()">Test Sign In</button>
+        <button onclick="testSignOut()">Sign Out</button>
+        <div id="authResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Game Console Test</h2>
+        <button onclick="testGameInit()">Initialize Game Console</button>
+        <button onclick="testGameStats()">Get Game Stats</button>
+        <button onclick="testZap()">Test ZAP Action</button>
+        <div id="gameResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Lifestyles Test</h2>
+        <button onclick="testLifestyles()">Load Listings</button>
+        <button onclick="testSearch()">Test Search</button>
+        <button onclick="testCategories()">Get Categories</button>
+        <div id="lifestylesResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Wallet Test</h2>
+        <button onclick="testWallet()">Get Wallet Balance</button>
+        <div id="walletResult" class="result"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../shared/js/firebase-config.js"></script>
+    <script>
+        function log(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            element.innerHTML += `[${timestamp}] ${message}\n`;
+            element.className = `result ${type}`;
+            element.scrollTop = element.scrollHeight;
+        }
+
+        function clear(elementId) {
+            document.getElementById(elementId).innerHTML = '';
+        }
+
+        async function testConnection() {
+            clear('connectionResult');
+            log('connectionResult', 'Testing Firebase connection...', 'info');
+            
+            try {
+                if (window.KTGFirebase) {
+                    log('connectionResult', '✅ KTGFirebase object available', 'success');
+                    log('connectionResult', `Available services: ${Object.keys(window.KTGFirebase).join(', ')}`, 'info');
+                } else {
+                    log('connectionResult', '❌ KTGFirebase object not found', 'error');
+                }
+            } catch (error) {
+                log('connectionResult', `❌ Connection test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAuth() {
+            clear('authResult');
+            log('authResult', 'Testing authentication...', 'info');
+            
+            try {
+                if (window.KTGFirebase && window.KTGFirebase.auth) {
+                    const isAuth = window.KTGFirebase.auth.isAuthenticated();
+                    const currentUser = window.KTGFirebase.auth.getCurrentUser();
+                    const walletId = window.KTGFirebase.auth.getWalletId();
+                    
+                    log('authResult', `Authenticated: ${isAuth}`, isAuth ? 'success' : 'info');
+                    log('authResult', `Current User: ${currentUser ? JSON.stringify(currentUser, null, 2) : 'None'}`, 'info');
+                    log('authResult', `Wallet ID: ${walletId || 'None'}`, 'info');
+                } else {
+                    log('authResult', '❌ Auth service not available', 'error');
+                }
+            } catch (error) {
+                log('authResult', `❌ Auth test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSignIn() {
+            clear('authResult');
+            log('authResult', 'Testing sign in...', 'info');
+            
+            try {
+                if (window.KTGFirebase && window.KTGFirebase.auth) {
+                    // Test with actual created user credentials
+                    const result = await window.KTGFirebase.auth.signIn('mei@ktg.test', 'ktg123456');
+                    if (result.success) {
+                        log('authResult', '✅ Sign in successful', 'success');
+                        log('authResult', `User: ${JSON.stringify(result.user, null, 2)}`, 'info');
+                    } else {
+                        log('authResult', `❌ Sign in failed: ${result.error}`, 'error');
+                    }
+                } else {
+                    log('authResult', '❌ Auth service not available', 'error');
+                }
+            } catch (error) {
+                log('authResult', `❌ Sign in test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSignOut() {
+            clear('authResult');
+            log('authResult', 'Testing sign out...', 'info');
+            
+            try {
+                if (window.KTGFirebase && window.KTGFirebase.auth) {
+                    const result = await window.KTGFirebase.auth.signOut();
+                    if (result.success) {
+                        log('authResult', '✅ Sign out successful', 'success');
+                    } else {
+                        log('authResult', `❌ Sign out failed: ${result.error}`, 'error');
+                    }
+                } else {
+                    log('authResult', '❌ Auth service not available', 'error');
+                }
+            } catch (error) {
+                log('authResult', `❌ Sign out test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testGameInit() {
+            clear('gameResult');
+            log('gameResult', 'Testing game console initialization...', 'info');
+            
+            try {
+                if (window.KTGFirebase && window.KTGFirebase.game) {
+                    const result = await window.KTGFirebase.game.init();
+                    if (result.success) {
+                        log('gameResult', '✅ Game console initialized', 'success');
+                        log('gameResult', `Session ID: ${result.sessionId}`, 'info');
+                    } else {
+                        log('gameResult', `❌ Game init failed: ${result.error}`, 'error');
+                    }
+                } else {
+                    log('gameResult', '❌ Game service not available', 'error');
+                }
+            } catch (error) {
+                log('gameResult', `❌ Game init test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testGameStats() {
+            clear('gameResult');
+            log('gameResult', 'Testing game stats...', 'info');
+            
+            try {
+                if (window.KTGFirebase && window.KTGFirebase.game) {
+                    const result = await window.KTGFirebase.game.getStats();
+                    if (result.success) {
+                        log('gameResult', '✅ Game stats retrieved', 'success');
+                        log('gameResult', `Stats: ${JSON.stringify(result.stats, null, 2)}`, 'info');
+                    } else {
+                        log('gameResult', `❌ Game stats failed: ${result.error}`, 'error');
+                    }
+                } else {
+                    log('gameResult', '❌ Game service not available', 'error');
+                }
+            } catch (error) {
+                log('gameResult', `❌ Game stats test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testZap() {
+            clear('gameResult');
+            log('gameResult', 'Testing ZAP action...', 'info');
+            
+            try {
+                if (window.KTGFirebase && window.KTGFirebase.game) {
+                    const result = await window.KTGFirebase.game.zap('test-wallet-id');
+                    if (result.success) {
+                        log('gameResult', '✅ ZAP action executed', 'success');
+                        log('gameResult', `Result: ${JSON.stringify(result.result, null, 2)}`, 'info');
+                    } else {
+                        log('gameResult', `❌ ZAP failed: ${result.error}`, 'error');
+                    }
+                } else {
+                    log('gameResult', '❌ Game service not available', 'error');
+                }
+            } catch (error) {
+                log('gameResult', `❌ ZAP test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLifestyles() {
+            clear('lifestylesResult');
+            log('lifestylesResult', 'Testing lifestyles listings...', 'info');
+            
+            try {
+                if (window.KTGFirebase && window.KTGFirebase.lifestyles) {
+                    const result = await window.KTGFirebase.lifestyles.getListings('NYC', 5);
+                    if (result.success) {
+                        log('lifestylesResult', '✅ Listings retrieved', 'success');
+                        log('lifestylesResult', `Found ${result.listings.length} listings`, 'info');
+                        log('lifestylesResult', `Listings: ${JSON.stringify(result.listings, null, 2)}`, 'info');
+                    } else {
+                        log('lifestylesResult', `❌ Listings failed: ${result.error}`, 'error');
+                    }
+                } else {
+                    log('lifestylesResult', '❌ Lifestyles service not available', 'error');
+                }
+            } catch (error) {
+                log('lifestylesResult', `❌ Lifestyles test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testSearch() {
+            clear('lifestylesResult');
+            log('lifestylesResult', 'Testing search functionality...', 'info');
+            
+            try {
+                if (window.KTGFirebase && window.KTGFirebase.lifestyles) {
+                    const result = await window.KTGFirebase.lifestyles.searchListings('restaurant', 'NYC');
+                    if (result.success) {
+                        log('lifestylesResult', '✅ Search completed', 'success');
+                        log('lifestylesResult', `Found ${result.listings.length} results`, 'info');
+                    } else {
+                        log('lifestylesResult', `❌ Search failed: ${result.error}`, 'error');
+                    }
+                } else {
+                    log('lifestylesResult', '❌ Lifestyles service not available', 'error');
+                }
+            } catch (error) {
+                log('lifestylesResult', `❌ Search test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testCategories() {
+            clear('lifestylesResult');
+            log('lifestylesResult', 'Testing categories...', 'info');
+            
+            try {
+                if (window.KTGFirebase && window.KTGFirebase.lifestyles) {
+                    const categories = window.KTGFirebase.lifestyles.getCategories();
+                    const prizeTypes = window.KTGFirebase.lifestyles.getPrizeTypes();
+                    
+                    log('lifestylesResult', '✅ Categories retrieved', 'success');
+                    log('lifestylesResult', `Categories: ${categories.join(', ')}`, 'info');
+                    log('lifestylesResult', `Prize Types: ${prizeTypes.join(', ')}`, 'info');
+                } else {
+                    log('lifestylesResult', '❌ Lifestyles service not available', 'error');
+                }
+            } catch (error) {
+                log('lifestylesResult', `❌ Categories test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testWallet() {
+            clear('walletResult');
+            log('walletResult', 'Testing wallet functionality...', 'info');
+            
+            try {
+                if (window.KTGFirebase && window.KTGFirebase.wallet) {
+                    const walletId = window.KTGFirebase.auth.getWalletId();
+                    if (walletId) {
+                        const result = await window.KTGFirebase.wallet.getBalance();
+                        if (result.success) {
+                            log('walletResult', '✅ Wallet balance retrieved', 'success');
+                            log('walletResult', `Balance: ${JSON.stringify(result.balance, null, 2)}`, 'info');
+                        } else {
+                            log('walletResult', `❌ Wallet balance failed: ${result.error}`, 'error');
+                        }
+                    } else {
+                        log('walletResult', '❌ No wallet ID available (user not authenticated)', 'error');
+                    }
+                } else {
+                    log('walletResult', '❌ Wallet service not available', 'error');
+                }
+            } catch (error) {
+                log('walletResult', `❌ Wallet test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-test connection on page load
+        window.addEventListener('load', () => {
+            setTimeout(testConnection, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTG Mobile Music Player</title>
+    <link rel="stylesheet" href="m_music_player.css">
+    <style>
+        :root {
+            --primary-bg: #1a1a1a;
+            --secondary-bg: #1e1e1e;
+            --accent-color: #ff0000;
+            --text-color: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+           
+            background: var(--primary-bg);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            display: flex;
+            margin: 0;
+            /* Set height to 100vh to fill the screen */
+            height: 100vh;
+            width: 100vh - 100px;
+            /* Ensure content is centered */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 4px 20px var(--shadow-color);
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center; /* Center items horizontally */
+        }
+
+        .album-art {
+            width: 350px;
+            height: 350px;
+            flex-shrink: 0;
+        }
+
+        .album-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* width: 350px; */ /* Removed fixed width */
+            width: 100%; /* Take full width */
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: var(--secondary-bg);
+        }
+
+        .music-source {
+            background-color: #444;
+            color: var(--text-color);
+            border: 1px solid #555;
+            padding: 5px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 8px top 50%;
+            background-size: .9em auto;
+            padding-right: 25px;
+            width: 100%; /* Make dropdown full width */
+            margin-bottom: 5px; /* Add space below dropdown */
+        }
+
+        .song-info {
+            text-align: center; /* Center the song info */
+        }
+
+        .song-title {
+            font-size: 16px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .artist-name {
+            font-size: 12px;
+            color: #b3b3b3;
+        }
+        
+        #progress-container {
+            width: 100%;
+            height: 4px;
+            background-color: #444;
+            border-radius: 2px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center; /* Center the icons */
+            align-items: center;
+            gap: 15px; /* Add a small gap between icons */
+        }
+
+        .controls button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            width: 38px; /* Make all icons larger and uniform */
+            height: 38px;
+            transition: transform 0.2s, filter 0.2s;
+        }
+
+        .controls button:hover {
+            transform: scale(1.1);
+        }
+
+        .controls button.active {
+            border-color: #ff0000;
+            border-width: 2px;
+            border-radius: 10px;
+            filter: drop-shadow(0 0 5px var(--accent-color));
+            
+            
+        }
+
+        .controls button img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .dropdown-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+            justify-content: space-between; /* Push items to the sides */
+            padding: 0 10px; /* Add some padding */
+        }
+
+        .music-source {
+            width: 70%;
+        }
+
+        #close-button {
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.2s ease;
+            align-content: end;
+        }
+
+        #close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        #close-button:hover {
+            color: red;
+        }
+
+        /* New styles for the Karmathegame button */
+        .karmathegame-button {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border: none;
+            width: 250px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            text-decoration: none; /* Remove underline from the link */
+        }
+
+        .karmathegame-button:hover {
+            background-color: darken(var(--accent-color), 10%);
+        }
+
+
+
+        /* Button click effect styles */
+        .button-label {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .button-label.show {
+            animation: fadeToRed 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeToRed {
+            0% {
+                opacity: 1;
+                color: white;
+            }
+            50% {
+                opacity: 1;
+                color: white;
+            }
+            100% {
+                opacity: 0;
+                color: red;
+            }
+        }
+
+        .controls button {
+            position: relative;
+        }
+        
+
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="right-column">
+            <div> <!-- Grouping top elements -->
+
+                <div class="dropdown-wrapper">
+                    <select id="music-source" class="music-source" title="Music Source"></select>
+                    <span id="close-button" title="Close">X</span>
+                </div>
+                <br>
+                <div class="album-art">
+                    <img id="album-art-img" src="https://placehold.co/150x150/1a1a1a/fff?text=KTG" alt="Album Art">
+                </div>
+
+                
+            </div>
+            <div class="song-info">
+                    <div id="song-title" class="song-title">Select a playlist</div>
+                    <div id="artist-name" class="artist-name">to begin</div>
+                    <button id="copy-icon" onclick="copyShareLink()" style="background: transparent; border: none; cursor: pointer; margin-top: 5px;"><img src="../../public/assets/icons/copy_icon.png" alt="Copy" style="width: 24px; height: 24px;"></button>
+            </div>
+            <br><br>
+
+            <div id="progress-container">
+                <div id="progress-bar"></div>
+            </div>
+            <br>
+
+            <div class="controls">
+                <button id="prev-btn"><img src="../../public/assets/icons/prev_play_icon.png" alt="Previous"></button>
+                <button id="continuous-btn"><img src="../../public/assets/icons/continuous_play_icon.png" alt="Continuous"></button>
+                <button id="play-pause-btn"><img src="../../public/assets/icons/play_pause.png" alt="Play/Pause"></button>
+                <button id="shuffle-btn"><img src="../../public/assets/icons/shuffle_play_icon.png" alt="Shuffle"></button>
+                <button id="next-btn"><img src="../../public/assets/icons/next_play_icon.png" alt="Next"></button>
+            </div>
+            <br>
+            <a href="https://www.karmathegame.org" class="karmathegame-button">KTG.IO COMING SOON</a>
+            <br>
+            
+        </div>
+    </div>
+    
+
+    
+    <audio id="audio-player"></audio>
+
+    <script>
+        // --- DOM Elements ---
+        const audioPlayer = document.getElementById('audio-player');
+        const albumArtImg = document.getElementById('album-art-img');
+        const songTitleEl = document.getElementById('song-title');
+        const artistNameEl = document.getElementById('artist-name');
+        const musicSourceSelect = document.getElementById('music-source');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+
+        // Control Buttons
+        const prevBtn = document.getElementById('prev-btn');
+        const continuousBtn = document.getElementById('continuous-btn');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const shuffleBtn = document.getElementById('shuffle-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        // --- Player State ---
+        let allSongsData = {};
+        let originalPlaylist = [];
+        let currentPlaylist = [];
+        let currentSongIndex = 0;
+        let isShuffled = false;
+        let isContinuous = false;
+
+        // --- Core Functions ---
+
+        /**
+         * Fetches song data from external JSON files and initializes the player.
+         */
+        async function initializePlayer() {
+            try {
+                const [ktgMusicResponse, soundtrackResponse] = await Promise.all([
+                    fetch('../../data/songs.json'),
+                    fetch('../../data/soundtrack.json')
+                ]);
+
+                if (!ktgMusicResponse.ok || !soundtrackResponse.ok) {
+                    throw new Error('Network response was not ok for one or more files.');
+                }
+
+                const ktgMusic = await ktgMusicResponse.json();
+                const soundtrack = await soundtrackResponse.json();
+
+                allSongsData = {
+                    "KTG AI Music": ktgMusic,
+                    "Original Soundtrack": soundtrack
+                };
+                
+                populateDropdown();
+                // Load the first playlist by default
+                loadPlaylist(Object.keys(allSongsData)[0]);
+
+            } catch (error) {
+                console.error('Failed to load songs:', error);
+                songTitleEl.textContent = 'Error loading music';
+                artistNameEl.textContent = 'Please check file paths and JSON format.';
+            }
+        }
+
+        /**
+         * Populates the dropdown with categories from the fetched song data.
+         */
+        async function populateDropdown() {
+            musicSourceSelect.innerHTML = '';
+            for (const category in allSongsData) {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                musicSourceSelect.appendChild(option);
+            }
+
+            // Add VR Worlds option
+            const vrWorldsResponse = await fetch('../../data/vrworlds.json');
+            if (vrWorldsResponse.ok) {
+                const vrWorldsData = await vrWorldsResponse.json();
+                allSongsData["VR Worlds"] = vrWorldsData;
+                const option = document.createElement('option');
+                option.value = "VR Worlds";
+                option.textContent = "VR Worlds";
+                musicSourceSelect.appendChild(option);
+            } else {
+                console.error('Failed to load vrworlds.json');
+            }
+        }
+        
+        /**
+         * Loads a new playlist based on the selected category.
+         * @param {string} categoryName - The name of the playlist to load.
+         */
+        function loadPlaylist(categoryName) {
+            originalPlaylist = allSongsData[categoryName];
+            currentPlaylist = [...originalPlaylist];
+            currentSongIndex = 0;
+            isShuffled = false;
+            shuffleBtn.classList.remove('active');
+            if (isShuffled) {
+                shuffleCurrentPlaylist();
+            }
+            loadSong(currentSongIndex);
+            pauseSong(); // Start paused when changing playlists
+        }
+
+        /**
+         * Loads a specific song into the player UI and audio element.
+         * @param {number} index - The index of the song in the currentPlaylist.
+         */
+        function loadSong(index) {
+            if (!currentPlaylist || currentPlaylist.length === 0) return;
+            const song = currentPlaylist[index];
+            audioPlayer.src = song.mp3;
+            albumArtImg.src = song.cover;
+            albumArtImg.onerror = () => {
+                albumArtImg.src = 'https://placehold.co/150x150/1a1a1a/fff?text=KTG';
+            };
+            songTitleEl.textContent = song.title;
+            artistNameEl.textContent = song.artist || "";
+        }
+
+
+        // --- Control Functions ---
+        
+        function playSong() {
+            audioPlayer.play();
+            // Assuming play_pause.png is a play icon, we would ideally switch to a pause icon.
+            // Since one was not provided, we will keep the icon the same but the functionality works.
+            // To add a pause icon, you could change the src here, e.g., '../assets/pause_icon.png'
+            playPauseBtn.querySelector('img').src = '../../public/assets/icons/play_pause.png';
+        }
+
+        function pauseSong() {
+            audioPlayer.pause();
+            playPauseBtn.querySelector('img').src = '../../public/assets/icons/play_pause.png';
+        }
+
+        function playNextSong() {
+            currentSongIndex = (currentSongIndex + 1) % currentPlaylist.length;
+            loadSong(currentSongIndex);
+            playSong();
+        }
+
+        function playPrevSong() {
+            currentSongIndex = (currentSongIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+            loadSong(currentSongIndex);
+            playSong();
+        }
+
+        function toggleShuffle() {
+            isShuffled = !isShuffled;
+            shuffleBtn.classList.toggle('active', isShuffled);
+            
+            if (isShuffled) {
+                shuffleCurrentPlaylist();
+            } else {
+                // Revert to original order
+                const currentSong = currentPlaylist[currentSongIndex];
+                currentPlaylist = [...originalPlaylist];
+                currentSongIndex = currentPlaylist.findIndex(song => song.title === currentSong.title);
+            }
+        }
+
+        function shuffleCurrentPlaylist() {
+            // Fisher-Yates shuffle algorithm
+            for (let i = currentPlaylist.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [currentPlaylist[i], currentPlaylist[j]] = [currentPlaylist[j], currentPlaylist[i]];
+            }
+            currentSongIndex = 0; // Start from the beginning of the shuffled list
+        }
+
+        function toggleContinuous() {
+            isContinuous = !isContinuous;
+            continuousBtn.classList.toggle('active', isContinuous);
+        }
+
+        // --- Button Click Effect Function ---
+        function showButtonLabel(button, labelText) {
+            // Remove any existing label
+            const existingLabel = button.querySelector('.button-label');
+            if (existingLabel) {
+                existingLabel.remove();
+            }
+            
+            // Create new label
+            const label = document.createElement('div');
+            label.className = 'button-label';
+            label.textContent = labelText;
+            button.appendChild(label);
+            
+            // Trigger animation
+            setTimeout(() => {
+                label.classList.add('show');
+            }, 10);
+            
+            // Remove label after animation
+            setTimeout(() => {
+                if (label.parentNode) {
+                    label.remove();
+                }
+            }, 800);
+        }
+
+        // --- Event Listeners ---
+
+        playPauseBtn.addEventListener('click', () => {
+            showButtonLabel(playPauseBtn, 'PLAY/PAUSE');
+            if (audioPlayer.paused) {
+                playSong();
+            } else {
+                pauseSong();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            showButtonLabel(nextBtn, 'NEXT');
+            playNextSong();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            showButtonLabel(prevBtn, 'PREVIOUS');
+            playPrevSong();
+        });
+
+        shuffleBtn.addEventListener('click', () => {
+            showButtonLabel(shuffleBtn, 'SHUFFLE');
+            toggleShuffle();
+        });
+
+        continuousBtn.addEventListener('click', () => {
+            showButtonLabel(continuousBtn, 'CONTINUOUS PLAY');
+            toggleContinuous();
+        });
+
+        musicSourceSelect.addEventListener('change', (e) => {
+            loadPlaylist(e.target.value);
+        });
+
+        audioPlayer.addEventListener('ended', () => {
+            if (isContinuous) {
+                playNextSong();
+            } else {
+                pauseSong();
+            }
+        });
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            const { currentTime, duration } = audioPlayer;
+            if (duration) {
+                const progressPercent = (currentTime / duration) * 100;
+                progressBar.style.width = `${progressPercent}%`;
+            }
+        });
+
+        progressContainer.addEventListener('click', (e) => {
+            const width = progressContainer.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audioPlayer.duration;
+            if (duration) {
+                audioPlayer.currentTime = (clickX / width) * duration;
+            }
+        });
+
+        document.getElementById('close-button').addEventListener('click', () => {
+            window.close();
+        });
+        
+
+
+        function copyShareLink() {
+            if (!currentPlaylist || currentPlaylist.length === 0) {
+                alert('No song is currently loaded!');
+                return;
+            }
+            
+            const currentSong = currentPlaylist[currentSongIndex];
+            const shareUrl = `https://www.karmathegame.org/ktg_framework/modules/music/m_music_player.html?song=${encodeURIComponent(currentSong.title)}&playlist=${encodeURIComponent(musicSourceSelect.value)}`;
+            const shareText = `Check out "${currentSong.title}" by ${currentSong.artist || 'KTG Music'} on KTG.MUSIC! ${shareUrl}`;
+            
+            navigator.clipboard.writeText(shareText).then(() => {
+                alert('Share link copied to clipboard!');
+            }).catch(() => {
+                alert(`Share this song: ${shareText}`);
+            });
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', initializePlayer);
+
+        // --- Device Detection ---
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        if (isMobileDevice()) {
+            console.log("Mobile device detected.");
+        } else {
+            console.log("Desktop device detected.");
+        }
+    </script>
+</body>
+</html>

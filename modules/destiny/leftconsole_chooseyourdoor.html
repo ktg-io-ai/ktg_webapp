@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEFT FRAME</title>
+    <style>
+        :root {
+            --bg-primary: #111;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .top-frame {
+            background-color: var(--bg-primary);
+            padding: 33px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+            color: var(--text-primary);
+        }
+
+        .main-frame {
+            background-color: var(--bg-primary);
+            padding: 0;
+            margin-bottom: 0;
+            margin-top: 10px;
+            text-align: center;
+            flex-grow: 1;
+            overflow-y: hidden;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .data-container {
+            display: flex;
+            gap: 30px;
+            max-width: 90%;
+            margin: 0 auto;
+            justify-content: space-around;
+            height: 50vh;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 5px;
+            background-color: var(--bg-primary);
+            border-radius: 3px;
+            width: 30%;
+            height: 100%;
+        }
+
+        .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 80%;
+        }
+
+        .door-box {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .door-box img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            cursor: pointer;
+            animation: slideInLeft 1s ease-in-out;
+            transition: transform 0.3s ease;
+        }
+
+        .door-box img:hover {
+            transform: scale(1.05);
+        }
+
+        menu {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+            text-align: center;
+            margin-bottom: 10px;
+            width: 100%;
+            color: var(--text-primary);
+        }
+
+        .bottom-frame {
+            background-color: var(--bg-primary);
+            padding-top: 2px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            align-items: center;
+        }
+
+        .tagline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tagline h2 {
+            margin-bottom: 250px;
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="top-frame">
+        <h2></h2>
+    </div>
+
+    <div class="main-frame">
+        <div class="data-container">
+            <div class="column">
+                <div class="title"></div>
+                <div class="title"></div>
+                <span></span>
+                <div class="content">
+                    <div class="door-box">
+                        <menu onclick="window.parent.location.href='gameconsole.html'">
+                            <img src="../../public/assets/images/bluedoor.png" alt="Blue Door">
+                        </menu>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="title"></div>
+                <div class="title"></div>
+                <span></span>
+                <div class="content">
+                    <div class="door-box">
+                        <menu onclick="window.parent.location.href='gameconsole.html'">
+                            <img src="../../public/assets/images/yellowdoor.png" alt="Yellow Door">
+                        </menu>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="title"></div>
+                <div class="title"></div>
+                <span></span>
+                <div class="content">
+                    <div class="door-box">
+                        <menu onclick="window.parent.location.href='gameconsole.html'">
+                            <img src="../../public/assets/images/reddoor.png" alt="Red Door">
+                        </menu>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-frame">
+        <div class="tagline">
+            <h2 data-translate="destiny.chooseyourdoor.title">CHOOSE YOUR DOOR</h2>
+        </div>
+    </div>
+
+    <!-- Framework Scripts -->
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/theme.js"></script>
+
+    <script>
+        // Initialize theme and language
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            // Initialize language
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+        });
+        
+        // Listen for theme and language changes from parent
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'THEME_CHANGE') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+            } else if (event.data.type === 'LANGUAGE_CHANGE') {
+                if (typeof langManager !== 'undefined') {
+                    langManager.changeLanguage(event.data.language);
+                }
+            }
+        });
+        
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'ktg-theme') {
+                document.documentElement.setAttribute('data-theme', event.newValue);
+            } else if (event.key === 'ktg-language') {
+                if (typeof langManager !== 'undefined') {
+                    langManager.changeLanguage(event.newValue);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

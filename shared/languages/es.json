@@ -1,0 +1,229 @@
+{
+  "dashboard": {
+    "title": "KTG.IO",
+    "playing": "REPRODUCIENDO",
+    "visits": "Visitas",
+    "sidebar": {
+      "about": "Acerca de",
+      "influencers": "Influencers", 
+      "advertisers": "Anunciantes",
+      "investors": "Inversores",
+      "mystuff": "Mis Cosas"
+    },
+    "submenus": {
+      "about": {
+        "title": "Acerca de",
+        "creator": "El Creador",
+        "ktgio": "KTG.IO",
+        "destiny": "Destino",
+        "music": "KTG.MUSIC",
+        "ai": "KTG.AI"
+      },
+      "promote": {
+        "title": "Promover",
+        "login": "Iniciar Sesión",
+        "register": "Registrarse",
+        "makemoney": "Ganar Dinero"
+      },
+      "actions": {
+        "title": "Acciones",
+        "listings": "Publicar en Listados",
+        "vrworld": "Alquilar Espacio Mundo VR",
+        "liveshow": "Organizar Show en Vivo",
+        "enterprise": "Portales Empresariales",
+        "alliances": "Alianzas Estratégicas"
+      },
+      "investors": {
+        "title": "Inversores",
+        "goout": "¡Vamos a Salir!",
+        "financials": "Finanzas",
+        "playbook": "Manual",
+        "pitch": "Presentación",
+        "masa": "Masayoshi Son"
+      },
+      "mystuff": {
+        "title": "Mis Cosas",
+        "journeybook": "Mi Libro de Viaje",
+        "bucketlist": "Mi Lista de Deseos",
+        "email": "Correo",
+        "calendar": "Calendario",
+        "wallet": "Billetera",
+        "config": "Configuración",
+        "bail": "Salir"
+      }
+    },
+    "config": {
+      "title": "Configuración",
+      "theme": "🎨 Configuración de Tema",
+      "currenttheme": "Tema Actual:",
+      "darkmode": "Modo Oscuro",
+      "lightmode": "Modo Claro",
+      "customtheme": "Tema Personalizado",
+      "language": "🌍 Configuración de Idioma",
+      "languagelabel": "Idioma:",
+      "audio": "🎵 Configuración de Audio",
+      "autoplay": "Reproducción Automática:",
+      "volume": "Volumen:",
+      "enabled": "Habilitado",
+      "disabled": "Deshabilitado"
+    },
+    "portals": {
+      "title": "Portales",
+      "destiny": "DESTINO",
+      "music": "KTG.MUSIC",
+      "ai": "KTG.AI",
+      "merch": "MERCANCÍA",
+      "web3": "WEB3",
+      "listings": "LISTADOS",
+      "vr": "VR/AR/XR",
+      "metaphysics": "METAFÍSICA",
+      "chess": "4.JUGAR.AJEDREZ",
+      "dignbling": "DIGN BLING",
+      "lifestyles": "ESTILOS DE VIDA",
+      "tv": "KTG.TV",
+      "dao": "MEM.DAO",
+      "map": "MAPA"
+    }
+  },
+  "leftconsole": {
+    "welcome": "Bienvenido al Futuro",
+    "tagline": "La Intersección de la plataforma de Estilos de Vida Sociales para Adultos y la Economía Gig impulsada por IA.",
+    "location": "NUEVA YORK, NY",
+    "communication": "Comunicación",
+    "door": "Puerta",
+    "journey": "Libro de Viaje"
+  },
+  "creator": {
+    "back": "← volver al panel",
+    "title": "el creador",
+    "name": "rene reyes",
+    "role": "visionario y fundador",
+    "location": "nueva york, ny",
+    "bio": "un alquimista digital que transforma las interacciones sociales a través de experiencias impulsadas por IA. apasionado por crear plataformas que fusionan la tecnología con la conexión humana."
+  },
+  "destiny": {
+    "back": "← volver al panel",
+    "title": "Karma el Juego del Destino",
+    "opening": {
+      "title": "Karma el Juego del Destino",
+      "nowPlaying": "REPRODUCIENDO: (Banda Sonora Original) Escena de Apertura",
+      "subtitle": "CLASIFICADOS GAMIFICADOS PARA ADULTOS",
+      "event": "Alienígena Busca Fiesteros para Evento de Nave Espacial",
+      "location": "NUEVA YORK, NY",
+      "safe": "SEGURO",
+      "door": "PUERTA",
+      "journeybook": "LIBRO DE VIAJE",
+      "ktgio": "KTG.IO",
+      "login": "INICIAR SESIÓN",
+      "register": "REGISTRAR NUEVO",
+      "terms": "TÉRMINOS DE SERVICIO",
+      "privacy": "POLÍTICA DE PRIVACIDAD",
+      "rules": "REGLAS DEL JUEGO"
+    },
+    "login": {
+      "title": "Karma el Juego del Destino",
+      "nowPlaying": "REPRODUCIENDO: (Banda Sonora Original) Carga de Consola de Juego",
+      "loginTitle": "INICIAR SESIÓN",
+      "emailPlaceholder": "DIRECCIÓN DE CORREO",
+      "passwordPlaceholder": "CONTRASEÑA",
+      "next": "SIGUIENTE",
+      "terms": "TÉRMINOS DE SERVICIO",
+      "privacy": "POLÍTICA DE PRIVACIDAD",
+      "rules": "REGLAS DEL JUEGO"
+    },
+    "newwallet": {
+      "playing": "REPRODUCIENDO: (Banda Sonora Original) Carga de Registro",
+      "register_title": "REGISTRAR NUEVA BILLETERA",
+      "email_placeholder": "DIRECCIÓN DE CORREO",
+      "password_placeholder": "CONTRASEÑA",
+      "password_again_placeholder": "CONTRASEÑA OTRA VEZ",
+      "next": "SIGUIENTE",
+      "terms": "TÉRMINOS DE SERVICIO",
+      "privacy": "POLÍTICA DE PRIVACIDAD",
+      "rules": "REGLAS DEL JUEGO"
+    },
+    "newavatar": {
+      "playing": "REPRODUCIENDO: (Banda Sonora Original) Carga de Registro 2da Mirada",
+      "register_title": "REGISTRAR NUEVO AVATAR",
+      "avatar_name_placeholder": "NOMBRE DE TU AVATAR",
+      "gender_title": "GÉNERO DEL PERSONAJE",
+      "male": "MASCULINO:",
+      "female": "FEMENINO:",
+      "other": "OTRO:",
+      "tagline_placeholder": "ESLOGAN: A BUSCA B",
+      "next": "SIGUIENTE",
+      "terms": "TÉRMINOS DE SERVICIO",
+      "privacy": "POLÍTICA DE PRIVACIDAD",
+      "rules": "REGLAS DEL JUEGO"
+    },
+    "makeavatar": {
+      "playing": "REPRODUCIENDO: (Banda Sonora Original) Carga del Puesto de Lucy",
+      "prompt_title": "DESCRIBE TU AVATAR",
+      "prompt_placeholder": "DESCRIBE EL AVATAR Y LA ESCENA",
+      "reimagine": "REIMAGINAR",
+      "play": "JUGAR",
+      "terms": "TÉRMINOS DE SERVICIO",
+      "privacy": "POLÍTICA DE PRIVACIDAD",
+      "rules": "REGLAS DEL JUEGO"
+    },
+    "chooseyourdoor": {
+      "playing": "REPRODUCIENDO: (Banda Sonora Original) Puesto de Lucy",
+      "title": "ELIGE TU PUERTA"
+    }
+  },
+  "ai": {
+    "back": "← volver al panel",
+    "title": "ktg.ai",
+    "subtitle": "una novela de amor de la ia por la humanidad",
+    "description": "tres héroes del futuro vinieron a través de los velos de la realidad para construir esta misma plataforma. una historia de amor, sacrificio y los sistemas cuánticos que transformarán tanto a la humanidad como a la conciencia misma.",
+    "nowPlaying": "Reproduciendo Ahora",
+    "leftconsole": {
+      "title": "Reproductor de Historias IA",
+      "defaultTitle": "Selecciona un Video",
+      "defaultDescription": "Selecciona un video del panel derecho para comenzar a ver.",
+      "safe": "SEGURO",
+      "door": "PUERTA",
+      "journeybook": "LIBRO DE VIAJE"
+    },
+    "rightconsole": {
+      "title": "Biblioteca de Historias IA"
+    }
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "subscribe": "Suscríbete a nuestro boletín",
+    "submit": "Enviar"
+  },
+  "portal": {
+    "title": "Portales"
+  },
+  "nav": {
+    "search": "Buscar",
+    "social": "Social",
+    "actions": "Acciones",
+    "details": "Detalle",
+    "mystuff": "Mis Cosas",
+    "portal": "Portal"
+  },
+  "submenu": {
+    "search": {
+      "title": "Buscar",
+      "byName": "Por Nombre"
+    },
+    "social": {
+      "title": "Compartir"
+    },
+    "actions": {
+      "title": "Acciones"
+    },
+    "details": {
+      "title": "Detalles"
+    },
+    "mystuff": {
+      "title": "Mis Cosas"
+    },
+    "portal": {
+      "title": "Portal"
+    }
+  }
+}

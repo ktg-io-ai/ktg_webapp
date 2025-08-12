@@ -1,0 +1,229 @@
+{
+  "name": "KarmaTheGame - Product Hunt Launch Coordination",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-ph-launch",
+      "name": "Start PH Launch",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "cronExpression": "0 6,12,18 * * *"
+            }
+          ]
+        }
+      },
+      "id": "ph-schedule-trigger",
+      "name": "PH Schedule Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [
+        240,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "read",
+        "documentId": "{{ $workflow.settings.ph_supporters_sheet_id }}",
+        "sheetName": "PH Supporters",
+        "range": "A:Z",
+        "keyRow": 1,
+        "dataStartRow": 2
+      },
+      "id": "load-ph-supporters",
+      "name": "Load PH Supporters",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        460,
+        400
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "google-sheets-oauth",
+          "name": "Google Sheets OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "launch-day",
+              "leftValue": "={{ DateTime.now().toFormat('yyyy-MM-dd') }}",
+              "rightValue": "{{ $workflow.settings.ph_launch_date }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ]
+        }
+      },
+      "id": "check-launch-day",
+      "name": "Check Launch Day",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        680,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "email",
+        "operation": "send",
+        "fromEmail": "launch@karmathegame.org",
+        "fromName": "KarmaTheGame Launch Team",
+        "toEmail": "={{ $json.email }}",
+        "subject": "🚀 We're LIVE on Product Hunt! Support KarmaTheGame.org",
+        "emailType": "html",
+        "message": "{{ $json.ph_launch_template }}",
+        "options": {
+          "tracking": true,
+          "trackingClicks": true,
+          "trackingOpens": true,
+          "tags": [
+            "product_hunt",
+            "launch_day",
+            "supporter_outreach"
+          ]
+        }
+      },
+      "id": "send-ph-launch-email",
+      "name": "Send PH Launch Email",
+      "type": "n8n-nodes-base.mailgun",
+      "typeVersion": 1,
+      "position": [
+        900,
+        400
+      ],
+      "credentials": {
+        "mailgunApi": {
+          "id": "mailgun-api",
+          "name": "Mailgun API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "sendMessage",
+        "chatId": "{{ $workflow.settings.slack_channel_id }}",
+        "text": "🚀 Product Hunt Launch Emails Sent!\\n\\n**Recipients:** {{ $json.total_supporters }}\\n**Launch URL:** {{ $workflow.settings.ph_launch_url }}\\n**Time:** {{ DateTime.now().toFormat('HH:mm') }}\\n\\nNext notification in 6 hours.",
+        "options": {
+          "username": "KarmaTheGame Launch Bot"
+        }
+      },
+      "id": "notify-launch-team",
+      "name": "Notify Launch Team",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        400
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "slack-api",
+          "name": "Slack API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start PH Launch": {
+      "main": [
+        [
+          {
+            "node": "Load PH Supporters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PH Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Load PH Supporters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load PH Supporters": {
+      "main": [
+        [
+          {
+            "node": "Check Launch Day",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Launch Day": {
+      "main": [
+        [
+          {
+            "node": "Send PH Launch Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send PH Launch Email": {
+      "main": [
+        [
+          {
+            "node": "Notify Launch Team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "timezone": "America/New_York"
+  },
+  "staticData": {},
+  "tags": [
+    {
+      "createdAt": "2024-01-15T10:00:00.000Z",
+      "updatedAt": "2024-01-15T10:00:00.000Z",
+      "id": "karma-pr",
+      "name": "KarmaTheGame PR"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-15T10:00:00.000Z",
+  "versionId": "1"
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Registration</title>
+    <script src="shared/js/ktg-auth.js"></script>
+</head>
+<body>
+    <h2>Test Registration</h2>
+    <form id="testForm">
+        <input type="email" id="email" placeholder="Email" value="gamemaster@ktg.io">
+        <input type="password" id="password" placeholder="Password" value="test123">
+        <button type="submit">Register</button>
+    </form>
+    <div id="result"></div>
+    
+    <script>
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            
+            console.log('Testing registration for:', email);
+            resultDiv.innerHTML = 'Testing registration...';
+            
+            try {
+                const result = await window.KTGAuth.register(email, password);
+                console.log('Registration result:', result);
+                resultDiv.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+            } catch (error) {
+                console.error('Registration error:', error);
+                resultDiv.innerHTML = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Distribution Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+        }
+        .profile {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2f27c8;
+        }
+        .tokens {
+            color: #4fb6c1;
+            font-weight: bold;
+        }
+        .diamond {
+            color: #ffd700;
+        }
+        .summary {
+            background: rgba(47, 39, 200, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>KTG Token Distribution - 26 Profiles</h1>
+    
+    <div class="summary">
+        <h2>Distribution Summary:</h2>
+        <ul>
+            <li><strong>12 profiles</strong> with 3-life tokens</li>
+            <li><strong>6 profiles</strong> with 6-life tokens</li>
+            <li><strong>2 profiles</strong> with 9-life tokens</li>
+            <li><strong>6 profiles</strong> with 1-life tokens</li>
+            <li><strong>1 profile</strong> with Special Diamond token</li>
+        </ul>
+    </div>
+
+    <div id="profileList"></div>
+
+    <script src="../../shared/js/wallet-manager.js"></script>
+    <script>
+        function displayTokenDistribution() {
+            const profiles = window.profileTokenDistribution;
+            const profileList = document.getElementById('profileList');
+            
+            let html = '';
+            profiles.forEach((profile, index) => {
+                const tokenDisplay = Object.entries(profile.tokens)
+                    .map(([type, count]) => {
+                        if (type === 'diamond') {
+                            return `<span class="diamond">${count} Diamond Token ($999.00)</span>`;
+                        }
+                        return `${count} ${type} token ($${getTokenPrice(type)})`;
+                    })
+                    .join(', ');
+                
+                html += `
+                    <div class="profile">
+                        <strong>Profile ${index + 1}:</strong> ${profile.email}<br>
+                        <span class="tokens">Tokens: ${tokenDisplay}</span>
+                    </div>
+                `;
+            });
+            
+            profileList.innerHTML = html;
+        }
+        
+        function getTokenPrice(tokenType) {
+            const prices = {
+                '1life': '1.99',
+                '3life': '5.99',
+                '6life': '11.99',
+                '9life': '17.99'
+            };
+            return prices[tokenType] || '0.00';
+        }
+        
+        // Wait for wallet manager to load then display
+        setTimeout(displayTokenDistribution, 500);
+    </script>
+</body>
+</html>

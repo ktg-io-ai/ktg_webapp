@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEFT FRAME</title>
+    <style>
+        :root {
+            --bg-primary: #111;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0px;
+        }
+
+      .top-frame {
+            background-color: var(--bg-primary);
+            padding: 19px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+      .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+        }
+
+      .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+      .buttons button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 0px 8px 0px 0px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+      .buttons button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+      .buttons button:hover {
+            background-color: #444;
+        }
+
+      .content-area {
+            display: flex;
+            height: calc(100vh - 95px);
+        }
+
+      .left-content {
+            width: 90%;
+            overflow-y: auto;
+            margin-right: 10px;
+        }
+
+        .left-content img {
+            width: 100%;
+            max-height: 60vh;
+            object-fit: cover;
+            object-position: top;
+            animation: slideInLeft 1s ease-in-out;
+        }
+
+        [data-theme="light"] .left-content img,
+        [data-theme="dark"] .left-content img {
+            width: 80%;
+            border-radius: 12px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+      .left-content::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+          
+       .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+        }
+
+      .right-content button {
+            background-color: transparent;
+            color: white;
+            border: none;
+            margin-top: 15px;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+      .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 0px;
+        }
+        
+      .right-content button:hover {
+            color: #111;
+        }
+        
+      .image-grid button {
+            background-color: transparent;
+            border: none;
+        }
+
+        /* Container for SAFE, DOOR, JOURNEYBOOK */
+        .data-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 95%;
+            margin: auto;
+            justify-content: space-between;
+        }
+
+        /* Individual column */
+      .column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 5px;
+            background-color: transparent;
+            border-radius: 3px;
+        }
+
+        /* Title styling */
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid white;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        /* Content Styling */
+        .content {
+            margin-top: 5px;
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            width: 100%;
+        }
+        /* SAFE Image */
+        .safe-image img {
+            width: 24px;
+            height: 24px;
+            border-radius: 8px;
+        }
+
+        /* DOOR Red Box */
+        .door-box {
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            border-radius: 5px;
+        }
+
+        /* JOURNEYBOOK Progress Graph */
+        .journeybook-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 80%;
+        }
+
+        .bar {
+            height: 10px;
+            border-radius: 5px;
+        }
+
+        .bar1 { background-color: blue; width: 10%; }
+        .bar2 { background-color: yellow; width: 50%; }
+        .bar3 { background-color: red; width: 85%; }
+
+        .bottom-frame {
+            padding-left: 20px;
+        }
+    </style>
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/theme-icons.js"></script>
+</head>
+<body>
+
+    <div class="top-frame">
+        <h2 data-lang="leftconsole.welcome">Welcome to the Future</h2>
+    </div>
+
+    <div class="content-area slide-in-left">
+        <div class="left-content">
+            <img src="../../public/assets/images/digital_lucy.png" alt="AI Angel">  
+            <div class="bottom-frame">
+                <div class="tagline">
+                    <h2 data-lang="leftconsole.tagline">The Intersection of Social Lifestyles platform for Adults and the AI Driven Gig Economy.</h2>
+                </div>
+                <div class="tagline">
+                    <h4 data-lang="leftconsole.location">NEW YORK, NY</h4>
+                </div>
+            </div>
+            <div class="data-container">
+                <!-- SAFE Section -->
+                <div class="column">
+                    <div class="title" data-lang="leftconsole.communication">Safe</div>
+                    <div class="content safe-image">
+                        <img src="../../public/assets/icons/safe_icon.png" alt="Safe Content">
+                    </div>
+                </div>
+        
+                <!-- DOOR Section -->
+                <div class="column">
+                    <div class="title" data-lang="leftconsole.door">Door</div>
+                    <div class="content">
+                        <div class="door-box"></div>
+                    </div>
+                </div>
+        
+                <!-- JOURNEYBOOK Section -->
+                <div class="column">
+                    <div class="title" data-lang="leftconsole.journey">JourneyBook</div>
+                    <div class="content journeybook-bars">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="right-content">
+            <!-- Social buttons can go here -->
+        </div>
+    </div>
+    <script>
+        // Initialize theme and language when page loads
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+            if (typeof updateThemeIcons === 'function') {
+                updateThemeIcons(savedTheme);
+            }
+        }
+
+        window.addEventListener('load', () => {
+            initializeTheme();
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+        });
+    </script>
+</body>
+</html>
