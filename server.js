@@ -1,50 +1,82 @@
-const http = require('http');
-const fs = require('fs');
+// KTG Local Development Server
+const express = require('express');
+const cors = require('cors');
 const path = require('path');
+const { Database } = require('./config/database');
 
-const server = http.createServer((req, res) => {
-    let filePath = path.join(__dirname, req.url === '/' ? '/ktg_framework/src/pages/dashboard.html' : req.url);
-    
-    const extname = path.extname(filePath).toLowerCase();
-    const mimeTypes = {
-        '.html': 'text/html',
-        '.js': 'text/javascript',
-        '.css': 'text/css',
-        '.json': 'application/json',
-        '.png': 'image/png',
-        '.jpg': 'image/jpg',
-        '.gif': 'image/gif',
-        '.svg': 'image/svg+xml',
-        '.wav': 'audio/wav',
-        '.mp4': 'video/mp4',
-        '.mp3': 'audio/mpeg',
-        '.woff': 'application/font-woff',
-        '.ttf': 'application/font-ttf',
-        '.eot': 'application/vnd.ms-fontobject',
-        '.otf': 'application/font-otf',
-        '.wasm': 'application/wasm'
-    };
+const app = express();
+const PORT = process.env.PORT || 3001;
 
-    const contentType = mimeTypes[extname] || 'application/octet-stream';
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname)));
 
-    fs.readFile(filePath, (error, content) => {
-        if (error) {
-            if (error.code == 'ENOENT') {
-                res.writeHead(404, { 'Content-Type': 'text/html' });
-                res.end('<h1>404 Not Found</h1><p>File: ' + filePath + '</p>', 'utf-8');
-            } else {
-                res.writeHead(500);
-                res.end('Server Error: ' + error.code + ' ..\n');
-            }
-        } else {
-            res.writeHead(200, { 'Content-Type': contentType });
-            res.end(content, 'utf-8');
+// Routes
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'OK', message: 'KTG Local Server Running' });
+});
+
+// Import route modules
+const userRoutes = require('./routes/users');
+const gamingRoutes = require('./routes/gaming');
+const notificationRoutes = require('./routes/notifications');
+
+app.use('/api/users', userRoutes);
+app.use('/api/gaming', gamingRoutes);
+app.use('/api/notifications', notificationRoutes);
+
+// Lucy AI routes
+app.get('/api/lucy/status', async (req, res) => {
+    try {
+        const lucy = await Database.getLucyCharacter();
+        res.json({ lucy, active: !!lucy });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+app.post('/api/lucy/campaign', async (req, res) => {
+    try {
+        const lucy = await Database.getLucyCharacter();
+        if (!lucy) {
+            return res.status(404).json({ error: 'Lucy AI not found' });
         }
-    });
+        
+        const campaignData = {
+            lucy_id: lucy.id,
+            ...req.body
+        };
+        
+        const result = await Database.createCampaign(campaignData);
+        res.json({ success: true, campaign_id: result.insertId });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
 });
 
-const PORT = 8080;
-server.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/`);
-    console.log(`Dashboard: http://localhost:${PORT}/ktg_framework/src/pages/dashboard.html`);
+// Gaming routes
+app.post('/api/destiny/session', async (req, res) => {
+    try {
+        const result = await Database.createDestinySession(req.body);
+        res.json({ success: true, session_id: result.insertId });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
 });
+
+
+
+// Serve main app - only for root path
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+});
+
+// Start server
+app.listen(PORT, () => {
+    console.log(`KTG Local Development Server running on http://localhost:${PORT}`);
+    console.log('Environment:', process.env.NODE_ENV || 'development');
+});
+
+module.exports = app;

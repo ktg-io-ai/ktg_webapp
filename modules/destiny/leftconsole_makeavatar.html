@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEFT FRAME</title>
+    <style>
+        :root {
+            --bg-primary: #222;
+            --bg-secondary: #111;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #2a2a2a;
+            --bg-secondary: #1a1a1a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow: hidden;
+            scrollbar-width: none;
+        }
+
+        body::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .top-frame {
+            background-color: var(--bg-secondary);
+            padding: 19px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+            color: var(--text-primary);
+        }
+
+        .main-frame {
+            background-color: var(--bg-primary);
+            padding: 0;
+            margin-bottom: 0;
+            text-align: center;
+            flex-grow: 1;
+            overflow-y: hidden;
+        }
+
+        .main-frame img {
+            width: 80%;
+            max-height: 60vh;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 12px;
+            margin: 0 auto;
+            display: block;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .fade-out {
+            opacity: 0;
+        }
+
+        .fade-in {
+            opacity: 1;
+        }
+
+        .bottom-frame {
+            background-color: var(--bg-primary);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tagline h2 {
+            color: var(--text-primary);
+            margin: 5px 0;
+        }
+
+        .tagline h4 {
+            color: var(--text-secondary);
+            margin: 5px 0;
+        }
+
+        .data-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 100%;
+            margin: auto;
+            justify-content: space-between;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 5px;
+            background-color: var(--bg-primary);
+            border-radius: 3px;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--text-primary);
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .content {
+            margin-top: 5px;
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            width: 100%;
+        }
+
+        .safe-image img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .door-box {
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            border-radius: 5px;
+        }
+
+        .journeybook-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 80%;
+        }
+
+        .bar {
+            height: 10px;
+            border-radius: 5px;
+        }
+
+        .bar1 { background-color: blue; width: 100%; }
+        .bar2 { background-color: yellow; width: 2%; }
+        .bar3 { background-color: red; width: 100%; }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-frame">
+        <h2 data-translate="destiny.makeavatar.character">Alter</h2>
+    </div>
+
+    <div class="main-frame">
+        <img id="avatarImage" src="../../public/assets/images/profile_Alter_01.jpg" alt="Profile Alter">
+    </div>
+
+    <div class="bottom-frame">
+        <div class="tagline">
+            <h2 data-translate="destiny.makeavatar.tagline">Astrologer Seeks Seekers</h2>
+        </div>
+        <div class="tagline">
+            <h4 data-translate="destiny.makeavatar.location">NEW YORK, NY</h4>
+        </div>
+
+        <div class="data-container">
+            <div class="column">
+                <div class="title" data-translate="destiny.makeavatar.safe">SAFE</div>
+                <div class="content safe-image">
+                    <img src="../../public/assets/icons/safe_icon.png" alt="Safe Content">
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="title" data-translate="destiny.makeavatar.door">DOOR</div>
+                <div class="content">
+                    <div class="door-box"></div>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="title" data-translate="destiny.makeavatar.journeybook">JOURNEYBOOK</div>
+                <div class="content journeybook-bars">
+                    <div class="bar bar1"></div>
+                    <div class="bar bar2"></div>
+                    <div class="bar bar3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Framework Scripts -->
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/theme.js"></script>
+
+    <script>
+        // Initialize theme and language
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            // Initialize language
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+        });
+        
+        // Listen for theme and language changes from parent
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'THEME_CHANGE') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+            } else if (event.data.type === 'LANGUAGE_CHANGE') {
+                if (typeof langManager !== 'undefined') {
+                    langManager.changeLanguage(event.data.language);
+                }
+            }
+        });
+        
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'ktg-theme') {
+                document.documentElement.setAttribute('data-theme', event.newValue);
+            } else if (event.key === 'ktg-language') {
+                if (typeof langManager !== 'undefined') {
+                    langManager.changeLanguage(event.newValue);
+                }
+            }
+        });
+
+        // Array of avatar images to cycle through
+        const avatarImages = [
+            "../../public/assets/images/profile_Alter_01.jpg",
+            "../../public/assets/images/profile_Alter_02.webp",
+            "../../public/assets/images/profile_Alter_03.webp"
+        ];
+        
+        let currentImageIndex = 0;
+        
+        // Function to change avatar image with fade effect
+        function reimagineAvatar() {
+            const avatarImage = document.getElementById('avatarImage');
+            
+            // Fade out current image
+            avatarImage.classList.add('fade-out');
+            
+            // After fade out completes, change image and fade in
+            setTimeout(() => {
+                currentImageIndex = (currentImageIndex + 1) % avatarImages.length;
+                avatarImage.src = avatarImages[currentImageIndex];
+                
+                // Remove fade-out and add fade-in
+                avatarImage.classList.remove('fade-out');
+                avatarImage.classList.add('fade-in');
+                
+                // Clean up fade-in class after animation
+                setTimeout(() => {
+                    avatarImage.classList.remove('fade-in');
+                }, 500);
+            }, 500);
+        }
+        
+        // Listen for messages from the right frame
+        window.addEventListener('message', function(event) {
+            if (event.data === 'reimagine') {
+                reimagineAvatar();
+            }
+        });
+    </script>
+</body>
+</html>

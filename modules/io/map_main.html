@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEFT FRAME</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 00px; /* Add padding to the body */
+        }
+
+      .top-frame {
+            background-color: #111;
+            padding: 19px;
+            margin-bottom: 3px; /* Add space below the header */
+            display: flex; /* Use flexbox for layout */
+            align-items: center; /* Vertically align items */
+            justify-content: space-between; /* Distribute space between items */
+        }
+
+      .top-frame h2 {
+            margin: 0;
+            flex-grow: 1; /* Allow title to take up available space */
+        }
+
+      .buttons {
+            display: flex; /* Use flexbox for button arrangement */
+            gap: 10px; /* Add space between buttons */
+        }
+
+      .buttons button {
+            background-color: #333; /* Example button color */
+            color: #fff;
+            border: none;
+            padding: 0px 8px 0px 0px; /* Example button padding */
+            border-radius: 20px; /* Example button border radius */
+            cursor: pointer;
+        }
+        
+      .buttons button img {  /* Target the image inside the button */
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+      .buttons button:hover {
+            background-color: #444;
+        }
+
+      .content-area {
+            display: flex;
+            height: calc(100vh - 95px); /* Adjust height to accommodate fixed top frame */
+        }
+
+        .left-content {
+            width: 90%;
+            overflow-y: auto; /* Add scroll to left content */
+            margin-right: 10px; /* Add space between left and right content */
+        }
+
+        .left-content img {
+            width: 100%;
+            max-height: 100%;
+            aspect-ratio: 16 / 9; /* Enforce landscape aspect ratio */
+            object-fit: contain; /* Make sure the video fits within its container */
+            
+        }
+
+        #ktgaiVideo {
+            width: 100%;
+            max-height: 100%;
+            aspect-ratio: 16 / 9; /* Enforce landscape aspect ratio */
+            object-fit: contain; /* Make sure the video fits within its container */
+        }
+        
+      .left-content::-webkit-scrollbar {
+            width: 0px; /* Hide the scrollbar */
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+      
+          
+       .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;  /* Center the buttons horizontally */
+        }
+
+      .right-content button {
+            background-color: transparent;
+            color: white;
+            border: none;
+            margin-top: 15px;   /* Reduced margin-top */
+            padding: 0;
+            cursor: pointer;
+            display: flex;     /* Enable flexbox for button content */
+            align-items: center; /* Center icon and text vertically */
+        }
+
+      .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 0px;
+        }
+        
+      .right-content button:hover {
+            color: #111;
+        }
+        
+      .image-grid button {
+            background-color: transparent;
+            border: none;
+        }
+
+        /* Container for SAFE, DOOR, JOURNEYBOOK */
+        .data-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 equal width columns */
+            gap: 40px;
+            max-width: 95%;
+            margin: auto;
+            justify-content: space-between; /* Distribute space between columns */
+        }
+
+        /* Individual column */
+      .column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align items to the left */
+            justify-content: flex-start; /* Align items to the left */
+            padding: 5px;
+            background-color: #111;
+            border-radius: 3px;
+        }
+
+        /* Title styling */
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid white;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        
+		/* Content Styling */
+        .content {
+            margin-top: 5px;
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            width: 100%;
+        }
+        /* SAFE Image */
+        .safe-image img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        /* DOOR Red Box */
+        .door-box1 {
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            background-color: rgb(30, 0, 255);
+            border-radius: 5px;
+        }
+
+        /* DOOR Red Box */
+        .door-box2 {
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            background-color: rgb(255, 251, 0);
+            border-radius: 5px;
+        }
+
+        /* DOOR Red Box */
+        .door-box3 {
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            background-color: red;
+            border-radius: 5px;
+        }
+
+        /* JOURNEYBOOK Progress Graph */
+        .journeybook-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 80%;
+        }
+
+        .bar {
+            height: 10px;
+            border-radius: 5px;
+        }
+
+        .bar1 { background-color: blue; width: 60%; }
+        .bar2 { background-color: yellow; width: 80%; }
+        .bar3 { background-color: red; width: 30%; }
+
+        .bottom-frame {
+            padding-left: 20px;
+
+        }
+
+        
+    </style>
+</head>
+<body>
+
+    <div class="top-frame">
+        <h2 id="ktgaiTitle">Participants Map</h2>
+    </div>
+
+    <div class="content-area slide-in-left">
+        <div class="left-content">
+            <div>
+                <img src="map/map.gif" alt="map gif">
+            </div>
+            <div class="data-container">
+                <!-- SAFE Section -->
+                <div class="column" width="30%">
+                    <div class="title">SAFE</div>
+                    <div class="safe-button">
+                    <div class="buttons">
+                            <button><a id="safeLink1" href="" target="_blank" ><img src="../assets/link_icon.png" alt="destiny"></a></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOOR Section -->
+                <div class="column" width="30%">
+                    <div class="title">DOORS</div>
+                    <div class="content">
+                        <div class="door-box1"></div>
+                        <div class="door-box2"></div>
+                        <div class="door-box3"></div>
+                    </div>
+                </div>
+
+                <!-- JOURNEYBOOK Section -->
+                <div class="column" width="30%">
+                    <div class="title">LOOKING FOR</div>
+                    <div class="content journeybook-bars">
+                        <div class="bar bar1"></div>
+                        <div class="bar bar2"></div>
+                        <div class="bar bar3"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="right-content">
+            <button><img src="../assets/fave_icon.png" alt="Fave Icon"></button>
+            <button><img src="../assets/like_icon.png" alt="Like Icon"></button>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'updateSafeLinks') {
+                updateSafeLinks(event.data.song);
+            }
+        });
+
+        function updateSafeLinks(song) {
+            console.log('Received updateSafeLinks message:', song);
+
+            const safeColumn = document.querySelector('.safe-button .buttons');
+            safeColumn.innerHTML = ''; // Clear existing links
+
+           const ktgaiVideo = document.getElementById('ktgaiVideo');
+            const videoSource = ktgaiVideo.getElementsByTagName('source')[0];
+            videoSource.setAttribute('src', song.mp4);
+            ktgaiVideo.load();
+            ktgaiVideo.play();
+            console.log('Video source updated to:', song.mp4);
+
+            const topFrame = document.getElementById('ktgaiTitle');
+            topFrame.textContent = song.title;
+            console.log('Title updated to:', song.title);
+
+            const safeLink1 = document.getElementById('safeLink1');
+            safeLink1.href = song.safeLinks[0].url;
+            safeLink1.textContent = song.safeLinks[0].text;
+            console.log('Safe link updated to:', song.safeLinks[0].url, song.safeLinks[0].text);
+        }
+    </script>
+    <style>
+        .buttons button a {
+            color: #fff;
+            text-decoration: none;
+        }
+    </style>
+</body>
+</html>

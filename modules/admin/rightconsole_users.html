@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #222;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #333;
+            border: 1px solid #2f27c8;
+            border-radius: 10px;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-btn {
+            background: #444;
+            color: #fff;
+            border: 1px solid #2f27c8;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background: #2f27c8;
+        }
+
+        .toggle-btn:hover {
+            background: #2f27c8;
+        }
+
+        .search-box {
+            padding: 8px 15px;
+            background: #444;
+            border: 1px solid #2f27c8;
+            border-radius: 5px;
+            color: #fff;
+            width: 200px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slider {
+            width: 100px;
+        }
+
+        .slider-label {
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        /* Grid View */
+        .user-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .user-card {
+            background: #333;
+            border: 1px solid #2f27c8;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(47, 39, 200, 0.3);
+        }
+
+        .user-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #2f27c8, #4a3fd9);
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .user-name {
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .user-tagline {
+            color: #ccc;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .user-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #888;
+        }
+
+        /* List View */
+        .user-list {
+            display: none;
+        }
+
+        .user-list.active {
+            display: block;
+        }
+
+        .list-header {
+            display: grid;
+            grid-template-columns: 50px 200px 150px 100px 100px 100px 1fr;
+            gap: 15px;
+            padding: 10px 15px;
+            background: #333;
+            border: 1px solid #2f27c8;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #2f27c8;
+            font-size: 12px;
+        }
+
+        .list-item {
+            display: grid;
+            grid-template-columns: 50px 200px 150px 100px 100px 100px 1fr;
+            gap: 15px;
+            padding: 10px 15px;
+            background: #333;
+            border: 1px solid #444;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .list-item:hover {
+            background: #444;
+            border-color: #2f27c8;
+        }
+
+        .list-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #2f27c8, #4a3fd9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .list-name {
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .list-email {
+            color: #ccc;
+            font-size: 12px;
+        }
+
+        .list-role {
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .list-level {
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .list-joined {
+            color: #888;
+            font-size: 11px;
+        }
+
+        .list-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-btn {
+            background: #2f27c8;
+            color: #fff;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: #4a3fd9;
+        }
+
+        .action-btn.danger {
+            background: #ff4757;
+        }
+
+        .action-btn.danger:hover {
+            background: #ff3742;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .page-btn {
+            background: #444;
+            color: #fff;
+            border: 1px solid #2f27c8;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover, .page-btn.active {
+            background: #2f27c8;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <div class="view-toggle">
+            <button class="toggle-btn active" onclick="toggleView('grid')">Grid</button>
+            <button class="toggle-btn" onclick="toggleView('list')">List</button>
+        </div>
+        
+        <input type="text" class="search-box" placeholder="Search users..." onkeyup="searchUsers(this.value)">
+        
+        <div class="slider-container">
+            <span class="slider-label">Columns:</span>
+            <input type="range" class="slider" min="3" max="8" value="5" onchange="adjustColumns(this.value)">
+            <span class="slider-label" id="columnCount">5</span>
+        </div>
+    </div>
+
+    <div class="user-grid" id="userGrid">
+        <!-- Users will be populated here -->
+    </div>
+
+    <div class="user-list" id="userList">
+        <div class="list-header">
+            <div>Avatar</div>
+            <div>Name</div>
+            <div>Email</div>
+            <div>Role</div>
+            <div>Level</div>
+            <div>Joined</div>
+            <div>Actions</div>
+        </div>
+        <!-- List items will be populated here -->
+    </div>
+
+    <div class="pagination">
+        <button class="page-btn" onclick="changePage(-1)">← Prev</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn" onclick="changePage(1)">Next →</button>
+    </div>
+
+    <script>
+        let currentView = 'grid';
+        let currentPage = 1;
+        let usersPerPage = 20;
+
+        // Sample user data based on participant.json
+        const users = [
+            { name: 'Mei', email: 'mei@ktg.test', tagline: 'Vixen Seeks Hero', role: 'Participant', level: 1, joined: '2024-01-15', avatar: '🦋', followers: 0, promoter: null },
+            { name: 'Astral Maiden', email: 'astral@ktg.test', tagline: 'Seeker Seeks Starfarer', role: 'Creator', level: 3, joined: '2024-01-20', avatar: '✨', followers: 45, promoter: null },
+            { name: 'Cyber Shaman', email: 'cyber@ktg.test', tagline: 'Oracle Seeks Glitchrunner', role: 'Creator', level: 5, joined: '2024-01-25', avatar: '🔮', followers: 123, promoter: 'Astral Maiden' },
+            { name: 'Crimson Oracle', email: 'crimson@ktg.test', tagline: 'Seer Seeks Renegade', role: 'Creator', level: 4, joined: '2024-02-01', avatar: '🌹', followers: 89, promoter: null },
+            { name: 'Ethereal Sentinel', email: 'ethereal@ktg.test', tagline: 'Guardian Seeks Wanderer', role: 'Participant', level: 2, joined: '2024-02-05', avatar: '👻', followers: 12, promoter: 'Cyber Shaman' },
+            { name: 'Steel Ronin', email: 'steel@ktg.test', tagline: 'Ronin Seeks Master', role: 'Creator', level: 6, joined: '2024-02-10', avatar: '⚔️', followers: 156, promoter: null },
+            { name: 'Desert Dancer', email: 'desert@ktg.test', tagline: 'Dancer Seeks Guide', role: 'Participant', level: 1, joined: '2024-02-15', avatar: '🏜️', followers: 3, promoter: 'Steel Ronin' },
+            { name: 'Echo Twins', email: 'echo@ktg.test', tagline: 'Twins Seek Unity', role: 'Creator', level: 7, joined: '2024-02-20', avatar: '👯', followers: 234, promoter: null },
+            { name: 'Skull Prophet', email: 'skull@ktg.test', tagline: 'Prophet Seeks Disciple', role: 'Creator', level: 8, joined: '2024-02-25', avatar: '💀', followers: 345, promoter: null },
+            { name: 'Neon Nomad', email: 'neon@ktg.test', tagline: 'Nomad Seeks Sanctuary', role: 'Participant', level: 2, joined: '2024-03-01', avatar: '🌈', followers: 8, promoter: 'Echo Twins' },
+            { name: 'Inferno Queen', email: 'inferno@ktg.test', tagline: 'Queen Seeks Rebel', role: 'Creator', level: 9, joined: '2024-03-05', avatar: '👑', followers: 456, promoter: null },
+            { name: 'Golden Muse', email: 'golden@ktg.test', tagline: 'Muse Seeks Inspiration', role: 'Creator', level: 5, joined: '2024-03-10', avatar: '✨', followers: 167, promoter: 'Inferno Queen' },
+            { name: 'Blood Rose', email: 'blood@ktg.test', tagline: 'Rose Seeks Thorn', role: 'Participant', level: 1, joined: '2024-03-15', avatar: '🌹', followers: 1, promoter: 'Golden Muse' },
+            { name: 'Seraphic Siren', email: 'seraphic@ktg.test', tagline: 'Siren Seeks Sailor', role: 'Creator', level: 6, joined: '2024-03-20', avatar: '🧜', followers: 189, promoter: null },
+            { name: 'Cyber Geisha', email: 'geisha@ktg.test', tagline: 'Geisha Seeks Patron', role: 'Creator', level: 4, joined: '2024-03-25', avatar: '🎭', followers: 98, promoter: 'Seraphic Siren' },
+            { name: 'Pixel Priestess', email: 'pixel@ktg.test', tagline: 'Priestess Seeks Convert', role: 'Creator', level: 7, joined: '2024-03-30', avatar: '👩‍💻', followers: 267, promoter: null }
+        ];
+
+        function renderGrid() {
+            const grid = document.getElementById('userGrid');
+            grid.innerHTML = '';
+            
+            users.forEach(user => {
+                const card = document.createElement('div');
+                card.className = 'user-card';
+                card.innerHTML = `
+                    <div class="user-image">${user.avatar}</div>
+                    <div class="user-name">${user.name}</div>
+                    <div class="user-tagline">${user.tagline}</div>
+                    <div class="user-stats">
+                        <span>L${user.level}</span>
+                        <span>${user.followers} followers</span>
+                    </div>
+                `;
+                card.onclick = () => showUserDetails(user);
+                grid.appendChild(card);
+            });
+        }
+
+        function renderList() {
+            const list = document.getElementById('userList');
+            const existingItems = list.querySelectorAll('.list-item');
+            existingItems.forEach(item => item.remove());
+            
+            users.forEach(user => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerHTML = `
+                    <div class="list-avatar">${user.avatar}</div>
+                    <div class="list-name">${user.name}</div>
+                    <div class="list-email">${user.email}</div>
+                    <div class="list-role">${user.role}</div>
+                    <div class="list-level">Level ${user.level}</div>
+                    <div class="list-joined">${user.joined}</div>
+                    <div class="list-actions">
+                        <button class="action-btn" onclick="editUser('${user.email}')">Edit</button>
+                        <button class="action-btn" onclick="viewUser('${user.email}')">View</button>
+                        <button class="action-btn danger" onclick="blockUser('${user.email}')">Block</button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function toggleView(view) {
+            currentView = view;
+            const buttons = document.querySelectorAll('.toggle-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (view === 'grid') {
+                document.getElementById('userGrid').style.display = 'grid';
+                document.getElementById('userList').style.display = 'none';
+            } else {
+                document.getElementById('userGrid').style.display = 'none';
+                document.getElementById('userList').style.display = 'block';
+            }
+        }
+
+        function adjustColumns(value) {
+            document.getElementById('columnCount').textContent = value;
+            const grid = document.getElementById('userGrid');
+            const minWidth = Math.floor(600 / value);
+            grid.style.gridTemplateColumns = `repeat(auto-fill, minmax(${minWidth}px, 1fr))`;
+        }
+
+        function searchUsers(query) {
+            // Filter users based on search query
+            console.log('Searching for:', query);
+        }
+
+        function showUserDetails(user) {
+            alert(`User Details:\nName: ${user.name}\nEmail: ${user.email}\nRole: ${user.role}\nLevel: ${user.level}\nFollowers: ${user.followers}\nPromoter: ${user.promoter || 'None'}`);
+        }
+
+        function editUser(email) {
+            console.log('Edit user:', email);
+        }
+
+        function viewUser(email) {
+            console.log('View user:', email);
+        }
+
+        function blockUser(email) {
+            if (confirm(`Are you sure you want to block user: ${email}?`)) {
+                console.log('Block user:', email);
+            }
+        }
+
+        function changePage(direction) {
+            console.log('Change page:', direction);
+        }
+
+        // Initialize
+        renderGrid();
+        renderList();
+    </script>
+</body>
+</html>

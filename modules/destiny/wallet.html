@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wallet</title>
+    <style>
+        :root {
+            --bg-primary: #333;
+            --bg-secondary: #111;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .wallet-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+        }
+
+        .my-stuff-section {
+            background-color: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .avatar-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .avatar-item {
+            background-color: var(--bg-primary);
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .avatar-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(47, 39, 200, 0.3);
+        }
+
+        .avatar-thumbnail {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .avatar-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .avatar-info {
+            flex: 1;
+        }
+
+        .avatar-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .avatar-tagline {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .avatar-status {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background-color: #28a745;
+            color: white;
+            display: inline-block;
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 40px;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 40px;
+        }
+
+        .create-avatar-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .create-avatar-btn:hover {
+            background-color: var(--accent-hover);
+        }
+    </style>
+</head>
+<body>
+    <div class="wallet-container">
+        <h1>My Wallet</h1>
+        
+        <div class="my-stuff-section">
+            <div class="section-title">My Stuff</div>
+            <div id="avatar-list" class="avatar-list">
+                <div class="loading">Loading your avatars...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <script>
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp({
+                apiKey: "AIzaSyDrgOGvn8NHuq3T_ODse8buij9KXg1WkzI",
+                authDomain: "ktgio-3k38n.firebaseapp.com",
+                projectId: "ktgio-3k38n",
+                storageBucket: "ktgio-3k38n.firebasestorage.app",
+                messagingSenderId: "416239278754",
+                appId: "1:416239278754:web:028cd9fd6f13a5a4ed95fb"
+            });
+        }
+
+        async function loadUserAvatars() {
+            const avatarList = document.getElementById('avatar-list');
+            
+            try {
+                const user = firebase.auth().currentUser;
+                if (!user) {
+                    avatarList.innerHTML = `
+                        <div class="empty-state">
+                            <p>Please log in to view your avatars</p>
+                            <button class="create-avatar-btn" onclick="window.location.href='rightconsole_login.html'">Log In</button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const db = firebase.firestore();
+                
+                // Load user data
+                const userDoc = await db.collection('Users').doc(user.uid).get();
+                if (!userDoc.exists) {
+                    avatarList.innerHTML = `
+                        <div class="empty-state">
+                            <p>No avatar found</p>
+                            <button class="create-avatar-btn" onclick="window.location.href='newavatar.html'">Create Avatar</button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const userData = userDoc.data();
+                
+                // Load wallet data
+                const walletDoc = await db.collection('Wallet').doc(user.uid).get();
+                const walletData = walletDoc.exists ? walletDoc.data() : {};
+
+                // Create avatar item
+                const avatarItem = document.createElement('div');
+                avatarItem.className = 'avatar-item';
+                
+                // Create thumbnail
+                let thumbnailHtml = '';
+                if (userData.image) {
+                    thumbnailHtml = `<img src="../../public/assets/${userData.image}" alt="${userData.avatarName}" onerror="this.parentElement.innerHTML='${getInitials(userData.avatarName)}'">`;
+                } else {
+                    thumbnailHtml = getInitials(userData.avatarName || userData.displayName || user.email.split('@')[0]);
+                }
+                
+                avatarItem.innerHTML = `
+                    <div class="avatar-thumbnail">
+                        ${thumbnailHtml}
+                    </div>
+                    <div class="avatar-info">
+                        <div class="avatar-name">${userData.avatarName || userData.displayName || user.email.split('@')[0]}</div>
+                        <div class="avatar-tagline">${userData.tagline || 'KTG Player'}</div>
+                        <div class="avatar-status">${walletData.status || 'Active'}</div>
+                    </div>
+                `;
+                
+                // Add click handler to select avatar
+                avatarItem.onclick = () => selectAvatar(userData);
+                
+                avatarList.innerHTML = '';
+                avatarList.appendChild(avatarItem);
+                
+            } catch (error) {
+                console.error('Error loading avatars:', error);
+                avatarList.innerHTML = `
+                    <div class="empty-state">
+                        <p>Error loading avatars: ${error.message}</p>
+                        <button class="create-avatar-btn" onclick="loadUserAvatars()">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        function getInitials(name) {
+            if (!name) return 'U';
+            const words = name.split(' ').filter(word => word.length > 0);
+            return words.map(word => word[0].toUpperCase()).join('').substring(0, 2);
+        }
+
+        function selectAvatar(userData) {
+            // Store selected avatar in localStorage
+            localStorage.setItem('ktg_selected_avatar', JSON.stringify({
+                name: userData.avatarName,
+                tagline: userData.tagline,
+                image: userData.image
+            }));
+            
+            alert(`Selected avatar: ${userData.avatarName}`);
+            
+            // Redirect to game console or dashboard
+            if (userData.role === 'Game Master' || userData.role === 'Admin') {
+                window.location.href = '../admin/admin-dashboard.html';
+            } else {
+                window.location.href = 'leftconsole.html';
+            }
+        }
+
+        // Load avatars when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    loadUserAvatars();
+                } else {
+                    document.getElementById('avatar-list').innerHTML = `
+                        <div class="empty-state">
+                            <p>Please log in to view your avatars</p>
+                            <button class="create-avatar-btn" onclick="window.location.href='rightconsole_login.html'">Log In</button>
+                        </div>
+                    `;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

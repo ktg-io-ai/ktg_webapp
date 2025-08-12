@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIGHT FRAME</title>
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --bg-tertiary: #333;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+            --hover-bg: #444;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --hover-bg: #f1f3f4;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --hover-bg: #4a4a4a;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-frame {
+            background-color: var(--bg-primary);
+            padding: 33px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+            color: var(--text-primary);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: none;
+            padding: 0px 8px 0px 0px;
+            border-radius: 20px;
+            cursor: pointer;
+            vertical-align: middle;
+            transition: background-color 0.3s ease;
+        }
+
+        .buttons button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .buttons button:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .content-area {
+            display: flex;
+            height: calc(100vh - 195px);
+            padding-top: 80px;
+        }
+
+        .main-content {
+            width: 100%;
+            margin-right: 60px;
+            margin-left: 60px;
+        }
+
+        menu {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            min-width: 200px;
+            text-align: center;
+            cursor: pointer;
+            align-items: center;
+            margin: 10px 0;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        menu:hover {
+            background-color: var(--hover-bg);
+            border: 1px solid #4fb6c1;
+        }
+
+        [data-theme="ktg"] menu:hover {
+            background-color: #222;
+        }
+
+        menu h2 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .qr-code {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .qr-code img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .footer {
+            background-color: var(--bg-secondary);
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 40px;
+            padding: 15px 0;
+        }
+
+        .footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Submenu Styles */
+        .submenu {
+            position: absolute;
+            top: 60px;
+            right: 60px;
+            background-color: rgba(1, 1, 1, 0.9);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            border: 5px solid #2f27c8;
+            padding: 20px;
+            border-radius: 20px;
+            z-index: 1001;
+            pointer-events: auto;
+            display: none;
+            width: min(480px, 90vw);
+            max-width: 90vw;
+        }
+
+        [data-theme="light"] .submenu {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e9ecef;
+        }
+
+        [data-theme="dark"] .submenu {
+            background-color: rgba(42, 42, 42, 0.9);
+            border: 1px solid #404040;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .portal-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: min(16px, 2.4vw);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+            min-width: 0;
+        }
+
+        .portal-button:hover {
+            background-color: var(--bg-secondary);
+            border-color: #2f27c8;
+            transform: scale(1.05);
+        }
+
+        [data-theme="light"] .portal-button:hover {
+            background-color: #f1f3f4;
+        }
+
+        [data-theme="dark"] .portal-button:hover {
+            background-color: #3a3a3a;
+        }
+
+        .portal-button img {
+            width: min(32px, 6.4vw);
+            height: min(32px, 6.4vw);
+            margin-bottom: min(8px, 1.6vw);
+        }
+
+        .portal-button span {
+            font-size: min(10px, 2vw);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+        }
+    </style>
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/theme-icons.js"></script>
+</head>
+<body>
+    <div class="top-frame">
+        <h2></h2>
+        <div class="buttons">
+            <button onclick="openPortalSubmenu()">
+                <img src="../../public/assets/icons/portal_icon.png" alt="Portal" style="width: 35px; height: 35px;">
+            </button>
+        </div>
+    </div>
+
+    <!-- Portal Submenu -->
+            <div id="portal-submenu" class="submenu">
+                <h2 data-translate="portal.title">Portals <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>
+                <div class="portal-grid">
+                    <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/portal_icon.png" data-light="../../public/assets/icons/portal_icon-blk.png" data-dark="../../public/assets/icons/portal_icon-wht.png" src="../../public/assets/icons/portal_icon.png" alt="portals"><span data-lang="dashboard.portals.title">PORTALS</span></a>
+                    <a href="../destiny/opening.html" target="_parent" class="portal-button"><img class="destiny-icon" src="../../public/assets/icons/fave_icon.png" alt="destiny"><span data-lang="dashboard.portals.destiny">DESTINY</span></a>
+                    <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img class="listings-icon" src="../../public/assets/icons/listing_icon.png" alt="listings"><span data-lang="dashboard.portals.listings">LISTINGS</span></a>
+                    <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img class="ktgai-icon" src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span data-lang="dashboard.portals.ai">KTG.AI</span></a>
+                    <a href="../music/ktgmusic.html" target="_parent" class="portal-button"><img class="music-icon" src="../../public/assets/icons/qr_icon.png" alt="ktgmusic"><span data-lang="dashboard.portals.music">KTG.MUSIC</span></a>
+                    <a href="../web3/dashboard_web3.html" target="_parent" class="portal-button"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span data-lang="dashboard.portals.web3">WEB3</span></a>
+                    <a href="../vr/ktgxr.html" target="_parent" class="portal-button"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR"><span data-lang="dashboard.portals.vr">VR/AR/XR</span></a>
+                    <a href="../dignbling/dashboard_dign_bling.html" target="_parent" class="portal-button"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span data-lang="dashboard.portals.dignbling">DIGN BLING</span></a>
+                    <a href="../4playchess/4playchess.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/chess_icon.png" data-light="../../public/assets/icons/chess_icon-blk.png" data-dark="../../public/assets/icons/chess_icon-wht.png" src="../../public/assets/icons/chess_icon.png" alt="chess"><span data-lang="dashboard.portals.chess">4 PLAY CHESS</span></a>
+                    <a href="../metaphysics/dashboard_tarot.html" target="_parent" class="portal-button"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span data-lang="dashboard.portals.metaphysics">METAPHYSICS</span></a>
+                    <a href="../map/map.html" target="_parent" class="portal-button"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map"><span data-lang="dashboard.portals.map">MAP</span></a>
+                </div>
+            </div>
+
+    <div class="content-area">
+        <div class="main-content fade-in">
+            <menu onclick="window.parent.location.href='../../src/pages/dashboard.html'">
+                <h2 data-lang="destiny.opening.ktgio">KTG.IO</h2>
+            </menu>
+            
+            <menu onclick="window.parent.location.href='../../modules/influencers/promoters_followers.html'">
+                <div class="qr-code">
+                    <img src="../../public/assets/icons/influencer_icon.png" alt="Influencer Icon">
+                </div>
+            </menu>
+            
+            <menu onclick="window.parent.location.href='login.html'">
+                <h2 data-lang="destiny.opening.login">LOGIN</h2>
+            </menu>
+            
+            <menu onclick="window.parent.location.href='newwallet.html'">
+                <h2 data-lang="destiny.opening.register">REGISTER NEW</h2>
+            </menu>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="#" data-lang="destiny.opening.terms">TERMS OF SERVICE</a>
+        <a href="#" data-lang="destiny.opening.privacy">PRIVACY POLICY</a>
+        <a href="#" data-lang="destiny.opening.rules">RULES OF THE GAME</a>
+    </div>
+
+    <script>
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+        }
+
+        window.addEventListener('load', () => {
+            initializeTheme();
+            
+            // Update theme icons
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            if (typeof updateThemeIcons !== 'undefined') {
+                updateThemeIcons(savedTheme);
+            }
+            
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            fadeInElements.forEach(el => el.classList.add('active'));
+        });
+
+        function openPortalSubmenu() {
+            document.getElementById("portal-submenu").style.display = "block";
+        }
+
+        function closePortalSubmenu() {
+            document.getElementById("portal-submenu").style.display = "none";
+        }
+
+        // Click outside to close submenu
+        document.addEventListener('click', function(event) {
+            const submenu = document.getElementById('portal-submenu');
+            const button = document.querySelector('button[onclick="openPortalSubmenu()"]');
+            
+            if (submenu.style.display === 'block' && !submenu.contains(event.target) && !button.contains(event.target)) {
+                submenu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

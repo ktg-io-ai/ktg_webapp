@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About KTG Platform</title>
+    <link rel="stylesheet" href="/shared/styles/global.css">
+    <style>
+        body {
+            padding: 20px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+        }
+        
+        .about-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .about-section h2 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .feature-card img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="about-section fade-in">
+        <h2>Welcome to KTG Platform</h2>
+        <p>KTG (Karma the Game) is an AI-driven social and lifestyle platform that revolutionizes how people connect, create, and engage in the digital world.</p>
+    </div>
+
+    <div class="about-section fade-in">
+        <h2>Our Mission</h2>
+        <p>To create meaningful connections through AI-powered experiences that bridge the gap between digital interaction and real-world impact.</p>
+    </div>
+
+    <div class="about-section fade-in">
+        <h2>Platform Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <img src="/assets/icons/ktgai_icon.png" alt="AI">
+                <h3>AI-Powered</h3>
+                <p>Advanced AI algorithms for personalized experiences</p>
+            </div>
+            <div class="feature-card">
+                <img src="/assets/icons/social_icon.png" alt="Social">
+                <h3>Social Hub</h3>
+                <p>Connect with influencers and like-minded individuals</p>
+            </div>
+            <div class="feature-card">
+                <img src="/assets/icons/music_player_icon.png" alt="Music">
+                <h3>Music Platform</h3>
+                <p>Discover and share original soundtracks</p>
+            </div>
+            <div class="feature-card">
+                <img src="/assets/icons/vr_icon.png" alt="VR">
+                <h3>VR/AR Ready</h3>
+                <p>Immersive virtual reality experiences</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.fade-in').forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('active');
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>

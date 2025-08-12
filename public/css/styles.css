@@ -1,0 +1,485 @@
+/* KTG Modern Frontend Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+    overflow: hidden;
+}
+
+/* Game Console Layout */
+.game-console {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 80px;
+    background-color: #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    position: fixed;
+    height: 100%;
+    z-index: 100;
+}
+
+.sidebar .logo img {
+    width: 60px;
+    margin-bottom: 30px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.nav-item:hover {
+    background-color: #222;
+}
+
+.nav-item img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 5px;
+}
+
+.nav-item span {
+    font-size: 10px;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-bar {
+    background-color: #111;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.top-bar h1 {
+    font-size: 16px;
+}
+
+.user-info {
+    font-size: 14px;
+    color: #ccc;
+}
+
+/* Content Area */
+.content-area {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 50px);
+}
+
+.left-panel, .right-panel {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.left-panel {
+    background-color: #1a1a1a;
+    border-right: 1px solid #333;
+}
+
+.right-panel {
+    background-color: #222;
+}
+
+/* Welcome Message */
+.welcome-message {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.welcome-message h2 {
+    color: #4f81b7;
+    margin-bottom: 15px;
+}
+
+/* Stats Preview */
+.stats-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stat {
+    background-color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Submenu Overlay */
+.submenu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.submenu {
+    background-color: #1a1a1a;
+    border: 2px solid #4f81b7;
+    border-radius: 15px;
+    padding: 20px;
+    min-width: 250px;
+    max-width: 400px;
+}
+
+.submenu h2 {
+    color: #4f81b7;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-btn {
+    cursor: pointer;
+    color: #fff;
+    font-size: 18px;
+    padding: 5px;
+}
+
+.close-btn:hover {
+    color: #ff4444;
+}
+
+.submenu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.submenu-item {
+    background-color: transparent;
+    border: 1px solid #4f81b7;
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s;
+}
+
+.submenu-item:hover {
+    background-color: #333;
+}
+
+.submenu-item img {
+    width: 24px;
+    height: 24px;
+}
+
+/* Stats Interface */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat-card {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    border-left: 4px solid #4f81b7;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4f81b7;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #ccc;
+    text-transform: uppercase;
+}
+
+/* BucketList Interface */
+.bucketlist-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.bucketlist-item {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #4f81b7;
+}
+
+.bucketlist-item h3 {
+    color: #4f81b7;
+    margin-bottom: 5px;
+}
+
+.bucketlist-item p {
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.status {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.status.pending {
+    background-color: #ffa500;
+    color: #000;
+}
+
+.status.completed {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.status.in-progress {
+    background-color: #2196f3;
+    color: #fff;
+}
+
+/* Door4 Interface */
+.door4-interface {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.door-visual {
+    font-size: 80px;
+    margin: 20px 0;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.door-visual:hover {
+    transform: scale(1.1);
+}
+
+.action-btn {
+    background-color: #4f81b7;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.action-btn:hover {
+    background-color: #3a6b94;
+}
+
+/* Login Form */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #1a1a1a, #333);
+}
+
+.login-form {
+    background-color: #222;
+    padding: 40px;
+    border-radius: 15px;
+    border: 2px solid #4f81b7;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-form h2 {
+    color: #4f81b7;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ccc;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #555;
+    border-radius: 8px;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #4f81b7;
+}
+
+.login-btn {
+    width: 100%;
+    background-color: #4f81b7;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.login-btn:hover {
+    background-color: #3a6b94;
+}
+
+.register-link {
+    text-align: center;
+    color: #ccc;
+}
+
+.register-link a {
+    color: #4f81b7;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* Dashboard Styles */
+.dashboard {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.portal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 40px;
+    flex: 1;
+    align-content: center;
+}
+
+.portal-card {
+    background: linear-gradient(135deg, #222, #333);
+    border: 2px solid #4f81b7;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.portal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(79, 129, 183, 0.3);
+}
+
+.portal-card h2 {
+    color: #4f81b7;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.portal-card p {
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.token-required {
+    background-color: #ff6b35;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.free-access {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.user-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.user-actions button {
+    background-color: #4f81b7;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.user-actions button:hover {
+    background-color: #3a6b94;
+}

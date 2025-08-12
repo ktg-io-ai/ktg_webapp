@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KTG Admin Dashboard - Platform management and analytics">
+    <meta name="keywords" content="KTG, Admin, Dashboard, Analytics, Management">
+    <meta name="author" content="KTG.IO Platform">
+    <link rel="icon" type="image/png" href="../../public/assets/icons/kgz_icon.png"/>
+    <title>KTG Admin Dashboard</title>
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: rgba(1, 1, 1, 0.9);
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --border-color: #2f27c8;
+            --hover-bg: #222;
+            --submenu-bg: rgba(255, 255, 255, 0.1);
+            --sidebar-bg: #111;
+            --topbar-bg: #111;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+            --border-radius: 20px;
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: rgba(248, 249, 250, 0.9);
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --border-color: #e9ecef;
+            --hover-bg: #f1f3f4;
+            --submenu-bg: #ffffff;
+            --sidebar-bg: #ffffff;
+            --topbar-bg: #ffffff;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: rgba(45, 45, 45, 0.9);
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --border-color: #404040;
+            --hover-bg: #3a3a3a;
+            --submenu-bg: #333333;
+            --sidebar-bg: #2d2d2d;
+            --topbar-bg: #2d2d2d;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        /* KTG Mode specific styles */
+        [data-theme="ktg"] body {
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Text capitalization for Light and Dark modes */
+        [data-theme="light"] span:not([lang="zh"]):not([lang="ja"]):not([lang="ko"]):not([lang="ar"]),
+        [data-theme="dark"] span:not([lang="zh"]):not([lang="ja"]):not([lang="ko"]):not([lang="ar"]),
+        [data-theme="light"] h1:not([lang="zh"]):not([lang="ja"]):not([lang="ko"]):not([lang="ar"]),
+        [data-theme="dark"] h1:not([lang="zh"]):not([lang="ja"]):not([lang="ko"]):not([lang="ar"]) {
+            text-transform: capitalize;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 100px;
+            background-color: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin-top: 53px;
+            border-radius: 0px;
+        }
+
+        [data-theme="ktg"] .sidebar {
+            width: 80px;
+            position: fixed;
+            height: 100%;
+            overflow-y: hidden;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            margin-top: 55px;
+            scrollbar-width: none;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sidebar .logo {
+            margin-top: 10px;
+        }
+
+        .sidebar .logo img {
+            width: 60px;
+            margin-bottom: 50px;
+            max-height: 150px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sidebar .logo img:hover {
+            transform: scale(1.1);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .sidebar li {
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sidebar li:hover {
+            transform: scale(1.05);
+        }
+
+        .sidebar li img {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar li span {
+            font-size: 10px;
+            display: block;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 3px;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-area {
+            display: flex;
+            height: calc(100vh - 50px);
+            padding-top: 0;
+            margin-top: 53px;
+        }
+
+        .main-frame {
+            width: 50%;
+            height: 100%;
+            border: none;
+            border-radius: 0px;
+            background-color: var(--bg-secondary);
+            margin-left: 2px;
+        }
+
+        [data-theme="ktg"] .main-frame {
+            margin-left: 124px;
+        }
+
+        .right-frame {
+            width: 50%;
+            height: 100%;
+            background-color: var(--bg-secondary);
+            border: none;
+            border-radius: 0px;
+            margin-left: 0;
+            overflow-y: auto;
+        }
+
+        .top-bar {
+            background-color: var(--topbar-bg);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            z-index: 999;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        [data-theme="ktg"] .top-bar {
+            padding: 0 20px;
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        [data-theme="ktg"] .top-bar h1 {
+            font-family: 'Courier New', monospace;
+        }
+
+        .top-bar .admin-info {
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .submenu-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .submenu-container.active {
+            pointer-events: auto;
+        }
+
+        .submenu {
+            position: absolute;
+            top: 88px;
+            left: 88px;
+            background-color: var(--bg-secondary);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            border: 4px solid var(--accent-color);
+            padding: 16px;
+            min-width: 160px;
+            border-radius: 16px;
+            z-index: 1001;
+            pointer-events: auto;
+            display: none;
+        }
+
+        [data-theme="ktg"] .submenu {
+            border: 4px solid #2f27c8;
+        }
+
+        [data-theme="light"] .submenu,
+        [data-theme="dark"] .submenu {
+            border: 1px solid var(--border-color);
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .submenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+
+        .submenu li {
+            margin-bottom: 10px;
+        }
+
+        .submenu button {
+            background-color: transparent;
+            border: 1px solid var(--accent-color);
+            opacity: 1;
+            color: var(--text-primary);
+            padding: 8px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 16px;
+            transition: var(--transition);
+        }
+
+        .submenu button:hover {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--accent-hover);
+        }
+
+        .submenu button img {
+            max-width: 20px;
+            max-height: 20px;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+
+        [data-theme="light"] .submenu button {
+            background-color: transparent;
+            border: none;
+        }
+
+        [data-theme="light"] .submenu button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] .submenu button {
+            background-color: transparent;
+            border: none;
+        }
+
+        [data-theme="dark"] .submenu button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-100%);
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+
+        .slide-in-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+        }
+        /* Background Video */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Theme-specific video display */
+        [data-theme="light"] .bg-video,
+        [data-theme="dark"] .bg-video {
+            display: none;
+        }
+
+        /* Music Controls */
+        .music-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .music-buttons button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .music-buttons button img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .top-bar .song-title {
+            margin-left: 20px;
+            padding-right: 50px;
+            font-size: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            vertical-align: middle;
+            padding: 5px;
+        }
+
+        #musicToggle img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body style="overflow: hidden;">
+    <!-- Background Video (KTG Mode only) -->
+    <video class="bg-video" autoplay muted loop>
+        <source src="../../public/assets/videos/dashboard.mp4" type="video/mp4">
+    </video>
+
+    
+    <div class="container">
+        <div class="sidebar slide-in-left">
+            <div class="logo">
+                <a href="../../src/pages/dashboard.html" target="_parent">
+                    <img src="../../public/assets/images/game_logo.png" alt="Game Logo">
+                </a>
+            </div>
+            <ul>
+                <li onclick="openSubmenu('analytics')" class="slide-in-left">
+                    <img src="../../public/assets/icons/stats_icon.png" alt="Analytics" class="theme-icon" data-ktg="../../public/assets/icons/stats_icon.png" data-light="../../public/assets/icons/stats_icon-blk.png" data-dark="../../public/assets/icons/stats_icon-wht.png">
+                    <span data-translate="admin.analytics">Analytics</span>
+                </li>
+                <li onclick="openSubmenu('users')" class="slide-in-left">
+                    <img src="../../public/assets/icons/group_icon.png" alt="Users" class="theme-icon" data-ktg="../../public/assets/icons/group_icon.png" data-light="../../public/assets/icons/group_icon-blk.png" data-dark="../../public/assets/icons/group_icon-wht.png">
+                    <span data-translate="admin.users">Users</span>
+                </li>
+                <li onclick="openSubmenu('creators')" class="slide-in-left">
+                    <img src="../../public/assets/icons/influencer_icon.png" alt="Creators" class="theme-icon" data-ktg="../../public/assets/icons/influencer_icon.png" data-light="../../public/assets/icons/influencer_icon-blk.png" data-dark="../../public/assets/icons/influencer_icon-wht.png">
+                    <span data-translate="admin.creators">Creators</span>
+                </li>
+                <li onclick="openSubmenu('venues')" class="slide-in-left">
+                    <img src="../../public/assets/icons/location_icon.png" alt="Venues" class="theme-icon" data-ktg="../../public/assets/icons/location_icon.png" data-light="../../public/assets/icons/location_icon-blk.png" data-dark="../../public/assets/icons/location_icon-wht.png">
+                    <span data-translate="admin.venues">Venues</span>
+                </li>
+                <li onclick="openSubmenu('events')" class="slide-in-left">
+                    <img src="../../public/assets/icons/event_icon.png" alt="Events" class="theme-icon" data-ktg="../../public/assets/icons/event_icon.png" data-light="../../public/assets/icons/event_icon-blk.png" data-dark="../../public/assets/icons/event_icon-wht.png">
+                    <span data-translate="admin.events">Events</span>
+                </li>
+                <li onclick="openSubmenu('system')" class="slide-in-left">
+                    <img src="../../public/assets/icons/config_icon.png" alt="System" class="theme-icon" data-ktg="../../public/assets/icons/config_icon.png" data-light="../../public/assets/icons/config_icon-blk.png" data-dark="../../public/assets/icons/config_icon-wht.png">
+                    <span data-translate="admin.system">System</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="top-bar fade-in">
+                <div class="music-buttons">
+                    <button onclick="window.open('../music/music_player.html', '_blank', 'width=500,height=150')">
+                        <img src="../../public/assets/icons/music_player_icon.png" alt="Open Music Player">
+                    </button>
+                </div>
+                <h1 data-translate="admin.title" style="font-family: 'Courier New', monospace;">KTG ADMIN DASHBOARD</h1>
+                <div class="song-title">
+                    <button id="musicToggle">
+                        <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle">
+                    </button>
+                    <span data-translate="admin.playing" style="font-family: 'Courier New', monospace;">PLAYING: (Admin Soundtrack) System Control</span>
+                </div>
+            </div>
+
+            <div class="main-area">
+                <iframe src="leftconsole_admin.html" class="main-frame fade-in" id="mainFrame"></iframe>
+                <iframe src="rightconsole_admin.html" class="right-frame fade-in" id="rightFrame"></iframe>
+            </div>
+        </div>
+
+        <div id="submenu-container" class="submenu-container" onclick="closeAllSubmenus(event)">
+            <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/system_control.mp3" loop></audio>
+
+            <div id="analytics-submenu" class="submenu">
+                <h2 data-translate="admin.analytics">Analytics <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li><button onclick="loadView('dashboard')"><img src="../../public/assets/icons/stats_icon.png"> <span data-translate="admin.dashboard_overview">Dashboard Overview</span></button></li>
+                    <li><button onclick="loadView('user-analytics')"><img src="../../public/assets/icons/group_icon.png"> <span data-translate="admin.user_analytics">User Analytics</span></button></li>
+                    <li><button onclick="loadView('creator-analytics')"><img src="../../public/assets/icons/influencer_icon.png"> <span data-translate="admin.creator_analytics">Creator Analytics</span></button></li>
+                    <li><button onclick="loadView('revenue-analytics')"><img src="../../public/assets/icons/wallet_icon.png"> <span data-translate="admin.revenue_analytics">Revenue Analytics</span></button></li>
+                </ul>
+            </div>
+
+            <div id="users-submenu" class="submenu">
+                <h2 data-translate="admin.user_management">User Management <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li><button onclick="loadView('all-users')"><img src="../../public/assets/icons/group_icon.png"> <span data-translate="admin.all_users">All Users</span></button></li>
+                    <li><button onclick="loadView('participants')"><img src="../../public/assets/icons/name_icon.png"> <span data-translate="admin.participants">Participants</span></button></li>
+                    <li><button onclick="loadView('user-details')"><img src="../../public/assets/icons/detail_icon.png"> <span data-translate="admin.user_details">User Details</span></button></li>
+                </ul>
+            </div>
+
+            <div id="creators-submenu" class="submenu">
+                <h2 data-translate="admin.creator_management">Creator Management <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li><button onclick="loadView('all-creators')"><img src="../../public/assets/icons/influencer_icon.png"> <span data-translate="admin.all_creators">All Creators</span></button></li>
+                    <li><button onclick="loadView('creator-levels')"><img src="../../public/assets/icons/stars_icon.png"> <span data-translate="admin.creator_levels">Creator Levels</span></button></li>
+                    <li><button onclick="loadView('creator-followers')"><img src="../../public/assets/icons/group_icon.png"> <span data-translate="admin.follower_networks">Follower Networks</span></button></li>
+                </ul>
+            </div>
+
+            <div id="venues-submenu" class="submenu">
+                <h2 data-translate="admin.venue_management">Venue Management <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li><button onclick="loadView('all-venues')"><img src="../../public/assets/icons/location_icon.png"> <span data-translate="admin.all_venues">All Venues</span></button></li>
+                    <li><button onclick="loadView('venue-analytics')"><img src="../../public/assets/icons/stats_icon.png"> <span data-translate="admin.venue_analytics">Venue Analytics</span></button></li>
+                </ul>
+            </div>
+
+            <div id="events-submenu" class="submenu">
+                <h2 data-translate="admin.event_management">Event Management <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li><button onclick="loadView('all-events')"><img src="../../public/assets/icons/event_icon.png"> <span data-translate="admin.all_events">All Events</span></button></li>
+                    <li><button onclick="loadView('game-shows')"><img src="../../public/assets/icons/door4_icon.png"> <span data-translate="admin.game_show_outings">Game Show Outings</span></button></li>
+                </ul>
+            </div>
+
+            <div id="system-submenu" class="submenu">
+                <h2 data-translate="admin.system_management">System Management <span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <ul>
+                    <li><button onclick="loadView('system-health')"><img src="../../public/assets/icons/config_icon.png"> <span data-translate="admin.system_health">System Health</span></button></li>
+                    <li><button onclick="loadView('database-admin')"><img src="../../public/assets/icons/safe_icon.png"> <span data-translate="admin.database_admin">Database Admin</span></button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Framework Scripts -->
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/theme.js"></script>
+    <script src="../../shared/js/theme-icons.js"></script>
+    <script src="../../shared/js/music.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../shared/js/firebase-config.js"></script>
+
+    <script>
+        // Initialize theme and language
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            // Update theme icons
+            if (typeof updateThemeIcons === 'function') {
+                updateThemeIcons(savedTheme);
+            }
+            
+            // Initialize language
+            if (typeof langManager !== 'undefined') {
+                await langManager.init();
+                langManager.updateUI();
+            }
+            
+            // Initialize music with default OFF
+            if (typeof initializeMusic === 'function') {
+                initializeMusic('system_control.mp3', false);
+            }
+            
+            // Send theme to iframes after they load
+            setTimeout(() => {
+                sendThemeToIframes(savedTheme);
+                sendLanguageToIframes();
+            }, 2000);
+            
+            // Animation triggers
+            setTimeout(() => {
+                const slideInLeftElements = document.querySelectorAll('.slide-in-left');
+                slideInLeftElements.forEach(el => el.classList.add('active'));
+
+                const fadeInElements = document.querySelectorAll('.fade-in');
+                fadeInElements.forEach(el => el.classList.add('active'));
+            }, 100);
+        });
+        function openSubmenu(submenu) {
+            const submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(submenu => {
+                submenu.style.display = 'none';
+            });
+
+            const selectedSubmenu = document.getElementById(submenu + '-submenu');
+            selectedSubmenu.style.display = 'block';
+            
+            const container = document.getElementById('submenu-container');
+            container.classList.add('active');
+        }
+
+        function closeSubmenu(closeButton) {
+            const submenu = closeButton.closest('.submenu');
+            submenu.style.display = 'none';
+            const container = document.getElementById('submenu-container');
+            container.classList.remove('active');
+        }
+
+        function closeAllSubmenus(event) {
+            if (event.target === event.currentTarget) {
+                const submenus = document.querySelectorAll('.submenu');
+                submenus.forEach(submenu => {
+                    submenu.style.display = 'none';
+                });
+                const container = document.getElementById('submenu-container');
+                container.classList.remove('active');
+            }
+        }
+
+        function loadView(view) {
+            const mainFrame = document.getElementById('mainFrame');
+            const rightFrame = document.getElementById('rightFrame');
+            
+            switch(view) {
+                case 'dashboard':
+                    mainFrame.src = 'leftconsole_admin.html';
+                    rightFrame.src = 'rightconsole_admin.html';
+                    break;
+                case 'all-users':
+                    mainFrame.src = 'leftconsole_users.html';
+                    rightFrame.src = 'rightconsole_users.html';
+                    break;
+                case 'all-creators':
+                    mainFrame.src = 'leftconsole_creators.html';
+                    rightFrame.src = 'rightconsole_creators.html';
+                    break;
+                default:
+                    mainFrame.src = 'leftconsole_admin.html';
+                    rightFrame.src = 'rightconsole_admin.html';
+            }
+            
+            closeAllSubmenus({target: document.getElementById('submenu-container')});
+        }
+        }
+
+        // Music toggle functionality
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicToggle = document.getElementById('musicToggle');
+
+        function toggleMusic() {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // Theme and language functions for iframes
+        function sendThemeToIframes(theme) {
+            const mainFrame = document.getElementById('mainFrame');
+            const rightFrame = document.getElementById('rightFrame');
+            
+            if (mainFrame && mainFrame.contentWindow) {
+                mainFrame.contentWindow.postMessage({ type: 'themeChange', theme: theme }, '*');
+            }
+            if (rightFrame && rightFrame.contentWindow) {
+                rightFrame.contentWindow.postMessage({ type: 'themeChange', theme: theme }, '*');
+            }
+        }
+        
+        function sendLanguageToIframes() {
+            const mainFrame = document.getElementById('mainFrame');
+            const rightFrame = document.getElementById('rightFrame');
+            
+            if (mainFrame && mainFrame.contentWindow) {
+                mainFrame.contentWindow.postMessage({ type: 'languageChange' }, '*');
+            }
+            if (rightFrame && rightFrame.contentWindow) {
+                rightFrame.contentWindow.postMessage({ type: 'languageChange' }, '*');
+            }
+        }
+        
+        // Global theme change function
+        window.changeTheme = function(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('ktg-theme', theme);
+            sendThemeToIframes(theme);
+        };
+    </script>
+</body>
+</html>

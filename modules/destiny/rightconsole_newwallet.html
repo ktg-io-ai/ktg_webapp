@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIGHT FRAME</title>
+    <style>
+        :root {
+            --bg-primary: #333;
+            --bg-secondary: #111;
+            --bg-tertiary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+            --input-bg: #ddd;
+            --input-text: #555;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --input-bg: #ffffff;
+            --input-text: #1a1a1a;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #2a2a2a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --input-bg: #3a3a3a;
+            --input-text: #f5f5dc;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-frame {
+            background-color: var(--bg-secondary);
+            padding: 33px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+            color: var(--text-primary);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            border: none;
+            padding: 0 8px 0 0;
+            border-radius: 20px;
+            cursor: pointer;
+            vertical-align: middle;
+            transition: background-color 0.3s ease;
+        }
+
+        .buttons button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .buttons button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .content-area {
+            display: flex;
+            height: calc(100vh - 195px);
+        }
+
+        .main-content {
+            width: 100%;
+            margin: 0 60px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content h2 {
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .form-input::placeholder {
+            color: var(--input-text);
+            opacity: 0.7;
+        }
+
+        menu {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: none;
+            text-decoration: none;
+            padding: 10px;
+            min-width: 200px;
+            text-align: center;
+            cursor: pointer;
+            align-items: center;
+            border-radius: 10px;
+            margin: 20px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        menu:hover {
+            background-color: var(--accent-hover);
+        }
+
+        menu h2 {
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .footer {
+            background-color: var(--bg-tertiary);
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 40px;
+            padding: 20px 0;
+        }
+
+        .footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* Submenu Styles */
+        .submenu {
+            position: absolute;
+            top: 60px;
+            right: 70px;
+            left: auto;
+            background-color: rgba(1, 1, 1, 0.9);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            border: 5px solid var(--accent-color);
+            padding: 20px;
+            min-width: 200px;
+            border-radius: 20px;
+            z-index: 1001;
+            pointer-events: auto;
+            display: none;
+        }
+
+        .submenu a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            padding: 0;
+            border-radius: 20px;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+        }
+
+        .submenu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .submenu li {
+            margin-bottom: 10px;
+        }
+
+        .submenu button {
+            background-color: var(--bg-primary);
+            opacity: 1;
+            color: var(--text-primary);
+            border: none;
+            padding: 10px;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .submenu button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .submenu button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        /* Submenu Styles */
+        .submenu {
+            position: absolute;
+            top: 60px;
+            right: 60px;
+            background-color: rgba(1, 1, 1, 0.9);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            border: 5px solid #2f27c8;
+            padding: 20px;
+            border-radius: 20px;
+            z-index: 1001;
+            pointer-events: auto;
+            display: none;
+            width: min(480px, 90vw);
+            max-width: 90vw;
+        }
+
+        [data-theme="light"] .submenu {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e9ecef;
+        }
+
+        [data-theme="dark"] .submenu {
+            background-color: rgba(42, 42, 42, 0.9);
+            border: 1px solid #404040;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .portal-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: min(16px, 2.4vw);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+            min-width: 0;
+        }
+
+        .portal-button:hover {
+            background-color: var(--bg-secondary);
+            border-color: #2f27c8;
+            transform: scale(1.05);
+        }
+
+        [data-theme="light"] .portal-button:hover {
+            background-color: #f1f3f4;
+        }
+
+        [data-theme="dark"] .portal-button:hover {
+            background-color: #3a3a3a;
+        }
+
+        .portal-button img {
+            width: min(32px, 6.4vw);
+            height: min(32px, 6.4vw);
+            margin-bottom: min(8px, 1.6vw);
+        }
+
+        .portal-button span {
+            font-size: min(10px, 2vw);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-frame">
+        <h2></h2>
+        <div class="buttons">
+            <button onclick="openPortalSubmenu()">
+                <img src="../../public/assets/icons/portal_icon.png" alt="Portal" style="width: 35px; height: 35px;">
+            </button>
+        </div>
+    </div>
+
+    <div id="portal-submenu" class="submenu" style="display: none;">
+        <h2 data-lang="dashboard.portals.title">Portals<span class="close-button" onclick="closePortalSubmenu()" style="float: right; cursor: pointer;">X</span></h2>
+        <div class="portal-grid">
+            <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/portal_icon.png" alt="portals"><span data-lang="dashboard.portals.title">PORTALS</span></a>
+            <a href="../destiny/opening.html" target="_parent" class="portal-button"><img class="destiny-icon" src="../../public/assets/icons/fave_icon.png" alt="destiny"><span data-lang="dashboard.portals.destiny">DESTINY</span></a>
+            <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img class="listings-icon" src="../../public/assets/icons/listing_icon.png" alt="listings"><span data-lang="dashboard.portals.listings">LISTINGS</span></a>
+            <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img class="ktgai-icon" src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span data-lang="dashboard.portals.ai">KTG.AI</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span data-lang="dashboard.portals.web3">WEB3</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR"><span data-lang="dashboard.portals.vr">VR/AR/XR</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span data-lang="dashboard.portals.dignbling">DIGN BLING</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/chess_icon.png" alt="chess"><span data-lang="dashboard.portals.chess">4 PLAY CHESS</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span data-lang="dashboard.portals.metaphysics">METAPHYSICS</span></a>
+            <a href="../about/creator.html" target="_parent" class="portal-button"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map"><span data-lang="dashboard.portals.map">MAP</span></a>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="main-content">
+            <h2 data-translate="destiny.newwallet.register_title">REGISTER NEW WALLET</h2>
+            <input type="email" id="email" class="form-input" data-translate-placeholder="destiny.newwallet.email_placeholder" placeholder="EMAIL ADDRESS" required>
+            <input type="password" id="password" class="form-input" data-translate-placeholder="destiny.newwallet.password_placeholder" placeholder="PASSWORD" required>
+            <input type="password" id="confirmPassword" class="form-input" data-translate-placeholder="destiny.newwallet.password_again_placeholder" placeholder="PASSWORD AGAIN" required>
+            
+            <menu onclick="registerWithEmail()">
+                <h2 data-translate="destiny.newwallet.next">REGISTER</h2>
+            </menu>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="#" data-translate="destiny.newwallet.terms">TERMS OF SERVICE</a>
+        <a href="#" data-translate="destiny.newwallet.privacy">PRIVACY POLICY</a>
+        <a href="#" data-translate="destiny.newwallet.rules">RULES OF THE GAME</a>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="../../shared/js/firebase-config-clean.js"></script>
+    
+    <!-- Framework Scripts -->
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/theme.js"></script>
+    <script src="../../shared/js/theme-icons.js"></script>
+
+    <script>
+        // Initialize theme and language
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            // Update theme icons
+            if (typeof updateThemeIcons !== 'undefined') {
+                updateThemeIcons(savedTheme);
+            }
+            
+            // Initialize language
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+        });
+        
+        // Listen for theme and language changes from parent
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'THEME_CHANGE') {
+                document.documentElement.setAttribute('data-theme', event.data.theme);
+            } else if (event.data.type === 'LANGUAGE_CHANGE') {
+                if (typeof langManager !== 'undefined') {
+                    langManager.changeLanguage(event.data.language);
+                }
+            }
+        });
+        
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'ktg-theme') {
+                document.documentElement.setAttribute('data-theme', event.newValue);
+            } else if (event.key === 'ktg-language') {
+                if (typeof langManager !== 'undefined') {
+                    langManager.changeLanguage(event.newValue);
+                }
+            }
+        });
+
+        function openPortalSubmenu() {
+            document.getElementById("portal-submenu").style.display = "block";
+        }
+
+        function closePortalSubmenu() {
+            document.getElementById("portal-submenu").style.display = "none";
+        }
+
+        // Registration function
+        async function registerWithEmail() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!email || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            try {
+                const result = await window.firebaseAuth.signUp(email, password);
+                
+                if (result.success) {
+                    // Check if Game Master
+                    const isGameMaster = email.toLowerCase().includes('gamemaster') || email.toLowerCase().includes('admin');
+                    
+                    // Create user profile
+                    await window.firebaseDB.createUser({
+                        email: email,
+                        created_at: new Date().toISOString(),
+                        role: isGameMaster ? 'Game Master' : 'Player',
+                        permissions: isGameMaster ? ['admin', 'creator', 'player'] : ['player']
+                    });
+                    
+                    // Create wallet with starter tokens
+                    const starterTokens = isGameMaster ? {
+                        life_1: 1000,
+                        life_3: 1000, 
+                        life_6: 1000,
+                        life_9: 1000,
+                        diamond: 10
+                    } : {
+                        life_1: 10,
+                        life_3: 5
+                    };
+                    
+                    await window.firebaseDB.createWallet(starterTokens);
+                    
+                    alert(isGameMaster ? 'Game Master registered with 1000 tokens!' : 'Registration successful!');
+                    window.parent.location.href = 'newavatar.html';
+                } else {
+                    alert('Registration failed: ' + result.error);
+                }
+            } catch (error) {
+                alert('Registration error: ' + error.message);
+            }
+        }
+
+        // Click outside to close submenu
+        document.addEventListener('click', function(event) {
+            const submenu = document.getElementById('portal-submenu');
+            const button = document.querySelector('button[onclick="openPortalSubmenu()"]');
+            
+            if (submenu.style.display === 'block' && !submenu.contains(event.target) && !button.contains(event.target)) {
+                submenu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
