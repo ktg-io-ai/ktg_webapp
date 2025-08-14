@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Setup Gamemaster</title>
+</head>
+<body>
+    <h2>Setup Gamemaster Account</h2>
+    <button onclick="setupGamemaster()">Setup Gamemaster</button>
+    <div id="result"></div>
+    
+    <script>
+        function setupGamemaster() {
+            // Create gamemaster user data
+            const userData = {
+                email: 'gamemaster@ktg.io',
+                walletId: 'wallet_gamemaster_' + Date.now(),
+                username: 'gamemaster',
+                first_name: 'Game',
+                last_name: 'Master',
+                createdAt: Date.now(),
+                provider: 'local'
+            };
+            
+            // Create avatar data
+            const avatarData = {
+                name: 'GameMaster',
+                gender: 'other',
+                tagline: 'Master of the Game seeks worthy players',
+                imageUrl: 'https://api.dicebear.com/7.x/avataaars/svg?seed=gamemaster&size=512',
+                generationCount: 1,
+                email: 'gamemaster@ktg.io'
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('ktg_user', JSON.stringify(userData));
+            localStorage.setItem('ktg_current_avatar', JSON.stringify(avatarData));
+            localStorage.setItem('ktg_registration_email', 'gamemaster@ktg.io');
+            
+            document.getElementById('result').innerHTML = `
+                <p>✅ Gamemaster account created!</p>
+                <p>Email: gamemaster@ktg.io</p>
+                <p>Wallet ID: ${userData.walletId}</p>
+                <p><a href="modules/destiny/chooseyourdoor.html">Go to Choose Your Door</a></p>
+            `;
+        }
+    </script>
+</body>
+</html>

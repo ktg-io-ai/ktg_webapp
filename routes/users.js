@@ -84,6 +84,38 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Get all users for admin dashboard
+router.get('/', async (req, res) => {
+    try {
+        const users = await Database.query(`
+            SELECT 
+                u.id, 
+                u.email, 
+                u.username, 
+                u.first_name, 
+                u.last_name, 
+                u.wallet_id, 
+                u.user_image, 
+                u.account_title, 
+                u.created_at,
+                COUNT(a.id) as avatar_count,
+                CASE WHEN u.email = 'gamemaster@ktg.io' THEN 1 ELSE 0 END as is_creator,
+                0 as chess_active,
+                0 as bling_active,
+                1 as level,
+                NULL as creator_date,
+                NULL as last_level_up
+            FROM users u
+            LEFT JOIN avatars a ON u.wallet_id = a.wallet_id
+            GROUP BY u.id, u.email, u.username, u.first_name, u.last_name, u.wallet_id, u.user_image, u.account_title, u.created_at
+            ORDER BY u.created_at DESC
+        `);
+        res.json({ success: true, users });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
 // Get all users for game console
 router.get('/all', async (req, res) => {
     try {
@@ -145,10 +177,22 @@ router.post('/avatar', async (req, res) => {
     }
 });
 
-// Get all avatars for game console
+// Get all avatars for admin dashboard
 router.get('/avatars', async (req, res) => {
     try {
-        const avatars = await Database.getAllActiveAvatars();
+        const avatars = await Database.query(`
+            SELECT 
+                a.id,
+                a.name,
+                a.tagline,
+                a.image_url,
+                a.is_active,
+                a.created_at,
+                u.email
+            FROM avatars a
+            JOIN users u ON a.wallet_id = u.wallet_id
+            ORDER BY a.created_at DESC
+        `);
         res.json(avatars);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -223,6 +267,68 @@ router.get('/journeybook/avatar/:avatarId', async (req, res) => {
     try {
         const journeybook = await Database.getAvatarJourneyBook(req.params.avatarId);
         res.json(journeybook);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// Save journeybook page template
+router.post('/journeybook/page', async (req, res) => {
+    try {
+        const { section, subgroup, question, options, imageUrl, pageNumber } = req.body;
+        
+        if (!section || !subgroup || !question || !pageNumber) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+        
+        await Database.saveJourneyBookPage(section, subgroup, question, options, imageUrl, pageNumber);
+        res.json({ success: true });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// Save journeybook image
+router.post('/journeybook/image', async (req, res) => {
+    try {
+        const { avatarId, pageNumber, imageUrl, prompt } = req.body;
+        
+        if (!avatarId || !pageNumber || !imageUrl) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+        
+        await Database.saveJourneyBookImage(avatarId, pageNumber, imageUrl, prompt);
+        res.json({ success: true });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// Get journeybook images for avatar
+router.get('/journeybook/images/:avatarId', async (req, res) => {
+    try {
+        const images = await Database.getJourneyBookImages(req.params.avatarId);
+        res.json(images);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// Get specific journeybook image
+router.get('/journeybook/image/:avatarId/:pageNumber', async (req, res) => {
+    try {
+        const image = await Database.getJourneyBookImage(req.params.avatarId, req.params.pageNumber);
+        res.json(image);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// Get journeybook page image
+router.get('/journeybook/page/:pageNumber', async (req, res) => {
+    try {
+        const page = await Database.getJourneyBookPageImage(req.params.pageNumber);
+        res.json(page);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

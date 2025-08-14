@@ -401,6 +401,27 @@
             height: 100%;
             object-fit: cover;
         }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay iframe {
+            width: 80%;
+            height: 80%;
+            border: none;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
     </style>
 </head>
 <body>
@@ -413,7 +434,7 @@
             <button id="listViewBtn" class="view-btn" onclick="toggleView('list')" title="List View">
                 <img src="../../public/assets/icons/list_icon.png" alt="List View" style="width: 25px; height: 25px;">
             </button>
-            <li onclick="openPortalSubmenu()" class="slide-in-left"><img src="../../public/assets/icons/portal_icon.png" alt="destiny" style="width: 35px; height: 35px;"></li>
+<button onclick="openPortalSubmenu()"><img src="../../public/assets/icons/portal_icon.png" alt="portal" style="width: 35px; height: 35px;"></button>
         </div>
     </div>
 
@@ -447,10 +468,10 @@
             <button><a href="https://t.me/karmathegame" target="_blank" rel="noopener"><img src="../../public/assets/icons/telegram_icon.png" alt="Telegram Icon"></a></button>
             <button><a href="https://www.threads.com/@karmathegame?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener"><img src="../../public/assets/icons/threads_icon.png" alt="QR Icon"></a></button>
             <button onclick="openContactForm()"><img src="../../public/assets/icons/wallet_icon.png" alt="wallet icon" class="theme-icon" data-ktg="../../public/assets/icons/wallet_icon.png" data-light="../../public/assets/icons/wallet_icon-blk.png" data-dark="../../public/assets/icons/wallet_icon-wht.png"></button>
-            <div class="json-note">
+            <div class="json-note" id="userStatus">
                 <strong>JSON Data:</strong><br>
                 User profile loaded from database<br>
-                Door: Blue (Gaming)<br>
+                Door: <span id="doorInfo">Loading...</span><br>
                 Status: Active
             </div>
         </div>
@@ -470,6 +491,10 @@
         </form>
     </div>
 
+    <div id="journeybook-modal" class="modal-overlay" style="display: none;">
+        <iframe id="journeybook-iframe" src="../journeybook/journeybook-modal.html" frameborder="0"></iframe>
+    </div>
+
     <script src="../../shared/js/language.js"></script>
     <script>
         let participantData = [];
@@ -482,7 +507,22 @@
             if (typeof initializeLanguage === 'function') {
                 initializeLanguage();
             }
+            
+            // Load door selection
+            loadDoorSelection();
         });
+        
+        function loadDoorSelection() {
+            const doorData = JSON.parse(localStorage.getItem('ktg_selected_door') || '{}');
+            const doorInfo = document.getElementById('doorInfo');
+            
+            if (doorData.color && doorData.category) {
+                const colorName = doorData.color.charAt(0).toUpperCase() + doorData.color.slice(1);
+                doorInfo.textContent = `${colorName} (${doorData.category})`;
+            } else {
+                doorInfo.textContent = 'No door selected';
+            }
+        }
 
         // Listen for theme changes from parent
         window.addEventListener('message', (event) => {
@@ -493,8 +533,37 @@
                 if (typeof initializeLanguage === 'function') {
                     initializeLanguage();
                 }
+            } else if (event.data.type === 'loadGrid') {
+                loadAllParticipants();
+            } else if (event.data.type === 'openJourneyBookModal') {
+                openJourneyBookModal(event.data.avatarId);
+            } else if (event.data.type === 'closeJourneyBookModal') {
+                closeJourneyBookModal();
             }
         });
+
+        function openJourneyBookModal(avatarId) {
+            console.log('Opening journeybook modal for avatar:', avatarId);
+            const modal = document.getElementById('journeybook-modal');
+            const iframe = document.getElementById('journeybook-iframe');
+            modal.style.display = 'flex';
+            
+            // Force reload iframe and send avatar ID
+            iframe.src = '../journeybook/journeybook-modal.html?t=' + Date.now();
+            iframe.onload = () => {
+                console.log('Iframe loaded, sending avatar ID:', avatarId);
+                setTimeout(() => {
+                    iframe.contentWindow.postMessage({
+                        type: 'loadJourneyBook',
+                        avatarId: avatarId
+                    }, '*');
+                }, 100);
+            };
+        }
+
+        function closeJourneyBookModal() {
+            document.getElementById('journeybook-modal').style.display = 'none';
+        }
 
         function updateThemeIcons(theme) {
             const themeIcons = document.querySelectorAll('.theme-icon');
@@ -550,11 +619,16 @@
                     safeLinksHtml += '</div>';
                 }
                 
+                // Get door info for this participant
+                const doorData = JSON.parse(localStorage.getItem('ktg_selected_door') || '{}');
+                const doorInfo = doorData.color ? `${doorData.color.charAt(0).toUpperCase() + doorData.color.slice(1)} (${doorData.category})` : 'No door selected';
+                
                 listItem.innerHTML = `
                     <img src="${participant.image}" alt="${participant.name}">
                     <div class="list-item-info">
                         <h4>${participant.name}</h4>
                         <p>${participant.tagline}</p>
+                        <p style="font-size: 12px; color: var(--text-secondary);">Door: ${doorInfo}</p>
                         ${safeLinksHtml}
                     </div>
                 `;
@@ -590,32 +664,37 @@
             try {
                 const participantGrid = document.getElementById('grid-view');
                 
+                // Show loading message
+                participantGrid.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-primary);">Loading avatars...</div>';
+                
                 // Try to load avatars from database API first
                 try {
                     const response = await fetch('/api/users/avatars');
                     if (response.ok) {
                         const avatars = await response.json();
+                        console.log('Avatars loaded for grid:', avatars);
                         
-                        if (avatars.length > 0) {
+                        if (avatars && avatars.length > 0) {
                             participantData = avatars.map(avatar => ({
                                 name: avatar.name,
-                                image: avatar.image_url,
-                                tagline: avatar.tagline,
-                                safeLinks: [
-                                    { text: 'Profile', url: '#' },
-                                    { text: 'Contact', url: '#' }
-                                ]
+                                image: avatar.image_url || `https://image.pollinations.ai/prompt/${encodeURIComponent(avatar.name + ' portrait')}?width=512&height=512&seed=${avatar.id}`,
+                                tagline: avatar.tagline || 'No tagline'
                             }));
                             
                             renderParticipants(participantData);
                             
-                            // Show database status
+                            // Show success status
                             const statusDiv = document.createElement('div');
-                            statusDiv.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #2f27c8; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px; z-index: 1000;';
-                            statusDiv.textContent = `${avatars.length} avatars loaded from database`;
+                            statusDiv.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px; z-index: 1000;';
+                            statusDiv.textContent = `✅ DB: ${avatars.length} avatars loaded`;
                             document.body.appendChild(statusDiv);
+                            setTimeout(() => statusDiv.remove(), 3000);
                             return;
+                        } else {
+                            console.log('No avatars found in database');
                         }
+                    } else {
+                        console.warn('Database API failed with status:', response.status);
                     }
                 } catch (dbError) {
                     console.warn('Database API failed, trying fallback:', dbError);
@@ -633,12 +712,13 @@
                     
                     // Show fallback status
                     const statusDiv = document.createElement('div');
-                    statusDiv.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #666; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px; z-index: 1000;';
+                    statusDiv.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #FF9800; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px; z-index: 1000;';
                     statusDiv.textContent = `📁 JSON: ${data.length} users loaded`;
                     document.body.appendChild(statusDiv);
+                    setTimeout(() => statusDiv.remove(), 3000);
                 } catch (jsonError) {
                     console.error('JSON fallback also failed:', jsonError);
-                    throw jsonError;
+                    participantGrid.innerHTML = '<p style="color: white; text-align: center; padding: 20px;">❌ No avatars found. Create some avatars first!</p>';
                 }
                 
             } catch (error) {

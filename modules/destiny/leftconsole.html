@@ -323,6 +323,8 @@
             }
         });
 
+        let currentSelectedAvatar = null;
+
         // Listen for theme changes from parent
         window.addEventListener('message', (event) => {
             if (event.data.type === 'themeChange') {
@@ -333,7 +335,12 @@
                 }
             } else if (event.data.type === 'participantSelected') {
                 const participant = event.data.participant;
+                currentSelectedAvatar = participant;
                 updateParticipant(participant);
+            } else if (event.data.type === 'getSelectedAvatar') {
+                // Return selected avatar ID to parent
+                const avatarId = currentSelectedAvatar?.id || getCurrentAvatarId();
+                window.parent.postMessage({ type: 'selectedAvatar', avatarId: avatarId }, '*');
             }
         });
 
@@ -438,8 +445,9 @@
                         ]
                     });
                     
-                    // Update door indicator (default to blue)
-                    updateDoorIndicator('blue');
+                    // Update door indicator from selection
+                    const doorData = JSON.parse(localStorage.getItem('ktg_selected_door') || '{}');
+                    updateDoorIndicator(doorData.color || 'blue');
                     
                     // Update progress bars (default to 0)
                     updateProgressBars({ values: 0, compatibility: 0, intimacy: 0 });
@@ -496,6 +504,16 @@
             document.getElementById('values-progress').style.width = valuesPercent + '%';
             document.getElementById('compatibility-progress').style.width = compatibilityPercent + '%';
             document.getElementById('intimacy-progress').style.width = intimacyPercent + '%';
+        }
+
+        function getCurrentAvatarId() {
+            try {
+                const currentAvatar = JSON.parse(localStorage.getItem('ktg_current_avatar') || '{}');
+                return currentAvatar.id || null;
+            } catch (error) {
+                console.error('Error getting current avatar ID:', error);
+                return null;
+            }
         }
 
         // Load profile when page loads

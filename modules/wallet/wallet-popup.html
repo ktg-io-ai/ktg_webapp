@@ -288,34 +288,51 @@
 
         function updateTokenGrid() {
             const tokenGrid = document.getElementById('tokenGrid');
-            const tokens = currentWallet.tokens;
+            const userData = JSON.parse(localStorage.getItem('ktg_user') || '{}');
+            
+            // Sample token data - replace with actual API call
+            const tokens = {
+                '1life': 5,
+                '3life': 3,
+                '6life': 2,
+                '9life': 1,
+                'diamond': userData.email === 'gamemaster@ktg.io' ? 10 : 0
+            };
             
             let html = '';
             
-            // Regular life tokens
-            for (let i = 1; i <= 9; i++) {
-                const tokenType = `${i}life`;
+            // Regular life tokens with correct pricing from master plan
+            const lifeTokens = [
+                { lives: 1, price: 1.99 },
+                { lives: 3, price: 3.99 },
+                { lives: 6, price: 6.99 },
+                { lives: 9, price: 9.99 }
+            ];
+            
+            lifeTokens.forEach(token => {
+                const tokenType = `${token.lives}life`;
                 const count = tokens[tokenType] || 0;
-                const price = currentWallet.getTokenPrice(tokenType);
                 
                 html += `
                     <div class="token-card">
                         <div class="token-count">${count}</div>
-                        <div class="token-type">${i}-Life Token</div>
-                        <div class="token-price">$${price}</div>
+                        <div class="token-type">${token.lives}-Life Token</div>
+                        <div class="token-price">$${token.price.toFixed(2)}</div>
                     </div>
                 `;
-            }
+            });
             
             // Diamond token
             const diamondCount = tokens['diamond'] || 0;
-            html += `
-                <div class="token-card diamond">
-                    <div class="token-count">${diamondCount}</div>
-                    <div class="token-type">💎 Diamond</div>
-                    <div class="token-price">$999.00</div>
-                </div>
-            `;
+            if (diamondCount > 0) {
+                html += `
+                    <div class="token-card diamond">
+                        <div class="token-count">${diamondCount}</div>
+                        <div class="token-type">💎 Diamond</div>
+                        <div class="token-price">$999.99</div>
+                    </div>
+                `;
+            }
             
             tokenGrid.innerHTML = html;
         }
@@ -361,33 +378,37 @@
             const avatarListDiv = document.getElementById('avatarList');
             
             try {
-                // Get current user data
                 const userData = JSON.parse(localStorage.getItem('ktg_user') || '{}');
-                if (!userData.walletId) {
+                if (!userData.email) {
                     avatarListDiv.innerHTML = '<div class="avatar-item">Please login to view avatars</div>';
                     return;
                 }
                 
-                // Load avatars from Firebase
-                const avatars = await loadUserAvatars(userData.walletId);
+                // Load avatars from database API
+                const response = await fetch('/api/users/avatars');
+                if (!response.ok) {
+                    throw new Error('Failed to load avatars');
+                }
                 
-                if (avatars.length === 0) {
+                const allAvatars = await response.json();
+                const userAvatars = allAvatars.filter(avatar => avatar.email === userData.email);
+                
+                if (userAvatars.length === 0) {
                     avatarListDiv.innerHTML = '<div class="avatar-item">No avatars created yet</div>';
                     return;
                 }
                 
                 let html = '';
-                avatars.forEach(avatar => {
-                    const statusClass = avatar.isActive ? 'active' : 'inactive';
-                    const statusText = avatar.isActive ? 'ACTIVE' : 'INACTIVE';
-                    const ageText = avatar.tokensUsed ? `Age: ${avatar.tokensUsed} tokens` : 'New';
+                userAvatars.forEach(avatar => {
+                    const statusClass = avatar.is_active ? 'active' : 'inactive';
+                    const statusText = avatar.is_active ? 'ACTIVE' : 'INACTIVE';
                     
                     html += `
                         <div class="avatar-item">
                             <div class="avatar-info">
                                 <div class="avatar-name">${avatar.name}</div>
                                 <div class="avatar-tagline">${avatar.tagline}</div>
-                                <div class="avatar-tagline">${ageText}</div>
+                                <div class="avatar-tagline">Gender: ${avatar.gender}</div>
                                 <span class="avatar-status ${statusClass}">${statusText}</span>
                             </div>
                         </div>

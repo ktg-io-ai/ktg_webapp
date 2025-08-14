@@ -197,27 +197,39 @@ class Database {
 
     // JourneyBook operations
     static async saveJourneyBookAnswer(avatarId, questionKey, answer) {
-        const sql = `INSERT INTO journeybook_answers (avatar_id, question_key, answer) 
+        // Extract page ID from questionKey if it contains page ID, otherwise hash it
+        let pageId;
+        if (questionKey.includes('page_')) {
+            pageId = parseInt(questionKey.split('page_')[1]) || 1;
+        } else {
+            // Hash questionKey to create unique page_id
+            pageId = Math.abs(questionKey.split('').reduce((a, b) => {
+                a = ((a << 5) - a) + b.charCodeAt(0);
+                return a & a;
+            }, 0));
+        }
+        
+        const sql = `INSERT INTO avatar_journeybook_responses (avatar_id, page_id, answer) 
                      VALUES (?, ?, ?) 
                      ON DUPLICATE KEY UPDATE answer = VALUES(answer), updated_at = CURRENT_TIMESTAMP`;
-        return await this.query(sql, [avatarId, questionKey, answer]);
+        return await this.query(sql, [avatarId, pageId, answer]);
     }
 
     static async getJourneyBookAnswers(avatarId) {
-        const sql = 'SELECT question_key, answer FROM journeybook_answers WHERE avatar_id = ?';
+        const sql = 'SELECT page_id, answer FROM avatar_journeybook_responses WHERE avatar_id = ?';
         const results = await this.query(sql, [avatarId]);
         const answers = {};
         results.forEach(row => {
-            answers[row.question_key] = row.answer;
+            answers[`page_${row.page_id}`] = row.answer;
         });
         return answers;
     }
 
     static async getPublicJourneyBooks() {
         const sql = `SELECT a.id as avatar_id, a.name, a.gender, a.tagline, a.image_url, 
-                            COUNT(ja.id) as answer_count
+                            COUNT(jr.id) as answer_count
                      FROM avatars a 
-                     LEFT JOIN journeybook_answers ja ON a.id = ja.avatar_id 
+                     LEFT JOIN avatar_journeybook_responses jr ON a.id = jr.avatar_id 
                      WHERE a.is_active = TRUE 
                      GROUP BY a.id 
                      HAVING answer_count > 0 
@@ -227,11 +239,44 @@ class Database {
 
     static async getAvatarJourneyBook(avatarId) {
         const sql = `SELECT a.name, a.gender, a.tagline, a.image_url,
-                            ja.question_key, ja.answer
+                            jr.page_id, jr.answer
                      FROM avatars a 
-                     LEFT JOIN journeybook_answers ja ON a.id = ja.avatar_id 
+                     LEFT JOIN avatar_journeybook_responses jr ON a.id = jr.avatar_id 
                      WHERE a.id = ? AND a.is_active = TRUE`;
         return await this.query(sql, [avatarId]);
+    }
+
+    // JourneyBook Page Template operations
+    static async saveJourneyBookPage(section, subgroup, question, options, imageUrl, pageNumber) {
+        const sql = `INSERT INTO journeybook_pages (section, subgroup, question, options, image_url, page_number) 
+                     VALUES (?, ?, ?, ?, ?, ?) 
+                     ON DUPLICATE KEY UPDATE image_url = VALUES(image_url), updated_at = CURRENT_TIMESTAMP`;
+        return await this.query(sql, [section, subgroup, question, JSON.stringify(options), imageUrl, pageNumber]);
+    }
+
+    // JourneyBook Image operations
+    static async saveJourneyBookImage(avatarId, pageNumber, imageUrl, prompt) {
+        const sql = `INSERT INTO journeybook_images (avatar_id, page_number, image_url, prompt_used) 
+                     VALUES (?, ?, ?, ?) 
+                     ON DUPLICATE KEY UPDATE image_url = VALUES(image_url), prompt_used = VALUES(prompt_used), updated_at = CURRENT_TIMESTAMP`;
+        return await this.query(sql, [avatarId, pageNumber, imageUrl, prompt]);
+    }
+
+    static async getJourneyBookImages(avatarId) {
+        const sql = 'SELECT page_number, image_url, prompt_used FROM journeybook_images WHERE avatar_id = ? ORDER BY page_number';
+        return await this.query(sql, [avatarId]);
+    }
+
+    static async getJourneyBookImage(avatarId, pageNumber) {
+        const sql = 'SELECT image_url, prompt_used FROM journeybook_images WHERE avatar_id = ? AND page_number = ?';
+        const results = await this.query(sql, [avatarId, pageNumber]);
+        return results[0] || null;
+    }
+
+    static async getJourneyBookPageImage(pageNumber) {
+        const sql = 'SELECT image_url FROM journeybook_pages WHERE page_number = ?';
+        const results = await this.query(sql, [pageNumber]);
+        return results[0] || null;
     }
 }
 

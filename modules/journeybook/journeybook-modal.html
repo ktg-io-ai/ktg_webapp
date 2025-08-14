@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JourneyBook Answers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .modal-container {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .answer-item {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+
+        .answer {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+
+        .no-answers {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            margin-top: 50px;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <span class="close-button" onclick="closeModal()">X</span>
+    <div class="modal-container">
+        <h1>JourneyBook Answers</h1>
+        <div id="answers-container">
+            <div class="no-answers">Loading answers...</div>
+        </div>
+    </div>
+
+    <script>
+        let avatarId = null;
+
+        // Get avatar ID from parent window or URL
+        window.addEventListener('message', async (event) => {
+            console.log('Modal received message:', event.data);
+            if (event.data.type === 'loadJourneyBook' && event.data.avatarId) {
+                await loadQuestions();
+                avatarId = event.data.avatarId;
+                console.log('Loading answers for avatar:', avatarId);
+                loadAnswers(avatarId);
+            }
+        });
+
+        // Also try to get avatar ID from URL params as fallback
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadQuestions();
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlAvatarId = urlParams.get('avatarId');
+            if (urlAvatarId) {
+                console.log('Got avatar ID from URL:', urlAvatarId);
+                avatarId = urlAvatarId;
+                loadAnswers(avatarId);
+            }
+        });
+
+        function closeModal() {
+            window.parent.postMessage({ type: 'closeJourneyBookModal' }, '*');
+        }
+
+        async function loadAnswers(avatarId) {
+            console.log('loadAnswers called with avatarId:', avatarId);
+            try {
+                const url = `/api/users/journeybook/${avatarId}`;
+                console.log('Fetching from:', url);
+                const response = await fetch(url);
+                console.log('Response status:', response.status);
+                
+                if (response.ok) {
+                    const answers = await response.json();
+                    console.log('Received answers:', answers);
+                    displayAnswers(answers);
+                } else {
+                    const errorText = await response.text();
+                    console.error('API error:', response.status, errorText);
+                    document.getElementById('answers-container').innerHTML = `<div class="no-answers">Failed to load answers (${response.status})</div>`;
+                }
+            } catch (error) {
+                console.error('Error loading answers:', error);
+                document.getElementById('answers-container').innerHTML = `<div class="no-answers">Error: ${error.message}</div>`;
+            }
+        }
+
+        let questionsData = {};
+
+        async function loadQuestions() {
+            try {
+                const response = await fetch('/api/users/journeybook/pages');
+                if (response.ok) {
+                    const pages = await response.json();
+                    console.log('Loaded questions for modal:', pages);
+                    
+                    pages.forEach(page => {
+                        questionsData[page.id] = {
+                            question: page.content || page.title || 'Question',
+                            image: page.image_url
+                        };
+                    });
+                } else {
+                    console.error('Failed to load questions:', response.status);
+                }
+            } catch (error) {
+                console.error('Error loading questions:', error);
+            }
+        }
+
+        function displayAnswers(answers) {
+            const container = document.getElementById('answers-container');
+            
+            if (Object.keys(answers).length === 0) {
+                container.innerHTML = '<div class="no-answers">No answers found</div>';
+                return;
+            }
+
+            let html = '';
+            Object.entries(answers).forEach(([pageId, answer]) => {
+                const questionData = questionsData[pageId];
+                const questionText = questionData?.question || `Question ${pageId}`;
+                const imageUrl = questionData?.image;
+                
+                html += `
+                    <div class="answer-item">
+                        ${imageUrl ? `<img src="${imageUrl}" alt="Question image" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; margin-bottom: 10px;" onerror="this.style.display='none'">` : ''}
+                        <div class="question">${questionText}</div>
+                        <div class="answer">${answer}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
