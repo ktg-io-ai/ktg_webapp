@@ -54,19 +54,50 @@ router.put('/avatar', authenticateToken, async (req, res) => {
     }
 });
 
-// Save JourneyBook response
-router.post('/journeybook', authenticateToken, async (req, res) => {
+// Save JourneyBook answer
+router.post('/journeybook/answer', async (req, res) => {
     try {
-        const { questionId, answer } = req.body;
+        const { avatarId, questionKey, answer } = req.body;
+        const { Database } = require('../../config/database');
         
-        await req.db.query(
-            'INSERT INTO journeybook (user_id, question_id, answer) VALUES ($1, $2, $3)',
-            [req.user.userId, questionId, answer]
-        );
+        await Database.saveJourneyBookAnswer(avatarId, questionKey, answer);
         
         res.json({ success: true });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to save response' });
+        console.error('Error saving journeybook answer:', error);
+        res.status(500).json({ error: 'Failed to save answer' });
+    }
+});
+
+// Get JourneyBook pages from database
+router.get('/journeybook/pages', async (req, res) => {
+    try {
+        const { Database } = require('../../config/database');
+        
+        const pages = await Database.query(
+            'SELECT id, title, content, image_url, options, question_type FROM journeybook_pages ORDER BY id'
+        );
+        
+        console.log('Loaded pages from database:', pages.length);
+        res.json(pages);
+    } catch (error) {
+        console.error('Error loading journeybook pages:', error);
+        res.status(500).json({ error: 'Failed to load pages', details: error.message });
+    }
+});
+
+// Get JourneyBook answers for avatar
+router.get('/journeybook/:avatarId', async (req, res) => {
+    try {
+        const { avatarId } = req.params;
+        const { Database } = require('../../config/database');
+        
+        const answers = await Database.getJourneyBookAnswers(avatarId);
+        
+        res.json(answers);
+    } catch (error) {
+        console.error('Error loading journeybook answers:', error);
+        res.status(500).json({ error: 'Failed to load answers' });
     }
 });
 

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucy AI Controls - Admin Dashboard</title>
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --text-primary: #fff;
+            --accent-color: #2f27c8;
+            --success-color: #4CAF50;
+            --warning-color: #FF9800;
+            --error-color: #f44336;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .lucy-dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .status-card {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-active { background-color: var(--success-color); }
+        .status-idle { background-color: var(--warning-color); }
+        .status-error { background-color: var(--error-color); }
+
+        .control-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-section {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .control-section h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+
+        .btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background: #4fb6c1;
+        }
+
+        .btn-success { background: var(--success-color); }
+        .btn-warning { background: var(--warning-color); }
+        .btn-danger { background: var(--error-color); }
+
+        .platform-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .metric-card {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .content-preview {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-style: italic;
+        }
+
+        .log-container {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="lucy-dashboard">
+        <h1>🤖 Lucy AI Control Center</h1>
+        
+        <!-- Status Overview -->
+        <div class="status-card">
+            <h2>
+                <span id="statusIndicator" class="status-indicator status-idle"></span>
+                Lucy AI Status: <span id="statusText">Initializing...</span>
+            </h2>
+            <p>Last Activity: <span id="lastActivity">Never</span></p>
+            <button class="btn btn-success" onclick="initializeLucy()">Initialize Lucy</button>
+            <button class="btn btn-warning" onclick="pauseLucy()">Pause</button>
+            <button class="btn btn-danger" onclick="stopLucy()">Stop</button>
+        </div>
+
+        <!-- Control Panels -->
+        <div class="control-panel">
+            <!-- Platform Management -->
+            <div class="control-section">
+                <h3>🌐 Platform Connections</h3>
+                <div id="platformConnections">
+                    <div class="platform-status">
+                        <span>Twitter/X</span>
+                        <span class="status-indicator status-idle"></span>
+                    </div>
+                    <div class="platform-status">
+                        <span>Instagram</span>
+                        <span class="status-indicator status-idle"></span>
+                    </div>
+                    <div class="platform-status">
+                        <span>TikTok</span>
+                        <span class="status-indicator status-idle"></span>
+                    </div>
+                </div>
+                <button class="btn" onclick="connectPlatforms()">Connect All</button>
+            </div>
+
+            <!-- Content Generation -->
+            <div class="control-section">
+                <h3>📝 Content Generation</h3>
+                <select id="doorTheme">
+                    <option value="Destiny">Destiny</option>
+                    <option value="Chess">Chess</option>
+                    <option value="Music">Music</option>
+                    <option value="Ideas">Ideas</option>
+                </select>
+                <select id="platform">
+                    <option value="twitter">Twitter</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="tiktok">TikTok</option>
+                </select>
+                <button class="btn" onclick="generateContent()">Generate Content</button>
+                <div id="contentPreview" class="content-preview" style="display: none;"></div>
+            </div>
+
+            <!-- Campaign Management -->
+            <div class="control-section">
+                <h3>🎯 Campaign Management</h3>
+                <button class="btn" onclick="startUserAcquisition()">Start User Acquisition</button>
+                <button class="btn" onclick="launchViralCampaign()">Launch Viral Campaign</button>
+                <button class="btn" onclick="viewCampaigns()">View Active Campaigns</button>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" id="totalReach">0</div>
+                        <div>Total Reach</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="conversions">0</div>
+                        <div>Conversions</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="engagement">0%</div>
+                        <div>Engagement</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Integration -->
+            <div class="control-section">
+                <h3>🔗 AI Integration</h3>
+                <div class="platform-status">
+                    <span>Riona Agent</span>
+                    <span class="status-indicator status-idle"></span>
+                </div>
+                <div class="platform-status">
+                    <span>Notte Automation</span>
+                    <span class="status-indicator status-idle"></span>
+                </div>
+                <button class="btn" onclick="integrateRiona()">Connect Riona</button>
+                <button class="btn" onclick="integrateNotte()">Connect Notte</button>
+            </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="control-section">
+            <h3>📊 Activity Log</h3>
+            <div id="activityLog" class="log-container">
+                <div>🤖 Lucy AI Control Center initialized</div>
+                <div>⏳ Waiting for Lucy initialization...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../io/lucy-ai/lucy_core.js"></script>
+    <script>
+        let lucy = null;
+        
+        async function initializeLucy() {
+            log('🚀 Initializing Lucy AI...');
+            updateStatus('initializing', 'Initializing...');
+            
+            try {
+                lucy = new LucyAI();
+                const result = await lucy.initialize();
+                
+                if (result.success) {
+                    updateStatus('active', 'Active');
+                    log('✅ Lucy AI initialized successfully');
+                    updateLastActivity();
+                } else {
+                    updateStatus('error', 'Error: ' + result.error);
+                    log('❌ Lucy AI initialization failed: ' + result.error);
+                }
+            } catch (error) {
+                updateStatus('error', 'Error: ' + error.message);
+                log('❌ Exception during initialization: ' + error.message);
+            }
+        }
+
+        async function pauseLucy() {
+            if (!lucy) return;
+            updateStatus('idle', 'Paused');
+            log('⏸️ Lucy AI paused');
+        }
+
+        async function stopLucy() {
+            if (!lucy) return;
+            updateStatus('idle', 'Stopped');
+            log('⏹️ Lucy AI stopped');
+            lucy = null;
+        }
+
+        async function generateContent() {
+            if (!lucy) {
+                log('❌ Lucy AI not initialized');
+                return;
+            }
+
+            const doorTheme = document.getElementById('doorTheme').value;
+            const platform = document.getElementById('platform').value;
+            
+            log(`🎯 Generating ${platform} content for ${doorTheme} theme...`);
+            
+            try {
+                const content = await lucy.createViralContent(platform, doorTheme);
+                displayContentPreview(content);
+                log(`✅ Content generated for ${platform} - ${doorTheme}`);
+            } catch (error) {
+                log('❌ Content generation failed: ' + error.message);
+            }
+        }
+
+        function displayContentPreview(content) {
+            const preview = document.getElementById('contentPreview');
+            preview.style.display = 'block';
+            preview.innerHTML = `
+                <strong>${content.platform.toUpperCase()} - ${content.doorTheme}</strong><br>
+                ${content.content}<br>
+                <small>CTA: ${content.callToAction}</small><br>
+                <small>Tags: ${content.hashtags.join(' ')}</small>
+            `;
+        }
+
+        async function connectPlatforms() {
+            log('🌐 Connecting to external platforms...');
+            // Simulate platform connections
+            setTimeout(() => {
+                log('✅ Platform connections established');
+                updatePlatformStatus();
+            }, 2000);
+        }
+
+        function updatePlatformStatus() {
+            const indicators = document.querySelectorAll('.platform-status .status-indicator');
+            indicators.forEach(indicator => {
+                indicator.className = 'status-indicator status-active';
+            });
+        }
+
+        async function integrateRiona() {
+            if (!lucy) return;
+            log('🔗 Integrating with Riona AI Agent...');
+            const result = await lucy.integrateWithRiona();
+            log(`✅ Riona integration: ${result.integrated ? 'Success' : 'Failed'}`);
+        }
+
+        async function integrateNotte() {
+            if (!lucy) return;
+            log('🔗 Integrating with Notte automation...');
+            const result = await lucy.integrateWithNotte();
+            log(`✅ Notte integration: ${result.integrated ? 'Success' : 'Failed'}`);
+        }
+
+        function startUserAcquisition() {
+            log('🎯 Starting user acquisition campaign...');
+            updateMetrics();
+        }
+
+        function launchViralCampaign() {
+            log('🚀 Launching viral campaign...');
+            updateMetrics();
+        }
+
+        function viewCampaigns() {
+            log('📊 Loading campaign data...');
+        }
+
+        function updateStatus(status, text) {
+            const indicator = document.getElementById('statusIndicator');
+            const statusText = document.getElementById('statusText');
+            
+            indicator.className = `status-indicator status-${status}`;
+            statusText.textContent = text;
+        }
+
+        function updateLastActivity() {
+            document.getElementById('lastActivity').textContent = new Date().toLocaleString();
+        }
+
+        function updateMetrics() {
+            // Simulate metrics updates
+            document.getElementById('totalReach').textContent = Math.floor(Math.random() * 10000);
+            document.getElementById('conversions').textContent = Math.floor(Math.random() * 100);
+            document.getElementById('engagement').textContent = (Math.random() * 10).toFixed(1) + '%';
+        }
+
+        function log(message) {
+            const logContainer = document.getElementById('activityLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🎛️ Lucy AI Control Center ready');
+        });
+    </script>
+</body>
+</html>

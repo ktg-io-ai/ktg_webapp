@@ -757,7 +757,7 @@
                         </button>
                     </li>
                     <li>
-                        <button>
+                        <button onclick="openJourneyBookModal()">
                             <img src="../../public/assets/icons/journeybook_icon.png" alt="JourneyBook Icon">
                             <span data-translate="destiny.gameconsole.journeybook">JourneyBook</span>
                         </button>
@@ -1275,12 +1275,33 @@
             URL.revokeObjectURL(url);
         }
 
+        // Open JourneyBook modal for selected avatar
+        function openJourneyBookModal() {
+            // Get selected avatar from leftconsole
+            const mainFrame = document.getElementById('mainFrame');
+            if (mainFrame && mainFrame.contentWindow) {
+                mainFrame.contentWindow.postMessage({ type: 'getSelectedAvatar' }, '*');
+            }
+        }
+
         // Handle messages from iframes
         window.addEventListener('message', function(event) {
             if (event.data.type === 'closeEmojiPopup') {
                 // Handle emoji popup close
             } else if (event.data.type === 'emoji') {
                 console.log('Received emoji:', event.data.emoji);
+            } else if (event.data.type === 'selectedAvatar') {
+                // Send message to rightconsole to open modal
+                const avatarId = event.data.avatarId;
+                if (avatarId) {
+                    const rightFrame = document.getElementById('rightFrame');
+                    rightFrame.contentWindow.postMessage({
+                        type: 'openJourneyBookModal',
+                        avatarId: avatarId
+                    }, '*');
+                } else {
+                    alert('Please select an avatar first');
+                }
             } else if (event.data.type && event.data.type.startsWith('close')) {
                 // Close any wireframe and return to main rightconsole
                 const rightFrame = document.getElementById('rightFrame');

@@ -806,15 +806,22 @@
                 const response = await fetch('/api/users/avatars');
                 if (response.ok) {
                     const avatars = await response.json();
+                    console.log('Loaded avatars:', avatars);
                     displayAvatars(avatars);
+                } else {
+                    console.error('Failed to load avatars:', response.status);
+                    displayAvatars([]);
                 }
             } catch (error) {
                 console.error('Error loading avatars:', error);
+                displayAvatars([]);
             }
         }
         
         function displayAvatars(avatars) {
             const avatarList = document.getElementById('avatarList');
+            console.log('Avatars received:', avatars); // Debug log
+            
             if (avatars.length === 0) {
                 avatarList.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary);">No avatars found</div>';
                 return;
@@ -824,12 +831,12 @@
             localStorage.setItem('ktg_all_avatars', JSON.stringify(avatars));
             
             avatarList.innerHTML = avatars.map(avatar => `
-                <div class="avatar-item" onclick="selectAvatar('${avatar.name}', '${avatar.email}')">
+                <div class="avatar-item" onclick="selectAvatar(${avatar.id}, '${avatar.name}', '${avatar.email}')">
                     <div class="avatar-info">
                         <div class="avatar-name">${avatar.name}</div>
-                        <div class="avatar-tagline">${avatar.tagline}</div>
-                        <span class="avatar-status ${avatar.is_active ? 'active' : 'inactive'}">
-                            ${avatar.is_active ? 'ACTIVE' : 'INACTIVE'}
+                        <div class="avatar-tagline">${avatar.tagline || 'No tagline'}</div>
+                        <span class="avatar-status active">
+                            ACTIVE
                         </span>
                     </div>
                 </div>
@@ -838,12 +845,22 @@
         
         let selectedAvatarData = null;
         
-        function selectAvatar(avatarName, email) {
+        function selectAvatar(avatarId, avatarName, email) {
             document.getElementById('loginInput').value = email;
             
             // Store selected avatar data
             const avatars = JSON.parse(localStorage.getItem('ktg_all_avatars') || '[]');
-            selectedAvatarData = avatars.find(avatar => avatar.name === avatarName && avatar.email === email);
+            selectedAvatarData = avatars.find(avatar => avatar.id === avatarId);
+            
+            // Store current avatar immediately
+            if (selectedAvatarData) {
+                localStorage.setItem('ktg_current_avatar', JSON.stringify({
+                    id: avatarId,
+                    name: selectedAvatarData.name,
+                    tagline: selectedAvatarData.tagline,
+                    imageUrl: selectedAvatarData.image_url
+                }));
+            }
             
             // Highlight selected avatar
             document.querySelectorAll('.avatar-item').forEach(item => {
@@ -870,22 +887,7 @@
             const result = await window.KTGAuth.login(loginInput, passwordInput);
             
             if (result.success) {
-                // Store selected avatar if one was chosen
-                if (selectedAvatarData) {
-                    localStorage.setItem('ktg_current_avatar', JSON.stringify({
-                        name: selectedAvatarData.name,
-                        gender: selectedAvatarData.gender,
-                        tagline: selectedAvatarData.tagline,
-                        imageUrl: selectedAvatarData.image_url,
-                        generationCount: selectedAvatarData.generation_count || 1
-                    }));
-                    
-                    // Update user data with selected avatar
-                    const userData = JSON.parse(localStorage.getItem('ktg_user') || '{}');
-                    userData.avatar = selectedAvatarData;
-                    userData.avatarImage = selectedAvatarData.image_url;
-                    localStorage.setItem('ktg_user', JSON.stringify(userData));
-                }
+
                 
                 statusDiv.textContent = 'Login successful!';
                 statusDiv.style.color = '#4CAF50';
@@ -897,7 +899,14 @@
         }
         
         function enterGame() {
-            window.location.href = 'gameconsole.html';
+            // Check if there's a return URL to redirect back to
+            const returnUrl = localStorage.getItem('ktg_return_url');
+            if (returnUrl) {
+                localStorage.removeItem('ktg_return_url');
+                window.location.href = returnUrl;
+            } else {
+                window.location.href = 'gameconsole.html';
+            }
         }
         
         // Make functions available globally

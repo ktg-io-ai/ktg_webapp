@@ -462,6 +462,14 @@
                     <img src="../../public/assets/icons/reddoor_icon.png" alt="Intimacy">
                     <span>Intimacy</span>
                 </li>
+                <li onclick="window.location.href='../destiny/gameconsole.html'">
+                    <img src="../../public/assets/icons/grid_icon.png" alt="Game Console">
+                    <span>Game Console</span>
+                </li>
+                <li onclick="openSubmenu('mystuff')">
+                    <img src="../../public/assets/icons/detail_icon.png" alt="My Stuff">
+                    <span>My Stuff</span>
+                </li>
             </ul>
         </div>
 
@@ -553,48 +561,79 @@
                     <a href="../about/creator.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/globe_icon.png" alt="map"><span>MAP</span></a>
                 </div>
             </div>
+            
+            <div id="mystuff-submenu" class="submenu">
+                <h2>My Stuff <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>
+                <div class="portal-grid">
+                    <a href="#" onclick="alert('Config coming soon')" class="portal-button"><img src="../../public/assets/icons/settings_icon.png" alt="config"><span>CONFIG</span></a>
+                    <a href="#" onclick="openWallet()" class="portal-button"><img src="../../public/assets/icons/wallet_icon.png" alt="wallet"><span>WALLET</span></a>
+                    <a href="#" onclick="closeSubmenu(event.target); showTableOfContents()" class="portal-button"><img src="../../public/assets/icons/journeybook_icon.png" alt="journeybook"><span>JOURNEYBOOK</span></a>
+                </div>
+            </div>
         </div>
 
         <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/journeybook.mp3" loop></audio>
     </div>
-
-    <!-- Firebase Scripts -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="../../shared/js/leonardo-config.js"></script>
 
     <!-- Framework Scripts -->
     <script src="../../shared/js/language.js"></script>
     <script src="../../shared/js/theme.js"></script>
     <script src="../../shared/js/theme-icons.js"></script>
 
-    <script src="questions-data.js"></script>
-    <script src="image-generator.js"></script>
+
     <script>
         let currentSection = '';
         let currentQuestionIndex = 0;
         let questions = [];
         let userAnswers = {};
-        
-        // Load questions from Firebase or fallback to static
-        let questionsData = JOURNEYBOOK_QUESTIONS;
+        let questionsData = {};
         
         async function loadQuestionsData() {
             try {
-                await window.KTGFirebase.init();
-                const db = firebase.firestore();
-                const doc = await db.collection('JourneyBookQuestions').doc('questions').get();
-                
-                if (doc.exists && doc.data().questions) {
-                    questionsData = doc.data().questions;
-                    console.log('Loaded questions from Firebase');
+                const response = await fetch('/api/users/journeybook/pages');
+                if (response.ok) {
+                    const pages = await response.json();
+                    console.log('Raw pages from database:', pages);
+                    
+                    // Create structure with ALL pages
+                    questionsData = {
+                        values: { 'Personal Info': [] },
+                        compatibility: { 'Lifestyle': [] },
+                        intimacy: { 'Preferences': [] }
+                    };
+                    
+                    if (Array.isArray(pages) && pages.length > 0) {
+                        pages.forEach(page => {
+                        const question = {
+                            id: page.id,
+                            question: page.content || page.title || 'Question',
+                            image_url: page.image_url,
+                            options: page.options ? JSON.parse(page.options) : null,
+                            type: page.question_type || 'text',
+                            section: 'values',
+                            subgroup: 'Personal Info'
+                        };
+                        
+                        console.log('Loading question:', question);
+                        
+                            // Add ALL questions to the structure
+                            questionsData.values['Personal Info'].push(question);
+                        });
+                    } else {
+                        console.error('No pages returned from API or pages is not an array:', pages);
+                    }
+                    
+                    console.log('Final questionsData:', questionsData);
+                    console.log('Questions count:', questionsData.values['Personal Info'].length);
+                    
+                    console.log('Structured questions data:', questionsData);
                 } else {
-                    console.log('Using static questions data');
+                    console.error('Failed to load questions from database:', response.status);
+                    questionsData = { values: { 'No Questions': [] } };
                 }
             } catch (error) {
-                console.error('Error loading questions from Firebase:', error);
-                console.log('Using static questions data');
+                console.error('Error loading questions:', error);
+                questionsData = { values: { 'No Questions': [] } };
             }
         }
 
@@ -638,9 +677,13 @@
             title.textContent = section.charAt(0).toUpperCase() + section.slice(1) + ' - Table of Contents';
             
             let html = '';
+            console.log('Showing detailed TOC for section:', section);
+            console.log('Available questionsData:', questionsData);
+            
             if (questionsData[section]) {
                 Object.keys(questionsData[section]).forEach(subgroup => {
                     const questionCount = questionsData[section][subgroup].length;
+                    console.log(`Subgroup ${subgroup} has ${questionCount} questions`);
                     html += `
                         <div class="toc-section" onclick="goToSubgroup('${section}', '${subgroup}')">
                             <h3>${subgroup}</h3>
@@ -648,6 +691,9 @@
                         </div>
                     `;
                 });
+            } else {
+                console.error('No questions found for section:', section);
+                html = '<div class="toc-section"><h3>No questions available</h3><p>Please check database connection</p></div>';
             }
             
             list.innerHTML = html;
@@ -710,11 +756,12 @@
         async function createQuestionHTML(question, side) {
             if (!question) return '';
             
-            const questionKey = `${question.section}_${question.subgroup}_${question.question}`;
+            const questionKey = `page_${question.id}`;
             const savedAnswer = userAnswers[questionKey];
             
-            // Use only the image from question data (no on-demand generation)
-            let imageUrl = question.image;
+            // Use image_url from database
+            let imageUrl = question.image_url || question.image;
+            console.log('Question image URL:', imageUrl, 'for question:', question.id);
             
             let optionsHTML = '';
             if (question.options && question.options.length > 0) {
@@ -727,12 +774,14 @@
             } else {
                 optionsHTML = `<input type="text" class="text-input" placeholder="Enter your answer..." 
                                      value="${savedAnswer || ''}" 
-                                     onchange="saveTextAnswer('${questionKey}', this.value)">`;
+                                     data-question-key="${questionKey}"
+                                     onchange="saveTextAnswer('${questionKey}', this.value)"
+                                     oninput="saveTextAnswer('${questionKey}', this.value)">`;
             }
             
             return `
                 <div class="question-container active">
-                    ${imageUrl ? `<img src="${imageUrl}" alt="${question.question}" class="question-image" onclick="openImageLink('${imageUrl}')" onerror="this.style.display='none'">` : ''}
+                    ${imageUrl ? `<img src="${imageUrl}" alt="${question.question}" class="question-image" onclick="openImageLink('${imageUrl}')" onerror="console.error('Image failed to load:', '${imageUrl}'); this.style.display='none'">` : ''}
                     <div class="question-title">${question.subgroup}</div>
                     <div class="question-text">${question.question}</div>
                     <div class="options-container">
@@ -760,6 +809,28 @@
             saveAnswersToDatabase();
         }
 
+        async function getSavedImage(question) {
+            try {
+                const pageNumber = getPageNumber(question);
+                
+                // Check for page template image
+                const pageResponse = await fetch(`/api/users/journeybook/page/${pageNumber}`);
+                if (pageResponse.ok) {
+                    const pageData = await pageResponse.json();
+                    if (pageData?.image_url) {
+                        return pageData.image_url;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading saved image:', error);
+            }
+            return null;
+        }
+        
+        function getPageNumber(question) {
+            return `${question.section}_${question.subgroup}_${question.question}`.replace(/\s+/g, '_').toLowerCase();
+        }
+
         function openImageLink(imageSrc) {
             // Find the question with this image to get its link
             const currentQuestion = questions[currentQuestionIndex] || questions[currentQuestionIndex + 1];
@@ -772,6 +843,7 @@
 
         function previousQuestion() {
             if (currentQuestionIndex > 0) {
+                saveAllCurrentAnswers();
                 currentQuestionIndex -= 2;
                 if (currentQuestionIndex < 0) currentQuestionIndex = 0;
                 loadQuestion();
@@ -780,9 +852,24 @@
 
         function nextQuestion() {
             if (currentQuestionIndex + 2 < questions.length) {
+                saveAllCurrentAnswers();
                 currentQuestionIndex += 2;
                 loadQuestion();
             }
+        }
+
+        function saveAllCurrentAnswers() {
+            // Save any text inputs that might not have triggered onchange
+            const textInputs = document.querySelectorAll('.text-input');
+            textInputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    const questionKey = input.getAttribute('data-question-key');
+                    if (questionKey) {
+                        userAnswers[questionKey] = input.value;
+                    }
+                }
+            });
+            saveAnswersToDatabase();
         }
 
         function updateNavigation() {
@@ -810,10 +897,13 @@
                     return;
                 }
                 
+                console.log('Saving answers for avatar:', currentAvatar.id);
+                
                 // Save each answer to database
                 for (const [questionKey, answer] of Object.entries(userAnswers)) {
                     if (answer && answer.trim() !== '') {
-                        await fetch('/api/users/journeybook/answer', {
+                        console.log('Saving answer:', questionKey, answer);
+                        const response = await fetch('/api/users/journeybook/answer', {
                             method: 'POST',
                             headers: {'Content-Type': 'application/json'},
                             body: JSON.stringify({
@@ -822,6 +912,12 @@
                                 answer: answer
                             })
                         });
+                        
+                        if (!response.ok) {
+                            console.error('Failed to save answer:', response.status, await response.text());
+                        } else {
+                            console.log('Answer saved successfully');
+                        }
                     }
                 }
             } catch (error) {
@@ -872,13 +968,19 @@
                     return;
                 }
                 
+                console.log('Loading answers for avatar:', currentAvatar.id);
                 const response = await fetch(`/api/users/journeybook/${currentAvatar.id}`);
+                console.log('Response status:', response.status);
+                
                 if (response.ok) {
                     userAnswers = await response.json();
+                    console.log('Loaded answers from database:', userAnswers);
                     
                     // Update progress display
                     const progress = calculateProgress();
                     updateProgressDisplay(progress);
+                } else {
+                    console.error('Failed to load answers:', response.status, await response.text());
                 }
             } catch (error) {
                 console.error('Error loading answers:', error);
@@ -915,6 +1017,10 @@
                     selectedSubmenu.style.display = 'block';
                 }
             }
+        }
+        
+        function openWallet() {
+            window.open('../wallet/wallet-popup.html', 'wallet', 'width=600,height=700,scrollbars=yes,resizable=yes');
         }
 
         function closeSubmenu(closeButton) {
@@ -955,20 +1061,32 @@
             }
         });
 
-        // Initialize Firebase
-        if (!firebase.apps.length) {
-            firebase.initializeApp({
-                apiKey: "AIzaSyDrgOGvn8NHuq3T_ODse8buij9KXg1WkzI",
-                authDomain: "ktgio-3k38n.firebaseapp.com",
-                projectId: "ktgio-3k38n",
-                storageBucket: "ktgio-3k38n.firebasestorage.app",
-                messagingSenderId: "416239278754",
-                appId: "1:416239278754:web:028cd9fd6f13a5a4ed95fb"
-            });
-        }
+        // Firebase removed - using local database only
         
+        // Check authentication on page load
+        function checkAuthentication() {
+            const currentAvatar = JSON.parse(localStorage.getItem('ktg_current_avatar') || '{}');
+            console.log('Current avatar check:', currentAvatar);
+            if (!currentAvatar || !currentAvatar.id) {
+                // Store return URL and redirect to login
+                localStorage.setItem('ktg_return_url', window.location.href);
+                setTimeout(() => {
+                    window.location.href = '../destiny/login.html';
+                }, 100);
+                return false;
+            }
+            return true;
+        }
+
+        // Save answers before leaving page
+        window.addEventListener('beforeunload', () => {
+            saveAllCurrentAnswers();
+        });
+
         // Initialize
         window.addEventListener('load', async () => {
+            if (!checkAuthentication()) return;
+            
             initializeTheme();
             initializeMusic();
             await loadQuestionsData();

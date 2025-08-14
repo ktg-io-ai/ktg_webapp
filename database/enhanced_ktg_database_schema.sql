@@ -312,32 +312,50 @@ CREATE TABLE journeybook_categories (
     FOREIGN KEY (parent_category_id) REFERENCES journeybook_categories(id)
 );
 
--- JourneyBook Questions
-CREATE TABLE journeybook_questions (
+-- JourneyBook Pages (stores both questions and images)
+CREATE TABLE journeybook_pages (
     id INT PRIMARY KEY AUTO_INCREMENT,
     category_id INT NOT NULL,
-    question_text TEXT NOT NULL,
+    page_type ENUM('question', 'image', 'info') DEFAULT 'question',
+    title VARCHAR(255),
+    content TEXT, -- Question text or description
+    image_url VARCHAR(500),
     question_type ENUM('text', 'multiple_choice', 'rating', 'boolean', 'date') DEFAULT 'text',
     options JSON, -- For multiple choice questions
     is_required BOOLEAN DEFAULT FALSE,
     sort_order INT DEFAULT 0,
     is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES journeybook_categories(id)
 );
 
--- Enhanced JourneyBook Responses
+-- User JourneyBook Responses (for user accounts)
 CREATE TABLE journeybook_responses (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
-    question_id INT NOT NULL,
+    page_id INT NOT NULL,
     answer TEXT,
     numeric_value INT, -- For ratings
     is_private BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (question_id) REFERENCES journeybook_questions(id) ON DELETE CASCADE,
-    UNIQUE KEY unique_user_question (user_id, question_id)
+    FOREIGN KEY (page_id) REFERENCES journeybook_pages(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_page (user_id, page_id)
+);
+
+-- Avatar JourneyBook Responses (for individual avatars)
+CREATE TABLE avatar_journeybook_responses (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    avatar_id INT NOT NULL,
+    page_id INT NOT NULL,
+    answer TEXT,
+    numeric_value INT, -- For ratings
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (avatar_id) REFERENCES user_avatars(id) ON DELETE CASCADE,
+    FOREIGN KEY (page_id) REFERENCES journeybook_pages(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_avatar_page (avatar_id, page_id)
 );
 
 -- ============================================================================
