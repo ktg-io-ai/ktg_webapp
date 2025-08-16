@@ -855,11 +855,9 @@
                         </button>
                     </li>
                     <li>
-                        <a href="../../modules/destiny/bail.html">
-                        <button>
+                        <button onclick="handleLogout()">
                             <img src="../../public/assets/icons/bail_icon.png" alt="Bail Icon"> <span data-lang="dashboard.submenus.mystuff.bail">Bail</span>
                         </button>
-                        </a>
                     </li>
                 </ul>
             </div>
@@ -1315,6 +1313,20 @@
             link.click();
             
             URL.revokeObjectURL(url);
+        }
+
+        // Logout functionality
+        function handleLogout() {
+            if (confirm('Are you sure you want to log out?')) {
+                // Clear all stored user data
+                localStorage.removeItem('ktg_user');
+                localStorage.removeItem('ktg_selected_avatar');
+                localStorage.removeItem('ktg_current_avatar');
+                localStorage.removeItem('ktg_all_avatars');
+                
+                // Redirect to login page
+                window.location.href = '../../modules/destiny/login.html';
+            }
         }
     </script>
 </body>

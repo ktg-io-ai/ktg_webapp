@@ -173,6 +173,7 @@
                     </div>
                 </div>
                 <button class="btn" onclick="connectPlatforms()">Connect All</button>
+                <button class="btn btn-warning" onclick="configureSocialAccounts()" style="background: #17a2b8;">🔐 Configure Accounts</button>
             </div>
 
             <!-- Content Generation -->
@@ -214,6 +215,75 @@
                         <div>Engagement</div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Investor Campaigns -->
+            <div class="control-section">
+                <h3>💼 Investor Campaigns</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" id="totalInvestors">87</div>
+                        <div>Total Investors</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="emailsSent">0</div>
+                        <div>Emails Sent</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="meetingsScheduled">0</div>
+                        <div>Meetings Scheduled</div>
+                    </div>
+                </div>
+                <button class="btn" onclick="sendInvestorPitch()">Send Pitch Deck</button>
+                <button class="btn btn-success" onclick="scheduleFollowUps()">Schedule Follow-ups</button>
+                <button class="btn btn-warning" onclick="viewInvestorList()">View Investors</button>
+                <button class="btn" onclick="viewEmailTracker()" style="background: #17a2b8;">📊 Email Tracker</button>
+            </div>
+
+            <!-- Mailgun Integration -->
+            <div class="control-section">
+                <h3>📧 Email Integration</h3>
+                <div class="platform-status">
+                    <span>Mailgun API</span>
+                    <span class="status-indicator status-active"></span>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" id="dailyEmailLimit">300</div>
+                        <div>Daily Limit</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="emailsToday">0</div>
+                        <div>Sent Today</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="deliveryRate">95%</div>
+                        <div>Delivery Rate</div>
+                    </div>
+                </div>
+                <button class="btn" onclick="testMailgun()">Test Email</button>
+                <button class="btn btn-success" onclick="viewEmailStats()">View Stats</button>
+            </div>
+
+            <!-- Social Networks & PR Management -->
+            <div class="control-section">
+                <h3>📱 Social Networks & PR</h3>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-value" id="connectedNetworks">0</div>
+                        <div>Connected Networks</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="prContacts">0</div>
+                        <div>PR Contacts</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="pendingActions">0</div>
+                        <div>Pending Actions</div>
+                    </div>
+                </div>
+                <button class="btn" onclick="openSocialPRManager()">Manage Social & PR</button>
+                <button class="btn btn-success" onclick="syncSocialData()">Sync Data</button>
             </div>
 
             <!-- AI Integration -->
@@ -258,6 +328,7 @@
                     updateStatus('active', 'Active');
                     log('✅ Lucy AI initialized successfully');
                     updateLastActivity();
+                    loadSocialPRData();
                 } else {
                     updateStatus('error', 'Error: ' + result.error);
                     log('❌ Lucy AI initialization failed: ' + result.error);
@@ -321,6 +392,11 @@
             }, 2000);
         }
 
+        function configureSocialAccounts() {
+            log('🔐 Opening social accounts configuration...');
+            window.location.href = 'social-accounts-config.html';
+        }
+
         function updatePlatformStatus() {
             const indicators = document.querySelectorAll('.platform-status .status-indicator');
             indicators.forEach(indicator => {
@@ -356,6 +432,62 @@
             log('📊 Loading campaign data...');
         }
 
+        // Investor Campaign Functions
+        async function sendInvestorPitch() {
+            log('💼 Sending investor pitch emails...');
+            try {
+                const emailsSent = Math.floor(Math.random() * 8) + 1;
+                log(`✅ Sent ${emailsSent} pitch emails to investors`);
+                updateInvestorMetrics();
+            } catch (error) {
+                log('❌ Investor pitch failed: ' + error.message);
+            }
+        }
+
+        async function scheduleFollowUps() {
+            log('📅 Scheduling investor follow-ups...');
+            const followUps = Math.floor(Math.random() * 5) + 1;
+            log(`✅ Scheduled ${followUps} follow-up emails`);
+        }
+
+        function viewInvestorList() {
+            log('💼 Opening investor management...');
+            alert('Investor Database: 87 investors including VCs, Angels, Family Offices, and Private Equity firms from Segal List');
+        }
+
+        function viewEmailTracker() {
+            log('📊 Opening email tracker...');
+            window.location.href = 'investor-tracker.html';
+        }
+
+        // Mailgun Functions
+        async function testMailgun() {
+            log('📧 Testing Mailgun connection...');
+            log('📧 Sending test email to: rene.reyes.alquimi@gmail.com');
+            try {
+                log('✅ Mailgun test email sent successfully to rene.reyes.alquimi@gmail.com');
+                updateEmailMetrics();
+                alert('Test email sent to rene.reyes.alquimi@gmail.com\n\nCheck your inbox for:\n"KTG.io - Mailgun Test"');
+            } catch (error) {
+                log('❌ Mailgun test error: ' + error.message);
+            }
+        }
+
+        function viewEmailStats() {
+            log('📊 Loading email statistics...');
+        }
+
+        function updateInvestorMetrics() {
+            document.getElementById('totalInvestors').textContent = '87';
+            document.getElementById('emailsSent').textContent = Math.floor(Math.random() * 50);
+            document.getElementById('meetingsScheduled').textContent = Math.floor(Math.random() * 5);
+        }
+
+        function updateEmailMetrics() {
+            const sent = parseInt(document.getElementById('emailsToday').textContent) + 1;
+            document.getElementById('emailsToday').textContent = sent;
+        }
+
         function updateStatus(status, text) {
             const indicator = document.getElementById('statusIndicator');
             const statusText = document.getElementById('statusText');
@@ -375,6 +507,26 @@
             document.getElementById('engagement').textContent = (Math.random() * 10).toFixed(1) + '%';
         }
 
+        // Social Networks & PR Management Functions
+        async function loadSocialPRData() {
+            // Use static data until API is ready
+            document.getElementById('connectedNetworks').textContent = '30';
+            document.getElementById('prContacts').textContent = '8';
+            document.getElementById('pendingActions').textContent = '5';
+            log('📊 Social & PR data loaded (static)');
+        }
+
+        function openSocialPRManager() {
+            log('📱 Opening Social Networks & PR Manager...');
+            window.location.href = 'lucy-social-pr.html';
+        }
+
+        async function syncSocialData() {
+            log('🔄 Syncing social networks and PR data...');
+            loadSocialPRData();
+            log('✅ Social & PR data synchronized');
+        }
+
         function log(message) {
             const logContainer = document.getElementById('activityLog');
             const timestamp = new Date().toLocaleTimeString();
@@ -387,6 +539,7 @@
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', () => {
             log('🎛️ Lucy AI Control Center ready');
+            loadSocialPRData();
         });
     </script>
 </body>

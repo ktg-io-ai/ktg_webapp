@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucy AI - Social Networks & PR Management</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .tabs { display: flex; margin-bottom: 20px; border-bottom: 2px solid #ddd; }
+        .tab { padding: 10px 20px; cursor: pointer; border-bottom: 2px solid transparent; }
+        .tab.active { border-bottom-color: #2f27c8; color: #2f27c8; font-weight: bold; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #ddd; border-radius: 8px; padding: 15px; background: #fafafa; }
+        .card h3 { margin-top: 0; color: #2f27c8; }
+        .status { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .status.connected { background: #d4edda; color: #155724; }
+        .status.disconnected { background: #f8d7da; color: #721c24; }
+        .status.pending { background: #fff3cd; color: #856404; }
+        .actions { margin-top: 15px; }
+        .btn { padding: 8px 16px; margin: 4px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-primary { background: #2f27c8; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        .btn-danger { background: #dc3545; color: white; }
+        .checkbox-list { margin: 10px 0; }
+        .checkbox-item { display: flex; align-items: center; margin: 5px 0; }
+        .checkbox-item input { margin-right: 8px; }
+        .receipt-link { color: #2f27c8; text-decoration: none; font-size: 12px; }
+        .receipt-link:hover { text-decoration: underline; }
+        .form-group { margin: 10px 0; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select, .form-group textarea { 
+            width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; 
+        }
+        .metrics { display: flex; justify-content: space-between; margin: 10px 0; }
+        .metric { text-align: center; }
+        .metric-value { font-size: 18px; font-weight: bold; color: #2f27c8; }
+        .metric-label { font-size: 12px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h1>🤖 Social Networks & PR Manager</h1>
+            <button class="btn btn-primary" onclick="goBackToLucy()" style="background: #666;">← Back to Lucy AI</button>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('social')">Social Networks</div>
+            <div class="tab" onclick="showTab('pr')">PR Firms</div>
+            <div class="tab" onclick="showTab('actions')">Campaign Actions</div>
+            <div class="tab" onclick="showTab('analytics')">Analytics</div>
+        </div>
+
+        <!-- Social Networks Tab -->
+        <div id="social-tab" class="tab-content active">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>Social Networks Configuration</h2>
+                <button class="btn btn-success" onclick="addNewNetwork()">+ Add Network</button>
+            </div>
+            <div class="grid" id="social-networks">
+                <!-- Social networks will be loaded here -->
+            </div>
+        </div>
+
+        <!-- PR Firms Tab -->
+        <div id="pr-tab" class="tab-content">
+            <h2>PR Firms & Media Contacts</h2>
+            <div class="grid" id="pr-firms">
+                <!-- PR firms will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Campaign Actions Tab -->
+        <div id="actions-tab" class="tab-content">
+            <h2>Campaign Actions & Tasks</h2>
+            <div id="campaign-actions">
+                <!-- Campaign actions will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics-tab" class="tab-content">
+            <h2>Performance Analytics</h2>
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-value" id="total-posts">0</div>
+                    <div class="metric-label">Total Posts</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="active-campaigns">0</div>
+                    <div class="metric-label">Active Campaigns</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="pr-contacts">0</div>
+                    <div class="metric-label">PR Contacts</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="completion-rate">0%</div>
+                    <div class="metric-label">Completion Rate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // All 30 social networks from database
+        const socialNetworks = [
+            {id: 1, platform_name: 'Twitter/X', platform_type: 'social_media', connection_status: 'connected', posting_enabled: true, auto_posting: true, daily_post_limit: 15, last_post_at: '2024-12-19 10:30:00'},
+            {id: 2, platform_name: 'Instagram', platform_type: 'social_media', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 3, last_post_at: null},
+            {id: 3, platform_name: 'TikTok', platform_type: 'video', connection_status: 'pending', posting_enabled: false, auto_posting: false, daily_post_limit: 5, last_post_at: null},
+            {id: 4, platform_name: 'Facebook', platform_type: 'social_media', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 8, last_post_at: null},
+            {id: 5, platform_name: 'LinkedIn', platform_type: 'social_media', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 5, last_post_at: null},
+            {id: 6, platform_name: 'YouTube', platform_type: 'video', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 1, last_post_at: null},
+            {id: 7, platform_name: 'Threads', platform_type: 'social_media', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 12, last_post_at: null},
+            {id: 8, platform_name: 'Reddit', platform_type: 'social_media', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 10, last_post_at: null},
+            {id: 9, platform_name: 'Discord', platform_type: 'gaming', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 20, last_post_at: null},
+            {id: 10, platform_name: 'Twitch', platform_type: 'gaming', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 5, last_post_at: null},
+            {id: 11, platform_name: 'Steam Community', platform_type: 'gaming', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 5, last_post_at: null},
+            {id: 12, platform_name: 'Epic Games Store', platform_type: 'gaming', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 3, last_post_at: null},
+            {id: 13, platform_name: 'GameJolt', platform_type: 'gaming', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 8, last_post_at: null},
+            {id: 14, platform_name: 'Itch.io', platform_type: 'gaming', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 5, last_post_at: null},
+            {id: 15, platform_name: 'Kick', platform_type: 'gaming', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 10, last_post_at: null},
+            {id: 16, platform_name: 'Pinterest', platform_type: 'social_media', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 15, last_post_at: null},
+            {id: 17, platform_name: 'Snapchat', platform_type: 'social_media', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 10, last_post_at: null},
+            {id: 18, platform_name: 'Vimeo', platform_type: 'video', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 3, last_post_at: null},
+            {id: 19, platform_name: 'Dailymotion', platform_type: 'video', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 5, last_post_at: null},
+            {id: 20, platform_name: 'Rumble', platform_type: 'video', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 5, last_post_at: null},
+            {id: 21, platform_name: 'Medium', platform_type: 'tech', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 2, last_post_at: null},
+            {id: 22, platform_name: 'Dev.to', platform_type: 'tech', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 3, last_post_at: null},
+            {id: 23, platform_name: 'Hacker News', platform_type: 'tech', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 1, last_post_at: null},
+            {id: 24, platform_name: 'Product Hunt', platform_type: 'tech', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 1, last_post_at: null},
+            {id: 25, platform_name: 'Mastodon', platform_type: 'social_media', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 20, last_post_at: null},
+            {id: 26, platform_name: 'Bluesky', platform_type: 'social_media', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 15, last_post_at: null},
+            {id: 27, platform_name: 'Clubhouse', platform_type: 'podcast', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 5, last_post_at: null},
+            {id: 28, platform_name: 'Spotify Podcasts', platform_type: 'podcast', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 2, last_post_at: null},
+            {id: 29, platform_name: 'Substack', platform_type: 'news', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 3, last_post_at: null},
+            {id: 30, platform_name: 'Ghost', platform_type: 'news', connection_status: 'disconnected', posting_enabled: false, auto_posting: false, daily_post_limit: 2, last_post_at: null}
+        ];
+
+        const prFirms = [
+            {id: 1, firm_name: 'TechCrunch', firm_type: 'media_outlet', contact_person: 'Gaming Editor', email: 'tips@techcrunch.com', tier: 'tier_1', relationship_status: 'cold', reach_estimate: 10000000, last_contact_date: null},
+            {id: 2, firm_name: 'VentureBeat', firm_type: 'media_outlet', contact_person: 'Gaming Reporter', email: 'news@venturebeat.com', tier: 'tier_1', relationship_status: 'warm', reach_estimate: 5000000, last_contact_date: '2024-12-15'},
+            {id: 3, firm_name: 'GamesBeat', firm_type: 'media_outlet', contact_person: 'Editor', email: 'tips@gamesbeat.com', tier: 'tier_2', relationship_status: 'cold', reach_estimate: 2000000, last_contact_date: null},
+            {id: 4, firm_name: 'Polygon', firm_type: 'media_outlet', contact_person: 'News Editor', email: 'tips@polygon.com', tier: 'tier_2', relationship_status: 'cold', reach_estimate: 3000000, last_contact_date: null},
+            {id: 5, firm_name: 'IGN', firm_type: 'media_outlet', contact_person: 'News Team', email: 'news@ign.com', tier: 'tier_1', relationship_status: 'cold', reach_estimate: 15000000, last_contact_date: null},
+            {id: 6, firm_name: 'GameSpot', firm_type: 'media_outlet', contact_person: 'Editorial', email: 'news@gamespot.com', tier: 'tier_2', relationship_status: 'cold', reach_estimate: 8000000, last_contact_date: null},
+            {id: 7, firm_name: 'Kotaku', firm_type: 'media_outlet', contact_person: 'Tips', email: 'tips@kotaku.com', tier: 'tier_2', relationship_status: 'cold', reach_estimate: 4000000, last_contact_date: null},
+            {id: 8, firm_name: 'The Verge', firm_type: 'media_outlet', contact_person: 'Gaming Editor', email: 'tips@theverge.com', tier: 'tier_1', relationship_status: 'cold', reach_estimate: 12000000, last_contact_date: null}
+        ];
+
+        const campaignActions = [
+            {
+                id: 1,
+                action_title: 'Send press kit to TechCrunch',
+                action_type: 'email_sent',
+                target_type: 'pr_firm',
+                status: 'completed',
+                action_taken: true,
+                receipt_received: true,
+                receipt_url: '#',
+                due_date: '2024-12-20',
+                priority: 'high'
+            },
+            {
+                id: 2,
+                action_title: 'Schedule Twitter announcement',
+                action_type: 'social_post',
+                target_type: 'social_network',
+                status: 'pending',
+                action_taken: false,
+                receipt_received: false,
+                due_date: '2024-12-21',
+                priority: 'medium'
+            }
+        ];
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+
+            // Load tab content
+            if (tabName === 'social') loadSocialNetworks();
+            if (tabName === 'pr') loadPRFirms();
+            if (tabName === 'actions') loadCampaignActions();
+            if (tabName === 'analytics') loadAnalytics();
+        }
+
+        function loadSocialNetworks() {
+            const container = document.getElementById('social-networks');
+            container.innerHTML = socialNetworks.map(network => `
+                <div class="card">
+                    <h3>${network.platform_name}</h3>
+                    <div class="status ${network.connection_status}">${network.connection_status.toUpperCase()}</div>
+                    <p><strong>Type:</strong> ${network.platform_type.replace('_', ' ')}</p>
+                    <p><strong>Daily Limit:</strong> ${network.daily_post_limit} posts</p>
+                    <p><strong>Last Post:</strong> ${network.last_post_at || 'Never'}</p>
+                    <div class="checkbox-list">
+                        <div class="checkbox-item">
+                            <input type="checkbox" ${network.posting_enabled ? 'checked' : ''} 
+                                   onchange="togglePosting(${network.id})">
+                            <label>Posting Enabled</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" ${network.auto_posting ? 'checked' : ''} 
+                                   onchange="toggleAutoPosting(${network.id})">
+                            <label>Auto Posting</label>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-primary" onclick="connectNetwork(${network.id})">
+                            ${network.connection_status === 'connected' ? 'Reconnect' : 'Connect'}
+                        </button>
+                        <button class="btn btn-warning" onclick="testPost(${network.id})">Test Post</button>
+                        <button class="btn btn-danger" onclick="removeNetwork(${network.id})">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadPRFirms() {
+            const container = document.getElementById('pr-firms');
+            container.innerHTML = prFirms.map(firm => `
+                <div class="card">
+                    <h3>${firm.firm_name}</h3>
+                    <div class="status ${firm.relationship_status}">${firm.relationship_status.toUpperCase()}</div>
+                    <p><strong>Contact:</strong> ${firm.contact_person}</p>
+                    <p><strong>Email:</strong> ${firm.email}</p>
+                    <p><strong>Tier:</strong> ${firm.tier.replace('_', ' ').toUpperCase()}</p>
+                    <p><strong>Reach:</strong> ${firm.reach_estimate.toLocaleString()}</p>
+                    <p><strong>Last Contact:</strong> ${firm.last_contact_date || 'Never'}</p>
+                    <div class="actions">
+                        <button class="btn btn-primary" onclick="sendEmail(${firm.id})">Send Email</button>
+                        <button class="btn btn-success" onclick="scheduleFollowUp(${firm.id})">Schedule Follow-up</button>
+                        <button class="btn btn-warning" onclick="editFirm(${firm.id})">Edit</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadCampaignActions() {
+            const container = document.getElementById('campaign-actions');
+            container.innerHTML = `
+                <div class="grid">
+                    ${campaignActions.map(action => `
+                        <div class="card">
+                            <h3>${action.action_title}</h3>
+                            <div class="status ${action.status}">${action.status.toUpperCase()}</div>
+                            <p><strong>Type:</strong> ${action.action_type.replace('_', ' ')}</p>
+                            <p><strong>Priority:</strong> ${action.priority.toUpperCase()}</p>
+                            <p><strong>Due:</strong> ${action.due_date}</p>
+                            
+                            <div class="checkbox-list">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" ${action.action_taken ? 'checked' : ''} 
+                                           onchange="toggleActionTaken(${action.id})">
+                                    <label>Action Taken</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" ${action.receipt_received ? 'checked' : ''} 
+                                           onchange="toggleReceiptReceived(${action.id})">
+                                    <label>Receipt Received</label>
+                                    ${action.receipt_url ? `<a href="${action.receipt_url}" class="receipt-link">View Receipt</a>` : ''}
+                                </div>
+                            </div>
+                            
+                            <div class="actions">
+                                <button class="btn btn-success" onclick="completeAction(${action.id})">Complete</button>
+                                <button class="btn btn-warning" onclick="editAction(${action.id})">Edit</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function loadAnalytics() {
+            // Update metrics
+            document.getElementById('total-posts').textContent = '127';
+            document.getElementById('active-campaigns').textContent = '8';
+            document.getElementById('pr-contacts').textContent = '8';
+            document.getElementById('completion-rate').textContent = '85%';
+        }
+
+        // Action functions
+        function togglePosting(networkId) {
+            console.log('Toggle posting for network:', networkId);
+            // API call to update posting status
+        }
+
+        function toggleAutoPosting(networkId) {
+            console.log('Toggle auto posting for network:', networkId);
+            // API call to update auto posting status
+        }
+
+        function connectNetwork(networkId) {
+            console.log('Connect network:', networkId);
+            // API call to connect/reconnect network
+        }
+
+        function testPost(networkId) {
+            console.log('Test post for network:', networkId);
+            // API call to send test post
+        }
+
+        function sendEmail(firmId) {
+            console.log('Send email to firm:', firmId);
+            // Open email composer or send automated email
+        }
+
+        function scheduleFollowUp(firmId) {
+            console.log('Schedule follow-up for firm:', firmId);
+            // Open scheduling interface
+        }
+
+        function editFirm(firmId) {
+            console.log('Edit firm:', firmId);
+            // Open edit form
+        }
+
+        function toggleActionTaken(actionId) {
+            console.log('Toggle action taken for:', actionId);
+            // API call to update action status
+        }
+
+        function toggleReceiptReceived(actionId) {
+            console.log('Toggle receipt received for:', actionId);
+            // API call to update receipt status
+        }
+
+        function completeAction(actionId) {
+            console.log('Complete action:', actionId);
+            // API call to mark action as completed
+        }
+
+        function editAction(actionId) {
+            console.log('Edit action:', actionId);
+            // Open edit form
+        }
+
+        function addNewNetwork() {
+            const name = prompt('Enter platform name:');
+            const type = prompt('Enter platform type (social_media, gaming, tech, news, video, podcast):');
+            const limit = prompt('Enter daily post limit:', '5');
+            
+            if (name && type && limit) {
+                const newNetwork = {
+                    id: socialNetworks.length + 1,
+                    platform_name: name,
+                    platform_type: type,
+                    connection_status: 'disconnected',
+                    posting_enabled: false,
+                    auto_posting: false,
+                    daily_post_limit: parseInt(limit),
+                    last_post_at: null
+                };
+                socialNetworks.push(newNetwork);
+                loadSocialNetworks();
+                console.log('Added new network:', name);
+            }
+        }
+
+        function removeNetwork(networkId) {
+            if (confirm('Are you sure you want to remove this network?')) {
+                const index = socialNetworks.findIndex(n => n.id === networkId);
+                if (index > -1) {
+                    socialNetworks.splice(index, 1);
+                    loadSocialNetworks();
+                    console.log('Removed network:', networkId);
+                }
+            }
+        }
+
+        function goBackToLucy() {
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({action: 'showLucyControls'}, '*');
+            } else {
+                window.location.href = 'lucy-controls.html';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSocialNetworks();
+            // Force refresh to clear any cached data
+            console.log('Loaded', socialNetworks.length, 'social networks and', prFirms.length, 'PR firms');
+        });
+    </script>
+</body>
+</html>

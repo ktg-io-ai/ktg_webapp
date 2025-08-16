@@ -401,27 +401,6 @@
             height: 100%;
             object-fit: cover;
         }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-overlay iframe {
-            width: 80%;
-            height: 80%;
-            border: none;
-            border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.9);
-        }
     </style>
 </head>
 <body>
@@ -468,10 +447,10 @@
             <button><a href="https://t.me/karmathegame" target="_blank" rel="noopener"><img src="../../public/assets/icons/telegram_icon.png" alt="Telegram Icon"></a></button>
             <button><a href="https://www.threads.com/@karmathegame?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener"><img src="../../public/assets/icons/threads_icon.png" alt="QR Icon"></a></button>
             <button onclick="openContactForm()"><img src="../../public/assets/icons/wallet_icon.png" alt="wallet icon" class="theme-icon" data-ktg="../../public/assets/icons/wallet_icon.png" data-light="../../public/assets/icons/wallet_icon-blk.png" data-dark="../../public/assets/icons/wallet_icon-wht.png"></button>
-            <div class="json-note" id="userStatus">
+            <div class="json-note">
                 <strong>JSON Data:</strong><br>
                 User profile loaded from database<br>
-                Door: <span id="doorInfo">Loading...</span><br>
+                Door: Blue (Gaming)<br>
                 Status: Active
             </div>
         </div>
@@ -491,10 +470,6 @@
         </form>
     </div>
 
-    <div id="journeybook-modal" class="modal-overlay" style="display: none;">
-        <iframe id="journeybook-iframe" src="../journeybook/journeybook-modal.html" frameborder="0"></iframe>
-    </div>
-
     <script src="../../shared/js/language.js"></script>
     <script>
         let participantData = [];
@@ -507,63 +482,18 @@
             if (typeof initializeLanguage === 'function') {
                 initializeLanguage();
             }
-            
-            // Load door selection
-            loadDoorSelection();
         });
-        
-        function loadDoorSelection() {
-            const doorData = JSON.parse(localStorage.getItem('ktg_selected_door') || '{}');
-            const doorInfo = document.getElementById('doorInfo');
-            
-            if (doorData.color && doorData.category) {
-                const colorName = doorData.color.charAt(0).toUpperCase() + doorData.color.slice(1);
-                doorInfo.textContent = `${colorName} (${doorData.category})`;
-            } else {
-                doorInfo.textContent = 'No door selected';
-            }
-        }
 
-        // Listen for theme changes from parent
         window.addEventListener('message', (event) => {
             if (event.data.type === 'themeChange') {
                 document.documentElement.setAttribute('data-theme', event.data.theme);
                 updateThemeIcons(event.data.theme);
             } else if (event.data.type === 'languageChange') {
-                if (typeof initializeLanguage === 'function') {
-                    initializeLanguage();
-                }
+                if (typeof langManager !== 'undefined') langManager.updateUI();
             } else if (event.data.type === 'loadGrid') {
-                loadAllParticipants();
-            } else if (event.data.type === 'openJourneyBookModal') {
-                openJourneyBookModal(event.data.avatarId);
-            } else if (event.data.type === 'closeJourneyBookModal') {
-                closeJourneyBookModal();
+                loadAllParticipants(event.data.authenticated);
             }
         });
-
-        function openJourneyBookModal(avatarId) {
-            console.log('Opening journeybook modal for avatar:', avatarId);
-            const modal = document.getElementById('journeybook-modal');
-            const iframe = document.getElementById('journeybook-iframe');
-            modal.style.display = 'flex';
-            
-            // Force reload iframe and send avatar ID
-            iframe.src = '../journeybook/journeybook-modal.html?t=' + Date.now();
-            iframe.onload = () => {
-                console.log('Iframe loaded, sending avatar ID:', avatarId);
-                setTimeout(() => {
-                    iframe.contentWindow.postMessage({
-                        type: 'loadJourneyBook',
-                        avatarId: avatarId
-                    }, '*');
-                }, 100);
-            };
-        }
-
-        function closeJourneyBookModal() {
-            document.getElementById('journeybook-modal').style.display = 'none';
-        }
 
         function updateThemeIcons(theme) {
             const themeIcons = document.querySelectorAll('.theme-icon');
@@ -603,11 +533,20 @@
                 const listItem = document.createElement('div');
                 listItem.className = 'list-item';
                 listItem.onclick = () => {
-                    const leftFrame = window.parent.document.getElementById('mainFrame');
-                    leftFrame.contentWindow.postMessage({
-                        type: 'participantSelected',
-                        participant: participant
-                    }, '*');
+                    console.log('List item clicked:', participant.name);
+                    try {
+                        const leftFrame = parent.document.getElementById('mainFrame');
+                        if (leftFrame?.contentWindow?.updateParticipant) {
+                            leftFrame.contentWindow.updateParticipant(participant);
+                        } else {
+                            leftFrame?.contentWindow?.postMessage({
+                                type: 'participantSelected',
+                                participant: participant
+                            }, '*');
+                        }
+                    } catch (e) {
+                        console.error('List click error:', e);
+                    }
                 };
                 
                 let safeLinksHtml = '';
@@ -619,16 +558,11 @@
                     safeLinksHtml += '</div>';
                 }
                 
-                // Get door info for this participant
-                const doorData = JSON.parse(localStorage.getItem('ktg_selected_door') || '{}');
-                const doorInfo = doorData.color ? `${doorData.color.charAt(0).toUpperCase() + doorData.color.slice(1)} (${doorData.category})` : 'No door selected';
-                
                 listItem.innerHTML = `
                     <img src="${participant.image}" alt="${participant.name}">
                     <div class="list-item-info">
                         <h4>${participant.name}</h4>
                         <p>${participant.tagline}</p>
-                        <p style="font-size: 12px; color: var(--text-secondary);">Door: ${doorInfo}</p>
                         ${safeLinksHtml}
                     </div>
                 `;
@@ -659,74 +593,103 @@
             window.parent.location.href = '../journeybook/journeybook-viewer.html';
         }
 
-        // Load participant data from database API
-        async function loadAllParticipants() {
+        // Load participant data from the backend API
+        async function loadAllParticipants(authenticated) {
+            const participantGrid = document.getElementById('grid-view');
+            const statusDiv = document.createElement('div');
+            statusDiv.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #666; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px; z-index: 1000;';
+            document.body.appendChild(statusDiv);
+
             try {
-                const participantGrid = document.getElementById('grid-view');
-                
-                // Show loading message
-                participantGrid.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--text-primary);">Loading avatars...</div>';
-                
-                // Try to load avatars from database API first
-                try {
-                    const response = await fetch('/api/users/avatars');
-                    if (response.ok) {
-                        const avatars = await response.json();
-                        console.log('Avatars loaded for grid:', avatars);
-                        
-                        if (avatars && avatars.length > 0) {
-                            participantData = avatars.map(avatar => ({
-                                name: avatar.name,
-                                image: avatar.image_url || `https://image.pollinations.ai/prompt/${encodeURIComponent(avatar.name + ' portrait')}?width=512&height=512&seed=${avatar.id}`,
-                                tagline: avatar.tagline || 'No tagline'
-                            }));
-                            
-                            renderParticipants(participantData);
-                            
-                            // Show success status
-                            const statusDiv = document.createElement('div');
-                            statusDiv.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px; z-index: 1000;';
-                            statusDiv.textContent = `✅ DB: ${avatars.length} avatars loaded`;
-                            document.body.appendChild(statusDiv);
-                            setTimeout(() => statusDiv.remove(), 3000);
-                            return;
-                        } else {
-                            console.log('No avatars found in database');
-                        }
-                    } else {
-                        console.warn('Database API failed with status:', response.status);
-                    }
-                } catch (dbError) {
-                    console.warn('Database API failed, trying fallback:', dbError);
+                statusDiv.textContent = '🔄 Loading participants...';
+                console.log('Attempting to fetch avatars from /api/users/avatars');
+
+                // Fetch participants from the correct API endpoint
+                const response = await fetch('/api/users/avatars');
+                console.log('Avatar API response status:', response.status);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.log('Avatar API error response:', errorText);
+                    throw new Error(`Server responded with ${response.status}: ${errorText}`);
                 }
-                
-                // Fallback to JSON file
-                try {
-                    const response = await fetch('../../data/participant.json');
-                    const data = await response.json();
-                    participantData = data.map(p => ({
-                        ...p,
-                        image: '../../public/assets/' + p.image
+
+                const avatars = await response.json();
+                console.log('Avatars loaded from database:', avatars);
+                console.log('Number of avatars:', avatars ? avatars.length : 0);
+
+                if (avatars && avatars.length > 0) {
+                    participantData = avatars.map(avatar => ({
+                        id: avatar.id,
+                        name: avatar.name || 'Unnamed Avatar',
+                        image: avatar.image_url || '../../public/assets/images/profile_Lucy.jpg',
+                        tagline: avatar.tagline || 'No tagline',
+                        safeLinks: [],
+                        door_choice: avatar.door_choice || 'blue'
                     }));
-                    renderParticipants(participantData);
                     
-                    // Show fallback status
-                    const statusDiv = document.createElement('div');
-                    statusDiv.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #FF9800; color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px; z-index: 1000;';
-                    statusDiv.textContent = `📁 JSON: ${data.length} users loaded`;
-                    document.body.appendChild(statusDiv);
-                    setTimeout(() => statusDiv.remove(), 3000);
-                } catch (jsonError) {
-                    console.error('JSON fallback also failed:', jsonError);
-                    participantGrid.innerHTML = '<p style="color: white; text-align: center; padding: 20px;">❌ No avatars found. Create some avatars first!</p>';
+                    statusDiv.style.background = '#2f27c8';
+                    statusDiv.textContent = `✅ ${avatars.length} participants loaded from database.`;
+                    renderParticipants(participantData);
+                } else {
+                    // Fallback to sample data if no avatars in database
+                    console.log('No avatars in database, loading sample data...');
+                    await loadSampleData();
                 }
-                
+
             } catch (error) {
-                console.error('Error loading participant data:', error);
-                const participantGrid = document.getElementById('grid-view');
-                participantGrid.innerHTML = '<p style="color: white; text-align: center; padding: 20px;">❌ Error loading participant data. Please refresh.</p>';
+                console.error('Error loading participant data from database:', error);
+                statusDiv.style.background = '#ff9800';
+                statusDiv.textContent = '⚠️ Database unavailable, loading sample data...';
+                
+                // Fallback to sample data
+                await loadSampleData();
+            } finally {
+                setTimeout(() => { statusDiv.remove(); }, 4000);
             }
         }
+        
+        // Fallback function to load sample participant data
+        async function loadSampleData() {
+            try {
+                console.log('Loading sample data from participant.json');
+                const response = await fetch('../../data/participant.json');
+                console.log('Sample data response status:', response.status);
+                
+                if (response.ok) {
+                    const sampleData = await response.json();
+                    console.log('Sample data loaded:', sampleData);
+                    
+                    participantData = sampleData.map(participant => ({
+                        id: Math.random().toString(36).substr(2, 9),
+                        name: participant.name,
+                        image: participant.image.replace('../public/', '../../public/'),
+                        tagline: participant.tagline,
+                        safeLinks: participant.safeLinks || [],
+                        door_choice: ['blue', 'yellow', 'red'][Math.floor(Math.random() * 3)]
+                    }));
+                    
+                    console.log('Processed participant data:', participantData);
+                    
+                    const statusDiv = document.querySelector('[style*="participants loaded"]') || 
+                                    document.querySelector('[style*="Database unavailable"]');
+                    if (statusDiv) {
+                        statusDiv.style.background = '#2f27c8';
+                        statusDiv.textContent = `✅ ${participantData.length} sample participants loaded.`;
+                    }
+                    
+                    renderParticipants(participantData);
+                } else {
+                    throw new Error('Could not load sample data');
+                }
+            } catch (error) {
+                console.error('Error loading sample data:', error);
+                const participantGrid = document.getElementById('grid-view');
+                participantGrid.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-secondary); font-family: Courier New, monospace;">Unable to load participants.<br>Please check your connection.</div>';
+            }
+        }
+
+
         
         function renderParticipants(data) {
             const participantGrid = document.getElementById('grid-view');
@@ -745,11 +708,20 @@
                     button.style.transition = 'opacity 0.3s ease';
                     
                     button.addEventListener('click', () => {
-                        const leftFrame = window.parent.document.getElementById('mainFrame');
-                        leftFrame.contentWindow.postMessage({
-                            type: 'participantSelected',
-                            participant: participant
-                        }, '*');
+                        console.log('Avatar clicked:', participant.name);
+                        try {
+                            const leftFrame = parent.document.getElementById('mainFrame');
+                            if (leftFrame?.contentWindow?.updateParticipant) {
+                                leftFrame.contentWindow.updateParticipant(participant);
+                            } else {
+                                leftFrame?.contentWindow?.postMessage({
+                                    type: 'participantSelected',
+                                    participant: participant
+                                }, '*');
+                            }
+                        } catch (e) {
+                            console.error('Click handler error:', e);
+                        }
                     });
 
                     const img = document.createElement('img');
@@ -769,11 +741,7 @@
                         }
                     };
                     
-                    img.onerror = () => {
-                        img.src = '../../public/assets/images/default-avatar.png';
-                        loadedImages++;
-                        button.style.opacity = '1';
-                    };
+
                     
                     // Set src after event listeners for Opera
                     setTimeout(() => {
@@ -787,7 +755,12 @@
         }
 
         // Load data when page loads
-        setTimeout(loadAllParticipants, 1000);
+        setTimeout(() => {
+            // Check if user is authenticated
+            const storedUser = localStorage.getItem('ktg_user');
+            const authenticated = !!storedUser;
+            loadAllParticipants(authenticated);
+        }, 1000);
 
         // Send theme and language changes to parent
         function notifyParentOfChanges() {

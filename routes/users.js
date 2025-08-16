@@ -177,20 +177,20 @@ router.post('/avatar', async (req, res) => {
     }
 });
 
-// Get all avatars for admin dashboard
+// Get all avatars for game console
 router.get('/avatars', async (req, res) => {
     try {
         const avatars = await Database.query(`
             SELECT 
                 a.id,
                 a.name,
-                a.tagline,
                 a.image_url,
+                a.tagline,
+                a.door_choice,
                 a.is_active,
-                a.created_at,
-                u.email
+                a.created_at
             FROM avatars a
-            JOIN users u ON a.wallet_id = u.wallet_id
+            WHERE a.is_active = TRUE
             ORDER BY a.created_at DESC
         `);
         res.json(avatars);
@@ -331,6 +331,78 @@ router.get('/journeybook/page/:pageNumber', async (req, res) => {
         res.json(page);
     } catch (error) {
         res.status(400).json({ error: error.message });
+    }
+});
+
+// Get all journeybook pages (raw array for testing)
+router.get('/journeybook/pages', async (req, res) => {
+    try {
+        const pages = await Database.getAllJourneyBookPages();
+        res.json(pages);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// Get structured journeybook pages
+router.get('/journeybook/pages/structured', async (req, res) => {
+    try {
+        const pages = await Database.getAllJourneyBookPages();
+        console.log('Raw pages from database:', pages.length);
+        
+        // Structure data by section and subgroup
+        const structuredData = {};
+        
+        pages.forEach(page => {
+            const section = page.section;
+            const subgroup = page.subgroup;
+            
+            if (!structuredData[section]) {
+                structuredData[section] = {};
+            }
+            
+            if (!structuredData[section][subgroup]) {
+                structuredData[section][subgroup] = [];
+            }
+            
+            // Parse options if they're stored as JSON string
+            let options = [];
+            if (page.options) {
+                try {
+                    options = JSON.parse(page.options);
+                } catch (e) {
+                    options = [];
+                }
+            }
+            
+            structuredData[section][subgroup].push({
+                id: page.id,
+                question: page.question,
+                options: options,
+                image_url: page.image_url,
+                section: section,
+                subgroup: subgroup
+            });
+        });
+        
+        console.log('Structured data sections:', Object.keys(structuredData));
+        console.log('Total structured sections:', Object.keys(structuredData).length);
+        
+        // Debug: Check if structuredData is empty
+        if (Object.keys(structuredData).length === 0) {
+            console.error('ERROR: structuredData is empty!');
+            console.log('Raw pages sample:', pages.slice(0, 2));
+        }
+        
+        res.json(structuredData);
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(400).json({ 
+            error: error.message, 
+            code: error.code,
+            errno: error.errno,
+            sqlState: error.sqlState
+        });
     }
 });
 

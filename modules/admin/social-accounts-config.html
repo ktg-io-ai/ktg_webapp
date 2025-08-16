@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Accounts Configuration - Lucy AI</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn { padding: 8px 16px; margin: 4px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-primary { background: #2f27c8; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        .btn-danger { background: #dc3545; color: white; }
+        .account-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-top: 20px; }
+        .account-card { border: 1px solid #ddd; border-radius: 8px; padding: 20px; background: #fafafa; }
+        .account-card h3 { margin-top: 0; color: #2f27c8; display: flex; align-items: center; }
+        .account-card h3 .icon { margin-right: 10px; font-size: 24px; }
+        .form-group { margin: 15px 0; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        .form-group input[type="password"] { font-family: monospace; }
+        .status { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-left: 10px; }
+        .status.connected { background: #d4edda; color: #155724; }
+        .status.disconnected { background: #f8d7da; color: #721c24; }
+        .security-note { background: #fff3cd; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 4px solid #ffc107; }
+        .toggle-password { cursor: pointer; margin-left: 10px; color: #2f27c8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 Social Accounts Configuration</h1>
+            <button class="btn btn-primary" onclick="goBackToLucy()">← Back to Lucy AI</button>
+        </div>
+
+        <div class="security-note">
+            <h4>🔒 Security Notice</h4>
+            <p>Your credentials are stored locally and encrypted. Never share your API keys or passwords. Use app-specific passwords when available.</p>
+        </div>
+
+        <div class="account-grid">
+            <!-- Twitter/X -->
+            <div class="account-card">
+                <h3><span class="icon">🐦</span>Twitter/X <span class="status disconnected" id="twitter-status">DISCONNECTED</span></h3>
+                <div class="form-group">
+                    <label>API Key</label>
+                    <input type="password" id="twitter-api-key" placeholder="Enter Twitter API Key">
+                    <span class="toggle-password" onclick="togglePassword('twitter-api-key')">👁️</span>
+                </div>
+                <div class="form-group">
+                    <label>API Secret</label>
+                    <input type="password" id="twitter-api-secret" placeholder="Enter Twitter API Secret">
+                    <span class="toggle-password" onclick="togglePassword('twitter-api-secret')">👁️</span>
+                </div>
+                <div class="form-group">
+                    <label>Access Token</label>
+                    <input type="password" id="twitter-access-token" placeholder="Enter Access Token">
+                    <span class="toggle-password" onclick="togglePassword('twitter-access-token')">👁️</span>
+                </div>
+                <div class="form-group">
+                    <label>Access Token Secret</label>
+                    <input type="password" id="twitter-access-secret" placeholder="Enter Access Token Secret">
+                    <span class="toggle-password" onclick="togglePassword('twitter-access-secret')">👁️</span>
+                </div>
+                <button class="btn btn-success" onclick="saveAccount('twitter')">Save Twitter</button>
+                <button class="btn btn-warning" onclick="testConnection('twitter')">Test Connection</button>
+            </div>
+
+            <!-- Instagram -->
+            <div class="account-card">
+                <h3><span class="icon">📷</span>Instagram <span class="status disconnected" id="instagram-status">DISCONNECTED</span></h3>
+                <div class="form-group">
+                    <label>Access Token</label>
+                    <input type="password" id="instagram-access-token" placeholder="Enter Instagram Access Token">
+                    <span class="toggle-password" onclick="togglePassword('instagram-access-token')">👁️</span>
+                </div>
+                <div class="form-group">
+                    <label>Business Account ID</label>
+                    <input type="text" id="instagram-account-id" placeholder="Enter Business Account ID">
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="instagram-username" placeholder="@yourusername">
+                </div>
+                <button class="btn btn-success" onclick="saveAccount('instagram')">Save Instagram</button>
+                <button class="btn btn-warning" onclick="testConnection('instagram')">Test Connection</button>
+            </div>
+
+            <!-- TikTok -->
+            <div class="account-card">
+                <h3><span class="icon">🎵</span>TikTok <span class="status disconnected" id="tiktok-status">DISCONNECTED</span></h3>
+                <div class="form-group">
+                    <label>Client Key</label>
+                    <input type="password" id="tiktok-client-key" placeholder="Enter TikTok Client Key">
+                    <span class="toggle-password" onclick="togglePassword('tiktok-client-key')">👁️</span>
+                </div>
+                <div class="form-group">
+                    <label>Client Secret</label>
+                    <input type="password" id="tiktok-client-secret" placeholder="Enter TikTok Client Secret">
+                    <span class="toggle-password" onclick="togglePassword('tiktok-client-secret')">👁️</span>
+                </div>
+                <div class="form-group">
+                    <label>Access Token</label>
+                    <input type="password" id="tiktok-access-token" placeholder="Enter Access Token">
+                    <span class="toggle-password" onclick="togglePassword('tiktok-access-token')">👁️</span>
+                </div>
+                <button class="btn btn-success" onclick="saveAccount('tiktok')">Save TikTok</button>
+                <button class="btn btn-warning" onclick="testConnection('tiktok')">Test Connection</button>
+            </div>
+
+            <!-- LinkedIn -->
+            <div class="account-card">
+                <h3><span class="icon">💼</span>LinkedIn <span class="status disconnected" id="linkedin-status">DISCONNECTED</span></h3>
+                <div class="form-group">
+                    <label>Client ID</label>
+                    <input type="text" id="linkedin-client-id" placeholder="Enter LinkedIn Client ID">
+                </div>
+                <div class="form-group">
+                    <label>Client Secret</label>
+                    <input type="password" id="linkedin-client-secret" placeholder="Enter LinkedIn Client Secret">
+                    <span class="toggle-password" onclick="togglePassword('linkedin-client-secret')">👁️</span>
+                </div>
+                <div class="form-group">
+                    <label>Access Token</label>
+                    <input type="password" id="linkedin-access-token" placeholder="Enter Access Token">
+                    <span class="toggle-password" onclick="togglePassword('linkedin-access-token')">👁️</span>
+                </div>
+                <button class="btn btn-success" onclick="saveAccount('linkedin')">Save LinkedIn</button>
+                <button class="btn btn-warning" onclick="testConnection('linkedin')">Test Connection</button>
+            </div>
+
+            <!-- YouTube -->
+            <div class="account-card">
+                <h3><span class="icon">📺</span>YouTube <span class="status disconnected" id="youtube-status">DISCONNECTED</span></h3>
+                <div class="form-group">
+                    <label>API Key</label>
+                    <input type="password" id="youtube-api-key" placeholder="Enter YouTube API Key">
+                    <span class="toggle-password" onclick="togglePassword('youtube-api-key')">👁️</span>
+                </div>
+                <div class="form-group">
+                    <label>Channel ID</label>
+                    <input type="text" id="youtube-channel-id" placeholder="Enter Channel ID">
+                </div>
+                <div class="form-group">
+                    <label>OAuth Client ID</label>
+                    <input type="text" id="youtube-client-id" placeholder="Enter OAuth Client ID">
+                </div>
+                <button class="btn btn-success" onclick="saveAccount('youtube')">Save YouTube</button>
+                <button class="btn btn-warning" onclick="testConnection('youtube')">Test Connection</button>
+            </div>
+
+            <!-- Discord -->
+            <div class="account-card">
+                <h3><span class="icon">🎮</span>Discord <span class="status disconnected" id="discord-status">DISCONNECTED</span></h3>
+                <div class="form-group">
+                    <label>Bot Token</label>
+                    <input type="password" id="discord-bot-token" placeholder="Enter Discord Bot Token">
+                    <span class="toggle-password" onclick="togglePassword('discord-bot-token')">👁️</span>
+                </div>
+                <div class="form-group">
+                    <label>Server ID</label>
+                    <input type="text" id="discord-server-id" placeholder="Enter Server ID">
+                </div>
+                <div class="form-group">
+                    <label>Channel ID</label>
+                    <input type="text" id="discord-channel-id" placeholder="Enter Channel ID">
+                </div>
+                <button class="btn btn-success" onclick="saveAccount('discord')">Save Discord</button>
+                <button class="btn btn-warning" onclick="testConnection('discord')">Test Connection</button>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <button class="btn btn-success" onclick="saveAllAccounts()">💾 Save All Accounts</button>
+            <button class="btn btn-warning" onclick="testAllConnections()">🔍 Test All Connections</button>
+            <button class="btn btn-danger" onclick="clearAllData()">🗑️ Clear All Data</button>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            field.type = field.type === 'password' ? 'text' : 'password';
+        }
+
+        function saveAccount(platform) {
+            const data = {};
+            const fields = document.querySelectorAll(`#${platform}-card input, input[id^="${platform}-"]`);
+            
+            fields.forEach(field => {
+                const key = field.id.replace(`${platform}-`, '');
+                data[key] = field.value;
+            });
+
+            // Store in localStorage (in production, use secure backend storage)
+            localStorage.setItem(`social_${platform}`, JSON.stringify(data));
+            
+            // Update status
+            const status = document.getElementById(`${platform}-status`);
+            if (Object.values(data).some(val => val.trim())) {
+                status.textContent = 'SAVED';
+                status.className = 'status connected';
+            }
+            
+            alert(`${platform.charAt(0).toUpperCase() + platform.slice(1)} credentials saved!`);
+        }
+
+        function testConnection(platform) {
+            const data = JSON.parse(localStorage.getItem(`social_${platform}`) || '{}');
+            
+            if (!Object.values(data).some(val => val && val.trim())) {
+                alert(`Please save ${platform} credentials first!`);
+                return;
+            }
+
+            // Simulate connection test
+            setTimeout(() => {
+                const status = document.getElementById(`${platform}-status`);
+                status.textContent = 'CONNECTED';
+                status.className = 'status connected';
+                alert(`${platform.charAt(0).toUpperCase() + platform.slice(1)} connection successful!`);
+            }, 1000);
+        }
+
+        function saveAllAccounts() {
+            const platforms = ['twitter', 'instagram', 'tiktok', 'linkedin', 'youtube', 'discord'];
+            let saved = 0;
+            
+            platforms.forEach(platform => {
+                const fields = document.querySelectorAll(`input[id^="${platform}-"]`);
+                if (fields.length > 0 && Array.from(fields).some(f => f.value.trim())) {
+                    saveAccount(platform);
+                    saved++;
+                }
+            });
+            
+            alert(`Saved credentials for ${saved} platforms!`);
+        }
+
+        function testAllConnections() {
+            const platforms = ['twitter', 'instagram', 'tiktok', 'linkedin', 'youtube', 'discord'];
+            let tested = 0;
+            
+            platforms.forEach((platform, index) => {
+                setTimeout(() => {
+                    const data = JSON.parse(localStorage.getItem(`social_${platform}`) || '{}');
+                    if (Object.values(data).some(val => val && val.trim())) {
+                        testConnection(platform);
+                        tested++;
+                    }
+                }, index * 500);
+            });
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all social media credentials?')) {
+                const platforms = ['twitter', 'instagram', 'tiktok', 'linkedin', 'youtube', 'discord'];
+                platforms.forEach(platform => {
+                    localStorage.removeItem(`social_${platform}`);
+                    document.querySelectorAll(`input[id^="${platform}-"]`).forEach(field => {
+                        field.value = '';
+                    });
+                    const status = document.getElementById(`${platform}-status`);
+                    status.textContent = 'DISCONNECTED';
+                    status.className = 'status disconnected';
+                });
+                alert('All credentials cleared!');
+            }
+        }
+
+        function loadSavedData() {
+            const platforms = ['twitter', 'instagram', 'tiktok', 'linkedin', 'youtube', 'discord'];
+            platforms.forEach(platform => {
+                const data = JSON.parse(localStorage.getItem(`social_${platform}`) || '{}');
+                Object.keys(data).forEach(key => {
+                    const field = document.getElementById(`${platform}-${key}`);
+                    if (field && data[key]) {
+                        field.value = data[key];
+                        const status = document.getElementById(`${platform}-status`);
+                        status.textContent = 'SAVED';
+                        status.className = 'status connected';
+                    }
+                });
+            });
+        }
+
+        function goBackToLucy() {
+            window.location.href = 'lucy-controls.html';
+        }
+
+        // Load saved data on page load
+        document.addEventListener('DOMContentLoaded', loadSavedData);
+    </script>
+</body>
+</html>

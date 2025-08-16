@@ -591,7 +591,11 @@
                 <div class="avatar-list-container">
                     <div class="avatar-header">
                         <span class="saved-avatars-label">saved avatars</span>
-                        <a href="opening.html" class="register-new-link">← Back to Opening</a>
+                        <a href="newavatar.html" class="register-new-link">Click Here for new Avatar</a>
+                    </div>
+                    
+                    <div id="alreadyLoggedIn" style="display: none; text-align: center; padding: 10px; background: rgba(76, 175, 80, 0.2); border-radius: 8px; margin-bottom: 10px;">
+                        <p style="color: #4CAF50; margin: 0; font-size: 14px; font-weight: bold;">Already logged in!</p>
                     </div>
                     <div id="avatarList" class="avatar-list">
                         <!-- Avatars will be populated here -->
@@ -800,20 +804,34 @@
             }
         }
 
-        // Load user avatars
+        // Load user's wallet avatars
         async function loadUserAvatars() {
             try {
-                const response = await fetch('/api/users/avatars');
+                // Get current user email from auth or localStorage
+                const user = JSON.parse(localStorage.getItem('ktg_user') || '{}');
+                console.log('Current user from localStorage:', user);
+                if (!user.email) {
+                    console.log('No user email found, showing empty avatar list');
+                    displayAvatars([]);
+                    return;
+                }
+                
+                console.log('Fetching wallet for email:', user.email);
+                const response = await fetch(`/api/wallet?email=${encodeURIComponent(user.email)}`);
+                console.log('Wallet API response status:', response.status);
+                
                 if (response.ok) {
-                    const avatars = await response.json();
-                    console.log('Loaded avatars:', avatars);
-                    displayAvatars(avatars);
+                    const walletData = await response.json();
+                    console.log('Loaded wallet data:', walletData);
+                    console.log('Wallet avatars:', walletData.avatars);
+                    displayAvatars(walletData.avatars || []);
                 } else {
-                    console.error('Failed to load avatars:', response.status);
+                    const errorText = await response.text();
+                    console.error('Failed to load wallet avatars:', response.status, errorText);
                     displayAvatars([]);
                 }
             } catch (error) {
-                console.error('Error loading avatars:', error);
+                console.error('Error loading wallet avatars:', error);
                 displayAvatars([]);
             }
         }
@@ -887,11 +905,28 @@
             const result = await window.KTGAuth.login(loginInput, passwordInput);
             
             if (result.success) {
-
+                // Store user data in localStorage with the actual user data from login response
+                const userData = {
+                    email: loginInput,
+                    loggedIn: true,
+                    loginTime: Date.now()
+                };
                 
-                statusDiv.textContent = 'Login successful!';
+                // If login response includes user data, merge it
+                if (result.user) {
+                    Object.assign(userData, result.user);
+                }
+                
+                localStorage.setItem('ktg_user', JSON.stringify(userData));
+                
+                statusDiv.textContent = 'Login successful! Loading your avatars...';
                 statusDiv.style.color = '#4CAF50';
-                document.getElementById('enterGameBtn').style.display = 'block';
+                
+                // Load avatars immediately after successful login
+                setTimeout(() => {
+                    loadUserAvatars();
+                    document.getElementById('enterGameBtn').style.display = 'block';
+                }, 500);
             } else {
                 statusDiv.textContent = result.error || 'Login failed';
                 statusDiv.style.color = '#f44336';
@@ -909,10 +944,21 @@
             }
         }
         
+        function checkLoginStatus() {
+            const user = JSON.parse(localStorage.getItem('ktg_user') || '{}');
+            if (user.email || user.walletId) {
+                document.getElementById('alreadyLoggedIn').style.display = 'block';
+                // Load avatars immediately if user is already logged in
+                loadUserAvatars();
+                document.getElementById('enterGameBtn').style.display = 'block';
+            }
+        }
+        
         // Make functions available globally
         window.openGoogleSignIn = openGoogleSignIn;
         window.handleLogin = handleLogin;
         window.enterGame = enterGame;
+        window.checkLoginStatus = checkLoginStatus;
 
         window.addEventListener('load', () => {
             // Force video play
@@ -924,6 +970,9 @@
             // Initialize theme and language
             initializeTheme();
             initializeMusic();
+            
+            // Check if already logged in and show message
+            checkLoginStatus();
             
             // Load avatars
             loadUserAvatars();

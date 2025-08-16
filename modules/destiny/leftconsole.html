@@ -170,7 +170,7 @@
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 10px;
         }
 
         .journeybook-bars {
@@ -321,26 +321,77 @@
             if (typeof initializeLanguage === 'function') {
                 initializeLanguage();
             }
+            
+            // Load user profile immediately on page load
+            setTimeout(() => {
+                console.log('All localStorage:', Object.keys(localStorage));
+                
+                // Check localStorage first
+                const savedAvatar = localStorage.getItem('ktg_selected_avatar') || localStorage.getItem('ktg_current_avatar');
+                if (savedAvatar) {
+                    const avatarData = JSON.parse(savedAvatar);
+                    console.log('Loading saved avatar:', avatarData);
+                    updateParticipant({
+                        name: avatarData.name || avatarData.avatar_name || 'My Avatar',
+                        image: avatarData.image_url || avatarData.imageUrl || '../../public/assets/images/profile_Lucy.jpg',
+                        tagline: avatarData.tagline || 'My KTG Adventure',
+                        safeLinks: [{ text: 'My Profile', url: '#' }]
+                    });
+                    document.getElementById('participant-name').innerHTML = (avatarData.name || 'My Avatar') + ' <span style="color: #4CAF50; font-size: 12px;">(You)</span>';
+                    updateDoorIndicator(avatarData.door_choice || avatarData.doorChoice || 'blue');
+                    return;
+                }
+                
+                // Fallback to API
+                const storedUser = localStorage.getItem('ktg_user');
+                if (storedUser) {
+                    const userData = JSON.parse(storedUser);
+                    fetch(`/api/wallet?email=${encodeURIComponent(userData.email)}`)
+                    .then(response => response.ok ? response.json() : null)
+                    .then(walletData => {
+                        if (walletData?.avatars?.length > 0) {
+                            const avatar = walletData.avatars[0];
+                            updateParticipant({
+                                name: avatar.name,
+                                image: avatar.image_url,
+                                tagline: avatar.tagline,
+                                safeLinks: [{ text: 'My Profile', url: '#' }]
+                            });
+                            document.getElementById('participant-name').innerHTML = avatar.name + ' <span style="color: #4CAF50; font-size: 12px;">(You)</span>';
+                            updateDoorIndicator(avatar.door_choice || 'blue');
+                        } else {
+                            updateParticipant({
+                                name: 'Welcome!',
+                                image: '../../public/assets/images/profile_Lucy.jpg',
+                                tagline: 'Create your first avatar',
+                                safeLinks: [{ text: 'Create Avatar', url: 'makeavatar.html' }]
+                            });
+                        }
+                    });
+                } else {
+                    updateParticipant({
+                        name: 'Guest User',
+                        image: '../../public/assets/images/profile_Lucy.jpg',
+                        tagline: 'Please log in',
+                        safeLinks: [{ text: 'Login', url: 'login.html' }]
+                    });
+                }
+            }, 500);
         });
+        
 
-        let currentSelectedAvatar = null;
 
-        // Listen for theme changes from parent
         window.addEventListener('message', (event) => {
+            console.log('Left console received message:', event.data);
             if (event.data.type === 'themeChange') {
                 document.documentElement.setAttribute('data-theme', event.data.theme);
             } else if (event.data.type === 'languageChange') {
-                if (typeof initializeLanguage === 'function') {
-                    initializeLanguage();
-                }
+                if (typeof langManager !== 'undefined') langManager.updateUI();
             } else if (event.data.type === 'participantSelected') {
-                const participant = event.data.participant;
-                currentSelectedAvatar = participant;
-                updateParticipant(participant);
-            } else if (event.data.type === 'getSelectedAvatar') {
-                // Return selected avatar ID to parent
-                const avatarId = currentSelectedAvatar?.id || getCurrentAvatarId();
-                window.parent.postMessage({ type: 'selectedAvatar', avatarId: avatarId }, '*');
+                console.log('Updating participant:', event.data.participant);
+                updateParticipant(event.data.participant);
+            } else if (event.data.type === 'loadProfile') {
+                loadUserProfile(event.data.wallet);
             }
         });
 
@@ -348,6 +399,11 @@
             document.getElementById('participant-name').textContent = participant.name;
             document.getElementById('participant-image').src = participant.image;
             document.getElementById('participant-tagline').textContent = participant.tagline;
+            
+            // Update door indicator
+            if (participant.door_choice) {
+                updateDoorIndicator(participant.door_choice);
+            }
 
             const safeLinksContainer = document.getElementById('safe-links');
             safeLinksContainer.innerHTML = '';
@@ -405,78 +461,66 @@
             }
         }
 
-        // Firebase integration
-        window.addEventListener('message', (event) => {
-            if (event.data.type === 'updateStats') {
-                // Handle stats updates from parent
-                console.log('Stats updated:', event.data.stats);
-            }
-        });
-
-
-
-        // Load user profile from database
-        async function loadUserProfile() {
+        async function loadUserProfile(walletData) {
             try {
-                // Get current user from localStorage
-                const userDataString = localStorage.getItem('ktg_user');
-                const currentAvatarString = localStorage.getItem('ktg_current_avatar');
+                console.log('loadUserProfile called with:', walletData);
                 
-                if (userDataString && userDataString !== 'undefined') {
-                    const userData = JSON.parse(userDataString);
-                    let avatarData = null;
+                if (walletData && walletData.avatars && walletData.avatars.length > 0) {
+                    // Assuming the first avatar in the array is the active one for this view
+                    const activeAvatar = walletData.avatars[0];
+                    console.log('Active avatar:', activeAvatar);
+
+                    const displayName = activeAvatar.name || 'My Avatar';
+                    const tagline = activeAvatar.tagline || 'My KTG Adventure';
+                    const imageUrl = activeAvatar.image_url || '../../public/assets/images/profile_Lucy.jpg';
                     
-                    if (currentAvatarString && currentAvatarString !== 'undefined') {
-                        avatarData = JSON.parse(currentAvatarString);
-                    }
-                    
-                    // Use avatar data if available, otherwise use user data
-                    const displayName = avatarData?.name || userData.username || userData.email?.split('@')[0] || 'Player';
-                    const tagline = avatarData?.tagline || 'KTG Player seeks adventure';
-                    const imageUrl = avatarData?.imageUrl || '../../public/assets/images/profile_default.png';
-                    
+                    console.log('Profile data:', { displayName, tagline, imageUrl });
+
                     updateParticipant({
                         name: displayName,
                         image: imageUrl,
                         tagline: tagline,
                         safeLinks: [
-                            { text: 'Profile', url: '#' },
-                            { text: 'JourneyBook', url: '../journeybook/journeybook.html' }
+                            { text: 'My Profile', url: '#' },
+                            { text: 'My JourneyBook', url: '../journeybook/journeybook.html' }
                         ]
                     });
-                    
-                    // Update door indicator from selection
-                    const doorData = JSON.parse(localStorage.getItem('ktg_selected_door') || '{}');
-                    updateDoorIndicator(doorData.color || 'blue');
-                    
-                    // Update progress bars (default to 0)
-                    updateProgressBars({ values: 0, compatibility: 0, intimacy: 0 });
-                    
-                    // Show current user indicator
+
+                    updateDoorIndicator(walletData.door_choice || 'blue');
+                    updateProgressBars(walletData.journeybook_progress || { values: 10, compatibility: 25, intimacy: 5 });
+
                     const nameElement = document.getElementById('participant-name');
                     if (nameElement) {
                         nameElement.innerHTML = displayName + ' <span style="color: #4CAF50; font-size: 12px;">(You)</span>';
                     }
+                } else {
+                    // Show message for users without wallet data
+                    updateParticipant({
+                        name: 'Welcome to KTG!',
+                        image: '../../public/assets/images/profile_Lucy.jpg',
+                        tagline: 'Create your first avatar to get started',
+                        safeLinks: [
+                            { text: 'Create Avatar', url: 'makeavatar.html' },
+                            { text: 'Learn More', url: 'opening.html' }
+                        ]
+                    });
                     
-                    return;
+                    const nameElement = document.getElementById('participant-name');
+                    if (nameElement) {
+                        nameElement.innerHTML = 'Welcome to KTG! <span style="color: #4CAF50; font-size: 12px;">(You)</span>';
+                    }
                 }
-                
-                // Fallback for non-authenticated users
-                updateParticipant({
-                    name: 'Guest Player',
-                    image: '../../public/assets/images/profile_default.png',
-                    tagline: 'Welcome to Karma the Game',
-                    safeLinks: []
-                });
-                
             } catch (error) {
                 console.error('Error loading user profile:', error);
-                // Fallback to default
+                // Show default profile
                 updateParticipant({
-                    name: 'Guest Player',
-                    image: '../../public/assets/images/profile_default.png',
-                    tagline: 'Welcome to Karma the Game',
-                    safeLinks: []
+                    name: 'Guest User',
+                    image: '../../public/assets/images/profile_Lucy.jpg',
+                    tagline: 'Please log in to see your profile',
+                    safeLinks: [
+                        { text: 'Login', url: 'login.html' },
+                        { text: 'Register', url: 'newwallet.html' }
+                    ]
                 });
             }
         }
@@ -484,9 +528,9 @@
         function updateDoorIndicator(door) {
             const doorElement = document.getElementById('door-indicator');
             const doorColors = {
-                'blue': { bg: '#2196F3', text: 'BLUE' },
-                'yellow': { bg: '#FFC107', text: 'YELLOW' },
-                'red': { bg: '#F44336', text: 'RED' }
+                'blue': { bg: '#2196F3', text: 'Blue' },
+                'yellow': { bg: '#FFC107', text: 'Yellow' },
+                'red': { bg: '#F44336', text: 'Red' }
             };
             
             const doorConfig = doorColors[door] || doorColors['blue'];
@@ -506,20 +550,6 @@
             document.getElementById('intimacy-progress').style.width = intimacyPercent + '%';
         }
 
-        function getCurrentAvatarId() {
-            try {
-                const currentAvatar = JSON.parse(localStorage.getItem('ktg_current_avatar') || '{}');
-                return currentAvatar.id || null;
-            } catch (error) {
-                console.error('Error getting current avatar ID:', error);
-                return null;
-            }
-        }
-
-        // Load profile when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            loadUserProfile();
-        });
     </script>
 </body>
 </html>

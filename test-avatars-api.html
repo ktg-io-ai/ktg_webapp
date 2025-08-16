@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Avatars API</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .result { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .error { background: #ffebee; color: #c62828; }
+        .success { background: #e8f5e8; color: #2e7d32; }
+    </style>
+</head>
+<body>
+    <h1>KTG Avatars API Test</h1>
+    
+    <button onclick="testAvatarsAPI()">Test /api/users/avatars</button>
+    <button onclick="testWalletAPI()">Test /api/wallet</button>
+    <button onclick="testUsersAPI()">Test /api/users</button>
+    
+    <div id="results"></div>
+
+    <script>
+        async function testAvatarsAPI() {
+            const resultsDiv = document.getElementById('results');
+            try {
+                const response = await fetch('/api/users/avatars');
+                const data = await response.json();
+                
+                resultsDiv.innerHTML += `
+                    <div class="result ${response.ok ? 'success' : 'error'}">
+                        <h3>/api/users/avatars</h3>
+                        <p>Status: ${response.status}</p>
+                        <p>Response: ${JSON.stringify(data, null, 2)}</p>
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML += `
+                    <div class="result error">
+                        <h3>/api/users/avatars</h3>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function testWalletAPI() {
+            const resultsDiv = document.getElementById('results');
+            try {
+                const response = await fetch('/api/wallet?email=test@example.com');
+                const data = await response.json();
+                
+                resultsDiv.innerHTML += `
+                    <div class="result ${response.ok ? 'success' : 'error'}">
+                        <h3>/api/wallet</h3>
+                        <p>Status: ${response.status}</p>
+                        <p>Response: ${JSON.stringify(data, null, 2)}</p>
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML += `
+                    <div class="result error">
+                        <h3>/api/wallet</h3>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function testUsersAPI() {
+            const resultsDiv = document.getElementById('results');
+            try {
+                const response = await fetch('/api/users');
+                const data = await response.json();
+                
+                resultsDiv.innerHTML += `
+                    <div class="result ${response.ok ? 'success' : 'error'}">
+                        <h3>/api/users</h3>
+                        <p>Status: ${response.status}</p>
+                        <p>Response: ${JSON.stringify(data, null, 2)}</p>
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML += `
+                    <div class="result error">
+                        <h3>/api/users</h3>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
