@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JourneyBook Database Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: #fff;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #222;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background: #2f27c8;
+        }
+        .count {
+            font-size: 24px;
+            color: #2f27c8;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>JourneyBook Database Test</h1>
+    <div class="count" id="recordCount">Loading...</div>
+    <div style="margin: 20px 0; padding: 10px; background: #333; border-radius: 5px;">
+        <strong>Debug Info:</strong> Check browser console (F12) for detailed response data
+    </div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Section</th>
+                <th>Subgroup</th>
+                <th>Question</th>
+                <th>Options</th>
+                <th>Image URL</th>
+                <th>Page Number</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr><td colspan="7">Loading data...</td></tr>
+        </tbody>
+    </table>
+
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('/api/users/journeybook/pages');
+                console.log('Response status:', response.status);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Raw response:', data);
+                    console.log('Response type:', typeof data);
+                    console.log('Is array:', Array.isArray(data));
+                    
+                    const tbody = document.getElementById('tableBody');
+                    
+                    if (Array.isArray(data)) {
+                        document.getElementById('recordCount').textContent = `Total Records: ${data.length}`;
+                        tbody.innerHTML = '';
+                        
+                        data.forEach(page => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${page.id}</td>
+                                <td>${page.section || 'NULL'}</td>
+                                <td>${page.subgroup || 'NULL'}</td>
+                                <td>${page.question || 'NULL'}</td>
+                                <td>${page.options || 'NULL'}</td>
+                                <td>${page.image_url || 'NULL'}</td>
+                                <td>${page.page_number || 'NULL'}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        document.getElementById('recordCount').textContent = 'Response is not an array';
+                        tbody.innerHTML = `<tr><td colspan="7">Raw response: ${JSON.stringify(data)}</td></tr>`;
+                    }
+                } else {
+                    const errorText = await response.text();
+                    console.log('Error response:', errorText);
+                    document.getElementById('recordCount').textContent = `Error: ${response.status}`;
+                    document.getElementById('tableBody').innerHTML = `<tr><td colspan="7">Error ${response.status}: ${errorText}</td></tr>`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('recordCount').textContent = 'Error loading data';
+                document.getElementById('tableBody').innerHTML = '<tr><td colspan="7">Error: ' + error.message + '</td></tr>';
+            }
+        }
+
+        window.addEventListener('load', loadData);
+    </script>
+</body>
+</html>

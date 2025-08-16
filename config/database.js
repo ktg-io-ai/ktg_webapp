@@ -278,6 +278,104 @@ class Database {
         const results = await this.query(sql, [pageNumber]);
         return results[0] || null;
     }
+
+    static async getAllJourneyBookPages() {
+        const sql = 'SELECT id, section, subgroup, question, options, image_url, page_number FROM journeybook_pages ORDER BY section, subgroup, id';
+        const results = await this.query(sql);
+        console.log('Database query results:', results);
+        return results;
+    }
+
+    // Lucy AI Social Networks operations
+    static async getAllSocialNetworks() {
+        const sql = 'SELECT * FROM lucy_social_networks WHERE is_active = TRUE ORDER BY platform_name';
+        return await this.query(sql);
+    }
+
+    static async updateSocialNetworkStatus(networkId, status, postingEnabled, autoPosting) {
+        const sql = `UPDATE lucy_social_networks 
+                     SET connection_status = ?, posting_enabled = ?, auto_posting = ?, updated_at = CURRENT_TIMESTAMP 
+                     WHERE id = ?`;
+        return await this.query(sql, [status, postingEnabled, autoPosting, networkId]);
+    }
+
+    // Lucy AI PR Firms operations
+    static async getAllPRFirms() {
+        const sql = 'SELECT * FROM lucy_pr_firms WHERE is_active = TRUE ORDER BY tier, firm_name';
+        return await this.query(sql);
+    }
+
+    static async updatePRFirmRelationship(firmId, relationshipStatus, lastContactDate) {
+        const sql = `UPDATE lucy_pr_firms 
+                     SET relationship_status = ?, last_contact_date = ?, updated_at = CURRENT_TIMESTAMP 
+                     WHERE id = ?`;
+        return await this.query(sql, [relationshipStatus, lastContactDate, firmId]);
+    }
+
+    // Lucy AI Campaign Actions operations
+    static async createCampaignAction(actionData) {
+        const sql = `INSERT INTO lucy_campaign_actions 
+                     (campaign_id, action_type, target_type, target_id, action_title, action_description, priority, due_date, assigned_to) 
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        return await this.query(sql, [
+            actionData.campaign_id,
+            actionData.action_type,
+            actionData.target_type,
+            actionData.target_id,
+            actionData.action_title,
+            actionData.action_description,
+            actionData.priority || 'medium',
+            actionData.due_date,
+            actionData.assigned_to || 'Lucy AI'
+        ]);
+    }
+
+    static async updateCampaignActionStatus(actionId, status, actionTaken, receiptReceived, receiptUrl) {
+        const sql = `UPDATE lucy_campaign_actions 
+                     SET status = ?, action_taken = ?, receipt_received = ?, receipt_url = ?, 
+                         completed_at = CASE WHEN status = 'completed' THEN CURRENT_TIMESTAMP ELSE completed_at END,
+                         updated_at = CURRENT_TIMESTAMP 
+                     WHERE id = ?`;
+        return await this.query(sql, [status, actionTaken, receiptReceived, receiptUrl, actionId]);
+    }
+
+    static async getCampaignActions(status = null) {
+        let sql = 'SELECT * FROM lucy_campaign_actions';
+        const params = [];
+        if (status) {
+            sql += ' WHERE status = ?';
+            params.push(status);
+        }
+        sql += ' ORDER BY priority DESC, due_date ASC';
+        return await this.query(sql, params);
+    }
+
+    // Lucy AI Action Receipts operations
+    static async createActionReceipt(receiptData) {
+        const sql = `INSERT INTO lucy_action_receipts 
+                     (action_id, receipt_type, receipt_data, receipt_url, confirmation_code, external_reference) 
+                     VALUES (?, ?, ?, ?, ?, ?)`;
+        return await this.query(sql, [
+            receiptData.action_id,
+            receiptData.receipt_type,
+            JSON.stringify(receiptData.receipt_data || {}),
+            receiptData.receipt_url,
+            receiptData.confirmation_code,
+            receiptData.external_reference
+        ]);
+    }
+
+    // Lucy AI Analytics operations
+    static async getLucyAnalytics() {
+        const sql = `SELECT 
+                        (SELECT COUNT(*) FROM lucy_social_posts WHERE status = 'posted') as total_posts,
+                        (SELECT COUNT(*) FROM external_campaigns WHERE status = 'active') as active_campaigns,
+                        (SELECT COUNT(*) FROM lucy_pr_firms WHERE is_active = TRUE) as pr_contacts,
+                        (SELECT ROUND(COUNT(CASE WHEN status = 'completed' THEN 1 END) * 100.0 / COUNT(*), 1) 
+                         FROM lucy_campaign_actions) as completion_rate`;
+        const results = await this.query(sql);
+        return results[0] || { total_posts: 0, active_campaigns: 0, pr_contacts: 0, completion_rate: 0 };
+    }
 }
 
 module.exports = { Database, pool, config };

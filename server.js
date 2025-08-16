@@ -22,10 +22,14 @@ app.get('/api/health', (req, res) => {
 const userRoutes = require('./routes/users');
 const gamingRoutes = require('./routes/gaming');
 const notificationRoutes = require('./routes/notifications');
+const lucyRoutes = require('./routes/lucy');
+const walletRoutes = require('./routes/wallet');
 
 app.use('/api/users', userRoutes);
 app.use('/api/gaming', gamingRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/lucy', lucyRoutes);
+app.use('/api/wallet', walletRoutes);
 
 // Lucy AI routes
 app.get('/api/lucy/status', async (req, res) => {

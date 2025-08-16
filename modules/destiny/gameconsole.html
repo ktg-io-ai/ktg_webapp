@@ -757,7 +757,7 @@
                         </button>
                     </li>
                     <li>
-                        <button onclick="openJourneyBookModal()">
+                        <button>
                             <img src="../../public/assets/icons/journeybook_icon.png" alt="JourneyBook Icon">
                             <span data-translate="destiny.gameconsole.journeybook">JourneyBook</span>
                         </button>
@@ -814,7 +814,7 @@
                         </button>
                     </li>
                     <li>
-                        <button>
+                        <button onclick="handleLogout()">
                             <img src="../../public/assets/icons/bail_icon.png" alt="Bail Icon">
                             <span data-translate="destiny.gameconsole.bail">Bail</span>
                         </button>
@@ -904,10 +904,24 @@
             setTimeout(() => {
                 sendThemeToIframes(savedTheme);
                 sendLanguageToIframes();
-            }, 2000);
+            }, 1000);
             
-            // Initialize Firebase Game Console
+            // Initialize Game Console
             await initializeGameConsole();
+            
+            // Ensure both consoles load properly
+            setTimeout(() => {
+                const mainFrame = document.getElementById('mainFrame');
+                const rightFrame = document.getElementById('rightFrame');
+                
+                // Force reload if needed
+                if (mainFrame && !mainFrame.contentDocument?.body?.innerHTML?.includes('participant-name')) {
+                    mainFrame.src = mainFrame.src + '?t=' + Date.now();
+                }
+                if (rightFrame && !rightFrame.contentDocument?.body?.innerHTML?.includes('grid-view')) {
+                    rightFrame.src = rightFrame.src + '?t=' + Date.now();
+                }
+            }, 3000);
             
             // Animation triggers
             setTimeout(() => {
@@ -975,116 +989,72 @@
 
         async function initializeGameConsole() {
             try {
-                if (window.KTGAuth && window.KTGAuth.isAuthenticated()) {
+                // Check if user is logged in by looking for stored user data
+                const storedUser = localStorage.getItem('ktg_user');
+                if (storedUser) {
+                    const userData = JSON.parse(storedUser);
                     gameConsoleInitialized = true;
-                    console.log('Game Console initialized');
-                    await updateGameStats();
+                    console.log('Game Console initialized for user:', userData.email);
+
+                    // Wait for iframes to load before sending messages
+                    setTimeout(async () => {
+                        try {
+                            console.log('Loading wallet data for user:', userData.email);
+                            
+                            // Fetch the user's own wallet/profile data for the left console
+                            const response = await fetch(`/api/wallet?email=${encodeURIComponent(userData.email)}`);
+                            console.log('Wallet API response status:', response.status);
+
+                            if (response.ok) {
+                                const walletData = await response.json();
+                                console.log('Wallet data received:', walletData);
+                                
+                                const mainFrame = document.getElementById('mainFrame');
+                                // Send profile data to the left console
+                                if (mainFrame && mainFrame.contentWindow) {
+                                    console.log('Sending wallet data to left console');
+                                    mainFrame.contentWindow.postMessage({ type: 'loadProfile', wallet: walletData }, '*');
+                                }
+                            } else {
+                                console.log('Wallet API failed, response:', await response.text());
+                            }
+
+                            // Tell the right console to load the grid of other players
+                            const rightFrame = document.getElementById('rightFrame');
+                            if (rightFrame && rightFrame.contentWindow) {
+                                console.log('Sending load grid message to right console');
+                                rightFrame.contentWindow.postMessage({ type: 'loadGrid', authenticated: true }, '*');
+                            }
+                        } catch (error) {
+                            console.error('Error loading authenticated data:', error);
+                            // Fallback to demo mode
+                            loadDemoMode();
+                        }
+                    }, 2000);
                 } else {
                     console.log('User not authenticated, game console in demo mode');
+                    loadDemoMode();
                 }
             } catch (error) {
                 console.error('Error initializing game console:', error);
+                loadDemoMode();
             }
         }
-
-        async function updateGameStats() {
-            try {
-                if (gameConsoleInitialized) {
-                    // Load stats from localStorage or API
-                    const userData = window.KTGAuth.getCurrentUser();
-                    if (userData) {
-                        currentStats = {
-                            lives: 3,
-                            tokens: userData.tokens || 0,
-                            level: 1
-                        };
-                        updateStatsDisplay();
-                    }
-                }
-            } catch (error) {
-                console.error('Error updating game stats:', error);
-            }
-        }
-
-        function updateStatsDisplay() {
-            if (currentStats) {
-                // Update UI elements with current stats
+        
+        function loadDemoMode() {
+            setTimeout(() => {
+                // Tell iframes no authentication - they should show appropriate messages
                 const mainFrame = document.getElementById('mainFrame');
-                if (mainFrame && mainFrame.contentWindow) {
-                    mainFrame.contentWindow.postMessage({
-                        type: 'updateStats',
-                        stats: currentStats
-                    }, '*');
-                }
-            }
-        }
-
-        // Game Action Functions
-        async function executeZap(targetWalletId) {
-            try {
-                if (!gameConsoleInitialized) {
-                    alert('Game console not initialized. Please refresh and try again.');
-                    return;
-                }
-
-                // Execute ZAP action via API
-                const response = await fetch('/api/gaming/zap', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({targetWalletId})
-                });
+                const rightFrame = document.getElementById('rightFrame');
                 
-                const result = await response.json();
-                if (response.ok) {
-                    console.log('ZAP executed successfully:', result);
-                    await updateGameStats();
-                    return result;
-                } else {
-                    console.error('ZAP failed:', result.error);
-                    alert('ZAP failed: ' + result.error);
+                if (mainFrame && mainFrame.contentWindow) {
+                    mainFrame.contentWindow.postMessage({ type: 'loadProfile', wallet: null }, '*');
                 }
-            } catch (error) {
-                console.error('Error executing ZAP:', error);
-                alert('Error executing ZAP: ' + error.message);
-            }
+                if (rightFrame && rightFrame.contentWindow) {
+                    rightFrame.contentWindow.postMessage({ type: 'loadGrid', authenticated: false }, '*');
+                }
+            }, 1500);
         }
-
-        async function executeHide() {
-            console.log('HIDE action executed');
-            alert('HIDE feature coming soon!');
-        }
-
-        async function executeTruth(truthData) {
-            console.log('TRUTH action executed');
-            alert('TRUTH feature coming soon!');
-        }
-
-        async function executeDoor4() {
-            console.log('DOOR4 action executed');
-            alert('DOOR4 feature coming soon!');
-        }
-
-        async function executeBomb() {
-            console.log('BOMB action executed');
-            alert('BOMB feature coming soon!');
-        }
-
-        async function executeStar() {
-            console.log('STAR action executed');
-            alert('STAR feature coming soon!');
-        }
-
-        // Make functions available globally for iframe communication
-        window.gameActions = {
-            zap: executeZap,
-            hide: executeHide,
-            truth: executeTruth,
-            door4: executeDoor4,
-            bomb: executeBomb,
-            star: executeStar,
-            getStats: () => currentStats,
-            isInitialized: () => gameConsoleInitialized
-        };
 
         // Theme and language functions for iframes
         function sendThemeToIframes(theme) {
@@ -1275,12 +1245,17 @@
             URL.revokeObjectURL(url);
         }
 
-        // Open JourneyBook modal for selected avatar
-        function openJourneyBookModal() {
-            // Get selected avatar from leftconsole
-            const mainFrame = document.getElementById('mainFrame');
-            if (mainFrame && mainFrame.contentWindow) {
-                mainFrame.contentWindow.postMessage({ type: 'getSelectedAvatar' }, '*');
+        // Logout functionality
+        function handleLogout() {
+            if (confirm('Are you sure you want to log out?')) {
+                // Clear all stored user data
+                localStorage.removeItem('ktg_user');
+                localStorage.removeItem('ktg_selected_avatar');
+                localStorage.removeItem('ktg_current_avatar');
+                localStorage.removeItem('ktg_all_avatars');
+                
+                // Redirect to login page
+                window.location.href = 'login.html';
             }
         }
 
@@ -1290,18 +1265,6 @@
                 // Handle emoji popup close
             } else if (event.data.type === 'emoji') {
                 console.log('Received emoji:', event.data.emoji);
-            } else if (event.data.type === 'selectedAvatar') {
-                // Send message to rightconsole to open modal
-                const avatarId = event.data.avatarId;
-                if (avatarId) {
-                    const rightFrame = document.getElementById('rightFrame');
-                    rightFrame.contentWindow.postMessage({
-                        type: 'openJourneyBookModal',
-                        avatarId: avatarId
-                    }, '*');
-                } else {
-                    alert('Please select an avatar first');
-                }
             } else if (event.data.type && event.data.type.startsWith('close')) {
                 // Close any wireframe and return to main rightconsole
                 const rightFrame = document.getElementById('rightFrame');

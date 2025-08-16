@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Email Tracker - Lucy AI</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn { padding: 8px 16px; margin: 4px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-primary { background: #2f27c8; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .table th, .table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        .table th { background: #f8f9fa; font-weight: bold; }
+        .status { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .status.sent { background: #d4edda; color: #155724; }
+        .status.pending { background: #fff3cd; color: #856404; }
+        .status.opened { background: #cce5ff; color: #004085; }
+        .status.replied { background: #d1ecf1; color: #0c5460; }
+        .pitch-deck-info { background: #e7f3ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .search-box { padding: 8px; border: 1px solid #ddd; border-radius: 4px; width: 300px; }
+        .filter-buttons { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Investor Email Tracker</h1>
+            <button class="btn btn-primary" onclick="goBackToLucy()">← Back to Lucy AI</button>
+        </div>
+
+        <div class="pitch-deck-info">
+            <h3>📋 Current Pitch Deck</h3>
+            <p><strong>File:</strong> KTG_Pitch_Deck_v2.1.pdf</p>
+            <p><strong>Location:</strong> /modules/io/investor_lists/KTG_Pitch_Deck_v2.1.pdf</p>
+            <p><strong>Last Updated:</strong> December 19, 2024</p>
+            <p><strong>Size:</strong> 2.3 MB</p>
+            <button class="btn btn-warning" onclick="uploadNewPitchDeck()">Upload New Pitch Deck</button>
+            <button class="btn btn-success" onclick="previewPitchDeck()">Preview Current Deck</button>
+        </div>
+
+        <div class="filter-buttons">
+            <input type="text" class="search-box" placeholder="Search investors..." onkeyup="filterTable()">
+            <button class="btn btn-primary" onclick="filterByStatus('all')">All</button>
+            <button class="btn btn-success" onclick="filterByStatus('sent')">Sent</button>
+            <button class="btn btn-warning" onclick="filterByStatus('pending')">Pending</button>
+            <button class="btn" onclick="filterByStatus('opened')">Opened</button>
+            <button class="btn" onclick="filterByStatus('replied')">Replied</button>
+        </div>
+
+        <table class="table" id="investorTable">
+            <thead>
+                <tr>
+                    <th>Investor Name</th>
+                    <th>Contact Person</th>
+                    <th>Email</th>
+                    <th>Type</th>
+                    <th>Pitch Deck Sent</th>
+                    <th>Email Status</th>
+                    <th>Sent Date</th>
+                    <th>Opened</th>
+                    <th>Replied</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="investorTableBody">
+                <!-- Data will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Sample investor data with email tracking
+        const investors = [
+            {id: 1, name: '2SG Advisory Group', contact: 'Aris Despo', email: 'Aris@2sgadvisorygroup.com', type: 'Angel', pitchSent: true, status: 'sent', sentDate: '2024-12-19', opened: true, replied: false},
+            {id: 2, name: 'Adasel Global Partners', contact: 'Jay Beam', email: 'jaybeam@outlook.com', type: 'VC', pitchSent: true, status: 'opened', sentDate: '2024-12-19', opened: true, replied: false},
+            {id: 3, name: 'Alpha Bronze', contact: 'Pascal Nigen', email: 'pnigen@alphabronzellc.com', type: 'Angel', pitchSent: true, status: 'replied', sentDate: '2024-12-18', opened: true, replied: true},
+            {id: 4, name: 'Axiom Venture Partners', contact: 'Sam McKay', email: 'Sam@axiomventures.com', type: 'VC', pitchSent: false, status: 'pending', sentDate: null, opened: false, replied: false},
+            {id: 5, name: 'Bombora Special Investments', contact: 'Mike Hill', email: 'mhill@bomboragroup.com.au', type: 'PE', pitchSent: true, status: 'sent', sentDate: '2024-12-19', opened: false, replied: false}
+        ];
+
+        function loadInvestorTable() {
+            const tbody = document.getElementById('investorTableBody');
+            tbody.innerHTML = investors.map(investor => `
+                <tr data-status="${investor.status}">
+                    <td>${investor.name}</td>
+                    <td>${investor.contact}</td>
+                    <td>${investor.email}</td>
+                    <td>${investor.type}</td>
+                    <td>${investor.pitchSent ? '✅ Yes' : '❌ No'}</td>
+                    <td><span class="status ${investor.status}">${investor.status.toUpperCase()}</span></td>
+                    <td>${investor.sentDate || 'Not sent'}</td>
+                    <td>${investor.opened ? '✅' : '❌'}</td>
+                    <td>${investor.replied ? '✅' : '❌'}</td>
+                    <td>
+                        ${!investor.pitchSent ? `<button class="btn btn-success" onclick="sendPitchDeck(${investor.id})">Send Pitch</button>` : ''}
+                        <button class="btn btn-warning" onclick="viewDetails(${investor.id})">Details</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterByStatus(status) {
+            const rows = document.querySelectorAll('#investorTable tbody tr');
+            rows.forEach(row => {
+                if (status === 'all' || row.dataset.status === status) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function filterTable() {
+            const searchTerm = event.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#investorTable tbody tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function sendPitchDeck(investorId) {
+            const investor = investors.find(i => i.id === investorId);
+            if (confirm(`Send pitch deck to ${investor.name}?`)) {
+                investor.pitchSent = true;
+                investor.status = 'sent';
+                investor.sentDate = new Date().toISOString().split('T')[0];
+                loadInvestorTable();
+                alert('Pitch deck sent successfully!');
+            }
+        }
+
+        function viewDetails(investorId) {
+            const investor = investors.find(i => i.id === investorId);
+            alert(`Investor: ${investor.name}\nContact: ${investor.contact}\nEmail: ${investor.email}\nPitch Sent: ${investor.pitchSent ? 'Yes' : 'No'}\nStatus: ${investor.status}`);
+        }
+
+        function uploadNewPitchDeck() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf,.ppt,.pptx';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    alert(`New pitch deck uploaded: ${file.name}\nSize: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+                }
+            };
+            input.click();
+        }
+
+        function previewPitchDeck() {
+            alert('Opening pitch deck preview...\n\nKTG.io - Revolutionary Gaming Platform\n- AI-powered avatar generation\n- Multi-door gaming experiences\n- Blockchain integration\n- Social features\n- Investment opportunity: Seed round');
+        }
+
+        function goBackToLucy() {
+            window.location.href = 'lucy-controls.html';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadInvestorTable();
+        });
+    </script>
+</body>
+</html>

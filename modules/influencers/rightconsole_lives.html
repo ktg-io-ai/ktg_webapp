@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEFT FRAME</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-frame {
+            background-color: #111;
+            padding: 15px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .main-frame {
+            background-color: #222;
+            padding-left: 0;
+            padding-right: 20;
+            margin-bottom: 0;
+            text-align: left;
+            /* Remove fixed height */
+            height: 80vh;  
+            width: 100%;
+            /* Add display: flex and align-items to center the iframe */
+            display: flex;        
+            align-items: center;  
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .main-frame iframe { 
+            width: 80%; /* Or a specific width like 80% or 600px */
+            height: 80%; /* Or a specific height that fits your calculator */
+            border: none; /* Optional: Remove iframe border */
+            padding-left: 0;
+        }
+
+        .main-frame::-webkit-scrollbar {
+            width: 0px; /* Hide the scrollbar */
+        }
+
+        .main-frame img {
+            width: 90%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .bottom-frame {
+            background-color: #222;
+            padding: 10px;
+            height: 5%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            height: 3%;
+        }
+
+        .tagline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 30%;
+        }
+
+        .tagline h2 {
+            margin: 0;
+        }
+		
+	    /* Title styling */
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid white;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        
+		/* Content Styling */
+        .content {
+            margin-top: 5px;
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            width: 90%;
+        }
+
+      
+
+        .buttons {
+            display: flex; /* Use flexbox for button arrangement */
+            gap: 10px; /* Add space between buttons */
+        }
+
+        .buttons button {
+                background-color: #333; /* Example button color */
+                color: #fff;
+                border: none;
+                padding: 0px 8px 0px 0px; /* Example button padding */
+                border-radius: 20px; /* Example button border radius */
+                cursor: pointer;
+                vertical-align: middle;
+            }
+            
+        .buttons button img {  /* Target the image inside the button */
+                max-width: 35px;
+                max-height: 35px;
+                margin-right: 5px;
+                vertical-align: middle;
+            }
+            
+        .buttons button:hover {
+                background-color: #444;
+            }
+
+            .footer {
+			background-color: #111;
+            display: flex;
+            justify-content: space-around; /* Distribute links evenly */
+            width: 100%;
+            margin-top: 40px; /* Add space above the footer */
+        }
+
+      .footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        menu h2 {
+            padding-top: 3px;
+            padding-bottom: 3px;
+        }
+
+
+    
+
+       
+    </style>
+    <style>
+   .submenu {
+    position: absolute;
+    top: 60px;
+    right: 70px;
+    left: auto;
+    background-color: rgba(1, 1, 1, 0.9);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    border-top: 5px solid #2f27c8;
+    border-right: 5px solid #2f27c8;
+    border-bottom: 5px solid #2f27c8;
+    border-left: 5px solid #2f27c8;
+    padding: 20px;
+    min-width: 200px;
+    border-radius: 20px;
+    z-index: 1001;
+    pointer-events: auto;
+    display: none;
+   }
+
+   .submenu a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 0px;
+    border-radius: 20px;
+   }
+
+   .submenu h2 {
+    margin-top: 0;
+   }
+
+   .submenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+   }
+
+   .submenu li {
+    margin-bottom: 10px;
+   }
+
+   .submenu button {
+    background-color: #333;
+    opacity: 1;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 20px;
+   }
+
+   .submenu button img {
+    max-width: 25px;
+    max-height: 25px;
+    margin-right: 5px;
+    vertical-align: middle;
+   }
+   .close-button:hover {
+    color: red;
+   }
+  </style>
+</head>
+<body>
+
+    <div class="top-frame">
+        <h2>NO. OF FOLLOWERS / LIVES</h2>
+        <div class="buttons">
+            <li onclick="openPortalSubmenu()" class="slide-in-left"><img src="../assets/portal_icon.png" alt="destiny" style="width: 35px; height: 35px;"></li>
+        </div>
+    </div>
+ 
+ <div id="portal-submenu" class="submenu" style="display: none;">
+	       <h2>Portals<span class="close-button" onclick="closePortalSubmenu()" style="float: right; cursor: pointer;">X</span></h2>
+        <ul>
+            <li><button><a href="../dashboard.html" target="_parent" rel="noopener noreferrer"><img src="../assets/portal_icon.png" alt="contact icon">PORTALS</a></button></li>
+            <li><button><a href="../DESTINY/opening.html" target="_parent" rel="noopener noreferrer"><img src="../assets/fave_icon.png" alt="destiny">DESTINY</button></a></li>
+            <li><button><a href="../KTGMUSIC/ktgmusic.html" target="_parent" rel="noopener noreferrer"><img src="../assets/play_pause.png" alt="ktgmusic">KTG.MUSIC</button></a></li>
+            <li><button><a href="../KTGAI/ktgai.html" target="_parent" rel="noopener noreferrer"><img src="../assets/qr_icon.png" alt="ktgmusic">KTG.AI</button></a></li>
+            <li><button><a href="../WEB3/dashboard_web3.html" target="_parent" rel="noopener noreferrer"><img src="../assets/kgz_white_icon.png" alt="web3">WEB3</button></a></li>
+            <li><button><a href="../VRARXR/dashboard_xr.html" target="_parent" rel="noopener noreferrer"><img src="../assets/vr_icon.png" alt="XR">VR/AR/XR</button></a></li>
+            <li><button><a href="../DIGNBLING/dashboard_dign_bling.html" target="_parent" rel="noopener noreferrer"><img src="../assets/diamond_mine_icon.png" alt="diamond">DIGN BLING</button></a></li>
+            <li><button><a href="../4PLAYCHESS/dashboard_4play.html" target="_parent" rel="noopener noreferrer"><img src="../assets/chess_icon.png" alt="chess">4 PLAY CHESS</button></a></li>
+            <li><button><a href="../METAPHYSICS/dashboard_tarot.html" target="_parent" rel="noopener noreferrer"><img src="../assets/tarot_icon.png" alt="tarot">METAPHYSICS</button></a></li>
+            <li><button><a href="../KTGIO/map.html" target="_parent" rel="noopener noreferrer"><img src="../assets/globe_icon.png" alt="tarot">MAP</button></a></li>
+        </ul>
+    </div>
+
+    <div class="main-frame">
+        <iframe src="../INFLUENCERS/followers_lives.html"></iframe>
+    </div>
+
+    <div class="bottom-frame">
+        <div class="tagline">
+            <h2></h2>
+        </div>
+       
+        
+        
+    </div>
+   
+
+    <div class="footer">
+        <a href="../INFLUENCERS/promoters_followers.html" onclick="window.top.location.href='../INFLUENCERS/promoters_followers.html'" rel="noopener">BACK</a>
+        <a href="#">----</a>
+        <a href="../INFLUENCERS/promoters_powers.html" onclick="window.top.location.href='../INFLUENCERS/promoters_powers.html'" rel="noopener">NEXT</a>
+    </div>
+    
+    <script>
+        const musicButton = document.querySelector('.buttons button:nth-child(2)');
+
+musicButton.addEventListener('click', () => {
+    try { 
+        const musicPlayer = window.parent.document.getElementById('musicPlayer');
+        if (musicPlayer) { 
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+        } else {
+            // Handle the case where the musicPlayer element is not found
+            console.error("Music player element not found in parent window.");
+            // You could display an error message to the user here if you want
+        }
+    } catch (error) {
+        // Handle potential cross-origin errors
+        console.error("Error accessing music player:", error);
+        // You could display an error message or try alternative solutions
+    }
+});
+    </script>
+    <script>
+        function openPortalSubmenu() {
+            var submenu = document.getElementById("portal-submenu");
+            submenu.style.display = "block";
+        }
+
+        function closePortalSubmenu() {
+            var submenu = document.getElementById("portal-submenu");
+            submenu.style.display = "none";
+        }
+    </script>
+ 
+
+</body>
+</html>
