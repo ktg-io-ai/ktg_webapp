@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC is an AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement. Discover AI-driven income models & immersive experiences.">
+    <meta name="keywords" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC, AI, Social Platform, Lifestyle Platform, Influencer Marketing, Digital Engagement, AI Advertising, Web3, NFT, Metaverse, SoftBank, Investment, Startup">
+    <meta name="author" content="KTG.IO Platform">
+    <meta property="og:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="og:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.karmathegame.org">
+    <meta property="og:image" content="../../public/assets/images/game_logo.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="KTG: AI-Driven Social & Lifestyles Platform">
+    <meta property="twitter:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
+    <meta property="twitter:image" content="../../public/assets/icons/kgz_icon.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../../public/assets/icons/kgz_icon.png"/>
+    
+    <title>KTG Web3</title>
+    
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+            --border-radius: 20px;
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Second Bar */
+        .second-bar {
+            background-color: var(--bg-secondary);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 33px;
+            z-index: 998;
+            width: 100%;
+            position: fixed;
+            top: 50px;
+            left: 0;
+            box-sizing: border-box;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex-grow: 1;
+            padding: 0;
+            height: calc(100vh - 100px);
+            overflow: hidden;
+            margin-top: 100px;
+            width: 100%;
+        }
+        
+        /* Web3 Specific Styles */
+        .top-frame {
+            background-color: var(--bg-primary);
+            padding: 19px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
+            color: var(--text-primary);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: none;
+            padding: 0px 8px 0px 0px;
+            border-radius: 20px;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+        
+        .buttons button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        
+        .buttons button:hover {
+            background-color: var(--accent-color);
+        }
+
+        .content-area {
+            display: flex;
+            height: calc(100vh - 195px);
+        }
+
+        .main-content-inner {
+            width: 100%;
+            margin-right: 60px;
+            margin-left: 60px;
+        }
+        
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-gap: 5px;
+            padding: 5px;
+            margin-top: 40px;
+        }
+
+        .icon-grid button {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: none;
+            height: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: top;
+            justify-content: center;
+            cursor: pointer;
+            aspect-ratio: 1 / 1.5;
+        }
+
+        .icon-grid button img {
+            max-width: 200px;
+            max-height: 200px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .icon-grid button:hover {
+            background-color: #16665b;
+        }
+
+        .icon-grid button a { 
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: #111;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 33px;
+            z-index: 999;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-primary);
+            flex-grow: 1;
+        }
+
+        .top-bar .song-title {
+            font-size: 16px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+
+        /* Portal Button */
+        .portal-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: min(16px, 2.4vw);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+            min-width: 0;
+            box-shadow: 5px 5px 10px rgba(155, 144, 239, 0.3);
+        }
+
+        .portal-button:hover {
+            background-color: var(--bg-secondary);
+            border-color: #2f27c8;
+            transform: scale(1.05);
+            border: 2px solid #2f27c8;
+        }
+
+        .portal-button img {
+            max-width: 35px;
+            max-height: 35px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        /* Submenu Container */
+        .submenu-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        /* Submenu Styles */
+        .submenu {
+            position: absolute;
+            top: 110px;
+            right: 33px;
+            background-color: rgba(1, 1, 1, 0.9);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            border: 5px solid #2f27c8;
+            padding: 20px;
+            border-radius: 20px;
+            z-index: 1001;
+            pointer-events: auto;
+            display: none;
+            width: min(480px, 90vw);
+            max-width: 90vw;
+        }
+
+        [data-theme="light"] .submenu {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e9ecef;
+        }
+
+        [data-theme="dark"] .submenu {
+            background-color: rgba(42, 42, 42, 0.9);
+            border: 1px solid #404040;
+        }
+
+        .submenu h2 {
+            margin-top: 0;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        [data-theme="light"] .portal-button:hover {
+            background-color: #f1f3f4;
+        }
+
+        [data-theme="dark"] .portal-button:hover {
+            background-color: #3a3a3a;
+        }
+
+        .portal-button img {
+            width: min(32px, 6.4vw);
+            height: min(32px, 6.4vw);
+            margin-bottom: min(8px, 1.6vw);
+        }
+
+        .portal-button span {
+            font-size: min(10px, 2vw);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+        /* Music Controls */
+        #musicToggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            vertical-align: middle;
+            padding: 5px;
+        }
+
+        #musicToggle img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Animations */
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-100%);
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+
+        .slide-in-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+        }
+
+        /* Background Video */
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Theme-specific video display */
+        [data-theme="light"] .bg-video,
+        [data-theme="dark"] .bg-video {
+            display: none;
+        }
+
+        /* Hide scrollbar */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        * {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        [data-theme="light"] .form-input {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        [data-theme="dark"] .form-input {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .footer {
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            width: 100%;
+            margin-top: 40px;
+            padding: 15px 0;
+        }
+
+        .footer a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--accent-color);
+        }
+        
+        [data-theme="light"] .login-instructions {
+            background-color: rgba(47, 39, 200, 0.05);
+        }
+        
+        [data-theme="dark"] .login-instructions {
+            background-color: rgba(47, 39, 200, 0.15);
+        }
+
+
+    </style>
+    
+    <script src="../../shared/js/theme-icons.js"></script>
+    <script src="../../shared/js/language.js"></script>
+    <script src="../../shared/js/ktg-auth.js"></script>
+</head>
+<body>
+    <video class="bg-video" autoplay muted playsinline>
+        <source src="../../public/assets/videos/crypto.mp4" type="video/mp4">
+    </video>
+
+    <div class="container">
+        <div class="top-bar fade-in">
+            <h1 data-translate="web3.title">KTG Web3</h1>
+            <div class="song-title">
+                <button id="musicToggle">
+                    <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle">
+                </button>
+                <span><span data-translate="web3.playing">PLAYING</span>: (Original Soundtrack) Casino Loading</span>
+            </div>
+        </div>
+        
+        <div class="second-bar fade-in">
+            <div></div>
+            <button class="portal-button" onclick="openSubmenu('portal')">
+                <img src="../../public/assets/icons/portal_icon.png" alt="Portal" class="portal-icon">
+            </button>
+        </div>
+
+        <div class="main-content">
+            <div class="top-frame">
+                <h2 data-translate="web3.tokens.title">KGZ & KTG Tokens</h2>
+                <div class="buttons">
+                    <button><a href="../../src/pages/dashboard.html" target="_parent"></a></button>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <div class="main-content-inner">
+                    <div class="icon-grid slide-up">
+                        <!-- Button 1 -->
+                        <button class="slide-in-left">
+                            <a href="https://www.paypal.com/instantcommerce/checkout/QDQQGKR2SESBA" target="_blank">
+                                <img src="../../public/assets/icons/ktg_emboss_icon.png" alt="KTG Private"
+                                     onerror="this.onerror=null;this.src='https://placehold.co/64x64/cccccc/ffffff?text=Error';">
+                            </a>
+                            <div class="button-text">
+                                <br>
+                                <span data-translate="web3.buttons.ktg_private">KTG Private Buy (PayPal)</span>
+                                <br><br>
+                                <span class="text-line-2" data-translate="web3.buttons.secure_checkout">Secure Checkout</span>
+                                <br><br>
+                                <span class="text-line-3">$600USD = 25,000KTG</span>
+                            </div>
+                        </button>
+                        
+                        <!-- Button 2 -->
+                        <button class="slide-in-left">
+                            <a href="https://bscscan.com/address/0x539eaab20911bf75963c1a51f55ef37c90255181" target="_blank">
+                                <img src="../../public/assets/icons/ktg_emboss_icon.png" alt="KTG on BSCSCAN"
+                                     onerror="this.onerror=null;this.src='https://placehold.co/64x64/cccccc/ffffff?text=Error';">
+                            </a>
+                            <div class="button-text">
+                                <br>
+                                <span data-translate="web3.buttons.ktg_bscscan">KTG on BSCSCAN</span>
+                                <br><br>
+                                <span class="text-line-2" data-translate="web3.buttons.view_contract">View Contract</span>
+                                <br><br><br>
+                            </div>
+                        </button>
+                        
+                        <!-- Button 3 -->
+                        <button class="slide-in-left">
+                            <a href="https://app.uniswap.org/explore/tokens/bnb/0x9622b9b9ab77d82392d87e62e75230ba7b93b16c" target="_blank">
+                                <img src="../../public/assets/icons/kgz_emboss_icon.png" alt="KGZ on UNISWAP"
+                                     onerror="this.onerror=null;this.src='https://placehold.co/64x64/cccccc/ffffff?text=Error';">
+                            </a>
+                            <div class="button-text"><br>
+                                <span data-translate="web3.buttons.kgz_uniswap">KGZ on UNISWAP</span>
+                                <br><br>
+                                <span class="text-line-2" data-translate="web3.buttons.trade_now">Trade Now</span>
+                                <br><br>
+                                <span class="text-line-3">$0.00069USD = 1KGZ</span>
+                            </div>
+                        </button>
+                        
+                        <!-- Button 4 -->
+                        <button class="slide-in-left">
+                            <a href="https://poocoin.app/tokens/0x9622b9b9ab77d82392d87e62e75230ba7b93b16c" target="_blank">
+                                <img src="../../public/assets/icons/kgz_emboss_icon.png" alt="KGZ on POOCOIN"
+                                     onerror="this.onerror=null;this.src='https://placehold.co/64x64/cccccc/ffffff?text=Error';">
+                            </a>
+                            <div class="button-text">
+                                <br>
+                                <span data-translate="web3.buttons.kgz_poocoin">KGZ on POOCOIN</span>
+                                <br><br>
+                                <span class="text-line-2" data-translate="web3.buttons.live_chart">Live Chart</span>
+                                <br><br><br>
+                            </div>
+                        </button>
+                        
+                        <!-- Button 5 -->
+                        <button class="slide-in-left">
+                            <a href="https://bscscan.com/address/0x9622b9b9ab77d82392d87e62e75230ba7b93b16c" target="_blank">
+                                <img src="../../public/assets/icons/kgz_emboss_icon.png" alt="KGZ on BSCSCAN"
+                                     onerror="this.onerror=null;this.src='https://placehold.co/64x64/cccccc/ffffff?text=Error';">
+                            </a>
+                            <div class="button-text">
+                                <br>
+                                <span data-translate="web3.buttons.kgz_bscscan">KGZ on BSCSCAN</span>
+                                <br><br>
+                                <span class="text-line-2" data-translate="web3.buttons.view_contract">View Contract</span>
+                                <br><br><br>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="#" data-translate="web3.footer.whitepaper">WHITE PAPER</a>
+            <a href="#" data-translate="web3.footer.deck">DECK</a>
+            <a href="#" data-translate="web3.footer.disclaimer">DISCLAIMER</a>
+        </div>
+        <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/casino_loading.mp3" loop></audio>
+        <div id="submenu-container" class="submenu-container">
+            <!-- Portal Submenu -->
+            <div id="portal-submenu" class="submenu">
+                <h2 data-translate="portal.title">Portals <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>
+                <div class="portal-grid">
+                    <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/portal_icon.png" data-light="../../public/assets/icons/portal_icon-blk.png" data-dark="../../public/assets/icons/portal_icon-wht.png" src="../../public/assets/icons/portal_icon.png" alt="portals"><span data-translate="dashboard.portals.title">portals</span></a>
+                    <a href="../destiny/opening.html" target="_parent" class="portal-button"><img class="destiny-icon" src="../../public/assets/icons/fave_icon.png" alt="destiny"><span data-translate="dashboard.portals.destiny">destiny</span></a>
+                    <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img class="listings-icon" src="../../public/assets/icons/listing_icon.png" alt="listings"><span data-translate="dashboard.portals.listings">listings</span></a>
+                    <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img class="ktgai-icon" src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span data-translate="dashboard.portals.ai">ktg.ai</span></a>
+                    <a href="../music/ktgmusic.html" target="_parent" class="portal-button"><img class="music-icon" src="../../public/assets/icons/qr_icon.png" alt="ktgmusic"><span data-translate="dashboard.portals.music">ktg.music</span></a>
+                    <a href="../web3/dashboard_web3.html" target="_parent" class="portal-button"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span data-translate="dashboard.portals.web3">web3</span></a>
+                    <a href="../vr/ktgxr.html" target="_parent" class="portal-button"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR"><span data-translate="dashboard.portals.vr">vr/ar/xr</span></a>
+                    <a href="../dignbling/dashboard_dign_bling.html" target="_parent" class="portal-button"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span data-translate="dashboard.portals.dignbling">dign bling</span></a>
+                    <a href="../4playchess/4playchess.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/chess_icon.png" data-light="../../public/assets/icons/chess_icon-blk.png" data-dark="../../public/assets/icons/chess_icon-wht.png" src="../../public/assets/icons/chess_icon.png" alt="chess"><span data-translate="dashboard.portals.chess">4.play.chess</span></a>
+                    <a href="../metaphysics/dashboard_tarot.html" target="_parent" class="portal-button"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span data-translate="dashboard.portals.metaphysics">metaphysics</span></a>
+                    <a href="../map/map.html" target="_parent" class="portal-button"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map"><span data-translate="dashboard.portals.map">map</span></a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        function openSubmenu(submenu) {
+            const selectedSubmenu = document.getElementById(submenu + '-submenu');
+            if (selectedSubmenu) {
+                if (selectedSubmenu.style.display === 'block') {
+                    selectedSubmenu.style.display = 'none';
+                } else {
+                    const submenus = document.querySelectorAll('.submenu');
+                    submenus.forEach(menu => {
+                        menu.style.display = 'none';
+                    });
+                    selectedSubmenu.style.display = 'block';
+                }
+            }
+        }
+
+        function closeSubmenu(closeButton) {
+            const submenu = closeButton.closest('.submenu');
+            submenu.style.display = 'none';
+        }
+
+        // Click outside to close submenu
+        document.addEventListener('click', function(event) {
+            const submenus = document.querySelectorAll('.submenu');
+            const portalButton = document.querySelector('.portal-button');
+            
+            let clickedInsideSubmenu = false;
+            submenus.forEach(submenu => {
+                if (submenu.contains(event.target)) {
+                    clickedInsideSubmenu = true;
+                }
+            });
+            
+            if (!clickedInsideSubmenu && !portalButton.contains(event.target)) {
+                submenus.forEach(submenu => {
+                    submenu.style.display = 'none';
+                });
+            }
+        });
+
+        // Music controls
+        const musicPlayer = document.getElementById('musicPlayer');
+        const musicToggle = document.getElementById('musicToggle');
+
+        function toggleMusic() {
+            if (musicPlayer.paused) {
+                musicPlayer.play();
+            } else {
+                musicPlayer.pause();
+            }
+            
+            // Update icon for Light/Dark modes
+            const currentTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            if (typeof updateMusicToggleIcon === 'function') {
+                updateMusicToggleIcon(currentTheme);
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+
+        // Initialize theme and animations
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            if (typeof updateThemeIcons === 'function') {
+                updateThemeIcons(savedTheme);
+            }
+            
+            // Apply theme-specific settings
+            const video = document.querySelector('.bg-video');
+            if (savedTheme === 'ktg') {
+                if (video) video.style.display = 'block';
+            } else {
+                if (video) video.style.display = 'none';
+            }
+        }
+
+        // Auto-play music based on settings (default off)
+        function initializeMusic() {
+            const autoplayEnabled = localStorage.getItem('ktg-autoplay') === 'true';
+            const volume = parseFloat(localStorage.getItem('ktg-volume')) || 0.5;
+            
+            if (musicPlayer) {
+                musicPlayer.volume = volume;
+                // Default music off - only play if explicitly enabled
+                if (autoplayEnabled) {
+                    musicPlayer.play().catch(e => console.log('Autoplay prevented'));
+                }
+            }
+        }
+        
+
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            initializeMusic();
+            
+            if (typeof langManager !== 'undefined') {
+                langManager.init().then(() => {
+                    langManager.updateUI();
+                });
+            }
+            
+            // Activate animations
+            setTimeout(() => {
+                const fadeInElements = document.querySelectorAll('.fade-in');
+                fadeInElements.forEach(el => el.classList.add('active'));
+                
+                const slideInElements = document.querySelectorAll('.slide-in-left');
+                slideInElements.forEach(el => el.classList.add('active'));
+            }, 100);
+        });
+    </script>
+</body>
+</html>

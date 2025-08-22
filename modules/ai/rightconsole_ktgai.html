@@ -3,44 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-lang="ai.rightconsole.title">AI Story Library</title>
+    <title>RIGHT FRAME</title>
+    <script src="../../shared/js/language.js"></script>
     <style>
-        :root {
-            --bg-primary: #111;
-            --bg-secondary: #222;
-            --text-primary: #fff;
-            --text-secondary: #ccc;
-            --accent-color: #2f27c8;
-            --accent-hover: #4fb6c1;
-            --hover-bg: #444;
-        }
-
-        [data-theme="light"] {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f5;
-            --text-primary: #1a1a1a;
-            --text-secondary: #6c757d;
-            --hover-bg: #f1f3f4;
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: #2a2a2a;
-            --text-primary: #f5f5dc;
-            --text-secondary: #b8b8b8;
-            --hover-bg: #4a4a4a;
-        }
-
         body {
             font-family: Arial, sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
+            background-color: #111;
+            color: #fff;
             margin: 0;
             padding: 0;
         }
 
         .top-frame {
-            background-color: var(--bg-primary);
+            background-color: #111;
             padding: 15px;
             margin-bottom: 3px;
             display: flex;
@@ -51,7 +26,6 @@
         .top-frame h2 {
             margin: 0;
             flex-grow: 1;
-            color: var(--text-primary);
         }
 
         .buttons {
@@ -60,66 +34,28 @@
         }
 
         .buttons button {
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
+            background-color: #333;
+            color: #fff;
             border: none;
             padding: 8px 12px;
             border-radius: 20px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
         }
-
+        
         .buttons button img {
             max-width: 25px;
             max-height: 25px;
             margin-right: 5px;
             vertical-align: middle;
         }
-
+        
         .buttons button:hover {
-            background-color: var(--hover-bg);
-        }
-
-        .view-toggle {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 10px;
-            padding: 0 10px;
-        }
-
-        .view-toggle button {
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            border: none;
-            padding: 8px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: background-color 0.3s ease;
-        }
-
-        .view-toggle button.active {
-            background-color: var(--accent-color);
-        }
-
-        .view-toggle button:hover {
-            background-color: var(--hover-bg);
-        }
-
-        .view-toggle button.active:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .view-toggle button img {
-            width: 16px;
-            height: 16px;
-            margin-right: 5px;
-            vertical-align: middle;
+            background-color: #444;
         }
 
         .content-area {
             display: flex;
-            height: calc(100vh - 140px);
+            height: calc(100vh - 95px);
         }
 
         .left-content {
@@ -127,28 +63,27 @@
             overflow-y: auto;
             margin-right: 10px;
         }
-
+        
         .left-content::-webkit-scrollbar {
             width: 3px;
         }
 
         .left-content::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
+            background: #222;
         }
 
         .left-content::-webkit-scrollbar-thumb {
-            background: var(--accent-color);
+            background: #2f27c8;
             border-radius: 3px;
         }
 
-        /* Grid View */
         .image-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-gap: 5px;
             padding: 10px;
         }
-
+        
         .image-grid button {
             background-color: transparent;
             border: 2px solid transparent;
@@ -162,12 +97,12 @@
         }
 
         .image-grid button:hover {
-            border-color: var(--accent-color);
+            border-color: #2f27c8;
             transform: scale(1.05);
         }
 
         .image-grid button.selected {
-            border-color: var(--accent-hover);
+            border-color: #4fb6c1;
             box-shadow: 0 0 10px rgba(79, 182, 193, 0.5);
         }
 
@@ -178,9 +113,79 @@
             border-radius: 6px;
         }
 
+        .video-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 8px 4px 4px;
+            font-size: 10px;
+            text-align: center;
+            border-radius: 0 0 6px 6px;
+        }
 
+        .right-content {
+            width: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+        }
 
-        /* List View */
+        .right-content button {
+            background-color: transparent;
+            color: white;
+            border: none;
+            margin-top: 15px;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .right-content button img {
+            max-width: 25px;
+            max-height: 25px;
+            margin-right: 0px;
+        }
+        
+        .right-content button:hover {
+            color: #2f27c8;
+        }
+
+        /* View Toggle Buttons */
+        .view-toggle {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+            padding: 0 10px;
+        }
+
+        .view-toggle button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .view-toggle button.active {
+            background-color: #2f27c8;
+        }
+
+        .view-toggle button:hover {
+            background-color: #444;
+        }
+
+        .view-toggle button.active:hover {
+            background-color: #4fb6c1;
+        }
+
+        /* List View Styles */
         .video-list {
             display: none;
             padding: 10px;
@@ -200,11 +205,11 @@
 
         .video-list-item:hover {
             background-color: rgba(47, 39, 200, 0.2);
-            border-color: var(--accent-color);
+            border-color: #2f27c8;
         }
 
         .video-list-item.selected {
-            border-color: var(--accent-hover);
+            border-color: #4fb6c1;
             background-color: rgba(79, 182, 193, 0.2);
         }
 
@@ -223,170 +228,37 @@
         .video-list-item .video-info h4 {
             margin: 0 0 5px 0;
             font-size: 14px;
-            color: var(--text-primary);
+            color: #fff;
         }
 
         .video-list-item .video-info p {
             margin: 0;
             font-size: 11px;
-            color: var(--text-secondary);
+            color: #ccc;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-
-        .right-content {
-            width: 10%;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            align-items: center;
-        }
-
-        .right-content button {
-            background-color: transparent;
-            color: var(--text-primary);
-            border: none;
-            margin-top: 15px;
-            padding: 0;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            transition: color 0.3s ease;
-        }
-
-        .right-content button img {
-            max-width: 25px;
-            max-height: 25px;
-            margin-right: 0px;
-        }
-
-        .right-content button:hover {
-            color: var(--accent-color);
-        }
-
-        /* Contact Form */
-        .contact-form-container {
-            display: none;
-            position: absolute;
-            top: 60px;
-            right: 70px;
-            left: auto;
-            background-color: rgba(1, 1, 1, 0.9);
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-            z-index: 1002;
-            border: 1px solid #ccc;
-        }
-
-        [data-theme="light"] .contact-form-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 1px solid #ccc;
-        }
-
-        [data-theme="dark"] .contact-form-container {
-            background-color: rgba(42, 42, 42, 0.9);
-            border: 1px solid #ccc;
-        }
-
-        .contact-form-container h2 {
-            margin-top: 0;
-            color: var(--text-primary);
-        }
-
-        .contact-form-container input[type="text"],
-        .contact-form-container input[type="email"] {
-            width: 95%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-
-        .contact-form-container .checkbox-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .contact-form-container .checkbox-container input {
-            margin-right: 10px;
-        }
-
-        .contact-form-container .checkbox-container label {
-            color: var(--text-primary);
-        }
-
-        .contact-form-container button {
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            border: none;
-            padding: 10px;
-            width: 100%;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 20px;
-            transition: background-color 0.3s ease;
-        }
-
-        .contact-form-container button:hover {
-            background-color: var(--hover-bg);
-        }
-
-        .close-button {
-            float: right;
-            cursor: pointer;
-            margin-left: 10px;
-            color: var(--text-primary);
-        }
-
-        .close-button:hover {
-            color: red;
-        }
-
-        /* Background Video */
-        .bg-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-        }
-
-        /* Theme-specific video display */
-        [data-theme="light"] .bg-video,
-        [data-theme="dark"] .bg-video {
-            display: none;
-        }
     </style>
-    <script src="../../shared/js/language.js"></script>
-    <script src="../../shared/js/theme-icons.js"></script>
 </head>
 <body>
-    
-
     <div class="top-frame">
-        <h2 data-lang="ai.rightconsole.title">AI Story Library</h2>
+        <h2 data-translate="ai.rightconsole.title">AI Story Library</h2>
         <div class="buttons">
             <button onclick="openPortalSubmenu()">
-                <img src="../../public/assets/icons/portal_icon.png" alt="portal">
+                <img src="../assets/portal_icon.png" alt="portal">
             </button>
         </div>
     </div>
 
     <div class="view-toggle">
         <button id="gridViewBtn" class="active" onclick="switchView('grid')">
-            <img src="../../public/assets/icons/grid_icon.png" alt="Grid">
-            Grid
+            <img src="../assets/grid_icon.png" alt="Grid" style="width: 16px; height: 16px; margin-right: 5px;">
+            <span data-translate="nav.grid">Grid</span>
         </button>
         <button id="listViewBtn" onclick="switchView('list')">
-            <img src="../../public/assets/icons/list_icon.png" alt="List">
-            List
+            <img src="../assets/list_icon.png" alt="List" style="width: 16px; height: 16px; margin-right: 5px;">
+            <span data-translate="nav.list">List</span>
         </button>
     </div>
 
@@ -394,85 +266,85 @@
         <div class="left-content">
             <!-- Grid View -->
             <div id="gridView" class="image-grid">
-                <button onclick="selectVideo(this, {title: 'Guru and Lucy 012', mp4: '../../public/assets/ktgai/guru_lucy_012.mp4', cover: '../../public/assets/ktgai/guru_lucy_012.png', description: 'Guru and Lucy explore the cosmos in their latest adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="../../public/assets/ktgai/guru_lucy_012.png" alt="Guru and Lucy 012">
-
+                <button onclick="selectVideo(this, {title: 'Guru and Lucy 012', mp4: '../KTGAI/ktgai/guru_lucy_012.mp4', cover: '../KTGAI/ktgai/guru_lucy_012.png', description: 'Guru and Lucy explore the cosmos in their latest adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                    <img src="ktgai/guru_lucy_012.png" alt="Guru and Lucy 012">
+                    <div class="video-title">Guru and Lucy 012</div>
                 </button>
                 
-                <button onclick="selectVideo(this, {title: 'Turbo Toad E1', mp4: '../../public/assets/ktgai/turbo_toad_001.mp4', cover: '../../public/assets/ktgai/turbo_toad_001.png', description: 'Turbo Toad embarks on a thrilling mission.', safeLinks: [{text: 'Music Video', url: 'https://youtu.be/cBDcCVW23MA?si=N-NvmrUoLtsEIjKh'}]})">
-                    <img src="../../public/assets/ktgai/turbo_toad_001.png" alt="Turbo Toad E1">
-
+                <button onclick="selectVideo(this, {title: 'Turbo Toad E1', mp4: '../KTGAI/ktgai/turbo_toad_001.mp4', cover: '../KTGAI/ktgai/turbo_toad_001.png', description: 'Turbo Toad embarks on a thrilling mission.', safeLinks: [{text: 'Music Video', url: 'https://youtu.be/cBDcCVW23MA?si=N-NvmrUoLtsEIjKh'}]})">
+                    <img src="ktgai/turbo_toad_001.png" alt="Turbo Toad E1">
+                    <div class="video-title">Turbo Toad E1</div>
                 </button>
                 
-                <button onclick="selectVideo(this, {title: 'Worlds Apart', mp4: 'ktgai/worlds_apart.mp4', cover: 'ktgai/worlds_apart.png', description: 'Two worlds collide in this epic tale.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <button onclick="selectVideo(this, {title: 'Worlds Apart', mp4: '../KTGAI/ktgai/worlds_apart.mp4', cover: '../KTGAI/ktgai/worlds_apart.png', description: 'Two worlds collide in this epic tale.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/worlds_apart.png" alt="Worlds Apart">
-
+                    <div class="video-title">Worlds Apart</div>
                 </button>
 
-                <button onclick="selectVideo(this, {title: 'Bail', mp4: 'ktgai/bail.mp4', cover: 'ktgai/bail.png', description: 'A story of redemption and second chances.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <button onclick="selectVideo(this, {title: 'Bail', mp4: '../KTGAI/ktgai/bail.mp4', cover: '../KTGAI/ktgai/bail.png', description: 'A story of redemption and second chances.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/bail.png" alt="Bail">
-
+                    <div class="video-title">Bail</div>
                 </button>
                 
-                <button onclick="selectVideo(this, {title: 'Chat Loading', mp4: 'ktgai/chat_loading.mp4', cover: 'ktgai/chat_loading.png', description: 'The dangers of online communication come to life.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <button onclick="selectVideo(this, {title: 'Chat Loading', mp4: '../KTGAI/ktgai/chat_loading.mp4', cover: '../KTGAI/ktgai/chat_loading.png', description: 'The dangers of online communication come to life.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/chat_loading.png" alt="Chat Loading">
-
+                    <div class="video-title">Chat Loading</div>
                 </button>
                 
-                <button onclick="selectVideo(this, {title: 'Config Loading', mp4: 'ktgai/config_loading.mp4', cover: 'ktgai/config_loading.png', description: 'What happens when systems start to break down?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <button onclick="selectVideo(this, {title: 'Config Loading', mp4: '../KTGAI/ktgai/config_loading.mp4', cover: '../KTGAI/ktgai/config_loading.png', description: 'What happens when systems start to break down?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/config_loading.png" alt="Config Loading">
-
+                    <div class="video-title">Config Loading</div>
                 </button>
 
-                <button onclick="selectVideo(this, {title: 'Game Console', mp4: 'ktgai/game_console.mp4', cover: 'ktgai/game_console.png', description: 'The future is a beautiful place for the ascended peoples of Earth. Guru and Lucy left the city of Gold to return and help humanity transcend the Great Divide and Unfold with the New Earth.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <button onclick="selectVideo(this, {title: 'Game Console', mp4: '../KTGAI/ktgai/game_console.mp4', cover: '../KTGAI/ktgai/game_console.png', description: 'The future is a beautiful place for the ascended peoples of Earth. Guru and Lucy left the city of Gold to return and help humanity transcend the Great Divide and Unfold with the New Earth.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/game_console.png" alt="Game Console">
-
+                    <div class="video-title">Game Console</div>
                 </button>
                 
-                <button onclick="selectVideo(this, {title: 'Game Console Loading', mp4: 'ktgai/game_console_loading.mp4', cover: 'ktgai/game_console_loading.png', description: 'Booting up a new world of adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <button onclick="selectVideo(this, {title: 'Game Console Loading', mp4: '../KTGAI/ktgai/game_console_loading.mp4', cover: '../KTGAI/ktgai/game_console_loading.png', description: 'Booting up a new world of adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/game_console_loading.png" alt="Game Console Loading">
-
+                    <div class="video-title">Game Console Loading</div>
                 </button>
                 
-                <button onclick="selectVideo(this, {title: 'Lucys Booth Loading', mp4: 'ktgai/lucys_booth_loading.mp4', cover: 'ktgai/lucys_booth_loading.png', description: 'Step right up and see what Lucy has in store.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <button onclick="selectVideo(this, {title: 'Lucys Booth Loading', mp4: '../KTGAI/ktgai/lucys_booth_loading.mp4', cover: '../KTGAI/ktgai/lucys_booth_loading.png', description: 'Step right up and see what Lucy has in store.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/lucys_booth_loading.png" alt="Lucys Booth Loading">
-
+                    <div class="video-title">Lucys Booth Loading</div>
                 </button>
 
-                <button onclick="selectVideo(this, {title: 'Map Loading', mp4: 'ktgai/map_loading.mp4', cover: 'ktgai/map_loading.png', description: 'Getting lost has never been so much fun.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <button onclick="selectVideo(this, {title: 'Map Loading', mp4: '../KTGAI/ktgai/map_loading.mp4', cover: '../KTGAI/ktgai/map_loading.png', description: 'Getting lost has never been so much fun.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/map_loading.png" alt="Map Loading">
-
+                    <div class="video-title">Map Loading</div>
                 </button>
                 
-                <button onclick="selectVideo(this, {title: 'Opening Scene', mp4: 'ktgai/opening_scene.mp4', cover: 'ktgai/opening_scene.png', description: 'The beginning of an incredible journey.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <button onclick="selectVideo(this, {title: 'Opening Scene', mp4: '../KTGAI/ktgai/opening_scene.mp4', cover: '../KTGAI/ktgai/opening_scene.png', description: 'The beginning of an incredible journey.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/opening_scene.png" alt="Opening Scene">
-
+                    <div class="video-title">Opening Scene</div>
                 </button>
                 
-                <button onclick="selectVideo(this, {title: 'Register Loading', mp4: 'ktgai/register_loading.mp4', cover: 'ktgai/register_loading.png', description: 'Sign up for the adventure of a lifetime.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <button onclick="selectVideo(this, {title: 'Register Loading', mp4: '../KTGAI/ktgai/register_loading.mp4', cover: '../KTGAI/ktgai/register_loading.png', description: 'Sign up for the adventure of a lifetime.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/register_loading.png" alt="Register Loading">
-
+                    <div class="video-title">Register Loading</div>
                 </button>
 
-                <button onclick="selectVideo(this, {title: 'Safe Loading', mp4: 'ktgai/safe_loading.mp4', cover: 'ktgai/safe_loading.png', description: 'What secrets lie behind the safe door?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <button onclick="selectVideo(this, {title: 'Safe Loading', mp4: '../KTGAI/ktgai/safe_loading.mp4', cover: '../KTGAI/ktgai/safe_loading.png', description: 'What secrets lie behind the safe door?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/safe_loading.png" alt="Safe Loading">
-
+                    <div class="video-title">Safe Loading</div>
                 </button>
                 
-                <button onclick="selectVideo(this, {title: 'The Grid', mp4: 'ktgai/the_grid.mp4', cover: 'ktgai/the_grid.png', description: 'Welcome to the digital frontier.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <button onclick="selectVideo(this, {title: 'The Grid', mp4: '../KTGAI/ktgai/the_grid.mp4', cover: '../KTGAI/ktgai/the_grid.png', description: 'Welcome to the digital frontier.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/the_grid.png" alt="The Grid">
-
+                    <div class="video-title">The Grid</div>
                 </button>
                 
-                <button onclick="selectVideo(this, {title: 'You are Not Creating Alone', mp4: 'ktgai/you_are_not_creating_alone.mp4', cover: 'ktgai/you_are_not_creating_alone.png', description: 'Enter Lucys World.', safeLinks: [{text: 'Official Video', url: 'https://youtu.be/y2uYvkj8ilA'}]})">
+                <button onclick="selectVideo(this, {title: 'You are Not Creating Alone', mp4: '../KTGAI/ktgai/you_are_not_creating_alone.mp4', cover: '../KTGAI/ktgai/you_are_not_creating_alone.png', description: 'Enter Lucys World.', safeLinks: [{text: 'Official Video', url: 'https://youtu.be/y2uYvkj8ilA'}]})">
                     <img src="ktgai/you_are_not_creating_alone.png" alt="You are Not Creating Alone">
-
+                    <div class="video-title">You are Not Creating Alone</div>
                 </button>
             </div>
 
             <!-- List View -->
             <div id="listView" class="video-list">
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Guru and Lucy 012', mp4: 'ktgai/guru_lucy_012.mp4', cover: 'ktgai/guru_lucy_012.png', description: 'Guru and Lucy explore the cosmos in their latest adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
+                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Guru and Lucy 012', mp4: '../KTGAI/ktgai/guru_lucy_012.mp4', cover: '../KTGAI/ktgai/guru_lucy_012.png', description: 'Guru and Lucy explore the cosmos in their latest adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
                     <img src="ktgai/guru_lucy_012.png" alt="Guru and Lucy 012">
                     <div class="video-info">
                         <h4>Guru and Lucy 012</h4>
@@ -480,7 +352,7 @@
                     </div>
                 </div>
                 
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Turbo Toad E1', mp4: 'ktgai/turbo_toad_001.mp4', cover: 'ktgai/turbo_toad_001.png', description: 'Turbo Toad embarks on a thrilling mission.', safeLinks: [{text: 'Music Video', url: 'https://youtu.be/cBDcCVW23MA?si=N-NvmrUoLtsEIjKh'}]})">
+                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Turbo Toad E1', mp4: '../KTGAI/ktgai/turbo_toad_001.mp4', cover: '../KTGAI/ktgai/turbo_toad_001.png', description: 'Turbo Toad embarks on a thrilling mission.', safeLinks: [{text: 'Music Video', url: 'https://youtu.be/cBDcCVW23MA?si=N-NvmrUoLtsEIjKh'}]})">
                     <img src="ktgai/turbo_toad_001.png" alt="Turbo Toad E1">
                     <div class="video-info">
                         <h4>Turbo Toad E1</h4>
@@ -488,119 +360,17 @@
                     </div>
                 </div>
                 
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Worlds Apart', mp4: 'ktgai/worlds_apart.mp4', cover: 'ktgai/worlds_apart.png', description: 'Two worlds collide in this epic tale.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="ktgai/worlds_apart.png" alt="Worlds Apart">
-                    <div class="video-info">
-                        <h4>Worlds Apart</h4>
-                        <p>Two worlds collide in this epic tale.</p>
-                    </div>
-                </div>
-                
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Bail', mp4: 'ktgai/bail.mp4', cover: 'ktgai/bail.png', description: 'A story of redemption and second chances.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="ktgai/bail.png" alt="Bail">
-                    <div class="video-info">
-                        <h4>Bail</h4>
-                        <p>A story of redemption and second chances.</p>
-                    </div>
-                </div>
-                
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Chat Loading', mp4: 'ktgai/chat_loading.mp4', cover: 'ktgai/chat_loading.png', description: 'The dangers of online communication come to life.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="ktgai/chat_loading.png" alt="Chat Loading">
-                    <div class="video-info">
-                        <h4>Chat Loading</h4>
-                        <p>The dangers of online communication come to life.</p>
-                    </div>
-                </div>
-                
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Config Loading', mp4: 'ktgai/config_loading.mp4', cover: 'ktgai/config_loading.png', description: 'What happens when systems start to break down?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="ktgai/config_loading.png" alt="Config Loading">
-                    <div class="video-info">
-                        <h4>Config Loading</h4>
-                        <p>What happens when systems start to break down?</p>
-                    </div>
-                </div>
-                
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Game Console', mp4: 'ktgai/game_console.mp4', cover: 'ktgai/game_console.png', description: 'The future is a beautiful place for the ascended peoples of Earth. Guru and Lucy left the city of Gold to return and help humanity transcend the Great Divide and Unfold with the New Earth.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="ktgai/game_console.png" alt="Game Console">
-                    <div class="video-info">
-                        <h4>Game Console</h4>
-                        <p>The future is a beautiful place for the ascended peoples of Earth.</p>
-                    </div>
-                </div>
-                
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Game Console Loading', mp4: 'ktgai/game_console_loading.mp4', cover: 'ktgai/game_console_loading.png', description: 'Booting up a new world of adventure.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="ktgai/game_console_loading.png" alt="Game Console Loading">
-                    <div class="video-info">
-                        <h4>Game Console Loading</h4>
-                        <p>Booting up a new world of adventure.</p>
-                    </div>
-                </div>
-                
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Lucys Booth Loading', mp4: 'ktgai/lucys_booth_loading.mp4', cover: 'ktgai/lucys_booth_loading.png', description: 'Step right up and see what Lucy has in store.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="ktgai/lucys_booth_loading.png" alt="Lucys Booth Loading">
-                    <div class="video-info">
-                        <h4>Lucys Booth Loading</h4>
-                        <p>Step right up and see what Lucy has in store.</p>
-                    </div>
-                </div>
-                
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Map Loading', mp4: 'ktgai/map_loading.mp4', cover: 'ktgai/map_loading.png', description: 'Getting lost has never been so much fun.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="ktgai/map_loading.png" alt="Map Loading">
-                    <div class="video-info">
-                        <h4>Map Loading</h4>
-                        <p>Getting lost has never been so much fun.</p>
-                    </div>
-                </div>
-                
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Opening Scene', mp4: 'ktgai/opening_scene.mp4', cover: 'ktgai/opening_scene.png', description: 'The beginning of an incredible journey.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="ktgai/opening_scene.png" alt="Opening Scene">
-                    <div class="video-info">
-                        <h4>Opening Scene</h4>
-                        <p>The beginning of an incredible journey.</p>
-                    </div>
-                </div>
-                
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Register Loading', mp4: 'ktgai/register_loading.mp4', cover: 'ktgai/register_loading.png', description: 'Sign up for the adventure of a lifetime.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="ktgai/register_loading.png" alt="Register Loading">
-                    <div class="video-info">
-                        <h4>Register Loading</h4>
-                        <p>Sign up for the adventure of a lifetime.</p>
-                    </div>
-                </div>
-                
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'Safe Loading', mp4: 'ktgai/safe_loading.mp4', cover: 'ktgai/safe_loading.png', description: 'What secrets lie behind the safe door?', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="ktgai/safe_loading.png" alt="Safe Loading">
-                    <div class="video-info">
-                        <h4>Safe Loading</h4>
-                        <p>What secrets lie behind the safe door?</p>
-                    </div>
-                </div>
-                
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'The Grid', mp4: 'ktgai/the_grid.mp4', cover: 'ktgai/the_grid.png', description: 'Welcome to the digital frontier.', safeLinks: [{text: 'Official Video', url: 'https://example.com'}]})">
-                    <img src="ktgai/the_grid.png" alt="The Grid">
-                    <div class="video-info">
-                        <h4>The Grid</h4>
-                        <p>Welcome to the digital frontier.</p>
-                    </div>
-                </div>
-                
-                <div class="video-list-item" onclick="selectVideoFromList(this, {title: 'You are Not Creating Alone', mp4: 'ktgai/you_are_not_creating_alone.mp4', cover: 'ktgai/you_are_not_creating_alone.png', description: 'Enter Lucys World.', safeLinks: [{text: 'Official Video', url: 'https://youtu.be/y2uYvkj8ilA'}]})">
-                    <img src="ktgai/you_are_not_creating_alone.png" alt="You are Not Creating Alone">
-                    <div class="video-info">
-                        <h4>You are Not Creating Alone</h4>
-                        <p>Enter Lucys World.</p>
-                    </div>
-                </div>
+                <!-- Add more list items for other videos -->
             </div>
         </div>
 
         <div class="right-content">
-            <button><a href="https://instagram.com/karmathegame" target="_blank" rel="noopener"><img src="../../public/assets/icons/instagram_icon.png" alt="instagram icon" class="instagram-icon"></a></button>
-            <button><a href="https://www.linkedin.com/in/rene-reyes-the-alquimist-8b3b3510/" target="_blank" rel="noopener"><img src="../../public/assets/icons/linkedin_icon.png" alt="linkedin icon" class="linkedin-icon"></a></button>
-            <button><a href="https://www.tiktok.com/@karmathegame" target="_blank" rel="noopener"><img src="../../public/assets/icons/tiktok_icon.png" alt="tiktok icon" class="tiktok-icon"></a></button>
-            <button><a href="https://discordapp.com/users/1177985292297314391" target="_blank" rel="noopener"><img src="../../public/assets/icons/discord_icon.png" alt="discord icon" class="discord-icon"></a></button>
-            <button><a href="https://t.me/karmathegame" target="_blank" rel="noopener"><img src="../../public/assets/icons/telegram_icon.png" alt="telegram icon" class="telegram-icon"></a></button>
-            <button><a href="https://www.threads.com/@karmathegame?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener"><img src="../../public/assets/icons/threads_icon.png" alt="threads icon" class="threads-icon"></a></button>
+            <button><a href="https://instagram.com/karmathegame" target="_blank" rel="noopener"><img src="../assets/instagram_icon.png" alt="instagram icon"></a></button>
+            <button><a href="https://www.linkedin.com/in/rene-reyes-the-alquimist-8b3b3510/" target="_blank" rel="noopener"><img src="../assets/linkedin_icon.png" alt="List Icon"></a></button>
+            <button><a href="https://www.tiktok.com/@karmathegame" target="_blank" rel="noopener"><img src="../assets/tiktok_icon.png" alt="Filter Icon"></a></button>
+            <button><a href="https://discordapp.com/users/1177985292297314391" target="_blank" rel="noopener"><img src="../assets/discord_icon.png" alt="Fave Icon"></a></button>
+            <button><a href="https://t.me/karmathegame" target="_blank" rel="noopener"><img src="../assets/telegram_icon.png" alt="Telegram Icon"></a></button>
+            <button><a href="https://www.threads.com/@karmathegame?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener"><img src="../assets/threads_icon.png" alt="QR Icon"></a></button>
         </div>
     </div>
 
@@ -608,42 +378,33 @@
         let selectedButton = null;
         let selectedListItem = null;
 
-        function initializeTheme() {
-            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
-            document.body.setAttribute('data-theme', savedTheme);
-            
-            const video = document.querySelector('.bg-video');
-            if (savedTheme !== 'ktg' && video) {
-                video.style.display = 'none';
-            }
-            
-            // Update language when theme changes
-            if (typeof langManager !== 'undefined') {
-                langManager.updateUI();
-            }
-        }
-
         function selectVideo(button, video) {
+            // Remove previous selection
             if (selectedButton) {
                 selectedButton.classList.remove('selected');
             }
             
+            // Add selection to current button
             button.classList.add('selected');
             selectedButton = button;
 
+            // Send video to parent frame
             if (parent.queueVideo) {
                 parent.queueVideo(video);
             }
         }
 
         function selectVideoFromList(listItem, video) {
+            // Remove previous selection
             if (selectedListItem) {
                 selectedListItem.classList.remove('selected');
             }
             
+            // Add selection to current list item
             listItem.classList.add('selected');
             selectedListItem = listItem;
 
+            // Send video to parent frame
             if (parent.queueVideo) {
                 parent.queueVideo(video);
             }
@@ -674,21 +435,15 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeTheme();
-            
-            // Initialize language support
+        // Auto-select first video on load
+        window.addEventListener('load', function() {
+            // Initialize language system
             if (typeof langManager !== 'undefined') {
-                const savedLanguage = localStorage.getItem('ktg-language') || 'en';
-                langManager.setLanguage(savedLanguage);
-                langManager.updateUI();
+                langManager.init().then(() => {
+                    langManager.updateUI();
+                });
             }
-
-            if (typeof updateThemeIcons === 'function') {
-                updateThemeIcons(localStorage.getItem('ktg-theme') || 'ktg');
-            }
-
-            // Auto-select first video on load
+            
             const firstButton = document.querySelector('.image-grid button');
             if (firstButton) {
                 firstButton.click();

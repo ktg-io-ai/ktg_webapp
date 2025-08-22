@@ -24,12 +24,25 @@ const gamingRoutes = require('./routes/gaming');
 const notificationRoutes = require('./routes/notifications');
 const lucyRoutes = require('./routes/lucy');
 const walletRoutes = require('./routes/wallet');
+const lifestylesRoutes = require('./routes/lifestyles');
+const tokensRoutes = require('./routes/tokens');
+const locationsRoutes = require('./routes/locations');
+const creatorsRoutes = require('./routes/creators');
+const contractorRoutes = require('./routes/contractor');
+const uploadRoutes = require('./routes/upload');
+const errorHandler = require('./middleware/errorHandler');
 
 app.use('/api/users', userRoutes);
 app.use('/api/gaming', gamingRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/lucy', lucyRoutes);
 app.use('/api/wallet', walletRoutes);
+app.use('/api/lifestyles', lifestylesRoutes);
+app.use('/api/tokens', tokensRoutes);
+app.use('/api/locations', locationsRoutes);
+app.use('/api', creatorsRoutes);
+app.use('/api', contractorRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Lucy AI routes
 app.get('/api/lucy/status', async (req, res) => {
@@ -76,6 +89,9 @@ app.post('/api/destiny/session', async (req, res) => {
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
 });
+
+// Error handling middleware (must be last)
+app.use(errorHandler);
 
 // Start server
 app.listen(PORT, () => {

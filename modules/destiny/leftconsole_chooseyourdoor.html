@@ -251,6 +251,8 @@
         });
         
         function selectDoor(color, category) {
+            console.log('Door selected:', color, category);
+            
             // Save door selection
             const doorData = {
                 color: color,
@@ -258,12 +260,15 @@
                 selectedAt: Date.now()
             };
             
+            console.log('Saving door data:', doorData);
             localStorage.setItem('ktg_selected_door', JSON.stringify(doorData));
             
             // Update user data with door selection
             const userData = JSON.parse(localStorage.getItem('ktg_user') || '{}');
             userData.selectedDoor = doorData;
             localStorage.setItem('ktg_user', JSON.stringify(userData));
+            
+            console.log('Updated user data:', userData);
             
             // Redirect to game console
             window.parent.location.href = 'gameconsole.html';

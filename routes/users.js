@@ -36,11 +36,8 @@ router.post('/register', async (req, res) => {
         
         const result = await Database.createUser(userData);
         
-        // Give new user starter tokens
-        await Database.query(
-            'INSERT INTO user_tokens (user_id, token_type, quantity) VALUES (?, ?, ?)',
-            [result.insertId, '3life', 3]
-        );
+        // Create wallet for new user
+        await Database.createWallet(result.insertId, wallet_id);
         
         res.json({ 
             success: true, 
@@ -229,15 +226,20 @@ router.get('/:id', async (req, res) => {
 // Save journeybook answer
 router.post('/journeybook/answer', async (req, res) => {
     try {
-        const { avatarId, questionKey, answer } = req.body;
+        const { avatarId, questionKey, answer, locationId } = req.body;
         
         if (!avatarId || !questionKey || !answer) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
         
+        console.log('Saving answer:', { avatarId, questionKey, answer });
+        
+        // Use the Database helper function
         await Database.saveJourneyBookAnswer(avatarId, questionKey, answer);
+        
         res.json({ success: true });
     } catch (error) {
+        console.error('Error saving journeybook answer:', error);
         res.status(400).json({ error: error.message });
     }
 });
@@ -245,9 +247,15 @@ router.post('/journeybook/answer', async (req, res) => {
 // Get journeybook answers for avatar
 router.get('/journeybook/:avatarId', async (req, res) => {
     try {
+        console.log('Loading answers for avatar:', req.params.avatarId);
+        
+        // Use the Database helper function
         const answers = await Database.getJourneyBookAnswers(req.params.avatarId);
+        
+        console.log(`Loaded ${Object.keys(answers).length} answers for avatar ${req.params.avatarId}`);
         res.json(answers);
     } catch (error) {
+        console.error('Error loading avatar answers:', error);
         res.status(400).json({ error: error.message });
     }
 });
@@ -282,6 +290,23 @@ router.post('/journeybook/page', async (req, res) => {
         }
         
         await Database.saveJourneyBookPage(section, subgroup, question, options, imageUrl, pageNumber);
+        res.json({ success: true });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// Update journeybook page
+router.put('/journeybook/page/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { imageUrl, imageLink } = req.body;
+        
+        await Database.query(
+            'UPDATE journeybook_pages SET image_url = ?, image_link = ? WHERE id = ?',
+            [imageUrl, imageLink, id]
+        );
+        
         res.json({ success: true });
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -344,6 +369,82 @@ router.get('/journeybook/pages', async (req, res) => {
     }
 });
 
+// Get user wallet with avatars and tokens
+router.get('/wallet/:walletId', async (req, res) => {
+    const mysql = require('mysql2/promise');
+    let connection;
+    
+    try {
+        const { walletId } = req.params;
+        console.log('Loading wallet for:', walletId);
+        
+        // Use direct MySQL connection for ktg_local_dev
+        connection = await mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: '',
+            database: 'ktg_local_dev'
+        });
+        
+        // Get user info
+        const [users] = await connection.execute(
+            'SELECT id, email, username, first_name, last_name, wallet_id FROM users WHERE wallet_id = ?',
+            [walletId]
+        );
+        
+        if (!users || users.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        
+        // Get active avatars
+        const [avatars] = await connection.execute(
+            'SELECT id, name, gender, tagline, image_url, generation_count, is_active, created_at FROM avatars WHERE wallet_id = ? AND is_active = TRUE',
+            [walletId]
+        );
+        
+        // Get wallet tokens from wallet_tokens table
+        const [tokens] = await connection.execute(`
+            SELECT 
+                wt.token_type,
+                wt.quantity
+            FROM wallets w
+            JOIN wallet_tokens wt ON w.id = wt.wallet_id
+            WHERE w.wallet_id = ?
+        `, [walletId]);
+        
+        console.log('Found tokens:', tokens);
+        
+        // Format tokens as object
+        const tokenBalance = {
+            life_1: 0,
+            life_3: 0,
+            life_6: 0,
+            life_9: 0,
+            diamond: 0
+        };
+        
+        tokens.forEach(token => {
+            if (tokenBalance.hasOwnProperty(token.token_type)) {
+                tokenBalance[token.token_type] += token.quantity;
+            }
+        });
+        
+        res.json({
+            success: true,
+            user: users[0],
+            avatars,
+            tokens: tokenBalance
+        });
+    } catch (error) {
+        console.error('Wallet error:', error);
+        res.status(500).json({ error: error.message });
+    } finally {
+        if (connection) {
+            await connection.end();
+        }
+    }
+});
+
 // Get structured journeybook pages
 router.get('/journeybook/pages/structured', async (req, res) => {
     try {
@@ -380,6 +481,7 @@ router.get('/journeybook/pages/structured', async (req, res) => {
                 question: page.question,
                 options: options,
                 image_url: page.image_url,
+                image_link: page.image_link,
                 section: section,
                 subgroup: subgroup
             });
@@ -403,6 +505,73 @@ router.get('/journeybook/pages/structured', async (req, res) => {
             errno: error.errno,
             sqlState: error.sqlState
         });
+    }
+});
+
+// Update avatar location
+router.put('/avatar/:avatarId/location', async (req, res) => {
+    try {
+        const { avatarId } = req.params;
+        const { locationId } = req.body;
+        
+        if (!avatarId || !locationId) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+        
+        // Update avatar's location preference
+        await Database.query(
+            'UPDATE avatars SET location_preference = ? WHERE id = ?',
+            [locationId, avatarId]
+        );
+        
+        res.json({ success: true });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// Get avatars by location and door category for listings
+router.get('/avatars/by-location/:locationId', async (req, res) => {
+    try {
+        const { locationId } = req.params;
+        const { doorCategory } = req.query;
+        
+        let query = `
+            SELECT 
+                a.id,
+                a.name,
+                a.image_url,
+                a.tagline,
+                a.door_choice,
+                a.created_at,
+                u.email,
+                l.city,
+                l.country
+            FROM avatars a
+            JOIN users u ON a.wallet_id = u.wallet_id
+            LEFT JOIN avatar_answers aa ON a.id = aa.avatar_id
+            LEFT JOIN locations l ON aa.location_id = l.id
+            WHERE a.is_active = TRUE
+        `;
+        
+        const params = [];
+        
+        if (locationId && locationId !== 'all') {
+            query += ' AND aa.location_id = ?';
+            params.push(locationId);
+        }
+        
+        if (doorCategory && doorCategory !== 'all') {
+            query += ' AND a.door_choice = ?';
+            params.push(doorCategory);
+        }
+        
+        query += ' GROUP BY a.id ORDER BY a.created_at DESC';
+        
+        const avatars = await Database.query(query, params);
+        res.json(avatars);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
     }
 });
 

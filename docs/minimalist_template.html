@@ -19,7 +19,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="../../public/assets/icons/kgz_icon.png"/>
     
-    <title>Karma the Game of Destiny</title>
+    <title>{{PAGE_TITLE}}</title>
     
     <style>
         :root {
@@ -87,16 +87,12 @@
             height: calc(100vh - 100px);
             overflow: hidden;
             margin-top: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-container {
             width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
         }
+        
+        {{ADDITIONAL_STYLES}}
+
+        
 
         /* Top Bar */
         .top-bar {
@@ -130,18 +126,27 @@
 
         /* Portal Button */
         .portal-button {
-            background-color: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-primary);
             color: var(--text-primary);
-            border: none;
-            padding: 0 8px 0 0;
-            border-radius: 20px;
-            cursor: pointer;
-            vertical-align: middle;
-            transition: background-color 0.3s ease;
+            text-decoration: none;
+            padding: min(16px, 2.4vw);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+            min-width: 0;
+            box-shadow: 5px 5px 10px rgba(155, 144, 239, 0.3);
         }
 
         .portal-button:hover {
-            background-color: var(--accent-hover);
+            background-color: var(--bg-secondary);
+            border-color: #2f27c8;
+            transform: scale(1.05);
+            border: 2px solid #2f27c8;
         }
 
         .portal-button img {
@@ -202,28 +207,7 @@
             gap: 12px;
         }
 
-        .portal-button {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            text-decoration: none;
-            padding: min(16px, 2.4vw);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            aspect-ratio: 1;
-            border: 2px solid transparent;
-            min-width: 0;
-            box-shadow: 5px 5px 10px rgba(155, 144, 239, 0.3);
-        }
-
-        .portal-button:hover {
-            background-color: var(--bg-secondary);
-            border-color: #2f27c8;
-            transform: scale(1.05);
-        }
+        
 
         [data-theme="light"] .portal-button:hover {
             background-color: #f1f3f4;
@@ -319,48 +303,9 @@
             -ms-overflow-style: none;
         }
 
-        /* Google Sign-In */
-        .google-signin {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2000;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 30px;
-            border-radius: 20px;
-            border: 2px solid var(--accent-color);
-            text-align: center;
-            display: none;
-        }
+        
 
-        .google-signin h3 {
-            color: var(--text-primary);
-            margin-bottom: 20px;
-        }
-
-        .google-signin .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-         .form-input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 10px;
-            background-color: #ddd;
-            color: #555;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
+      
 
         [data-theme="light"] .form-input {
             background-color: #ffffff;
@@ -394,25 +339,7 @@
             color: var(--accent-color);
         }
         
-        .login-instructions {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #111;
-            border-radius: 8px;
-            border: 1px solid var(--accent-color);
-            opacity: 0.8;
-        }
         
-        .login-instructions p {
-            margin: 5px 0;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        
-        .login-instructions strong {
-            color: var(--accent-color);
-        }
         
         [data-theme="light"] .login-instructions {
             background-color: rgba(47, 39, 200, 0.05);
@@ -433,388 +360,30 @@
             -ms-overflow-style: none;
         }
         
-        .avatar-list-container {
-            margin: 20px 0;
-        }
         
-        .avatar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
         
-        .saved-avatars-label {
-            color: var(--text-primary);
-            font-size: 12px;
-            opacity: 0.8;
-            text-transform: lowercase;
-        }
         
-        .register-new-link {
-            color: var(--accent-color);
-            font-size: 12px;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        
-        .register-new-link:hover {
-            color: var(--accent-hover);
-        }
-        
-        .avatar-list {
-            max-height: 180px;
-            overflow-y: auto;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            background-color: rgba(17, 17, 17, 0.3);
-        }
-        
-        .avatar-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            margin-bottom: 2px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            border-left: 4px solid var(--accent-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .avatar-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(2px);
-        }
-        
-        .avatar-info {
-            flex-grow: 1;
-        }
-        
-        .avatar-name {
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-bottom: 4px;
-            font-size: 14px;
-        }
-        
-        .avatar-tagline {
-            font-size: 11px;
-            opacity: 0.8;
-            margin-bottom: 4px;
-            color: var(--text-secondary);
-        }
-        
-        .avatar-status {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 9px;
-            font-weight: bold;
-        }
-        
-        .avatar-status.active {
-            background: rgba(76, 175, 80, 0.3);
-            color: #4CAF50;
-        }
-        
-        .avatar-status.inactive {
-            background: rgba(158, 158, 158, 0.3);
-            color: #9E9E9E;
-        }
-        
-        [data-theme="light"] .avatar-list {
-            background-color: rgba(248, 249, 250, 0.5);
-        }
-        
-        [data-theme="dark"] .avatar-list {
-            background-color: rgba(42, 42, 42, 0.5);
-        }
-
-        /* Main content container */
-        .main-content {
-            margin-top: 100px;
-            min-height: calc(100vh - 100px);
-            padding: 20px;
-        }
-
-        .avatar-customizer {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 30px;
-            background: var(--bg-secondary);
-            border-radius: 20px;
-            text-align: center;
-        }
-
-        .avatar-customizer h2 {
-            color: var(--text-primary);
-            margin-bottom: 30px;
-        }
-
-        .avatar-gallery {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            justify-content: center;
-            margin: 20px 0;
-            max-width: 500px;
-            margin: 20px auto;
-        }
-
-        .avatar-display {
-            width: 200px;
-            height: 200px;
-            border-radius: 15px;
-            background: var(--bg-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 3px solid var(--border-color);
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 0 auto;
-        }
-
-        .avatar-display:hover {
-            border-color: var(--accent-color);
-            transform: scale(1.05);
-        }
-
-        .avatar-display.selected {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 20px rgba(47, 39, 200, 0.5);
-        }
-
-        .avatar-display img {
-            width: 100%;
-            height: 100%;
-            border-radius: 12px;
-            object-fit: cover;
-        }
-
-        .avatar-label {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            background: rgba(64, 64, 64, 0.8);
-            color: #cccccc;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-
-        .avatar-placeholder {
-            color: var(--text-secondary);
-            font-size: 16px;
-        }
-
-        .generation-counter {
-            position: absolute;
-            top: -15px;
-            right: -15px;
-            background: var(--accent-color);
-            color: white;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .prompt-section {
-            margin: 30px 0;
-            text-align: left;
-        }
-
-        .prompt-section label {
-            display: block;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        .prompt-textarea {
-            width: 100%;
-            height: 100px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 14px;
-            resize: vertical;
-        }
-
-        .prompt-textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 30px 0;
-        }
-
-        .action-btn {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .action-btn:hover {
-            background: var(--accent-hover);
-        }
-
-        .action-btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        .action-btn.secondary {
-            background: #666;
-        }
-
-        .action-btn.secondary:hover {
-            background: #888;
-        }
-
-        .play-btn {
-            background: #28a745;
-            font-size: 18px;
-            padding: 20px 40px;
-        }
-
-        .play-btn:hover {
-            background: #218838;
-        }
-
-        .avatar-info {
-            background: var(--bg-primary);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            text-align: left;
-        }
-
-        .avatar-info h4 {
-            color: var(--text-primary);
-            margin-top: 0;
-        }
-
-        .avatar-info p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin: 8px 0;
-        }
-
-        .generation-warning {
-            background: #8B0000;
-            color: #cccccc;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            font-size: 14px;
-        }
-
-        .back-link {
-            display: block;
-            color: var(--text-secondary);
-            text-decoration: none;
-            margin-top: 20px;
-        }
-
-        .back-link:hover {
-            color: var(--accent-color);
-        }
-
-        .error-message {
-            color: #ff4444;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .success-message {
-            color: #44ff44;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        /* Theme Variables */
-        :root {
-            --bg-primary: #111;
-            --bg-secondary: rgba(1, 1, 1, 0.9);
-            --text-primary: #fff;
-            --text-secondary: #ccc;
-            --border-color: #2f27c8;
-            --hover-bg: #222;
-            --topbar-bg: #111;
-            --accent-color: #2f27c8;
-            --accent-hover: #1e1a8a;
-        }
-
-        [data-theme="light"] {
-            --bg-primary: #ffffff;
-            --bg-secondary: rgba(248, 249, 250, 0.9);
-            --text-primary: #1a1a1a;
-            --text-secondary: #6c757d;
-            --border-color: #e9ecef;
-            --hover-bg: #f1f3f4;
-            --topbar-bg: #ffffff;
-            --accent-color: #2f27c8;
-            --accent-hover: #1e1a8a;
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: #1a1a1a;
-            --bg-secondary: rgba(45, 45, 45, 0.9);
-            --text-primary: #f5f5dc;
-            --text-secondary: #b8b8b8;
-            --border-color: #404040;
-            --hover-bg: #3a3a3a;
-            --topbar-bg: #2d2d2d;
-            --accent-color: #2f27c8;
-            --accent-hover: #1e1a8a;
-        }
     </style>
     
     <script src="../../shared/js/theme-icons.js"></script>
     <script src="../../shared/js/language.js"></script>
-    <script src="../../shared/js/firebase-config.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="../../shared/js/ktg-auth.js"></script>
 
     
 </head>
 <body>
-    <video class="bg-video" autoplay muted>
-        <source src="../../public/assets/videos/login2.mp4" type="video/mp4">
+    <video class="bg-video" autoplay muted playsinline>
+        <source src="{{VIDEO_SOURCE}}" type="video/mp4">
     </video>
 
     <div class="container">
         <div class="top-bar fade-in">
-            <h1 data-translate="destiny.title">Karma the Game of Destiny</h1>
+            <h1 data-translate="{{TITLE_TRANSLATE}}">{{PAGE_HEADING}}</h1>
             <div class="song-title">
                 <button id="musicToggle">
                     <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle">
                 </button>
-                <span data-translate="destiny.login.nowPlaying">PLAYING: (Original Soundtrack) Game Console Loading</span>
+                <span data-translate="{{PLAYING_TRANSLATE}}">{{PLAYING_TEXT}}</span>
             </div>
         </div>
         
@@ -825,104 +394,32 @@
             </button>
         </div>
 
-        <!-- Main Content -->
-    <div class="main-content">
-        <div class="avatar-customizer">
-        <h2 data-lang="destiny.makeavatar.prompt_title">CUSTOMIZE YOUR AVATAR</h2>
-        
-        <div class="avatar-gallery">
-            <div class="avatar-display selected" id="originalAvatar" onclick="selectAvatar(0)">
-                <div class="avatar-placeholder">Loading original...</div>
-                <div class="avatar-label">ORIGINAL</div>
-            </div>
-            <div class="avatar-display" id="generatedAvatar1" onclick="selectAvatar(1)">
-                <div class="avatar-placeholder">Click REIMAGINE</div>
-                <div class="avatar-label">OPTION 2</div>
-            </div>
-            <div class="avatar-display" id="generatedAvatar2" onclick="selectAvatar(2)">
-                <div class="avatar-placeholder">Click REIMAGINE</div>
-                <div class="avatar-label">OPTION 3</div>
-            </div>
-            <div class="avatar-display" id="generatedAvatar3" onclick="selectAvatar(3)">
-                <div class="avatar-placeholder">Click REIMAGINE</div>
-                <div class="avatar-label">OPTION 4</div>
-            </div>
+        <div class="main-content">
+            {{MAIN_CONTENT}}
         </div>
-        
-        <div style="text-align: center; margin: 20px 0;">
-            <p style="color: var(--text-secondary); font-size: 14px;">
-                Generation: <span id="generationCounter">1/4</span> | Selected: <span id="selectedAvatar">ORIGINAL</span>
-            </p>
-        </div>
-        
-        <div class="avatar-info">
-            <h4>Current Avatar</h4>
-            <p><strong>Name:</strong> <span id="avatarName">-</span></p>
-            <p><strong>Gender:</strong> <span id="avatarGender">-</span></p>
-            <p><strong>Tagline:</strong> <span id="avatarTagline">-</span></p>
-        </div>
-        
-        <div class="prompt-section">
-            <label for="customPrompt" data-lang="destiny.makeavatar.prompt_placeholder">DESCRIBE THE AVATAR AND THE SCENE</label>
-            <textarea 
-                id="customPrompt" 
-                class="prompt-textarea" 
-                placeholder="Describe how you want your avatar to look... (e.g., wearing a red jacket, standing in a forest, with blue eyes)"
-                maxlength="500"
-            ></textarea>
-            <div style="text-align: right; color: var(--text-secondary); font-size: 12px; margin-top: 5px;">
-                <span id="charCount">0</span>/500 characters
-            </div>
-        </div>
-        
-        <div id="generationWarning" class="generation-warning" style="display: none;">
-You have used all 4 generations!
-        </div>
-        
-        <div class="action-buttons">
-            <button class="action-btn" id="reimagineBtn" onclick="reimagineAvatar()" data-lang="destiny.makeavatar.reimagine">REIMAGINE</button>
-            <button class="action-btn play-btn" onclick="playGame()" data-lang="destiny.makeavatar.play">PLAY</button>
-        </div>
-        
-        <div id="message" class="error-message" style="display: none;"></div>
-        
-        <a href="newavatar.html" class="back-link">← Back to Avatar Creation</a>
-        
-        <div style="margin-top: 30px; padding: 20px; background: var(--bg-primary); border-radius: 10px; text-align: left;">
-            <h4 style="color: var(--text-primary); margin-top: 0;">Avatar Customization Rules</h4>
-            <ul style="color: var(--text-secondary); font-size: 14px;">
-                <li>ORIGINAL shows your first generated avatar</li>
-                <li>Click REIMAGINE to generate OPTION 1 and OPTION 2</li>
-                <li>Click any avatar to select it (highlighted with blue border)</li>
-                <li>You get 4 additional generations (5 total avatars)</li>
-                <li>Click PLAY when you've selected your favorite avatar</li>
-            </ul>
-        </div>
-    </div>
-    </div>
 
         <div class="footer">
-            <a href="#" data-lang="destiny.login.terms">TERMS OF SERVICE</a>
-            <a href="#" data-lang="destiny.login.privacy">PRIVACY POLICY</a>
-            <a href="#" data-lang="destiny.login.rules">RULES OF THE GAME</a>
+            <a href="#" data-translate="{{TERMS_TRANSLATE}}">TERMS OF SERVICE</a>
+            <a href="#" data-translate="{{PRIVACY_TRANSLATE}}">PRIVACY POLICY</a>
+            <a href="#" data-translate="{{RULES_TRANSLATE}}">RULES OF THE GAME</a>
         </div>
-        <audio id="musicPlayer" src="../../public/assets/ktgmusic/audio/game_console_loading.mp3" loop></audio>
+        <audio id="musicPlayer" src="{{AUDIO_SOURCE}}" loop></audio>
         <div id="submenu-container" class="submenu-container">
             <!-- Portal Submenu -->
             <div id="portal-submenu" class="submenu">
                 <h2 data-translate="portal.title">Portals <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>
                 <div class="portal-grid">
-                    <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/portal_icon.png" data-light="../../public/assets/icons/portal_icon-blk.png" data-dark="../../public/assets/icons/portal_icon-wht.png" src="../../public/assets/icons/portal_icon.png" alt="portals"><span data-lang="dashboard.portals.title">PORTALS</span></a>
-                    <a href="../destiny/opening.html" target="_parent" class="portal-button"><img class="destiny-icon" src="../../public/assets/icons/fave_icon.png" alt="destiny"><span data-lang="dashboard.portals.destiny">DESTINY</span></a>
-                    <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img class="listings-icon" src="../../public/assets/icons/listing_icon.png" alt="listings"><span data-lang="dashboard.portals.listings">LISTINGS</span></a>
-                    <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img class="ktgai-icon" src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span data-lang="dashboard.portals.ai">KTG.AI</span></a>
-                    <a href="../music/ktgmusic.html" target="_parent" class="portal-button"><img class="music-icon" src="../../public/assets/icons/qr_icon.png" alt="ktgmusic"><span data-lang="dashboard.portals.music">KTG.MUSIC</span></a>
-                    <a href="../web3/dashboard_web3.html" target="_parent" class="portal-button"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span data-lang="dashboard.portals.web3">WEB3</span></a>
-                    <a href="../vr/dashboard_xr.html" target="_parent" class="portal-button"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR"><span data-lang="dashboard.portals.vr">VR/AR/XR</span></a>
-                    <a href="../dignbling/dashboard_dign_bling.html" target="_parent" class="portal-button"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span data-lang="dashboard.portals.dignbling">DIGN BLING</span></a>
-                    <a href="../4playchess/4playchess.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/chess_icon.png" data-light="../../public/assets/icons/chess_icon-blk.png" data-dark="../../public/assets/icons/chess_icon-wht.png" src="../../public/assets/icons/chess_icon.png" alt="chess"><span data-lang="dashboard.portals.chess">4 PLAY CHESS</span></a>
-                    <a href="../metaphysics/dashboard_tarot.html" target="_parent" class="portal-button"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span data-lang="dashboard.portals.metaphysics">METAPHYSICS</span></a>
-                    <a href="../map/map.html" target="_parent" class="portal-button"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map"><span data-lang="dashboard.portals.map">MAP</span></a>
+                    <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/portal_icon.png" data-light="../../public/assets/icons/portal_icon-blk.png" data-dark="../../public/assets/icons/portal_icon-wht.png" src="../../public/assets/icons/portal_icon.png" alt="portals"><span data-translate="dashboard.portals.title">PORTALS</span></a>
+                    <a href="../destiny/opening.html" target="_parent" class="portal-button"><img class="destiny-icon" src="../../public/assets/icons/fave_icon.png" alt="destiny"><span data-translate="dashboard.portals.destiny">DESTINY</span></a>
+                    <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img class="listings-icon" src="../../public/assets/icons/listing_icon.png" alt="listings"><span data-translate="dashboard.portals.listings">LISTINGS</span></a>
+                    <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img class="ktgai-icon" src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span data-translate="dashboard.portals.ai">KTG.AI</span></a>
+                    <a href="../music/ktgmusic.html" target="_parent" class="portal-button"><img class="music-icon" src="../../public/assets/icons/qr_icon.png" alt="ktgmusic"><span data-translate="dashboard.portals.music">KTG.MUSIC</span></a>
+                    <a href="../web3/dashboard_web3.html" target="_parent" class="portal-button"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span data-translate="dashboard.portals.web3">WEB3</span></a>
+                    <a href="../vr/ktgxr.html" target="_parent" class="portal-button"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR"><span data-translate="dashboard.portals.vr">VR/AR/XR</span></a>
+                    <a href="../dignbling/dashboard_dign_bling.html" target="_parent" class="portal-button"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span data-translate="dashboard.portals.dignbling">DIGN BLING</span></a>
+                    <a href="../4playchess/4playchess.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/chess_icon.png" data-light="../../public/assets/icons/chess_icon-blk.png" data-dark="../../public/assets/icons/chess_icon-wht.png" src="../../public/assets/icons/chess_icon.png" alt="chess"><span data-translate="dashboard.portals.chess">4 PLAY CHESS</span></a>
+                    <a href="../metaphysics/dashboard_tarot.html" target="_parent" class="portal-button"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span data-translate="dashboard.portals.metaphysics">METAPHYSICS</span></a>
+                    <a href="../map/map.html" target="_parent" class="portal-button"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map"><span data-translate="dashboard.portals.map">MAP</span></a>
                 </div>
             </div>
             
@@ -930,6 +427,7 @@ You have used all 4 generations!
     </div>
 
     
+
     <script>
         function openSubmenu(submenu) {
             const selectedSubmenu = document.getElementById(submenu + '-submenu');
@@ -1021,308 +519,26 @@ You have used all 4 generations!
                 }
             }
         }
-
         
-        // Music player functionality
-        const musicPlayer = document.createElement('audio');
-        musicPlayer.src = '../../public/assets/ktgmusic/audio/game_console_loading.mp3';
-        musicPlayer.loop = true;
-        musicPlayer.volume = 0.5;
-        document.body.appendChild(musicPlayer);
-
-        function toggleMusic() {
-            if (musicPlayer.paused) {
-                musicPlayer.play();
-            } else {
-                musicPlayer.pause();
-            }
-        }
-
-        document.getElementById('musicToggle').addEventListener('click', toggleMusic);
-        let currentAvatar = null;
-        let generationCount = 0;
-        let maxGenerations = 4;
-        let avatarOptions = [null, null, null, null]; // original, option1, option2, option3
-        let selectedAvatarIndex = 0;
-        
-        // Initialize theme and language
-        function initializeTheme() {
-            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
-            document.body.setAttribute('data-theme', savedTheme);
-        }
-        
-        // Check if user is logged in and has avatar
-        function checkAvatarStatus() {
-            const user = JSON.parse(localStorage.getItem('ktg_user') || '{}');
-            const registrationEmail = localStorage.getItem('ktg_registration_email');
-            
-            if (!user.email && !registrationEmail) {
-                alert('Please login first.');
-                window.location.href = 'newwallet.html';
-                return false;
-            }
-            
-            const savedAvatar = localStorage.getItem('ktg_current_avatar');
-            if (!savedAvatar) {
-                alert('No avatar found. Please create an avatar first.');
-                window.location.href = 'newavatar.html';
-                return false;
-            }
-            
-            return true;
-        }
-        
-        // Load current avatar
-        function loadCurrentAvatar() {
-            const savedAvatar = localStorage.getItem('ktg_current_avatar');
-            if (savedAvatar) {
-                currentAvatar = JSON.parse(savedAvatar);
-                generationCount = currentAvatar.generationCount || 1;
-                
-                // Update UI
-                document.getElementById('avatarName').textContent = currentAvatar.name;
-                document.getElementById('avatarGender').textContent = currentAvatar.gender;
-                document.getElementById('avatarTagline').textContent = currentAvatar.tagline;
-                
-                // Set original avatar
-                avatarOptions[0] = currentAvatar.imageUrl;
-                
-                // Display original avatar
-                const originalDisplay = document.getElementById('originalAvatar');
-                originalDisplay.innerHTML = `
-                    <img src="${currentAvatar.imageUrl}" alt="Original Avatar">
-                    <div class="avatar-label">ORIGINAL</div>
-                `;
-                
-                // Update generation warning
-                updateGenerationWarning();
-            }
-        }
-        
-        // Update generation warning
-        function updateGenerationWarning() {
-            const warning = document.getElementById('generationWarning');
-            const reimagineBtn = document.getElementById('reimagineBtn');
-            
-            if (generationCount >= maxGenerations) {
-                warning.style.display = 'block';
-                reimagineBtn.disabled = true;
-                reimagineBtn.style.opacity = '0.5';
-            } else {
-                warning.style.display = 'none';
-                reimagineBtn.disabled = false;
-                reimagineBtn.style.opacity = '1';
-            }
-            
-            document.getElementById('generationCounter').textContent = `${generationCount}/${maxGenerations}`;
-        }
-        
-        // Select avatar
-        function selectAvatar(index) {
-            if (!avatarOptions[index]) return;
-            
-            selectedAvatarIndex = index;
-            
-            // Update visual selection
-            document.querySelectorAll('.avatar-display').forEach(display => {
-                display.classList.remove('selected');
-            });
-            
-            const displays = ['originalAvatar', 'generatedAvatar1', 'generatedAvatar2', 'generatedAvatar3'];
-            document.getElementById(displays[index]).classList.add('selected');
-            
-            // Update selected avatar text
-            const labels = ['ORIGINAL', 'OPTION 2', 'OPTION 3', 'OPTION 4'];
-            document.getElementById('selectedAvatar').textContent = labels[index];
-        }
-        
-        // Reimagine avatar
-        async function reimagineAvatar() {
-            if (!currentAvatar) return;
-            if (generationCount >= maxGenerations) {
-                return;
-            }
-            
-            const customPrompt = document.getElementById('customPrompt').value.trim();
-            const messageDiv = document.getElementById('message');
-            const reimagineBtn = document.getElementById('reimagineBtn');
-            
-            // Clear previous messages
-            messageDiv.style.display = 'none';
-            
-            // Disable button with visual feedback
-            reimagineBtn.disabled = true;
-            reimagineBtn.style.opacity = '0.6';
-            const originalText = reimagineBtn.textContent;
-            reimagineBtn.textContent = 'Generating...';
-            
-            try {
-                // Generate for next available slot
-                const targetIndex = generationCount; // 1, 2, or 3 (since 0 is original)
-                const prompt = customPrompt || `${currentAvatar.gender} character, ${currentAvatar.tagline}`;
-                
-                // Try Leonardo first, fallback to Pollinations
-                let imageUrl;
-                try {
-                    if (window.aiAvatarService && window.LeonardoConfig) {
-                        imageUrl = await window.aiAvatarService.generateAvatar(currentAvatar.gender, currentAvatar.name, currentAvatar.tagline, customPrompt);
-                    } else {
-                        throw new Error('AI service not available');
-                    }
-                } catch (error) {
-                    console.warn('Leonardo generation failed, using Pollinations:', error);
-                    const seed = Date.now() + Math.random() * 1000;
-                    imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&seed=${seed}`;
-                }
-                
-                // Store the new image
-                avatarOptions[targetIndex] = imageUrl;
-                
-                // Update the display
-                const displays = ['originalAvatar', 'generatedAvatar1', 'generatedAvatar2', 'generatedAvatar3'];
-                const targetDisplay = document.getElementById(displays[targetIndex]);
-                const labels = ['ORIGINAL', 'OPTION 2', 'OPTION 3', 'OPTION 4'];
-                
-                targetDisplay.innerHTML = `
-                    <img src="${imageUrl}" alt="Generated Avatar ${targetIndex}">
-                    <div class="avatar-label">${labels[targetIndex]}</div>
-                `;
-                
-                generationCount++;
-                updateGenerationWarning();
-                
-                showMessage(`Avatar option ${targetIndex} generated!`, 'success');
-                
-            } catch (error) {
-                console.error('Error generating avatar:', error);
-                showMessage('Generation failed. Please try again.', 'error');
-            } finally {
-                // Re-enable button
-                setTimeout(() => {
-                    reimagineBtn.disabled = false;
-                    reimagineBtn.style.opacity = '1';
-                    reimagineBtn.textContent = originalText;
-                }, 1000);
-            }
-        }
-        
-        // Play game
-        async function playGame() {
-            if (!currentAvatar || !avatarOptions[selectedAvatarIndex]) {
-                showMessage('Please select an avatar first.', 'error');
-                return;
-            }
-            
-            // Update avatar with selected image
-            currentAvatar.imageUrl = avatarOptions[selectedAvatarIndex];
-            currentAvatar.generationCount = generationCount;
-            
-            // Save to localStorage for consistency
-            localStorage.setItem('ktg_current_avatar', JSON.stringify(currentAvatar));
-            
-            const user = JSON.parse(localStorage.getItem('ktg_user') || '{}');
-            user.avatar = {...currentAvatar};
-            user.avatarImage = currentAvatar.imageUrl;
-            localStorage.setItem('ktg_user', JSON.stringify(user));
-            
-            // Save to database
-            try {
-                let email = localStorage.getItem('ktg_registration_email');
-                if (!email) {
-                    const userData = JSON.parse(localStorage.getItem('ktg_user') || '{}');
-                    email = userData.email;
-                }
-                
-                if (email) {
-                    const response = await fetch('/api/users/avatar', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({email: email, avatarData: currentAvatar})
-                    });
-                    
-                    if (response.ok) {
-                        showMessage('Avatar saved to database! Redirecting to game...', 'success');
-                    } else {
-                        showMessage('Avatar saved locally! Redirecting to game...', 'success');
-                    }
-                } else {
-                    showMessage('Avatar saved locally! Redirecting to game...', 'success');
-                }
-            } catch (error) {
-                console.warn('Database save failed:', error);
-                showMessage('Avatar saved locally! Redirecting to game...', 'success');
-            }
-            
-            setTimeout(() => {
-                window.location.href = 'chooseyourdoor.html';
-            }, 1000);
-        }
-        
-        // Character counter
-        document.getElementById('customPrompt').addEventListener('input', function() {
-            const charCount = this.value.length;
-            document.getElementById('charCount').textContent = charCount;
-        });
-        
-        function showMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = text;
-            messageDiv.className = type === 'error' ? 'error-message' : 'success-message';
-            messageDiv.style.display = 'block';
-        }
-        
-        // Initialize on load
-        window.addEventListener('load', () => {
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
             initializeTheme();
-            
-            // Initialize AI service with Leonardo config
-            if (window.LeonardoConfig) {
-                const configured = window.LeonardoConfig.init();
-                if (!configured) {
-                    console.warn('Leonardo AI not configured - will use Pollinations fallback');
-                }
-            }
-            
-            if (checkAvatarStatus()) {
-                loadCurrentAvatar();
-            } else {
-                return; // Don't continue if avatar check fails
-            }
+            initializeMusic();
             
             if (typeof langManager !== 'undefined') {
-                const savedLanguage = localStorage.getItem('ktg-language') || 'en';
-                langManager.setLanguage(savedLanguage);
                 langManager.updateUI();
             }
+            
+            // Activate animations
+            setTimeout(() => {
+                const fadeInElements = document.querySelectorAll('.fade-in');
+                fadeInElements.forEach(el => el.classList.add('active'));
+            }, 100);
         });
         
-        function openSubmenu(submenu) {
-            const selectedSubmenu = document.getElementById(submenu + '-submenu');
-            if (selectedSubmenu) {
-                if (selectedSubmenu.style.display === 'block') {
-                    selectedSubmenu.style.display = 'none';
-                } else {
-                    const submenus = document.querySelectorAll('.submenu');
-                    submenus.forEach(menu => {
-                        menu.style.display = 'none';
-                    });
-                    selectedSubmenu.style.display = 'block';
-                }
-            }
-        }
+        {{ADDITIONAL_SCRIPTS}}
 
-        function closeSubmenu(closeButton) {
-            const submenu = closeButton.closest('.submenu');
-            submenu.style.display = 'none';
-        }
-
-        // Make functions available globally
-        window.reimagineAvatar = reimagineAvatar;
-        window.playGame = playGame;
-        window.selectAvatar = selectAvatar;
-        window.openSubmenu = openSubmenu;
-        window.closeSubmenu = closeSubmenu;
-    
+        
     </script>
 </body>
 </html>

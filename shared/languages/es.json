@@ -5,7 +5,7 @@
     "visits": "Visitas",
     "sidebar": {
       "about": "Acerca de",
-      "influencers": "Influencers", 
+      "influencers": "Influencers",
       "advertisers": "Anunciantes",
       "investors": "Inversores",
       "mystuff": "Mis Cosas"
@@ -82,7 +82,19 @@
       "lifestyles": "ESTILOS DE VIDA",
       "tv": "KTG.TV",
       "dao": "MEM.DAO",
-      "map": "MAPA"
+      "map": "MAPA",
+      "journeybooks": "LIBROS DE VIAJE"
+    }
+  },
+  "metaphysics": {
+    "title": "Metafísica",
+    "playing": "REPRODUCIENDO: (Banda Sonora Original) Carga de Astrología",
+    "tarot": {
+      "title": "Tarot de Tatuajes de Alter - Saca 3 Cartas",
+      "draw_cards": "Sacar 3 Cartas",
+      "card_meanings": "Significados de las Cartas",
+      "ai_alquimist": "IA Alquimista",
+      "portals": "Portales"
     }
   },
   "leftconsole": {
@@ -169,6 +181,14 @@
     "chooseyourdoor": {
       "playing": "REPRODUCIENDO: (Banda Sonora Original) Puesto de Lucy",
       "title": "ELIGE TU PUERTA"
+    },
+    "gameconsole": {
+      "theGrid": "La Cuadrícula",
+      "safeLinks": "ENLACES SEGUROS",
+      "door": "PUERTA",
+      "values": "Valores",
+      "compatibility": "Compatibilidad",
+      "intimacy": "Intimidad"
     }
   },
   "ai": {
@@ -203,7 +223,9 @@
     "actions": "Acciones",
     "details": "Detalle",
     "mystuff": "Mis Cosas",
-    "portal": "Portal"
+    "portal": "Portal",
+    "grid": "Cuadrícula",
+    "list": "Lista"
   },
   "submenu": {
     "search": {
@@ -224,6 +246,41 @@
     },
     "portal": {
       "title": "Portal"
+    }
+  },
+  "web3": {
+    "tokens": {
+      "title": "Tokens KGZ y KTG"
+    },
+    "footer": {
+      "whitepaper": "LIBRO BLANCO",
+      "deck": "PRESENTACIÓN",
+      "disclaimer": "DESCARGO"
+    },
+    "buttons": {
+      "ktg_private": "Compra Privada KTG (PayPal)",
+      "secure_checkout": "Pago Seguro",
+      "ktg_bscscan": "KTG en BSCSCAN",
+      "view_contract": "Ver Contrato",
+      "kgz_uniswap": "KGZ en UNISWAP",
+      "trade_now": "Comerciar Ahora",
+      "kgz_poocoin": "KGZ en POOCOIN",
+      "live_chart": "Gráfico en Vivo",
+      "kgz_bscscan": "KGZ en BSCSCAN"
+    }
+  },
+  "games": {
+    "4playchess": {
+      "register": "REGISTRARSE PARA UN NUEVO JUEGO",
+      "avatar_name": "NOMBRE DE TU AVATAR",
+      "challenge": "DESAFÍO",
+      "self": "YO:",
+      "ai": "IA:",
+      "others": "OTROS:",
+      "tagline": "LEMA: LISTO PARA LA GUERRA",
+      "terms": "TÉRMINOS DE SERVICIO",
+      "privacy": "POLÍTICA DE PRIVACIDAD",
+      "rules": "REGLAS DEL JUEGO"
     }
   }
 }

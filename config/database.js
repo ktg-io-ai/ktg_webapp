@@ -25,6 +25,9 @@ const dbConfig = {
 const environment = process.env.NODE_ENV || 'development';
 const config = dbConfig[environment];
 
+console.log('Database Environment:', environment);
+console.log('Database Config:', config);
+
 // Create connection pool
 const pool = mysql.createPool({
     ...config,
@@ -144,16 +147,28 @@ class Database {
 
     // Avatar operations
     static async createAvatar(avatarData) {
-        const sql = `INSERT INTO avatars (wallet_id, name, gender, tagline, image_url, generation_count) 
-                     VALUES (?, ?, ?, ?, ?, ?)`;
+        const sql = `INSERT INTO avatars (wallet_id, name, gender, tagline, door_choice, image_url, generation_count) 
+                     VALUES (?, ?, ?, ?, ?, ?, ?)`;
         return await this.query(sql, [
             avatarData.walletId,
             avatarData.name,
             avatarData.gender,
             avatarData.tagline,
+            avatarData.doorChoice || 'blue',
             avatarData.imageUrl,
             avatarData.generationCount || 1
         ]);
+    }
+
+    static async updateAvatarDoorChoice(avatarId, doorChoice) {
+        const sql = `UPDATE avatars SET door_choice = ? WHERE id = ?`;
+        return await this.query(sql, [doorChoice, avatarId]);
+    }
+
+    static async getAvatarByWalletId(walletId) {
+        const sql = 'SELECT * FROM avatars WHERE wallet_id = ? AND is_active = TRUE ORDER BY created_at DESC LIMIT 1';
+        const avatars = await this.query(sql, [walletId]);
+        return avatars[0] || null;
     }
 
     static async getAllActiveAvatars() {
@@ -197,30 +212,18 @@ class Database {
 
     // JourneyBook operations
     static async saveJourneyBookAnswer(avatarId, questionKey, answer) {
-        // Extract page ID from questionKey if it contains page ID, otherwise hash it
-        let pageId;
-        if (questionKey.includes('page_')) {
-            pageId = parseInt(questionKey.split('page_')[1]) || 1;
-        } else {
-            // Hash questionKey to create unique page_id
-            pageId = Math.abs(questionKey.split('').reduce((a, b) => {
-                a = ((a << 5) - a) + b.charCodeAt(0);
-                return a & a;
-            }, 0));
-        }
-        
-        const sql = `INSERT INTO avatar_journeybook_responses (avatar_id, page_id, answer) 
+        const sql = `INSERT INTO avatar_journeybook_responses (avatar_id, question_key, answer) 
                      VALUES (?, ?, ?) 
                      ON DUPLICATE KEY UPDATE answer = VALUES(answer), updated_at = CURRENT_TIMESTAMP`;
-        return await this.query(sql, [avatarId, pageId, answer]);
+        return await this.query(sql, [avatarId, questionKey, answer]);
     }
 
     static async getJourneyBookAnswers(avatarId) {
-        const sql = 'SELECT page_id, answer FROM avatar_journeybook_responses WHERE avatar_id = ?';
+        const sql = 'SELECT question_key, answer FROM avatar_journeybook_responses WHERE avatar_id = ?';
         const results = await this.query(sql, [avatarId]);
         const answers = {};
         results.forEach(row => {
-            answers[`page_${row.page_id}`] = row.answer;
+            answers[row.question_key] = row.answer;
         });
         return answers;
     }
@@ -239,7 +242,7 @@ class Database {
 
     static async getAvatarJourneyBook(avatarId) {
         const sql = `SELECT a.name, a.gender, a.tagline, a.image_url,
-                            jr.page_id, jr.answer
+                            jr.question_key, jr.answer
                      FROM avatars a 
                      LEFT JOIN avatar_journeybook_responses jr ON a.id = jr.avatar_id 
                      WHERE a.id = ? AND a.is_active = TRUE`;

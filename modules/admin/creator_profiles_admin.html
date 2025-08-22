@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Profiles Management</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #222;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #333;
+            border: 1px solid #2f27c8;
+            border-radius: 10px;
+        }
+
+        .search-box {
+            padding: 8px 15px;
+            background: #444;
+            border: 1px solid #2f27c8;
+            border-radius: 5px;
+            color: #fff;
+            width: 250px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            background: #444;
+            color: #fff;
+            border: 1px solid #2f27c8;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: #2f27c8;
+        }
+
+        .creators-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .creators-table th {
+            background: #2f27c8;
+            color: #fff;
+            padding: 12px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .creators-table td {
+            padding: 12px;
+            border-bottom: 1px solid #444;
+            font-size: 12px;
+        }
+
+        .creators-table tr:hover {
+            background: #444;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .status-pending { background: #ffaa00; color: #000; }
+        .status-approved { background: #00ff88; color: #000; }
+        .status-rejected { background: #ff4757; color: #fff; }
+        .status-suspended { background: #ff6b6b; color: #fff; }
+
+        .action-btn {
+            background: #2f27c8;
+            color: #fff;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 10px;
+            margin-right: 5px;
+        }
+
+        .action-btn.danger { background: #ff4757; }
+        .action-btn.warning { background: #ffaa00; }
+        .action-btn.success { background: #00ff88; color: #000; }
+
+        .zap-indicator {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .zap-safe { background: #00ff88; color: #000; }
+        .zap-warning { background: #ffaa00; color: #000; }
+        .zap-danger { background: #ff4757; color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Creator Profiles Management</h2>
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterProfiles('all')">All</button>
+            <button class="filter-btn" onclick="filterProfiles('pending')">Pending</button>
+            <button class="filter-btn" onclick="filterProfiles('approved')">Approved</button>
+            <button class="filter-btn" onclick="filterProfiles('suspended')">Suspended</button>
+            <button class="filter-btn" onclick="manualApprove()" style="background: #28a745;">Manual Approve Test</button>
+        </div>
+        <input type="text" class="search-box" placeholder="Search creators..." onkeyup="searchCreators(this.value)">
+    </div>
+
+    <table class="creators-table" id="creatorsTable">
+        <thead>
+            <tr>
+                <th>Creator</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Followers</th>
+                <th>Listings</th>
+                <th>Zap Status</th>
+                <th>KYC</th>
+                <th>Joined</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="creatorsTableBody">
+            <!-- Data will be loaded here -->
+        </tbody>
+    </table>
+
+    <script>
+        let allCreators = [];
+        let currentFilter = 'all';
+
+        async function loadCreatorProfiles() {
+            try {
+                console.log('Loading creator profiles...');
+                const response = await fetch('/api/creator-profiles');
+                const data = await response.json();
+                console.log('Creator profiles response:', data);
+                
+                if (data.success) {
+                    allCreators = data.profiles;
+                    console.log('Loaded creators:', allCreators);
+                    renderCreators(allCreators);
+                } else {
+                    console.error('Failed to load creator profiles:', data.error);
+                    renderSampleData();
+                }
+            } catch (error) {
+                console.error('Error loading creator profiles:', error);
+                renderSampleData();
+            }
+        }
+
+        function renderCreators(creators) {
+            const tbody = document.getElementById('creatorsTableBody');
+            tbody.innerHTML = '';
+
+            creators.forEach(creator => {
+                const zapStatus = getZapStatus(creator.zap_count || 0, creator.lives || 1000);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div style="display: flex; align-items: center;">
+                            <img src="${creator.profile_image || '/public/assets/icons/user_icon.png'}" 
+                                 style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
+                            <div>
+                                <div style="font-weight: bold;">${creator.creator_name || 'N/A'}</div>
+                                <div style="font-size: 10px; color: #ccc;">${creator.contact_email || 'N/A'}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${creator.role_name || 'N/A'}</td>
+                    <td><span class="status-badge status-${creator.approval_status}">${creator.approval_status}</span></td>
+                    <td>${(creator.follower_count || 0).toLocaleString()}</td>
+                    <td>${creator.listings_count || 0}</td>
+                    <td><span class="zap-indicator ${zapStatus.class}">${zapStatus.count}</span></td>
+                    <td>${creator.is_verified ? '✅' : '❌'}</td>
+                    <td>${new Date(creator.created_at).toLocaleDateString()}</td>
+                    <td>
+                        <button class="action-btn" onclick="viewCreator(${creator.id})">View</button>
+                        ${creator.approval_status === 'pending' ? 
+                            `<button class="action-btn success" onclick="approveCreator(${creator.id})">Approve</button>
+                             <button class="action-btn danger" onclick="rejectCreator(${creator.id})">Reject</button>` :
+                            creator.approval_status === 'approved' ?
+                            `<button class="action-btn" style="background: #17a2b8;" onclick="sendContractorForms(${creator.id}, '${creator.email}', '${creator.creator_name}')">Send Forms</button>
+                             <button class="action-btn warning" onclick="suspendCreator(${creator.id})">Suspend</button>` :
+                            `<button class="action-btn success" onclick="reactivateCreator(${creator.id})">Reactivate</button>`
+                        }
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function getZapStatus(zapCount, livesThreshold) {
+            const percentage = (zapCount / livesThreshold) * 100;
+            if (percentage < 50) return { class: 'zap-safe', count: zapCount };
+            if (percentage < 80) return { class: 'zap-warning', count: zapCount };
+            return { class: 'zap-danger', count: zapCount };
+        }
+
+        function filterProfiles(status) {
+            currentFilter = status;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const filtered = status === 'all' ? allCreators : 
+                           allCreators.filter(creator => creator.approval_status === status);
+            renderCreators(filtered);
+        }
+
+        function searchCreators(query) {
+            const filtered = allCreators.filter(creator => 
+                (creator.creator_name || '').toLowerCase().includes(query.toLowerCase()) ||
+                (creator.contact_email || '').toLowerCase().includes(query.toLowerCase()) ||
+                (creator.role_name || '').toLowerCase().includes(query.toLowerCase())
+            );
+            renderCreators(filtered);
+        }
+
+        function viewCreator(id) {
+            const creator = allCreators.find(c => c.id === id);
+            if (!creator) return;
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: flex; align-items: center; justify-content: center;';
+            
+            modal.innerHTML = `
+                <div style="background: var(--bg-secondary); padding: 30px; border-radius: 10px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; border: 2px solid var(--accent-color);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 style="color: var(--accent-color); margin: 0;">Creator Profile</h2>
+                        <span style="cursor: pointer; font-size: 24px; color: var(--text-secondary);" onclick="this.closest('.modal').remove()">&times;</span>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div>
+                            <strong>Name:</strong> ${creator.creator_name || 'N/A'}<br>
+                            <strong>Email:</strong> ${creator.contact_email || 'N/A'}<br>
+                            <strong>Role:</strong> ${creator.role_name || 'N/A'}<br>
+                            <strong>Status:</strong> <span class="status-badge status-${creator.approval_status}">${creator.approval_status}</span><br>
+                            <strong>Followers:</strong> ${(creator.follower_count || 0).toLocaleString()}<br>
+                            <strong>Location:</strong> ${creator.location || 'N/A'}
+                        </div>
+                        <div>
+                            <strong>Bio:</strong><br>
+                            <div style="background: var(--bg-primary); padding: 10px; border-radius: 5px; margin: 5px 0; max-height: 100px; overflow-y: auto;">
+                                ${creator.bio || 'No bio provided'}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <strong>Social Media Profiles:</strong><br>
+                        ${creator.instagram_url ? `<a href="${creator.instagram_url}" target="_blank" style="color: var(--accent-color); margin-right: 15px;">Instagram</a>` : ''}
+                        ${creator.facebook_url ? `<a href="${creator.facebook_url}" target="_blank" style="color: var(--accent-color); margin-right: 15px;">Facebook</a>` : ''}
+                        ${creator.linkedin_url ? `<a href="${creator.linkedin_url}" target="_blank" style="color: var(--accent-color); margin-right: 15px;">LinkedIn</a>` : ''}
+                        ${creator.tiktok_url ? `<a href="${creator.tiktok_url}" target="_blank" style="color: var(--accent-color); margin-right: 15px;">TikTok</a>` : ''}
+                        ${creator.x_url ? `<a href="${creator.x_url}" target="_blank" style="color: var(--accent-color); margin-right: 15px;">X (Twitter)</a>` : ''}
+                        ${!creator.instagram_url && !creator.facebook_url && !creator.linkedin_url && !creator.tiktok_url && !creator.x_url ? 'No social media profiles provided' : ''}
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; justify-content: center;">
+                        ${creator.approval_status === 'pending' ? 
+                            `<button class="action-btn success" onclick="approveCreatorFromModal(${creator.id})">Approve</button>
+                             <button class="action-btn danger" onclick="rejectCreatorFromModal(${creator.id})">Reject</button>` :
+                            creator.approval_status === 'approved' ?
+                            `<button class="action-btn" style="background: #17a2b8;" onclick="sendContractorForms(${creator.id}, '${creator.email}', '${creator.creator_name}')">Send Contractor Forms</button>` :
+                            ''
+                        }
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.classList.add('modal');
+        }
+
+        function approveCreator(id) {
+            if (confirm('Approve this creator profile?')) {
+                updateCreatorStatus(id, 'approved');
+            }
+        }
+
+        function rejectCreator(id) {
+            if (confirm('Reject this creator profile?')) {
+                updateCreatorStatus(id, 'rejected');
+            }
+        }
+
+        function suspendCreator(id) {
+            if (confirm('Suspend this creator?')) {
+                updateCreatorStatus(id, 'suspended');
+            }
+        }
+
+        function reactivateCreator(id) {
+            if (confirm('Reactivate this creator?')) {
+                updateCreatorStatus(id, 'approved');
+            }
+        }
+
+        async function updateCreatorStatus(id, status) {
+            try {
+                console.log('Updating creator status:', id, status);
+                const response = await fetch(`/api/creator-profiles/${id}/status`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status })
+                });
+                
+                const result = await response.json();
+                console.log('Update result:', result);
+                
+                if (result.success) {
+                    alert('Creator status updated successfully!');
+                    await loadCreatorProfiles();
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error updating creator status:', error);
+                alert('Connection error: ' + error.message);
+            }
+        }
+
+        async function sendContractorForms(creatorId, email, name) {
+            if (!confirm(`Send contractor forms to ${name} (${email})?`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/admin/send-contractor-link', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        creatorProfileId: creatorId,
+                        email: email
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(`Contractor forms link sent to ${email}!\n\nLink: ${result.formsLink}`);
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Error sending contractor forms:', error);
+                alert('Connection error. Please try again.');
+            }
+        }
+        
+        async function approveCreatorFromModal(id) {
+            if (confirm('Approve this creator profile?')) {
+                await updateCreatorStatus(id, 'approved');
+                document.querySelector('.modal').remove();
+            }
+        }
+        
+        async function rejectCreatorFromModal(id) {
+            if (confirm('Reject this creator profile?')) {
+                await updateCreatorStatus(id, 'rejected');
+                document.querySelector('.modal').remove();
+            }
+        }
+        
+        async function manualApprove() {
+            const email = prompt('Enter creator email to approve:');
+            if (!email) return;
+            
+            try {
+                // Find creator by email
+                const creator = allCreators.find(c => c.contact_email === email);
+                if (!creator) {
+                    alert('Creator not found with email: ' + email);
+                    return;
+                }
+                
+                console.log('Manual approval for creator:', creator);
+                await updateCreatorStatus(creator.id, 'approved');
+            } catch (error) {
+                console.error('Manual approval error:', error);
+                alert('Error: ' + error.message);
+            }
+        }
+
+        function renderSampleData() {
+            allCreators = [
+                {
+                    id: 1,
+                    creator_name: 'Astral Maiden',
+                    email: 'astral@ktg.test',
+                    role_name: 'Conqueror',
+                    approval_status: 'approved',
+                    follower_count: 15000,
+                    listings_count: 5,
+                    zap_count: 120,
+                    lives: 5000,
+                    is_verified: true,
+                    created_at: '2024-01-15'
+                },
+                {
+                    id: 2,
+                    creator_name: 'Cyber Shaman',
+                    email: 'cyber@ktg.test',
+                    role_name: 'Mage',
+                    approval_status: 'pending',
+                    follower_count: 75000,
+                    listings_count: 0,
+                    zap_count: 45,
+                    lives: 75000,
+                    is_verified: false,
+                    created_at: '2024-02-20'
+                }
+            ];
+            renderCreators(allCreators);
+        }
+
+        // Initialize
+        loadCreatorProfiles();
+    </script>
+</body>
+</html>

@@ -23,7 +23,8 @@
         "title": "promote",
         "login": "log in",
         "register": "register",
-        "makemoney": "make money"
+        "makemoney": "make money",
+        "creators": "creators"
       },
       "actions": {
         "title": "actions",
@@ -82,7 +83,87 @@
       "lifestyles": "lifestyles",
       "tv": "ktg.tv",
       "dao": "mem.dao",
-      "map": "map"
+      "map": "map",
+      "journeybooks": "journeybooks"
+    }
+  },
+  "metaphysics": {
+    "title": "Metaphysics",
+    "playing": "PLAYING: (Original Soundtrack) Astrology Loading",
+    "tarot": {
+      "title": "Alter's Tattoo Tarot - Draw 3 Cards",
+      "draw_cards": "Draw 3 Cards",
+      "card_meanings": "Card Meanings",
+      "ai_alquimist": "AI Alquimist",
+      "portals": "Portals"
+    }
+  },
+  "web3": {
+    "title": "KTG Web3",
+    "playing": "PLAYING",
+    "tokens": {
+      "title": "KGZ & KTG Tokens"
+    },
+    "buttons": {
+      "ktg_private": "KTG Private Buy (PayPal)",
+      "secure_checkout": "Secure Checkout",
+      "ktg_bscscan": "KTG on BSCSCAN",
+      "view_contract": "View Contract",
+      "kgz_uniswap": "KGZ on UNISWAP",
+      "trade_now": "Trade Now",
+      "kgz_poocoin": "KGZ on POOCOIN",
+      "live_chart": "Live Chart",
+      "kgz_bscscan": "KGZ on BSCSCAN"
+    },
+    "footer": {
+      "whitepaper": "WHITE PAPER",
+      "deck": "DECK",
+      "disclaimer": "DISCLAIMER"
+    },
+    "sidebar": {
+      "about": "about",
+      "influencers": "influencers",
+      "advertisers": "advertisers",
+      "investors": "investors",
+      "mystuff": "my stuff"
+    },
+    "submenus": {
+      "about": {
+        "title": "about",
+        "ktgio": "ktg.io"
+      },
+      "promote": {
+        "title": "promote",
+        "login": "log in",
+        "register": "register",
+        "map": "map"
+      },
+      "actions": {
+        "title": "actions",
+        "listings": "post to listings",
+        "vrworld": "lease vr world space",
+        "liveshow": "host a live show",
+        "enterprise": "enterprise portals",
+        "alliances": "strategic alliances"
+      },
+      "investors": {
+        "title": "investors",
+        "goout": "let's go out!",
+        "financials": "financials",
+        "playbook": "playbook",
+        "pitch": "pitch",
+        "masa": "masayoshi son"
+      },
+      "mystuff": {
+        "title": "my stuff",
+        "journeybook": "my journeybook",
+        "bucketlist": "my bucketlist",
+        "email": "email",
+        "calendar": "calendar",
+        "wallet": "wallet",
+        "config": "config",
+        "bail": "bail"
+      }
     }
   },
   "leftconsole": {
@@ -324,10 +405,18 @@
       "calendar": "Calendar",
       "wallet": "Wallet",
       "config": "Config",
-      "bail": "Bail"
+      "bail": "Bail",
+      "theGrid": "The Grid",
+      "safeLinks": "SAFE LINKS",
+      "door": "DOOR",
+      "values": "Values",
+      "compatibility": "Compatibility",
+      "intimacy": "Intimacy"
     }
   },
   "lifestyles": {
+    "title": "Lifestyles",
+    "playing": "PLAYING: (Original Soundtrack) Ideas",
     "listingsconsole": {
       "playing": "PLAYING: (Original Soundtrack) Ideas",
       "search": "Search",
@@ -365,6 +454,34 @@
       "wallet": "Wallet",
       "config": "Config",
       "bail": "Bail"
+    },
+    "creators": {
+      "title": "Creators Dashboard",
+      "roles": {
+        "nano": "Nano Influencer",
+        "micro": "Micro Influencer",
+        "mid_tier": "Mid-Tier Influencer",
+        "macro": "Macro Influencer",
+        "mega": "Mega Influencer",
+        "content_creator": "Content Creator",
+        "local_expert": "Local Expert",
+        "event_organizer": "Event Organizer",
+        "lifestyle_blogger": "Lifestyle Blogger",
+        "brand_ambassador": "Brand Ambassador",
+        "vip_creator": "VIP Creator"
+      },
+      "categories": {
+        "entertainment": "Entertainment",
+        "dining": "Dining & Food",
+        "adventure": "Adventure & Sports",
+        "culture": "Culture & Arts",
+        "nightlife": "Nightlife & Bars",
+        "wellness": "Wellness & Spa",
+        "education": "Education & Workshops",
+        "shopping": "Shopping & Retail",
+        "travel": "Travel & Tourism",
+        "social": "Social & Networking"
+      }
     }
   },
   "music": {
@@ -506,6 +623,52 @@
       "title": "AI Story Library"
     }
   },
+  "influencers": {
+    "title": "Influencers & Creators",
+    "hero": {
+      "title": "Monetize Your Influence",
+      "subtitle": "Join KTG's revolutionary platform and turn your social presence into sustainable income through AI-driven opportunities.",
+      "cta": "Start Earning Today"
+    },
+    "features": {
+      "title": "Why Choose KTG?",
+      "earnings": {
+        "title": "Multiple Revenue Streams",
+        "description": "Earn from followers, ad placements, event promotions, and exclusive partnerships with transparent tier-based payouts."
+      },
+      "growth": {
+        "title": "AI-Powered Growth",
+        "description": "Leverage our AI algorithms to optimize your content reach and maximize engagement across all platforms."
+      },
+      "targeting": {
+        "title": "Smart Targeting",
+        "description": "Connect with your ideal audience through advanced demographic and interest-based matching systems."
+      }
+    },
+    "calculator": {
+      "title": "Calculate Your Earnings",
+      "followers": "Followers",
+      "ads": "Ads & Events",
+      "level": "Level",
+      "tier": "Tier",
+      "monthly": "Monthly",
+      "annually": "Annually",
+      "followers": {
+        "note": "Enter your follower count ($3.99 avg sale)"
+      },
+      "ads": {
+        "note": "Enter number of ads/events ($25.00 minimum per post)"
+      }
+    },
+    "levels": {
+      "title": "Influencer Levels & Powers"
+    },
+    "cta": {
+      "title": "Ready to Transform Your Influence?",
+      "description": "Join thousands of creators already earning with KTG's revolutionary platform.",
+      "button": "Join KTG Now"
+    }
+  },
   "contact": {
     "title": "Contact Us",
     "subscribe": "Subscribe to our newsletter",
@@ -521,7 +684,9 @@
     "investors": "Investors",
     "mystuff": "My Stuff",
     "listings": "Listings",
-    "portal": "Portal"
+    "portal": "Portal",
+    "grid": "Grid",
+    "list": "List"
   },
   "music": {
     "playing": "PLAYING"
@@ -555,7 +720,17 @@
       "gold": "Gold",
       "green": "Green",
       "red": "Red",
-      "black": "Black"
+      "black": "Black",
+      "register": "REGISTER FOR A NEW GAME",
+      "avatar_name": "YOUR AVATAR NAME",
+      "challenge": "CHALLENGE",
+      "self": "SELF:",
+      "ai": "AI:",
+      "others": "OTHERS:",
+      "tagline": "TAGLINE: READY FOR WAR",
+      "terms": "TERMS OF SERVICE",
+      "privacy": "PRIVACY POLICY",
+      "rules": "RULES OF THE GAME"
     },
     "dignbling": {
       "title": "Dignbling",

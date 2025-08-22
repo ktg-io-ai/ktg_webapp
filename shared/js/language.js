@@ -36,6 +36,9 @@ class LanguageManager {
             console.log(`Loading language: ${langCode}`);
             const response = await fetch(`../../shared/languages/${langCode}.json`);
             console.log('Language file response:', response.status);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
             this.translations = await response.json();
             console.log('Translations loaded:', Object.keys(this.translations));
             this.currentLanguage = langCode;
@@ -44,8 +47,15 @@ class LanguageManager {
             this.notifyObservers(langCode);
         } catch (error) {
             console.error(`Failed to load language ${langCode}:`, error);
+            // Only fallback to English if we're not already trying English
             if (langCode !== 'en') {
+                console.log('Falling back to English');
                 this.loadLanguage('en');
+            } else {
+                console.error('Failed to load English language file - using empty translations');
+                this.translations = {};
+                this.currentLanguage = 'en';
+                localStorage.setItem('ktg-language', 'en');
             }
         }
     }
@@ -157,6 +167,20 @@ class LanguageManager {
             'ru': 'Русский',
             'ar': 'العربية'
         };
+    }
+
+    // Create language selector HTML
+    createLanguageSelector(selectId = 'languageSelect', onChangeFunction = 'changeLanguage') {
+        const languages = this.getSupportedLanguages();
+        let html = `<select id="${selectId}" onchange="${onChangeFunction}(this.value)">`;
+        
+        for (const [code, name] of Object.entries(languages)) {
+            const selected = code === this.currentLanguage ? 'selected' : '';
+            html += `<option value="${code}" ${selected}>${name}</option>`;
+        }
+        
+        html += '</select>';
+        return html;
     }
 }
 

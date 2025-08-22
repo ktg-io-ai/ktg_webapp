@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Independent Contractor Forms - KTG Platform</title>
+    <link rel="icon" type="image/png" href="../../../public/assets/icons/kgz_icon.png"/>
+    
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --success-color: #4CAF50;
+            --warning-color: #ff9800;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+        }
+
+        .form-section {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px solid var(--accent-color);
+        }
+
+        .form-section h2 {
+            color: var(--accent-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .signature-pad {
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            background: white;
+            margin: 20px 0;
+        }
+
+        .signature-controls {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .legal-text {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--accent-color);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .status-pending {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .status-completed {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Independent Contractor Onboarding</h1>
+            <p>Complete all required forms to begin your journey as a KTG Creator</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <p id="progressText">0% Complete</p>
+        </div>
+
+        <!-- Form 1: Independent Contractor Agreement -->
+        <div class="form-section" id="contractorAgreement">
+            <h2>1. Independent Contractor Agreement <span class="status-indicator status-pending" id="status1">Pending</span></h2>
+            
+            <div class="legal-text">
+                <h3>INDEPENDENT CONTRACTOR AGREEMENT</h3>
+                <p><strong>This Agreement</strong> is entered into between KTG Platform LLC ("Company") and the undersigned ("Contractor").</p>
+                
+                <h4>1. SERVICES</h4>
+                <p>Contractor agrees to provide content creation, marketing, and promotional services as an independent contractor.</p>
+                
+                <h4>2. COMPENSATION</h4>
+                <p>Contractor will receive commission-based compensation ranging from 15% to 25% based on performance level and role.</p>
+                
+                <h4>3. INDEPENDENT CONTRACTOR STATUS</h4>
+                <p>Contractor is an independent contractor, not an employee. Contractor is responsible for all taxes, insurance, and benefits.</p>
+                
+                <h4>4. INTELLECTUAL PROPERTY</h4>
+                <p>All content created remains property of the creator, with limited usage rights granted to Company for promotional purposes.</p>
+                
+                <h4>5. CONFIDENTIALITY</h4>
+                <p>Contractor agrees to maintain confidentiality of all proprietary information and trade secrets.</p>
+                
+                <h4>6. TERMINATION</h4>
+                <p>Either party may terminate this agreement with 30 days written notice.</p>
+            </div>
+
+            <form id="contractorForm">
+                <div class="form-group">
+                    <label for="fullName">Full Legal Name *</label>
+                    <input type="text" id="fullName" name="fullName" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="businessName">Business Name (if applicable)</label>
+                    <input type="text" id="businessName" name="businessName" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Full Address *</label>
+                    <textarea id="address" name="address" class="form-textarea" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="ssn">Social Security Number (Last 4 digits) *</label>
+                    <input type="text" id="ssn" name="ssn" class="form-input" maxlength="4" required>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                    <label for="agreeTerms">I have read and agree to the Independent Contractor Agreement terms</label>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="confirmIndependent" name="confirmIndependent" required>
+                    <label for="confirmIndependent">I understand I am an independent contractor, not an employee</label>
+                </div>
+
+                <h3>Electronic Signature</h3>
+                <canvas id="signaturePad1" class="signature-pad" width="600" height="200"></canvas>
+                <div class="signature-controls">
+                    <button type="button" class="btn btn-secondary" onclick="clearSignature('signaturePad1')">Clear</button>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit Contractor Agreement</button>
+            </form>
+        </div>
+
+        <!-- Form 2: W-9 Tax Form -->
+        <div class="form-section" id="w9Form">
+            <h2>2. W-9 Tax Information <span class="status-indicator status-pending" id="status2">Pending</span></h2>
+            
+            <form id="w9FormData">
+                <div class="form-group">
+                    <label for="taxName">Name (as shown on tax return) *</label>
+                    <input type="text" id="taxName" name="taxName" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="businessEntity">Business Entity Type *</label>
+                    <select id="businessEntity" name="businessEntity" class="form-select" required>
+                        <option value="">Select Entity Type</option>
+                        <option value="individual">Individual/Sole Proprietor</option>
+                        <option value="llc">LLC</option>
+                        <option value="corporation">Corporation</option>
+                        <option value="partnership">Partnership</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="taxId">Tax ID Number (SSN or EIN) *</label>
+                    <input type="text" id="taxId" name="taxId" class="form-input" required>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="certifyW9" name="certifyW9" required>
+                    <label for="certifyW9">I certify that the information provided is accurate and complete</label>
+                </div>
+
+                <h3>Electronic Signature</h3>
+                <canvas id="signaturePad2" class="signature-pad" width="600" height="200"></canvas>
+                <div class="signature-controls">
+                    <button type="button" class="btn btn-secondary" onclick="clearSignature('signaturePad2')">Clear</button>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit W-9 Information</button>
+            </form>
+        </div>
+
+        <!-- Form 3: Payment Setup -->
+        <div class="form-section" id="paymentSetup">
+            <h2>3. Payment Information <span class="status-indicator status-pending" id="status3">Pending</span></h2>
+            
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="paymentMethod">Preferred Payment Method *</label>
+                    <select id="paymentMethod" name="paymentMethod" class="form-select" required onchange="togglePaymentFields()">
+                        <option value="">Select Payment Method</option>
+                        <option value="direct_deposit">Direct Deposit</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="check">Check</option>
+                    </select>
+                </div>
+
+                <div id="directDepositFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="bankName">Bank Name *</label>
+                        <input type="text" id="bankName" name="bankName" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="routingNumber">Routing Number *</label>
+                        <input type="text" id="routingNumber" name="routingNumber" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accountNumber">Account Number *</label>
+                        <input type="text" id="accountNumber" name="accountNumber" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accountType">Account Type *</label>
+                        <select id="accountType" name="accountType" class="form-select">
+                            <option value="checking">Checking</option>
+                            <option value="savings">Savings</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="paypalFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="paypalEmail">PayPal Email *</label>
+                        <input type="email" id="paypalEmail" name="paypalEmail" class="form-input">
+                    </div>
+                </div>
+
+                <div id="checkFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="mailingAddress">Mailing Address *</label>
+                        <textarea id="mailingAddress" name="mailingAddress" class="form-textarea"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit Payment Information</button>
+            </form>
+        </div>
+
+        <!-- Form 4: NDA -->
+        <div class="form-section" id="ndaForm">
+            <h2>4. Non-Disclosure Agreement <span class="status-indicator status-pending" id="status4">Pending</span></h2>
+            
+            <div class="legal-text">
+                <h3>NON-DISCLOSURE AGREEMENT</h3>
+                <p>This Non-Disclosure Agreement protects confidential information shared between KTG Platform and Contractor.</p>
+                
+                <h4>CONFIDENTIAL INFORMATION</h4>
+                <p>Includes but not limited to: business strategies, user data, financial information, marketing plans, and proprietary technology.</p>
+                
+                <h4>OBLIGATIONS</h4>
+                <p>Contractor agrees to maintain strict confidentiality and not disclose any confidential information to third parties.</p>
+                
+                <h4>DURATION</h4>
+                <p>This agreement remains in effect for 5 years from the date of signing.</p>
+            </div>
+
+            <form id="ndaFormData">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="agreeNDA" name="agreeNDA" required>
+                    <label for="agreeNDA">I agree to the terms of the Non-Disclosure Agreement</label>
+                </div>
+
+                <h3>Electronic Signature</h3>
+                <canvas id="signaturePad3" class="signature-pad" width="600" height="200"></canvas>
+                <div class="signature-controls">
+                    <button type="button" class="btn btn-secondary" onclick="clearSignature('signaturePad3')">Clear</button>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit NDA</button>
+            </form>
+        </div>
+
+        <div class="form-section">
+            <h2>Completion Status</h2>
+            <p>Once all forms are completed and submitted, your contractor status will be updated and you'll receive confirmation via email.</p>
+            <button class="btn btn-success" id="finalSubmit" style="display: none;" onclick="finalizeOnboarding()">Complete Onboarding</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+    <script>
+        // Initialize signature pads
+        const signaturePads = {};
+        ['signaturePad1', 'signaturePad2', 'signaturePad3'].forEach(id => {
+            const canvas = document.getElementById(id);
+            signaturePads[id] = new SignaturePad(canvas);
+        });
+
+        function clearSignature(padId) {
+            signaturePads[padId].clear();
+        }
+
+        function togglePaymentFields() {
+            const method = document.getElementById('paymentMethod').value;
+            document.getElementById('directDepositFields').style.display = method === 'direct_deposit' ? 'block' : 'none';
+            document.getElementById('paypalFields').style.display = method === 'paypal' ? 'block' : 'none';
+            document.getElementById('checkFields').style.display = method === 'check' ? 'block' : 'none';
+        }
+
+        let completedForms = 0;
+
+        function updateProgress() {
+            const progress = (completedForms / 4) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = Math.round(progress) + '% Complete';
+            
+            if (completedForms === 4) {
+                document.getElementById('finalSubmit').style.display = 'block';
+            }
+        }
+
+        // Form submission handlers
+        document.getElementById('contractorForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (signaturePads['signaturePad1'].isEmpty()) {
+                alert('Please provide your signature');
+                return;
+            }
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            data.signature = signaturePads['signaturePad1'].toDataURL();
+            
+            await submitForm('independent_contractor', data, 'status1');
+        });
+
+        document.getElementById('w9FormData').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (signaturePads['signaturePad2'].isEmpty()) {
+                alert('Please provide your signature');
+                return;
+            }
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            data.signature = signaturePads['signaturePad2'].toDataURL();
+            
+            await submitForm('w9', data, 'status2');
+        });
+
+        document.getElementById('paymentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            await submitForm('direct_deposit', data, 'status3');
+        });
+
+        document.getElementById('ndaFormData').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (signaturePads['signaturePad3'].isEmpty()) {
+                alert('Please provide your signature');
+                return;
+            }
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            data.signature = signaturePads['signaturePad3'].toDataURL();
+            
+            await submitForm('nda', data, 'status4');
+        });
+
+        async function submitForm(type, data, statusId) {
+            try {
+                const response = await fetch('/api/contractor-forms', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        agreementType: type,
+                        formData: data
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById(statusId).textContent = 'Completed';
+                    document.getElementById(statusId).className = 'status-indicator status-completed';
+                    completedForms++;
+                    updateProgress();
+                    alert('Form submitted successfully!');
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('Connection error. Please try again.');
+            }
+        }
+
+        async function finalizeOnboarding() {
+            try {
+                const response = await fetch('/api/contractor-finalize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('Onboarding completed successfully! You will receive confirmation via email.');
+                    window.location.href = '../login_creators.html';
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Finalization error:', error);
+                alert('Connection error. Please try again.');
+            }
+        }
+
+        // Load existing form data on page load
+        window.addEventListener('load', async function() {
+            try {
+                const response = await fetch('/api/contractor-status');
+                const result = await response.json();
+                
+                if (result.success && result.forms) {
+                    result.forms.forEach(form => {
+                        if (form.status === 'completed') {
+                            const statusMap = {
+                                'independent_contractor': 'status1',
+                                'w9': 'status2',
+                                'direct_deposit': 'status3',
+                                'nda': 'status4'
+                            };
+                            
+                            const statusId = statusMap[form.agreement_type];
+                            if (statusId) {
+                                document.getElementById(statusId).textContent = 'Completed';
+                                document.getElementById(statusId).className = 'status-indicator status-completed';
+                                completedForms++;
+                            }
+                        }
+                    });
+                    updateProgress();
+                }
+            } catch (error) {
+                console.error('Error loading form status:', error);
+            }
+        });
+    </script>
+</body>
+</html>

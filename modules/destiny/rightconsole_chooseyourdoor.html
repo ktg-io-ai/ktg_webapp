@@ -72,13 +72,12 @@
             object-fit: cover;
         }
 
-        /* Theme-specific video display */
-        [data-theme="light"] #my-video,
-        [data-theme="dark"] #my-video {
-            display: none;
+        /* Video displays in all themes */
+        #my-video {
+            display: block;
         }
 
-        /* Placeholder for light/dark themes */
+        /* Placeholder hidden by default */
         .video-placeholder {
             display: none;
             width: 100%;
@@ -88,11 +87,6 @@
             justify-content: center;
             font-size: 24px;
             color: var(--text-primary);
-        }
-
-        [data-theme="light"] .video-placeholder,
-        [data-theme="dark"] .video-placeholder {
-            display: flex;
         }
 
         /* Submenu Styles */

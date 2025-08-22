@@ -174,7 +174,7 @@
                 <tbody>
                     <tr>
                         <td data-translate="games.4playchess.next">Next</td>
-                        <td id="next-player-value" data-translate="games.4playchess.gold">Gold</td>
+                        <td id="next-player-value">Gold</td>
                     </tr>
                     <tr>
                         <td data-translate="games.4playchess.gold">Gold</td>
@@ -409,7 +409,16 @@ function highlightMoves(moves) {
 
 // --- New function to update the scoreboard ---
 function updateScoreboard() {
-    document.getElementById('next-player-value').textContent = currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1);
+    // Update next player - get translated text directly
+    const nextPlayerElement = document.getElementById('next-player-value');
+    if (typeof langManager !== 'undefined' && langManager.getTranslation) {
+        const translatedPlayer = langManager.getTranslation(`games.4playchess.${currentPlayer}`);
+        nextPlayerElement.textContent = translatedPlayer || currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1);
+    } else {
+        nextPlayerElement.textContent = currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1);
+    }
+    
+    // Update scores (numbers don't need translation)
     document.getElementById('score-gold').textContent = scores.gold;
     document.getElementById('score-green').textContent = scores.green;
     document.getElementById('score-red').textContent = scores.red;
@@ -476,9 +485,17 @@ renderBoard();
         document.documentElement.setAttribute('data-theme', savedTheme);
         
         // Initialize language system
-        langManager.init().then(() => {
-            console.log('Language system initialized in 4PlayChess left console');
-        });
+        if (typeof langManager !== 'undefined') {
+            langManager.init().then(() => {
+                console.log('Language system initialized in 4PlayChess left console');
+                // Initial scoreboard update with translations
+                updateScoreboard();
+            }).catch(error => {
+                console.error('Language initialization failed:', error);
+            });
+        } else {
+            console.warn('langManager not available in left console');
+        }
     </script>
 </body>
 </html>

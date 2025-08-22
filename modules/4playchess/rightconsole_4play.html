@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RIGHT FRAME</title>
+    <script src="../../shared/js/language.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -233,37 +234,37 @@
 
 	  <div class="content-area">
         <div class="main-content">
-           <h2>REGISTER FOR A NEW GAME</h2>   
+           <h2 data-translate="games.4playchess.register">REGISTER FOR A NEW GAME</h2>   
            
     
  
 
            
            <form>
-           <input type="avatarname" class="form-input" placeholder="YOUR AVATAR NAME" required>
+           <input type="avatarname" class="form-input" data-translate-placeholder="games.4playchess.avatar_name" placeholder="YOUR AVATAR NAME" required>
 		   
-           <h2>CHALLENGE</h2>
+           <h2 data-translate="games.4playchess.challenge">CHALLENGE</h2>
            <div class="checkout">
             <div style="margin-bottom: 5px; padding-top: 5px;">
-                <label for="option1">SELF:</label>
+                <label for="option1" data-translate="games.4playchess.self">SELF:</label>
                 <input type="checkbox" id="option1" name="option1">
                 
             </div>
     
             <div style="margin-bottom: 5px; padding-top: 5px;">
-                <label for="option2">AI:</label>
+                <label for="option2" data-translate="games.4playchess.ai">AI:</label>
                 <input type="checkbox" id="option2" name="option2">
                 
             </div>
     
             <div style="margin-bottom: 5px; padding-top: 5px;">
-                <label for="option3">OTHERS:</label>
+                <label for="option3" data-translate="games.4playchess.others">OTHERS:</label>
                 <input type="checkbox" id="option3" name="option3">
                 
             </div>
         </div>
-            <input type="tagline" class="form-input" placeholder="TAGLINE: READY FOR WAR" required>
-            <button type="submit" class="form-button">NEXT</button>
+            <input type="tagline" class="form-input" data-translate-placeholder="games.4playchess.tagline" placeholder="TAGLINE: READY FOR WAR" required>
+            <button type="submit" class="form-button" data-translate="games.4playchess.next">NEXT</button>
         </form>
     
            
@@ -271,9 +272,9 @@
     </div>
 	
 	<div class="footer">
-		<a href="#">TERMS OF SERVICE</a>
-		<a href="#">PRIVACY POLICY</a>
-		<a href="#">RULES OF THE GAME</a>
+		<a href="#" data-translate="games.4playchess.terms">TERMS OF SERVICE</a>
+		<a href="#" data-translate="games.4playchess.privacy">PRIVACY POLICY</a>
+		<a href="#" data-translate="games.4playchess.rules">RULES OF THE GAME</a>
 	</div>
     <script>
 	       function openPortalSubmenu() {
@@ -333,6 +334,29 @@
     </script>
     <script>
         window.addEventListener('load', () => {
+            // Initialize language system
+            if (typeof langManager !== 'undefined') {
+                langManager.init().then(() => {
+                    langManager.updateUI();
+                }).catch(error => {
+                    console.error('Language initialization failed:', error);
+                    // Fallback: show default text
+                    document.querySelectorAll('[data-translate]').forEach(el => {
+                        if (!el.textContent.trim()) {
+                            el.textContent = el.getAttribute('data-translate');
+                        }
+                    });
+                });
+            } else {
+                console.warn('langManager not available');
+                // Fallback: show default text
+                document.querySelectorAll('[data-translate]').forEach(el => {
+                    if (!el.textContent.trim()) {
+                        el.textContent = el.getAttribute('data-translate');
+                    }
+                });
+            }
+            
             const slideInLeftElements = document.querySelectorAll('.slide-in-left');
             slideInLeftElements.forEach(el => el.classList.add('active'));
 

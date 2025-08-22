@@ -319,36 +319,8 @@
             -ms-overflow-style: none;
         }
 
-        /* Google Sign-In */
-        .google-signin {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2000;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 30px;
-            border-radius: 20px;
-            border: 2px solid var(--accent-color);
-            text-align: center;
-            display: none;
-        }
-
-        .google-signin h3 {
-            color: var(--text-primary);
-            margin-bottom: 20px;
-        }
-
-        .google-signin .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 20px;
-            cursor: pointer;
-        }
+        
+        
         
         .avatar-form {
             max-width: 400px;
@@ -488,33 +460,33 @@
         <!-- Main Content -->
     <div class="main-content">
         <div class="avatar-form">
-        <h2 data-lang="destiny.newavatar.register_title">REGISTER NEW AVATAR</h2>
+        <h2 data-translate="destiny.newavatar.register_title">REGISTER NEW AVATAR</h2>
         
 
         
         <form id="avatarForm">
             <div class="form-group">
-                <label for="avatarName" data-lang="destiny.newavatar.avatar_name_placeholder">YOUR AVATAR NAME</label>
+                <label for="avatarName" data-translate="destiny.newavatar.avatar_name_placeholder">YOUR AVATAR NAME</label>
                 <input type="text" id="avatarName" name="avatarName" required maxlength="30">
             </div>
             
             <div class="form-group">
-                <label data-lang="destiny.newavatar.gender_title">CHARACTER GENDER</label>
+                <label data-translate="destiny.newavatar.gender_title">CHARACTER GENDER</label>
                 <div class="gender-selection">
                     <div class="gender-option" data-gender="male" onclick="selectGender('male')">
-                        <strong data-lang="destiny.newavatar.male">MALE</strong>
+                        <strong data-translate="destiny.newavatar.male">MALE</strong>
                     </div>
                     <div class="gender-option" data-gender="female" onclick="selectGender('female')">
-                        <strong data-lang="destiny.newavatar.female">FEMALE</strong>
+                        <strong data-translate="destiny.newavatar.female">FEMALE</strong>
                     </div>
                     <div class="gender-option" data-gender="other" onclick="selectGender('other')">
-                        <strong data-lang="destiny.newavatar.other">OTHER</strong>
+                        <strong data-translate="destiny.newavatar.other">OTHER</strong>
                     </div>
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="tagline" data-lang="destiny.newavatar.tagline_placeholder">TAGLINE: A SEEKS B</label>
+                <label for="tagline" data-translate="destiny.newavatar.tagline_placeholder">TAGLINE: A SEEKS B</label>
                 <input type="text" id="tagline" name="tagline" required maxlength="100" placeholder="e.g., Adventurer seeks fellow explorer">
             </div>
             
@@ -526,7 +498,7 @@
                 <p>• Your avatar represents your classified ad post in Destiny</p>
             </div>
             
-            <button type="submit" class="submit-btn" data-lang="destiny.newavatar.next">CREATE AVATAR</button>
+            <button type="submit" class="submit-btn" data-translate="destiny.newavatar.next">CREATE AVATAR</button>
             
             <div id="message" class="error-message" style="display: none;"></div>
         </form>
@@ -540,41 +512,24 @@
             <div id="portal-submenu" class="submenu">
                 <h2 data-translate="portal.title">Portals <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>
                 <div class="portal-grid">
-                    <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/portal_icon.png" data-light="../../public/assets/icons/portal_icon-blk.png" data-dark="../../public/assets/icons/portal_icon-wht.png" src="../../public/assets/icons/portal_icon.png" alt="portals"><span data-lang="dashboard.portals.title">PORTALS</span></a>
-                    <a href="../destiny/opening.html" target="_parent" class="portal-button"><img class="destiny-icon" src="../../public/assets/icons/fave_icon.png" alt="destiny"><span data-lang="dashboard.portals.destiny">DESTINY</span></a>
-                    <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img class="listings-icon" src="../../public/assets/icons/listing_icon.png" alt="listings"><span data-lang="dashboard.portals.listings">LISTINGS</span></a>
-                    <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img class="ktgai-icon" src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span data-lang="dashboard.portals.ai">KTG.AI</span></a>
-                    <a href="../music/ktgmusic.html" target="_parent" class="portal-button"><img class="music-icon" src="../../public/assets/icons/qr_icon.png" alt="ktgmusic"><span data-lang="dashboard.portals.music">KTG.MUSIC</span></a>
-                    <a href="../web3/dashboard_web3.html" target="_parent" class="portal-button"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span data-lang="dashboard.portals.web3">WEB3</span></a>
-                    <a href="../vr/ktgxr.html" target="_parent" class="portal-button"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR"><span data-lang="dashboard.portals.vr">VR/AR/XR</span></a>
-                    <a href="../dignbling/dashboard_dign_bling.html" target="_parent" class="portal-button"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span data-lang="dashboard.portals.dignbling">DIGN BLING</span></a>
-                    <a href="../4playchess/4playchess.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/chess_icon.png" data-light="../../public/assets/icons/chess_icon-blk.png" data-dark="../../public/assets/icons/chess_icon-wht.png" src="../../public/assets/icons/chess_icon.png" alt="chess"><span data-lang="dashboard.portals.chess">4 PLAY CHESS</span></a>
-                    <a href="../metaphysics/dashboard_tarot.html" target="_parent" class="portal-button"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span data-lang="dashboard.portals.metaphysics">METAPHYSICS</span></a>
-                    <a href="../map/map.html" target="_parent" class="portal-button"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map"><span data-lang="dashboard.portals.map">MAP</span></a>
+                    <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/portal_icon.png" data-light="../../public/assets/icons/portal_icon-blk.png" data-dark="../../public/assets/icons/portal_icon-wht.png" src="../../public/assets/icons/portal_icon.png" alt="portals"><span data-translate="dashboard.portals.title">PORTALS</span></a>
+                    <a href="../destiny/opening.html" target="_parent" class="portal-button"><img class="destiny-icon" src="../../public/assets/icons/fave_icon.png" alt="destiny"><span data-translate="dashboard.portals.destiny">DESTINY</span></a>
+                    <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img class="listings-icon" src="../../public/assets/icons/listing_icon.png" alt="listings"><span data-translate="dashboard.portals.listings">LISTINGS</span></a>
+                    <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img class="ktgai-icon" src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span data-translate="dashboard.portals.ai">KTG.AI</span></a>
+                    <a href="../music/ktgmusic.html" target="_parent" class="portal-button"><img class="music-icon" src="../../public/assets/icons/qr_icon.png" alt="ktgmusic"><span data-translate="dashboard.portals.music">KTG.MUSIC</span></a>
+                    <a href="../web3/dashboard_web3.html" target="_parent" class="portal-button"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span data-translate="dashboard.portals.web3">WEB3</span></a>
+                    <a href="../vr/ktgxr.html" target="_parent" class="portal-button"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR"><span data-translate="dashboard.portals.vr">VR/AR/XR</span></a>
+                    <a href="../dignbling/dashboard_dign_bling.html" target="_parent" class="portal-button"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span data-translate="dashboard.portals.dignbling">DIGN BLING</span></a>
+                    <a href="../4playchess/4playchess.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/chess_icon.png" data-light="../../public/assets/icons/chess_icon-blk.png" data-dark="../../public/assets/icons/chess_icon-wht.png" src="../../public/assets/icons/chess_icon.png" alt="chess"><span data-translate="dashboard.portals.chess">4 PLAY CHESS</span></a>
+                    <a href="../metaphysics/dashboard_tarot.html" target="_parent" class="portal-button"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span data-translate="dashboard.portals.metaphysics">METAPHYSICS</span></a>
+                    <a href="../map/map.html" target="_parent" class="portal-button"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map"><span data-translate="dashboard.portals.map">MAP</span></a>
                 </div>
             </div>
             
         </div>
     </div>
 
-    <!-- Google Sign-In Modal -->
-    <div id="googleSignInModal" class="google-signin">
-        <button class="close-btn" onclick="closeGoogleSignIn()">&times;</button>
-        <h3>Sign in with Google</h3>
-        <div id="g_id_onload"
-             data-client_id="416239278754-YOUR_OAUTH_CLIENT_ID.apps.googleusercontent.com"
-             data-callback="handleGoogleSignIn"
-             data-auto_prompt="false">
-        </div>
-        <div class="g_id_signin"
-             data-type="standard"
-             data-size="large"
-             data-theme="outline"
-             data-text="signin_with"
-             data-shape="rectangular"
-             data-logo_alignment="left">
-        </div>
-    </div>
+    
 
     <script>
         function openSubmenu(submenu) {
@@ -805,8 +760,8 @@
                     langManager.updateUI();
                 } else {
                     // Fallback: show actual text instead of placeholders
-                    document.querySelector('[data-lang="destiny.login.title"]').textContent = 'Karma the Game of Destiny';
-                    document.querySelector('[data-lang="destiny.login.nowPlaying"]').textContent = 'PLAYING: (Original Soundtrack) Game Console Loading';
+                    document.querySelector('[data-translate="destiny.login.title"]').textContent = 'Karma the Game of Destiny';
+                    document.querySelector('[data-translate="destiny.login.nowPlaying"]').textContent = 'PLAYING: (Original Soundtrack) Game Console Loading';
                 }
             }, 100);
 

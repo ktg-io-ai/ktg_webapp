@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="ai.leftconsole.title">AI Story Player</title>
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            background-color: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: rgba(47, 39, 200, 0.8);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background-color: rgba(47, 39, 200, 1);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .play-button::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 4px;
+        }
+
+        #videoPlayer {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+            display: none;
+            border-radius: 10px;
+        }
+
+        .video-info {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .video-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .video-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .safe-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .safe-link {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .safe-link:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .default-message {
+            text-align: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin: 40px 0;
+        }
+    </style>
+    <script src="../../shared/js/language.js"></script>
+</head>
+<body>
+    <div class="video-container">
+        <img id="videoThumbnail" class="video-thumbnail" src="../../public/assets/ktgai/guru_lucy_012.png" alt="Video Thumbnail">
+        <button class="play-button" id="playButton" onclick="playVideo()"></button>
+        <video id="videoPlayer" controls>
+            <source id="videoSource" type="video/mp4">
+        </video>
+    </div>
+    
+    <div class="video-info">
+        <div class="video-title" id="videoTitle">Select a Video</div>
+        <div class="video-description" id="videoDescription">Select a video from the right panel to begin watching.</div>
+        <div class="safe-links" id="safeLinks">
+            <!-- Safe links will be populated here -->
+        </div>
+    </div>
+
+    <div class="default-message" id="defaultMessage">
+        Click on a video thumbnail from the right panel to start watching AI stories.
+    </div>
+
+    <script>
+        let currentVideo = null;
+        let isVideoPlaying = false;
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+        }
+
+        function playVideo() {
+            if (!currentVideo) return;
+
+            const video = document.getElementById('videoPlayer');
+            const thumbnail = document.getElementById('videoThumbnail');
+            const playButton = document.getElementById('playButton');
+
+            if (!isVideoPlaying) {
+                thumbnail.style.display = 'none';
+                playButton.style.display = 'none';
+                video.style.display = 'block';
+                video.play();
+                isVideoPlaying = true;
+            }
+        }
+
+        function updateVideo(video) {
+            console.log('updateVideo called with:', video);
+            if (!video) return;
+            
+            currentVideo = video;
+
+            const videoPlayer = document.getElementById('videoPlayer');
+            const videoSource = document.getElementById('videoSource');
+            const thumbnail = document.getElementById('videoThumbnail');
+            const playButton = document.getElementById('playButton');
+            const defaultMessage = document.getElementById('defaultMessage');
+
+            // Hide default message
+            if (defaultMessage) {
+                defaultMessage.style.display = 'none';
+            }
+
+            // Reset to thumbnail view
+            if (videoPlayer) videoPlayer.style.display = 'none';
+            if (thumbnail) thumbnail.style.display = 'block';
+            if (playButton) playButton.style.display = 'flex';
+            isVideoPlaying = false;
+
+            // Update video source
+            if (videoSource && video.mp4) {
+                videoSource.src = video.mp4;
+                videoPlayer.load();
+            }
+
+            // Update thumbnail
+            if (thumbnail && video.cover) {
+                thumbnail.src = video.cover;
+                thumbnail.alt = video.title;
+            }
+
+            // Update video info
+            const titleElement = document.getElementById('videoTitle');
+            if (titleElement) {
+                titleElement.textContent = video.title || 'Unknown Title';
+            }
+
+            const descriptionElement = document.getElementById('videoDescription');
+            if (descriptionElement) {
+                descriptionElement.textContent = video.description || 'No description available.';
+            }
+
+            // Update safe links
+            const safeLinksContainer = document.getElementById('safeLinks');
+            if (safeLinksContainer) {
+                safeLinksContainer.innerHTML = '';
+                if (video.safeLinks && video.safeLinks.length > 0) {
+                    video.safeLinks.forEach(link => {
+                        const linkElement = document.createElement('a');
+                        linkElement.href = link.url;
+                        linkElement.textContent = link.text;
+                        linkElement.className = 'safe-link';
+                        linkElement.target = '_blank';
+                        linkElement.rel = 'noopener';
+                        safeLinksContainer.appendChild(linkElement);
+                    });
+                }
+            }
+        }
+
+        // Listen for messages from parent
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'updateVideo') {
+                updateVideo(event.data.video);
+            }
+        });
+
+        // Make updateVideo globally accessible
+        window.updateVideo = updateVideo;
+
+        // Handle video ended event
+        document.getElementById('videoPlayer').addEventListener('ended', function() {
+            const video = document.getElementById('videoPlayer');
+            const thumbnail = document.getElementById('videoThumbnail');
+            const playButton = document.getElementById('playButton');
+
+            // Return to thumbnail view
+            video.style.display = 'none';
+            thumbnail.style.display = 'block';
+            playButton.style.display = 'flex';
+            isVideoPlaying = false;
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            
+            if (typeof langManager !== 'undefined') {
+                const savedLanguage = localStorage.getItem('ktg-language') || 'en';
+                langManager.setLanguage(savedLanguage);
+                langManager.updateUI();
+            }
+        });
+    </script>
+</body>
+</html>

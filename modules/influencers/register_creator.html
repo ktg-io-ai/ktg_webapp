@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Registration - KTG Platform</title>
+    <link rel="icon" type="image/png" href="../../public/assets/icons/kgz_icon.png"/>
+    
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-bar {
+            background-color: #111;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 33px;
+            z-index: 999;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+        }
+
+        .top-bar h1 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-primary);
+            flex-grow: 1;
+        }
+
+        .portal-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .portal-button img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .submenu-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .submenu {
+            position: absolute;
+            top: 50px;
+            right: 33px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-color);
+            border-radius: 10px;
+            padding: 20px;
+            min-width: 300px;
+            display: none;
+            pointer-events: auto;
+        }
+
+        .submenu h2 {
+            margin: 0 0 15px 0;
+            color: var(--text-primary);
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-button {
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--text-secondary);
+        }
+
+        .close-button:hover {
+            color: var(--accent-color);
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .portal-grid .portal-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 10px;
+            background: var(--bg-primary);
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .portal-grid .portal-button:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .portal-grid .portal-button img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 8px;
+        }
+
+        .portal-grid .portal-button span {
+            font-size: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .second-bar {
+            background-color: var(--bg-secondary);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 33px;
+            z-index: 998;
+            width: 100%;
+            position: fixed;
+            top: 50px;
+            left: 0;
+            box-sizing: border-box;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-top: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 100px);
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--accent-color);
+            border-radius: 10px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .submit-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        [data-theme="light"] .bg-video,
+        [data-theme="dark"] .bg-video {
+            display: none;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+        }
+
+        .info-box {
+            background: rgba(47, 39, 200, 0.1);
+            border: 1px solid var(--accent-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-box h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+
+        .info-box ul {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .error-message {
+            color: #ff4444;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .success-message {
+            color: #44ff44;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .back-link {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-link:hover {
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <video class="bg-video" autoplay muted playsinline>
+        <source src="../../public/assets/videos/reg_creator.mp4" type="video/mp4">
+    </video>
+
+    <div class="container">
+        <div class="top-bar fade-in">
+            <h1>Creator Registration - KTG Platform</h1>
+            <button class="portal-button" onclick="openSubmenu('portal')">
+                <img class="theme-icon" data-ktg="../../public/assets/icons/portal_icon.png" data-light="../../public/assets/icons/portal_icon-blk.png" data-dark="../../public/assets/icons/portal_icon-wht.png" src="../../public/assets/icons/portal_icon.png" alt="portals">
+            </button>
+        </div>
+        
+        <div class="second-bar fade-in">
+            <div></div>
+        </div>
+
+        <div class="main-content">
+            <div class="register-container fade-in">
+                <h2 style="text-align: center; margin-bottom: 20px;">REGISTER AS CREATOR</h2>
+                
+                <div class="info-box">
+                    <h3>About Creator Accounts</h3>
+                    <p>As a KTG Creator, you can:</p>
+                    <ul>
+                        <li>Post lifestyle listings and experiences</li>
+                        <li>Earn commission from bookings (15-25% based on level)</li>
+                        <li>Build your audience and influence</li>
+                        <li>Access exclusive creator tools and analytics</li>
+                        <li>Participate in KTG events and strategy meetings</li>
+                    </ul>
+                </div>
+                
+                <form id="creatorForm">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password *</label>
+                        <input type="password" id="password" name="password" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password *</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="creatorName">Creator Name *</label>
+                        <input type="text" id="creatorName" name="creatorName" class="form-input" placeholder="Your public creator name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="creatorTagline">Creator Tagline</label>
+                        <input type="text" id="creatorTagline" name="creatorTagline" class="form-input" placeholder="Brief description of what you create">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bio">Bio</label>
+                        <textarea id="bio" name="bio" class="form-textarea" placeholder="Tell us about yourself and your content..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="followerCount">Current Follower Count</label>
+                        <input type="number" id="followerCount" name="followerCount" class="form-input" placeholder="0" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" class="form-input" placeholder="City, State/Country">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contactEmail">Contact Email (if different)</label>
+                        <input type="email" id="contactEmail" name="contactEmail" class="form-input" placeholder="Business contact email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="instagramUrl">Instagram Profile</label>
+                        <input type="url" id="instagramUrl" name="instagramUrl" class="form-input" placeholder="https://instagram.com/username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="facebookUrl">Facebook Profile</label>
+                        <input type="url" id="facebookUrl" name="facebookUrl" class="form-input" placeholder="https://facebook.com/username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="linkedinUrl">LinkedIn Profile</label>
+                        <input type="url" id="linkedinUrl" name="linkedinUrl" class="form-input" placeholder="https://linkedin.com/in/username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tiktokUrl">TikTok Profile</label>
+                        <input type="url" id="tiktokUrl" name="tiktokUrl" class="form-input" placeholder="https://tiktok.com/@username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="xUrl">X (Twitter) Profile</label>
+                        <input type="url" id="xUrl" name="xUrl" class="form-input" placeholder="https://x.com/username">
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">REGISTER CREATOR ACCOUNT</button>
+                    
+                    <div id="message" class="error-message" style="display: none;"></div>
+                </form>
+                
+                <a href="login_creators.html" class="back-link">← Already have an account? Login here</a>
+            </div>
+        </div>
+
+        <div id="submenu-container" class="submenu-container">
+            <div id="portal-submenu" class="submenu">
+                <h2>Portals <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>
+                <div class="portal-grid">
+                    <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/portal_icon.png" data-light="../../public/assets/icons/portal_icon-blk.png" data-dark="../../public/assets/icons/portal_icon-wht.png" src="../../public/assets/icons/portal_icon.png" alt="portals"><span>PORTALS</span></a>
+                    <a href="../destiny/opening.html" target="_parent" class="portal-button"><img class="destiny-icon" src="../../public/assets/icons/fave_icon.png" alt="destiny"><span>DESTINY</span></a>
+                    <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img class="listings-icon" src="../../public/assets/icons/listing_icon.png" alt="listings"><span>LISTINGS</span></a>
+                    <a href="../ktgtv/ktgtv.html" target="_parent" class="portal-button"><img class="ktgtv-icon" src="../../public/assets/icons/ktgtv_icon.png" alt="ktgtv"><span>KTG.TV</span></a>
+                    <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img class="ktgai-icon" src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span>KTG.AI</span></a>
+                    <a href="../music/ktgmusic.html" target="_parent" class="portal-button"><img class="music-icon" src="../../public/assets/icons/qr_icon.png" alt="ktgmusic"><span>KTG.MUSIC</span></a>
+                    <a href="../web3/web3.html" target="_parent" class="portal-button"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span>WEB3</span></a>
+                    <a href="../vr/ktgxr.html" target="_parent" class="portal-button"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR"><span>VR/AR/XR</span></a>
+                    <a href="../dignbling/dign_bling.html" target="_parent" class="portal-button"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span>DIGN BLING</span></a>
+                    <a href="../4playchess/4playchess.html" target="_parent" class="portal-button"><img class="theme-icon" data-ktg="../../public/assets/icons/chess_icon.png" data-light="../../public/assets/icons/chess_icon-blk.png" data-dark="../../public/assets/icons/chess_icon-wht.png" src="../../public/assets/icons/chess_icon.png" alt="chess"><span>4 PLAY CHESS</span></a>
+                    <a href="../metaphysics/tarot.html" target="_parent" class="portal-button"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span>METAPHYSICS</span></a>
+                    <a href="../map/map.html" target="_parent" class="portal-button"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map"><span>MAP</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('creatorForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            const messageDiv = document.getElementById('message');
+            
+            // Validation
+            if (data.password !== data.confirmPassword) {
+                messageDiv.textContent = 'Passwords do not match';
+                messageDiv.className = 'error-message';
+                messageDiv.style.display = 'block';
+                return;
+            }
+            
+            if (!data.email || !data.password || !data.creatorName) {
+                messageDiv.textContent = 'Please fill in all required fields';
+                messageDiv.className = 'error-message';
+                messageDiv.style.display = 'block';
+                return;
+            }
+            
+            messageDiv.textContent = 'Creating creator account...';
+            messageDiv.className = 'success-message';
+            messageDiv.style.display = 'block';
+            
+            try {
+                const response = await fetch('/api/creator-register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: data.email,
+                        password: data.password,
+                        creatorName: data.creatorName,
+                        creatorTagline: data.creatorTagline || '',
+                        bio: data.bio || '',
+                        followerCount: parseInt(data.followerCount) || 0,
+                        location: data.location || '',
+                        contactEmail: data.contactEmail || data.email,
+                        instagramUrl: data.instagramUrl || '',
+                        facebookUrl: data.facebookUrl || '',
+                        linkedinUrl: data.linkedinUrl || '',
+                        tiktokUrl: data.tiktokUrl || '',
+                        xUrl: data.xUrl || ''
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    messageDiv.textContent = 'Creator account created successfully! Please wait for approval.';
+                    messageDiv.className = 'success-message';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login_creators.html';
+                    }, 2000);
+                } else {
+                    messageDiv.textContent = result.error || 'Registration failed';
+                    messageDiv.className = 'error-message';
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                messageDiv.textContent = 'Connection error. Please try again.';
+                messageDiv.className = 'error-message';
+            }
+        });
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            const video = document.querySelector('.bg-video');
+            if (savedTheme === 'ktg') {
+                if (video) video.style.display = 'block';
+            } else {
+                if (video) video.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('load', () => {
+            initializeTheme();
+            
+            setTimeout(() => {
+                const fadeInElements = document.querySelectorAll('.fade-in');
+                fadeInElements.forEach(el => el.classList.add('active'));
+            }, 500);
+        });
+
+        function openSubmenu(submenu) {
+            const selectedSubmenu = document.getElementById(submenu + '-submenu');
+            if (selectedSubmenu) {
+                if (selectedSubmenu.style.display === 'block') {
+                    selectedSubmenu.style.display = 'none';
+                } else {
+                    selectedSubmenu.style.display = 'block';
+                }
+            }
+        }
+
+        function closeSubmenu(element) {
+            const submenu = element.closest('.submenu');
+            if (submenu) {
+                submenu.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

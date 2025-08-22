@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="ai.rightconsole.title">AI Story Library</title>
+    <style>
+        :root {
+            --bg-primary: #111;
+            --bg-secondary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ccc;
+            --accent-color: #2f27c8;
+            --accent-hover: #4fb6c1;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --text-primary: #f5f5dc;
+            --text-secondary: #b8b8b8;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .video-item {
+            background-color: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .video-item:hover {
+            border-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .video-item.selected {
+            border-color: var(--accent-hover);
+            box-shadow: 0 0 10px rgba(79, 182, 193, 0.5);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+        }
+
+        .video-info {
+            padding: 10px;
+        }
+
+        .video-title {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .video-description {
+            font-size: 10px;
+            color: var(--text-secondary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+    <script src="../../shared/js/language.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h2 data-translate="ai.rightconsole.title">AI Story Library</h2>
+    </div>
+
+    <div class="video-grid" id="videoGrid">
+        <!-- Videos will be populated here -->
+    </div>
+
+    <script>
+        let selectedItem = null;
+
+        const videos = [
+            {
+                title: "Guru and Lucy 012",
+                mp4: "../../public/assets/ktgai/guru_lucy_012.mp4",
+                cover: "../../public/assets/ktgai/guru_lucy_012.png",
+                description: "Guru and Lucy explore the cosmos in their latest adventure.",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "Turbo Toad E1",
+                mp4: "../../public/assets/ktgai/turbo_toad_001.mp4",
+                cover: "../../public/assets/ktgai/turbo_toad_001.png",
+                description: "Turbo Toad embarks on a thrilling mission.",
+                safeLinks: [{text: "Music Video", url: "https://youtu.be/cBDcCVW23MA?si=N-NvmrUoLtsEIjKh"}]
+            },
+            {
+                title: "Worlds Apart",
+                mp4: "../../public/assets/ktgai/worlds_apart.mp4",
+                cover: "../../public/assets/ktgai/worlds_apart.png",
+                description: "Two worlds collide in this epic tale.",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "Bail",
+                mp4: "../../public/assets/ktgai/bail.mp4",
+                cover: "../../public/assets/ktgai/bail.png",
+                description: "A story of redemption and second chances.",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "Chat Loading",
+                mp4: "../../public/assets/ktgai/chat_loading.mp4",
+                cover: "../../public/assets/ktgai/chat_loading.png",
+                description: "The dangers of online communication come to life.",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "Config Loading",
+                mp4: "../../public/assets/ktgai/config_loading.mp4",
+                cover: "../../public/assets/ktgai/config_loading.png",
+                description: "What happens when systems start to break down?",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "Game Console",
+                mp4: "../../public/assets/ktgai/game_console.mp4",
+                cover: "../../public/assets/ktgai/game_console.png",
+                description: "The future is a beautiful place for the ascended peoples of Earth.",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "Game Console Loading",
+                mp4: "../../public/assets/ktgai/game_console_loading.mp4",
+                cover: "../../public/assets/ktgai/game_console_loading.png",
+                description: "Booting up a new world of adventure.",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "Lucy's Booth Loading",
+                mp4: "../../public/assets/ktgai/lucys_booth_loading.mp4",
+                cover: "../../public/assets/ktgai/lucys_booth_loading.png",
+                description: "Step right up and see what Lucy has in store.",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "Map Loading",
+                mp4: "../../public/assets/ktgai/map_loading.mp4",
+                cover: "../../public/assets/ktgai/map_loading.png",
+                description: "Getting lost has never been so much fun.",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "Opening Scene",
+                mp4: "../../public/assets/ktgai/opening_scene.mp4",
+                cover: "../../public/assets/ktgai/opening_scene.png",
+                description: "The beginning of an incredible journey.",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "Register Loading",
+                mp4: "../../public/assets/ktgai/register_loading.mp4",
+                cover: "../../public/assets/ktgai/register_loading.png",
+                description: "Sign up for the adventure of a lifetime.",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "Safe Loading",
+                mp4: "../../public/assets/ktgai/safe_loading.mp4",
+                cover: "../../public/assets/ktgai/safe_loading.png",
+                description: "What secrets lie behind the safe door?",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "The Grid",
+                mp4: "../../public/assets/ktgai/the_grid.mp4",
+                cover: "../../public/assets/ktgai/the_grid.png",
+                description: "Welcome to the digital frontier.",
+                safeLinks: [{text: "Official Video", url: "https://example.com"}]
+            },
+            {
+                title: "You are Not Creating Alone",
+                mp4: "../../public/assets/ktgai/you_are_not_creating_alone.mp4",
+                cover: "../../public/assets/ktgai/you_are_not_creating_alone.png",
+                description: "Enter Lucy's World.",
+                safeLinks: [{text: "Official Video", url: "https://youtu.be/y2uYvkj8ilA"}]
+            }
+        ];
+
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            if (typeof langManager !== 'undefined') {
+                langManager.updateUI();
+            }
+        }
+
+        function selectVideo(element, video) {
+            // Remove previous selection
+            if (selectedItem) {
+                selectedItem.classList.remove('selected');
+            }
+            
+            // Add selection to current item
+            element.classList.add('selected');
+            selectedItem = element;
+
+            // Send to parent
+            if (parent.selectVideo) {
+                parent.selectVideo(video);
+            }
+        }
+
+        function renderVideos() {
+            const grid = document.getElementById('videoGrid');
+            grid.innerHTML = '';
+
+            videos.forEach(video => {
+                const videoElement = document.createElement('div');
+                videoElement.className = 'video-item';
+                videoElement.onclick = () => selectVideo(videoElement, video);
+
+                videoElement.innerHTML = `
+                    <img src="${video.cover}" alt="${video.title}" class="video-thumbnail">
+                    <div class="video-info">
+                        <div class="video-title">${video.title}</div>
+                        <div class="video-description">${video.description}</div>
+                    </div>
+                `;
+
+                grid.appendChild(videoElement);
+            });
+
+            // Auto-select first video
+            const firstVideo = grid.querySelector('.video-item');
+            if (firstVideo) {
+                selectVideo(firstVideo, videos[0]);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            renderVideos();
+            
+            if (typeof langManager !== 'undefined') {
+                const savedLanguage = localStorage.getItem('ktg-language') || 'en';
+                langManager.setLanguage(savedLanguage);
+                langManager.updateUI();
+            }
+        });
+    </script>
+</body>
+</html>

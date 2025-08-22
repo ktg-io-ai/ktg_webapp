@@ -150,7 +150,7 @@
             border: none;
             border-radius: 0;
             background-color: var(--bg-secondary);
-            margin-left: 123px;
+            margin-left: 5px;
         }
 
         .right-frame {
@@ -514,7 +514,7 @@
     <script src="../../shared/js/language.js"></script>
 </head>
 <body>
-    <video class="bg-video" autoplay loop muted>
+    <video class="bg-video" autoplay muted>
         <source src="../../public/assets/videos/ktgmusic2.mp4" type="video/mp4">
     </video>
 
@@ -523,36 +523,7 @@
             <div class="progress-bar" id="progressBar"></div>
         </div>
         
-        <div class="sidebar slide-in-left">
-            <div class="logo">
-                <a href="../../src/pages/dashboard.html" target="_parent">
-                    <img src="../../public/assets/images/game_logo.png" alt="Game Logo">
-                </a>
-            </div>
-            <ul>
-                <li onclick="openSubmenu('search')" class="slide-in-left">
-                    <img src="../../public/assets/icons/about_icon.png" alt="Search" class="theme-icon" data-ktg="../../public/assets/icons/about_icon.png" data-light="../../public/assets/icons/search_icon-blk.png" data-dark="../../public/assets/icons/search_icon-wht.png">
-                    <span data-lang="music.sidebar.search">Search</span>
-                </li>
-                <li onclick="openSubmenu('social')" class="slide-in-left">
-                    <img src="../../public/assets/icons/social_icon.png" alt="Social" class="theme-icon" data-ktg="../../public/assets/icons/social_icon.png" data-light="../../public/assets/icons/social_icon-blk.png" data-dark="../../public/assets/icons/social_icon-wht.png">
-                    <span data-lang="music.sidebar.social">Social</span>
-                </li>
-                <li onclick="openSubmenu('actions')" class="slide-in-left">
-                    <img src="../../public/assets/icons/game_icon.png" alt="Actions" class="theme-icon" data-ktg="../../public/assets/icons/game_icon.png" data-light="../../public/assets/icons/game_icon-blk.png" data-dark="../../public/assets/icons/game_icon-wht.png">
-                    <span data-lang="music.sidebar.actions">Actions</span>
-                </li>
-                <li onclick="openSubmenu('details')" class="slide-in-left">
-                    <img src="../../public/assets/icons/detail_icon.png" alt="Details" class="theme-icon" data-ktg="../../public/assets/icons/detail_icon.png" data-light="../../public/assets/icons/detail_icon-blk.png" data-dark="../../public/assets/icons/detail_icon-wht.png">
-                    <span data-lang="music.sidebar.details">Detail</span>
-                </li>
-                <li onclick="openSubmenu('mystuff')" class="slide-in-left">
-                    <img src="../../public/assets/icons/mystuff_icon.png" alt="My Stuff" class="theme-icon" data-ktg="../../public/assets/icons/mystuff_icon.png" data-light="../../public/assets/icons/mystuff_icon-blk.png" data-dark="../../public/assets/icons/mystuff_icon-wht.png">
-                    <span data-lang="music.sidebar.mystuff">My Stuff</span>
-                </li>
-                
-            </ul>
-        </div>
+        
 
         <div class="main-content">
             <div class="top-bar fade-in">
@@ -561,12 +532,12 @@
                         <img src="../../public/assets/icons/music_player_icon.png" alt="Open Music Player" style="width: 30px; height: 30px;">
                     </button>
                 </div>
-                <h1 data-lang="music.title">KTG.MUSIC</h1>
+                <h1 data-translate="music.title">KTG.MUSIC</h1>
                 <div class="song-title">
                     <button id="musicToggle">
                         <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle">
                     </button>
-                    <span data-lang="music.playing">PLAYING</span>: <span id="currentSongTitle">Guru and Lucy Voyage to Yonder 9</span>
+                    <span data-translate="music.playing">PLAYING</span>: <span id="currentSongTitle">Guru and Lucy Voyage to Yonder 9</span>
                 </div>
             </div>
 
@@ -580,63 +551,17 @@
             <audio id="musicPlayer" src="../../public/assets/ktgmusic/music/guru_and_lucy_voyage_to_yonder_9.mp3" loop></audio>
             
             <div id="search-submenu" class="submenu">
-                <h2 data-lang="music.submenus.search.title">Search<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
+                <h2 data-translate="music.submenus.search.title">Search<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
                 <ul>
                     <li>
                         <button>
-                            <img src="../../public/assets/icons/name_icon.png" alt="Name Icon"> <span data-lang="music.submenus.search.byName">By Name</span>
+                            <img src="../../public/assets/icons/name_icon.png" alt="Name Icon"> <span data-translate="music.submenus.search.byName">By Name</span>
                         </button>
                     </li>
                 </ul>
             </div>
             
-            <div id="social-submenu" class="submenu">
-                <h2 data-lang="music.submenus.social.title">Share<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
-                <ul>
-                    <li><button><img src="../../public/assets/icons/instagram_icon.png" alt="Instagram Icon" class="theme-icon" data-ktg="../../public/assets/icons/instagram_icon.png" data-light="../../public/assets/icons/instagram_icon-blk.png" data-dark="../../public/assets/icons/instagram_icon-wht.png"> <span data-lang="music.submenus.social.instagram">Instagram</span></button></li>
-                    <li><button><img src="../../public/assets/icons/facebook_icon.png" alt="FaceBook Icon"> <span data-lang="music.submenus.social.facebook">FaceBook</span></button></li>
-                    <li><button><img src="../../public/assets/icons/linkedin_icon.png" alt="Linkedin Icon" class="theme-icon" data-ktg="../../public/assets/icons/linkedin_icon.png" data-light="../../public/assets/icons/linkedin_icon-blk.png" data-dark="../../public/assets/icons/linkedin_icon-wht.png"> <span data-lang="music.submenus.social.linkedin">LinkedIn</span></button></li>
-                    <li><button><img src="../../public/assets/icons/discord_icon.png" alt="Discord Icon" class="theme-icon" data-ktg="../../public/assets/icons/discord_icon.png" data-light="../../public/assets/icons/discord_icon-blk.png" data-dark="../../public/assets/icons/discord_icon-wht.png"> <span data-lang="music.submenus.social.discord">Discord</span></button></li>
-                    <li><button><img src="../../public/assets/icons/telegram_icon.png" alt="Telegram Icon" class="theme-icon" data-ktg="../../public/assets/icons/telegram_icon.png" data-light="../../public/assets/icons/telegram_icon-blk.png" data-dark="../../public/assets/icons/telegram_icon-wht.png"> <span data-lang="music.submenus.social.telegram">Telegram</span></button></li>
-                    <li><button><img src="../../public/assets/icons/twitter_icon.png" alt="Twitter X Icon"> <span data-lang="music.submenus.social.twitter">Twitter X</span></button></li>
-                    <li><button><img src="../../public/assets/icons/tiktok_icon.png" alt="TikTok Icon" class="theme-icon" data-ktg="../../public/assets/icons/tiktok_icon.png" data-light="../../public/assets/icons/tiktok_icon-blk.png" data-dark="../../public/assets/icons/tiktok_icon-wht.png"> <span data-lang="music.submenus.social.tiktok">TicTok</span></button></li>
-                    <li><button><img src="../../public/assets/icons/snap_icon.png" alt="Snap Chat Icon"> <span data-lang="music.submenus.social.snapchat">SnapChat</span></button></li>
-                    <li><button><img src="../../public/assets/icons/threads_icon.png" alt="Threads Icon" class="theme-icon" data-ktg="../../public/assets/icons/threads_icon.png" data-light="../../public/assets/icons/threads_icon-blk.png" data-dark="../../public/assets/icons/threads_icon-wht.png"> <span data-lang="music.submenus.social.threads">Threads</span></button></li>
-                </ul>
-            </div>
             
-            <div id="actions-submenu" class="submenu">
-                <h2 data-lang="music.submenus.actions.title">Actions<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
-                <ul>
-                    <li><button><img src="../../public/assets/icons/heart_icon.png" alt="Heart Icon"> <span data-lang="music.submenus.actions.love">Love</span></button></li>
-                    <li><button><img src="../../public/assets/icons/like_icon.png" alt="Like Icon"> <span data-lang="music.submenus.actions.like">Like</span></button></li>
-                    <li><button><img src="../../public/assets/icons/stars_icon.png" alt="Stars Icon"> <span data-lang="music.submenus.actions.goodReview">Leave a Good Review</span></button></li>
-                    <li><button><img src="../../public/assets/icons/truth_icon.png" alt="Truth Icon"> <span data-lang="music.submenus.actions.badReview">Leave a Bad Review</span></button></li>
-                </ul>
-            </div>
-            
-            <div id="details-submenu" class="submenu">
-                <h2 data-lang="music.submenus.details.title">Details<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
-                <ul>
-                    <li><button><img src="../../public/assets/icons/calendar_icon.png" alt="Calendar Icon"> <span data-lang="music.submenus.details.calendar">Add to my Calendar</span></button></li>
-                    <li><button><img src="../../public/assets/icons/group_icon.png" alt="Group Icon"> <span data-lang="music.submenus.details.groups">Shoutout to Groups</span></button></li>
-                    <li><button><img src="../../public/assets/icons/detail_icon.png" alt="Player Icon"> <span data-lang="music.submenus.details.invite">Invite a Player</span></button></li>
-                    <li><button><img src="../../public/assets/icons/list_icon.png" alt="List Icon"> <span data-lang="music.submenus.details.playlist">Add to PlayList</span></button></li>
-                </ul>
-            </div>
-            
-            <div id="mystuff-submenu" class="submenu">
-                <h2 data-lang="music.submenus.mystuff.title">My Stuff<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
-                <ul>
-                    <li><button><a href="../destiny/journeybook.html"><img src="../../public/assets/icons/journeybook_icon.png" alt="JourneyBook Icon"> <span data-lang="music.submenus.mystuff.journeybook">My JourneyBook</span></a></button></li>
-                    <li><button><img src="../../public/assets/icons/bucket_icon.png" alt="BucketList Icon"> <span data-lang="music.submenus.mystuff.bucketlist">My BucketList</span></button></li>
-                    <li><button><img src="../../public/assets/icons/email_icon.png" alt="Email Icon"> <span data-lang="music.submenus.mystuff.email">Email</span></button></li>
-                    <li><button><img src="../../public/assets/icons/calendar_icon.png" alt="Calendar Icon"> <span data-lang="music.submenus.mystuff.calendar">Calendar</span></button></li>
-                    <li><button onclick="openWalletPopup()"><img src="../../public/assets/icons/wallet_icon.png" alt="Wallet Icon"> <span data-lang="music.submenus.mystuff.wallet">Wallet</span></button></li>
-                    <li><button><img src="../../public/assets/icons/config_icon.png" alt="Config Icon"> <span data-lang="music.submenus.mystuff.config">Config</span></button></li>
-                    <li><button><img src="../../public/assets/icons/bail_icon.png" alt="Bail Icon"> <span data-lang="music.submenus.mystuff.bail">Bail</span></button></li>
-                </ul>
-            </div>
             
             <div id="portal-submenu" class="submenu">
                 <h2>Portals <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>

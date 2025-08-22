@@ -864,7 +864,13 @@
 
                 <div id="listings-section" style="display: none;">
                     <h2>Listings Management</h2>
-                    <p>Manage lifestyle listings and outings.</p>
+                    <div style="margin-bottom: 15px;">
+                        <button class="nav-button" onclick="window.open('listings-manager.html', '_blank', 'width=1400,height=900')">Open Listings Manager</button>
+                        <button class="nav-button" onclick="loadListingsOverview()" style="margin-left: 10px;">Refresh Overview</button>
+                    </div>
+                    <div style="border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; height: calc(100vh - 280px);">
+                        <iframe src="listings-manager.html" style="width: 100%; height: 100%; border: none;"></iframe>
+                    </div>
                 </div>
 
                 <div id="avatar-section" style="display: none;">
@@ -945,11 +951,8 @@
                     <h2>JourneyBook Management</h2>
                     <div class="journeybook-controls">
                         <button class="nav-button" onclick="showQuestionManager()">Manage Questions</button>
-                        <button class="nav-button" onclick="showImageGenerator()">Generate Images</button>
-                        <button class="nav-button" onclick="showGeneratedImages()">View Generated Images</button>
-                        <button class="nav-button" onclick="showAnswerAnalytics()">View Analytics</button>
                         <button class="nav-button" onclick="exportQuestions()">Export Questions</button>
-                        <button class="nav-button" onclick="pushImagesToDatabase()" style="background-color: #28a745;">Push Images to Database</button>
+                        <button class="nav-button" onclick="loadJourneyBookQuestions()" style="background-color: #17a2b8;">Refresh from Database</button>
                     </div>
                     
                     <div id="question-manager" style="display: none;">
@@ -964,20 +967,15 @@
                             <select id="subgroupSelect" onchange="loadSubgroupQuestions()">
                                 <option value="">Select Subgroup</option>
                             </select>
-                            <button class="nav-button" onclick="generateAndSaveAllImages()" style="margin-left: 10px;">Generate & Save All Images</button>
+                            <button class="nav-button" onclick="generateAndSaveAllImagesForSection()" style="background-color: #28a745;">Generate & Save All Section Images</button>
+
                         </div>
                         
                         <div id="questions-list">
                             <!-- Questions will be loaded here -->
                         </div>
                         
-                        <div style="margin: 20px 0;">
-                            <button class="nav-button" onclick="loadGeneratedImages()">Load Generated Images</button>
-                            <button class="nav-button" onclick="generateAndSaveAllImagesForSection()" style="margin-left: 10px; background-color: #28a745;">Generate & Save All Section Images</button>
-                            <div id="generated-images-list" style="margin-top: 10px;">
-                                <!-- Generated images will be shown here -->
-                            </div>
-                        </div>
+
                         
                         <div class="add-question-form" style="margin-top: 20px;">
                             <h4>Add New Question</h4>
@@ -1031,12 +1029,32 @@
 
                 <div id="creators-section" style="display: none;">
                     <h2>Creator Management</h2>
-                    <div style="display: flex; height: calc(100vh - 220px); gap: 20px;">
-                        <div style="flex: 1; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden;">
-                            <iframe src="leftconsole_creators.html" style="width: 100%; height: 100%; border: none;"></iframe>
+                    <div class="journeybook-controls">
+                        <button class="nav-button" onclick="showCreatorView('profiles')">Creator Profiles</button>
+                        <button class="nav-button" onclick="showCreatorView('contractor')">Contractor Management</button>
+                        <button class="nav-button" onclick="showCreatorView('listings')">Creator Listings</button>
+                    </div>
+                    
+                    <div id="creator-profiles-view">
+                        <div style="display: flex; height: calc(100vh - 320px); gap: 20px;">
+                            <div style="flex: 1; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden;">
+                                <iframe src="creator_profiles_admin.html" style="width: 100%; height: 100%; border: none;"></iframe>
+                            </div>
+                            <div style="flex: 1; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden;">
+                                <iframe src="rightconsole_creators.html" style="width: 100%; height: 100%; border: none;"></iframe>
+                            </div>
                         </div>
-                        <div style="flex: 1; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden;">
-                            <iframe src="rightconsole_creators.html" style="width: 100%; height: 100%; border: none;"></iframe>
+                    </div>
+                    
+                    <div id="creator-contractor-view" style="display: none;">
+                        <div style="border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; height: calc(100vh - 320px);">
+                            <iframe src="contractor_admin.html" style="width: 100%; height: 100%; border: none;"></iframe>
+                        </div>
+                    </div>
+                    
+                    <div id="creator-listings-view" style="display: none;">
+                        <div style="border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; height: calc(100vh - 320px);">
+                            <iframe src="listings-manager.html" style="width: 100%; height: 100%; border: none;"></iframe>
                         </div>
                     </div>
                 </div>
@@ -1256,27 +1274,61 @@
             if (sectionName === 'journeybook') {
                 loadJourneyBookQuestions();
             }
+            
+            // Show default creator view if creators section is selected
+            if (sectionName === 'creators') {
+                showCreatorView('profiles');
+            }
+        }
+        
+        function showCreatorView(viewName) {
+            // Hide all creator views
+            document.getElementById('creator-profiles-view').style.display = 'none';
+            document.getElementById('creator-contractor-view').style.display = 'none';
+            document.getElementById('creator-listings-view').style.display = 'none';
+            
+            // Show selected view
+            document.getElementById('creator-' + viewName + '-view').style.display = 'block';
+            
+            // Update active button
+            document.querySelectorAll('#creators-section .nav-button').forEach(btn => {
+                btn.style.backgroundColor = '';
+            });
+            event.target.style.backgroundColor = 'var(--accent-color)';
+        }
+        
+        function loadView(viewName) {
+            if (viewName === 'creator-profiles') {
+                window.open('creator_profiles_admin.html', '_blank', 'width=1400,height=900');
+            } else if (viewName === 'creator-listings') {
+                window.open('listings-manager.html', '_blank', 'width=1400,height=900');
+            }
         }
 
         async function loadUsers() {
             const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = '<tr><td colspan="9">Loading users...</td></tr>';
             
-            // Temporary hardcoded data until API is fixed
-            allUsers = [{
-                id: 1,
-                email: 'gamemaster@ktg.io',
-                avatar_count: 4,
-                is_creator: true,
-                chess_active: false,
-                bling_active: false,
-                level: 1,
-                created_at: new Date().toISOString(),
-                creator_date: null,
-                last_level_up: null
-            }];
+            try {
+                const response = await fetch('/api/users');
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success && result.users) {
+                        allUsers = result.users;
+                    } else {
+                        console.error('Invalid response format:', result);
+                        allUsers = [];
+                    }
+                } else {
+                    console.error('Failed to load users:', response.status);
+                    allUsers = [];
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+                allUsers = [];
+            }
             
             renderUsers();
-            document.getElementById('dashboardTotalUsersCount').textContent = allUsers.length;
         }
 
         function renderUsers() {
@@ -1554,37 +1606,19 @@
         
         async function loadJourneyBookQuestions() {
             try {
-                // Try to load from Firebase first
-                if (!firebase.apps || firebase.apps.length === 0) {
-                    firebase.initializeApp({
-                        apiKey: "AIzaSyDrgOGvn8NHuq3T_ODse8buij9KXg1WkzI",
-                        authDomain: "ktgio-3k38n.firebaseapp.com",
-                        projectId: "ktgio-3k38n",
-                        storageBucket: "ktgio-3k38n.firebasestorage.app",
-                        messagingSenderId: "416239278754",
-                        appId: "1:416239278754:web:028cd9fd6f13a5a4ed95fb"
-                    });
-                }
+                console.log('Loading questions from MySQL database...');
+                const response = await fetch('/api/users/journeybook/pages/structured');
                 
-                const db = firebase.firestore();
-                const doc = await db.collection('JourneyBookQuestions').doc('questions').get();
-                
-                if (doc.exists && doc.data().questions) {
-                    journeybookQuestions = doc.data().questions;
-                    console.log('Loaded questions from Firebase');
-                    return;
-                }
-                
-                // Fallback to static file if Firebase doesn't have data
-                const response = await fetch('../journeybook/questions-data.js');
-                const text = await response.text();
-                const match = text.match(/const JOURNEYBOOK_QUESTIONS = ({[\s\S]*});/);
-                if (match) {
-                    journeybookQuestions = eval('(' + match[1] + ')');
-                    console.log('Loaded questions from static file');
+                if (response.ok) {
+                    journeybookQuestions = await response.json();
+                    console.log('Loaded questions from MySQL:', journeybookQuestions);
+                } else {
+                    console.error('Failed to load questions from MySQL:', response.status);
+                    journeybookQuestions = {};
                 }
             } catch (error) {
-                console.error('Error loading questions:', error);
+                console.error('Error loading questions from MySQL:', error);
+                journeybookQuestions = {};
             }
         }
         
@@ -1678,15 +1712,11 @@
                 questionDiv.style.alignItems = 'center';
                 questionDiv.style.gap = '15px';
                 
-                // Check for generated image in Firebase
-                let imageUrl = question.image;
-                if (!imageUrl && window.JourneyBookImageGenerator) {
-                    const questionKey = `${currentJBSection}_${currentJBSubgroup}_${question.question}`.replace(/[^a-zA-Z0-9_]/g, '_');
-                    imageUrl = await window.JourneyBookImageGenerator.loadImageFromDatabase(questionKey);
-                }
+                // Use image from database (image_url field)
+                let imageUrl = question.image_url || question.image;
                 
                 const thumbnailHtml = imageUrl ? 
-                    `<img src="${imageUrl}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; flex-shrink: 0;" onerror="this.style.display='none'">` : 
+                    `<img src="${imageUrl}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; flex-shrink: 0; cursor: pointer;" onerror="this.style.display='none'" onclick="window.open('${imageUrl}', '_blank')" title="Click to view full image">` : 
                     `<div style="width: 60px; height: 60px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-secondary);">No Image</div>`;
                 
                 questionDiv.innerHTML = `
@@ -1694,8 +1724,9 @@
                     <div style="flex: 1;">
                         <h4 style="margin: 0 0 5px 0;">${question.question}</h4>
                         <div class="question-options" style="font-size: 12px; color: var(--text-secondary);">
-                            Options: ${question.options.length > 0 ? question.options.join(', ') : 'Text input'}
+                            Options: ${question.options && question.options.length > 0 ? question.options.join(', ') : 'Text input'}
                         </div>
+                        ${imageUrl ? `<div style="font-size: 10px; color: var(--accent-color); margin-top: 2px;">✓ Has Image</div>` : `<div style="font-size: 10px; color: #dc3545; margin-top: 2px;">✗ No Image</div>`}
                     </div>
                     <div class="question-actions">
                         <button class="btn-small btn-edit" onclick="editQuestion(${index})">Edit</button>
@@ -1732,7 +1763,7 @@
             }
             
             journeybookQuestions[currentJBSection][currentJBSubgroup].push(newQuestion);
-            saveQuestionsToFirebase();
+            saveQuestionsToDatabase();
             loadSubgroupQuestions();
             
             document.getElementById('newQuestion').value = '';
@@ -1813,18 +1844,40 @@
             }
         }
         
-        function saveQuestionEdit() {
+        async function saveQuestionEdit() {
             if (editingQuestionIndex === -1) return;
             
             const question = journeybookQuestions[currentJBSection][currentJBSubgroup][editingQuestionIndex];
-            question.question = document.getElementById('editQuestionText').value;
-            question.options = document.getElementById('editQuestionOptions').value.split(',').map(opt => opt.trim()).filter(opt => opt);
-            question.image = document.getElementById('editQuestionImage').value;
-            question.imageLink = document.getElementById('editQuestionImageLink').value;
+            const newImageUrl = document.getElementById('editQuestionImage').value;
+            const newImageLink = document.getElementById('editQuestionImageLink').value;
             
-            saveQuestionsToFirebase();
-            loadSubgroupQuestions();
-            closeQuestionModal();
+            // Update local data
+            question.image_url = newImageUrl;
+            question.image = newImageUrl;
+            question.image_link = newImageLink;
+            
+            try {
+                // Update database directly
+                const response = await fetch(`/api/users/journeybook/page/${question.id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        imageUrl: newImageUrl,
+                        imageLink: newImageLink
+                    })
+                });
+                
+                if (response.ok) {
+                    console.log('Question updated successfully');
+                    loadSubgroupQuestions();
+                    closeQuestionModal();
+                } else {
+                    alert('Error updating question');
+                }
+            } catch (error) {
+                console.error('Error updating question:', error);
+                alert('Error updating question: ' + error.message);
+            }
         }
         
         function openImageLink() {
@@ -1837,33 +1890,42 @@
         function deleteQuestion(index) {
             if (confirm('Are you sure you want to delete this question?')) {
                 journeybookQuestions[currentJBSection][currentJBSubgroup].splice(index, 1);
-                saveQuestionsToFirebase();
+                saveQuestionsToDatabase();
                 loadSubgroupQuestions();
             }
         }
         
-        async function saveQuestionsToFirebase() {
+        async function saveQuestionsToDatabase() {
             try {
-                // Initialize Firebase if not already done
-                if (!firebase.apps || firebase.apps.length === 0) {
-                    firebase.initializeApp({
-                        apiKey: "AIzaSyDrgOGvn8NHuq3T_ODse8buij9KXg1WkzI",
-                        authDomain: "ktgio-3k38n.firebaseapp.com",
-                        projectId: "ktgio-3k38n",
-                        storageBucket: "ktgio-3k38n.firebasestorage.app",
-                        messagingSenderId: "416239278754",
-                        appId: "1:416239278754:web:028cd9fd6f13a5a4ed95fb"
+                console.log('Saving questions to MySQL database...');
+                
+                // Save each question to the database
+                const questions = journeybookQuestions[currentJBSection][currentJBSubgroup];
+                
+                for (const question of questions) {
+                    const pageNumber = `${currentJBSection}_${currentJBSubgroup}_${question.question}`.replace(/[^a-zA-Z0-9_]/g, '_').toLowerCase();
+                    
+                    const response = await fetch('/api/users/journeybook/page', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            section: currentJBSection,
+                            subgroup: currentJBSubgroup,
+                            question: question.question,
+                            options: question.options || [],
+                            imageUrl: question.image || '',
+                            pageNumber: pageNumber
+                        })
                     });
+                    
+                    if (!response.ok) {
+                        console.error('Failed to save question:', await response.text());
+                    }
                 }
                 
-                const db = firebase.firestore();
-                await db.collection('JourneyBookQuestions').doc('questions').set({
-                    questions: journeybookQuestions,
-                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                console.log('Questions saved successfully');
+                console.log('Questions saved successfully to MySQL');
             } catch (error) {
-                console.error('Error saving questions:', error);
+                console.error('Error saving questions to MySQL:', error);
                 alert('Error saving questions: ' + error.message);
             }
         }
@@ -2146,45 +2208,70 @@
                 return;
             }
             
-            const sectionQuestions = journeybookQuestions[currentJBSection];
-            if (!sectionQuestions) {
-                alert('No questions found in selected section');
+            if (!confirm(`Generate AI images for all questions in ${currentJBSection} section? This may take several minutes.`)) {
                 return;
             }
             
-            let totalGenerated = 0;
-            
-            for (const [subgroup, questions] of Object.entries(sectionQuestions)) {
-                for (const question of questions) {
-                    try {
-                        const pageNumber = `${currentJBSection}_${subgroup}_${question.question}`.replace(/\s+/g, '_').toLowerCase();
-                        const prompt = `${question.question} - journeybook page illustration`;
-                        
-                        const imageUrl = await generateImageForQuestion(prompt);
-                        
-                        if (imageUrl) {
-                            await fetch('/api/users/journeybook/image', {
-                                method: 'POST',
+            try {
+                // Get fresh data from database for this section
+                const response = await fetch('/api/users/journeybook/pages/structured');
+                const freshData = await response.json();
+                
+                if (!freshData[currentJBSection]) {
+                    alert('No questions found in selected section');
+                    return;
+                }
+                
+                let totalGenerated = 0;
+                
+                for (const [subgroup, questions] of Object.entries(freshData[currentJBSection])) {
+                    console.log(`Processing ${subgroup} subgroup (${questions.length} questions)...`);
+                    
+                    for (const question of questions) {
+                        try {
+                            const prompt = `${question.question} - journeybook illustration, clean simple design`;
+                            const encodedPrompt = encodeURIComponent(prompt);
+                            const seed = Math.abs(question.question.split('').reduce((a, b) => a + b.charCodeAt(0), 0));
+                            const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=768&height=512&seed=${seed}`;
+                            
+                            // Update database record using the question ID
+                            const updateResponse = await fetch(`/api/users/journeybook/page/${question.id}`, {
+                                method: 'PUT',
                                 headers: {'Content-Type': 'application/json'},
                                 body: JSON.stringify({
-                                    avatarId: 0,
-                                    pageNumber: pageNumber,
                                     imageUrl: imageUrl,
-                                    prompt: prompt
+                                    imageLink: null
                                 })
                             });
                             
-                            totalGenerated++;
-                            console.log(`Generated image for: ${question.question}`);
+                            if (updateResponse.ok) {
+                                totalGenerated++;
+                                console.log(`✓ Generated: ${question.question.substring(0, 50)}...`);
+                            } else {
+                                console.error(`✗ Failed to update: ${question.question.substring(0, 50)}...`);
+                            }
+                        } catch (error) {
+                            console.error(`Error generating image for ${question.question}:`, error);
                         }
-                    } catch (error) {
-                        console.error(`Error generating image for ${question.question}:`, error);
+                        
+                        await new Promise(resolve => setTimeout(resolve, 300));
                     }
-                    await new Promise(resolve => setTimeout(resolve, 1000));
                 }
+                
+                alert(`Generated ${totalGenerated} images for ${currentJBSection} section`);
+                
+                // Refresh the data from database
+                await loadJourneyBookQuestions();
+                
+                // Reload current subgroup to show updates
+                if (currentJBSubgroup) {
+                    loadSubgroupQuestions();
+                }
+                
+            } catch (error) {
+                console.error('Error in bulk generation:', error);
+                alert('Error generating images: ' + error.message);
             }
-            
-            alert(`Generated and saved ${totalGenerated} images for entire ${currentJBSection} section`);
         }
         
         async function generateImageForQuestion(prompt) {
@@ -2350,7 +2437,7 @@
             }
         }
         
-        // Token Distribution Functions
+        // Token Distribution Functions - MySQL Version
         async function distributeTokensToUser() {
             const email = document.getElementById('tokenTargetEmail').value;
             const tokens = {
@@ -2367,44 +2454,21 @@
             }
             
             try {
-                const db = firebase.firestore();
-                
-                // Find user by email
-                const userQuery = await db.collection('Users').where('email', '==', email).get();
-                if (userQuery.empty) {
-                    alert('User not found with email: ' + email);
-                    return;
-                }
-                
-                const userId = userQuery.docs[0].id;
-                const walletRef = db.collection('Wallet').doc(userId);
-                
-                // Check if wallet exists, create if not
-                const walletDoc = await walletRef.get();
-                if (!walletDoc.exists) {
-                    await walletRef.set({
-                        connected_email: email,
-                        wallet_id: userId,
-                        created_at: firebase.firestore.FieldValue.serverTimestamp(),
-                        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-                        life_1: 0,
-                        life_3: 0,
-                        life_6: 0,
-                        life_9: 0,
-                        diamond: 0
-                    });
-                }
-                
-                // Add tokens
-                await walletRef.update({
-                    life_1: firebase.firestore.FieldValue.increment(tokens.life_1),
-                    life_3: firebase.firestore.FieldValue.increment(tokens.life_3),
-                    life_6: firebase.firestore.FieldValue.increment(tokens.life_6),
-                    life_9: firebase.firestore.FieldValue.increment(tokens.life_9),
-                    diamond: firebase.firestore.FieldValue.increment(tokens.diamond)
+                const response = await fetch('/api/tokens/distribute', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, tokens })
                 });
                 
-                alert(`Tokens distributed successfully to ${email}!`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(`Tokens distributed successfully to ${email}!`);
+                } else {
+                    alert('Error: ' + result.message);
+                }
                 
             } catch (error) {
                 console.error('Error distributing tokens:', error);
@@ -2426,49 +2490,21 @@
             }
             
             try {
-                const db = firebase.firestore();
-                const usersSnapshot = await db.collection('Users').get();
+                const response = await fetch('/api/tokens/distribute-all', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ tokens })
+                });
                 
-                let distributed = 0;
-                for (const userDoc of usersSnapshot.docs) {
-                    const userData = userDoc.data();
-                    const userId = userDoc.id;
-                    
-                    try {
-                        const walletRef = db.collection('Wallet').doc(userId);
-                        
-                        // Check if wallet exists, create if not
-                        const walletDoc = await walletRef.get();
-                        if (!walletDoc.exists) {
-                            await walletRef.set({
-                                connected_email: userData.email,
-                                wallet_id: userId,
-                                created_at: firebase.firestore.FieldValue.serverTimestamp(),
-                                expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-                                life_1: 0,
-                                life_3: 0,
-                                life_6: 0,
-                                life_9: 0,
-                                diamond: 0
-                            });
-                        }
-                        
-                        // Add tokens
-                        await walletRef.update({
-                            life_1: firebase.firestore.FieldValue.increment(tokens.life_1),
-                            life_3: firebase.firestore.FieldValue.increment(tokens.life_3),
-                            life_6: firebase.firestore.FieldValue.increment(tokens.life_6),
-                            life_9: firebase.firestore.FieldValue.increment(tokens.life_9),
-                            diamond: firebase.firestore.FieldValue.increment(tokens.diamond)
-                        });
-                        
-                        distributed++;
-                    } catch (error) {
-                        console.error(`Error distributing to ${userData.email}:`, error);
-                    }
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(result.message);
+                } else {
+                    alert('Error: ' + result.message);
                 }
-                
-                alert(`Tokens distributed to ${distributed} users!`);
                 
             } catch (error) {
                 console.error('Error in bulk distribution:', error);
@@ -2481,29 +2517,29 @@
             container.innerHTML = '<p>Loading wallets...</p>';
             
             try {
-                const db = firebase.firestore();
-                const walletsSnapshot = await db.collection('Wallet').get();
+                const response = await fetch('/api/tokens/wallets');
+                const result = await response.json();
                 
-                if (walletsSnapshot.empty) {
+                if (!result.success || result.wallets.length === 0) {
                     container.innerHTML = '<p>No wallets found.</p>';
                     return;
                 }
                 
-                let html = '<table class="users-table"><thead><tr><th>Email</th><th>1-Life</th><th>3-Life</th><th>6-Life</th><th>9-Life</th><th>Diamond</th><th>Expires</th></tr></thead><tbody>';
+                let html = '<table class="users-table"><thead><tr><th>Email</th><th>Wallet ID</th><th>1-Life</th><th>3-Life</th><th>6-Life</th><th>9-Life</th><th>Diamond</th><th>Created</th></tr></thead><tbody>';
                 
-                walletsSnapshot.forEach(doc => {
-                    const wallet = doc.data();
-                    const expiresDate = wallet.expires_at ? new Date(wallet.expires_at.toDate()).toLocaleDateString() : 'N/A';
+                result.wallets.forEach(wallet => {
+                    const createdDate = new Date(wallet.created_at).toLocaleDateString();
                     
                     html += `
                         <tr>
-                            <td>${wallet.connected_email || 'N/A'}</td>
-                            <td>${wallet.life_1 || 0}</td>
-                            <td>${wallet.life_3 || 0}</td>
-                            <td>${wallet.life_6 || 0}</td>
-                            <td>${wallet.life_9 || 0}</td>
-                            <td>${wallet.diamond || 0}</td>
-                            <td>${expiresDate}</td>
+                            <td>${wallet.email}</td>
+                            <td>${wallet.wallet_id}</td>
+                            <td>${wallet.life_1}</td>
+                            <td>${wallet.life_3}</td>
+                            <td>${wallet.life_6}</td>
+                            <td>${wallet.life_9}</td>
+                            <td>${wallet.diamond}</td>
+                            <td>${createdDate}</td>
                         </tr>
                     `;
                 });
@@ -2523,26 +2559,24 @@
             }
             
             try {
-                const db = firebase.firestore();
-                const walletsSnapshot = await db.collection('Wallet').get();
-                
-                const batch = db.batch();
-                walletsSnapshot.forEach(doc => {
-                    batch.update(doc.ref, {
-                        life_1: 0,
-                        life_3: 0,
-                        life_6: 0,
-                        life_9: 0,
-                        diamond: 0
-                    });
+                const response = await fetch('/api/tokens/reset-all', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
                 });
                 
-                await batch.commit();
-                alert(`Reset ${walletsSnapshot.size} wallets to 0 tokens`);
+                const result = await response.json();
                 
-                // Refresh wallet view if visible
-                if (document.getElementById('walletsList').innerHTML.includes('table')) {
-                    viewAllWallets();
+                if (result.success) {
+                    alert(result.message);
+                    
+                    // Refresh wallet view if visible
+                    if (document.getElementById('walletsList').innerHTML.includes('table')) {
+                        viewAllWallets();
+                    }
+                } else {
+                    alert('Error: ' + result.message);
                 }
                 
             } catch (error) {

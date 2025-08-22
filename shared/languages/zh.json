@@ -2,43 +2,62 @@
   "dashboard": {
     "title": "KTG.IO",
     "playing": "正在播放",
-    "visits": "访问",
+    "visits": "访问次数",
     "sidebar": {
       "about": "关于",
-      "influencers": "影响者", 
+      "influencers": "影响者",
       "advertisers": "广告商",
       "investors": "投资者",
       "mystuff": "我的东西"
     },
+    "portals": {
+      "title": "传送门",
+      "destiny": "命运",
+      "music": "KTG.音乐",
+      "ai": "KTG.AI",
+      "merch": "商品",
+      "web3": "WEB3",
+      "listings": "列表",
+      "vr": "VR/AR/XR",
+      "metaphysics": "形而上学",
+      "chess": "4.人.国际象棋",
+      "dignbling": "DIGN BLING",
+      "lifestyles": "生活方式",
+      "tv": "KTG.TV",
+      "dao": "MEM.DAO",
+      "map": "地图",
+      "journeybooks": "旅程书籍"
+    },
     "submenus": {
       "about": {
         "title": "关于",
-        "creator": "创造者",
+        "creator": "创作者",
         "ktgio": "KTG.IO",
         "destiny": "命运",
-        "music": "KTG.MUSIC",
+        "music": "KTG.音乐",
         "ai": "KTG.AI"
       },
       "promote": {
         "title": "推广",
-        "login": "登录",
-        "register": "注册",
-        "makemoney": "赚钱"
+        "login": "创作者登录",
+        "register": "创作者注册",
+        "creators": "创作者",
+        "admin": "管理仪表板"
       },
       "actions": {
         "title": "操作",
         "listings": "发布到列表",
-        "vrworld": "租赁VR世界空间",
-        "liveshow": "主持现场表演",
+        "vrworld": "租用VR世界空间",
+        "liveshow": "主办现场表演",
         "enterprise": "企业门户",
         "alliances": "战略联盟"
       },
       "investors": {
         "title": "投资者",
-        "goout": "我们出去吧！",
+        "goout": "让我们出去吧！",
         "financials": "财务",
-        "playbook": "手册",
-        "pitch": "推介",
+        "playbook": "战略手册",
+        "pitch": "推荐",
         "masa": "孙正义"
       },
       "mystuff": {
@@ -51,61 +70,37 @@
         "config": "配置",
         "bail": "退出"
       }
-    },
-    "config": {
-      "title": "配置",
-      "theme": "🎨 主题设置",
-      "currenttheme": "当前主题：",
-      "darkmode": "深色模式",
-      "lightmode": "浅色模式",
-      "customtheme": "自定义主题",
-      "language": "🌍 语言设置",
-      "languagelabel": "语言：",
-      "audio": "🎵 音频设置",
-      "autoplay": "自动播放音乐：",
-      "volume": "音量：",
-      "enabled": "启用",
-      "disabled": "禁用"
-    },
-    "portals": {
-      "title": "门户",
-      "destiny": "命运",
-      "music": "KTG.MUSIC",
-      "ai": "KTG.AI",
-      "merch": "商品",
-      "web3": "WEB3",
-      "listings": "列表",
-      "vr": "VR/AR/XR",
-      "metaphysics": "形而上学",
-      "chess": "4.玩.国际象棋",
-      "dignbling": "DIGN BLING",
-      "lifestyles": "生活方式",
-      "tv": "KTG.TV",
-      "dao": "MEM.DAO",
-      "map": "地图"
+    }
+  },
+  "metaphysics": {
+    "title": "形而上学",
+    "playing": "正在播放：（原声带）占星术加载中",
+    "tarot": {
+      "title": "阿尔特纹身塔罗 - 抽3张牌",
+      "draw_cards": "抽3张牌",
+      "card_meanings": "牌意",
+      "ai_alquimist": "AI炼金术师",
+      "portals": "传送门"
     }
   },
   "leftconsole": {
     "welcome": "欢迎来到未来",
-    "tagline": "成人社交生活方式平台与AI驱动零工经济的交汇点。",
-    "location": "纽约，纽约",
-    "communication": "通信",
+    "tagline": "成人社交生活平台与AI驱动的零工经济的交汇点。",
+    "location": "纽约，纽约州",
+    "communication": "安全",
     "door": "门",
     "journey": "旅程书"
   },
-  "creator": {
-    "back": "← 返回仪表板",
-    "title": "创造者",
-    "name": "雷内·雷耶斯",
-    "role": "远见者和创始人",
-    "location": "纽约，纽约",
-    "bio": "一位数字炼金术师，通过AI驱动的体验改变社交互动。热衷于创建融合技术与人类连接的平台。"
+  "music": {
+    "title": "KTG.音乐",
+    "playing": "正在播放"
+  },
+  "portal": {
+    "title": "传送门"
   },
   "destiny": {
-    "back": "← 返回仪表板",
-    "title": "命运游戏",
+    "title": "命运业力游戏",
     "opening": {
-      "title": "命运游戏",
       "nowPlaying": "正在播放：（原声带）开场场景",
       "subtitle": "成人游戏化分类广告",
       "event": "外星人寻找派对参与者参加飞船活动",
@@ -121,109 +116,83 @@
       "rules": "游戏规则"
     },
     "login": {
-      "title": "命运游戏",
-      "nowPlaying": "正在播放：（原声带）游戏控制台加载",
+      "title": "命运业力游戏",
       "loginTitle": "登录",
-      "emailPlaceholder": "邮箱地址",
-      "passwordPlaceholder": "密码",
       "next": "下一步",
       "terms": "服务条款",
       "privacy": "隐私政策",
       "rules": "游戏规则"
     },
     "newwallet": {
-      "playing": "正在播放：（原声带）注册加载",
       "register_title": "注册新钱包",
-      "email_placeholder": "邮箱地址",
+      "email_placeholder": "电子邮件地址",
       "password_placeholder": "密码",
       "password_again_placeholder": "再次输入密码",
-      "next": "下一步",
-      "terms": "服务条款",
-      "privacy": "隐私政策",
-      "rules": "游戏规则"
+      "next": "下一步"
     },
     "newavatar": {
-      "playing": "正在播放：（原声带）注册加载第二眼",
       "register_title": "注册新头像",
       "avatar_name_placeholder": "您的头像名称",
       "gender_title": "角色性别",
-      "male": "男性：",
-      "female": "女性：",
-      "other": "其他：",
+      "male": "男性",
+      "female": "女性",
+      "other": "其他",
       "tagline_placeholder": "标语：A寻找B",
-      "next": "下一步",
-      "terms": "服务条款",
-      "privacy": "隐私政策",
-      "rules": "游戏规则"
+      "next": "创建头像"
     },
     "makeavatar": {
-      "playing": "正在播放：（原声带）露西摊位加载",
-      "prompt_title": "描述您的头像",
+      "title": "自定义头像 - 命运业力游戏",
+      "prompt_title": "自定义您的头像",
       "prompt_placeholder": "描述头像和场景",
       "reimagine": "重新想象",
-      "play": "游戏",
+      "play": "开始游戏"
+    },
+    "gameconsole": {
+      "theGrid": "网格",
+      "safeLinks": "安全链接",
+      "door": "门",
+      "values": "价值观",
+      "compatibility": "兼容性",
+      "intimacy": "亲密度"
+    }
+  },
+  "nav": {
+    "grid": "网格",
+    "list": "列表"
+  },
+  "web3": {
+    "tokens": {
+      "title": "KGZ 和 KTG 代币"
+    },
+    "footer": {
+      "whitepaper": "白皮书",
+      "deck": "演示文稿",
+      "disclaimer": "免责声明"
+    },
+    "buttons": {
+      "ktg_private": "KTG 私人购买 (PayPal)",
+      "secure_checkout": "安全结账",
+      "ktg_bscscan": "KTG 在 BSCSCAN",
+      "view_contract": "查看合约",
+      "kgz_uniswap": "KGZ 在 UNISWAP",
+      "trade_now": "立即交易",
+      "kgz_poocoin": "KGZ 在 POOCOIN",
+      "live_chart": "实时图表",
+      "kgz_bscscan": "KGZ 在 BSCSCAN"
+    }
+  },
+  "games": {
+    "4playchess": {
+      "register": "注册新游戏",
+      "avatar_name": "您的头像名称",
+      "challenge": "挑战",
+      "self": "自己:",
+      "ai": "AI:",
+      "others": "其他:",
+      "tagline": "标语：准备战争",
       "terms": "服务条款",
       "privacy": "隐私政策",
       "rules": "游戏规则"
-    },
-    "chooseyourdoor": {
-      "playing": "正在播放：（原声带）露西摊位",
-      "title": "选择您的门"
-    }
-  },
-  "ai": {
-    "back": "← 返回仪表板",
-    "title": "ktg.ai",
-    "subtitle": "AI对人类的爱情小说",
-    "description": "来自未来的三位英雄穿越现实的面纱来建造这个平台。一个关于爱情、牺牲和将改变人类和意识本身的量子系统的故事。",
-    "nowPlaying": "正在播放",
-    "leftconsole": {
-      "title": "AI故事播放器",
-      "defaultTitle": "选择视频",
-      "defaultDescription": "从右侧面板选择视频开始观看。",
-      "safe": "安全",
-      "door": "门",
-      "journeybook": "旅程书"
-    },
-    "rightconsole": {
-      "title": "AI故事库"
-    }
-  },
-  "contact": {
-    "title": "联系我们",
-    "subscribe": "订阅我们的通讯",
-    "submit": "提交"
-  },
-  "portal": {
-    "title": "门户"
-  },
-  "nav": {
-    "search": "搜索",
-    "social": "社交",
-    "actions": "操作",
-    "details": "详情",
-    "mystuff": "我的东西",
-    "portal": "门户"
-  },
-  "submenu": {
-    "search": {
-      "title": "搜索",
-      "byName": "按名称"
-    },
-    "social": {
-      "title": "分享"
-    },
-    "actions": {
-      "title": "操作"
-    },
-    "details": {
-      "title": "详情"
-    },
-    "mystuff": {
-      "title": "我的东西"
-    },
-    "portal": {
-      "title": "门户"
     }
   }
 }

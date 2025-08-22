@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alter's Tattoo Tarot Meanings</title>
+  <script src="../../../shared/js/language.js"></script>
   <style>
     body {
       background-color: black;
@@ -130,10 +131,10 @@
 </head>
 <body>
 
-  <h1>Alter's Tattoo Tarot - Card Meanings</h1>
+  <h1 data-translate="metaphysics.tarot.title">Alter's Tattoo Tarot - Card Meanings</h1>
   
   <div class="buttons">
-  <button onclick="openCardsPage()">Draw 3 Cards</button>
+  <button onclick="openCardsPage()" data-translate="metaphysics.tarot.draw_cards">Draw 3 Cards</button>
   </div>
   
   <div class="button-space"></div>
@@ -308,7 +309,12 @@
       cardContainer.innerHTML = '';
 
       const imagePath = `images/${cardName}.png`;
-      const descriptionPath = `meaning/${cardName}.txt`;
+      
+      // Get current language
+      const currentLang = localStorage.getItem('ktg-language') || 'en';
+      const langMap = { 'en': '', 'es': 'es/', 'fr': 'fr/', 'zh': 'zh/', 'ja': 'ja/', 'ko': 'ko/', 'ru': 'ru/', 'ar': 'ar/' };
+      const langFolder = langMap[currentLang] || '';
+      const descriptionPath = `meaning/${langFolder}${cardName}.txt`;
 
       const cardDiv = document.createElement('div');
       cardDiv.classList.add('card');
@@ -329,8 +335,18 @@
           cardDiv.appendChild(cardDescription);
         })
         .catch(error => {
-          cardDescription.textContent = "Description not found.";
-          cardDiv.appendChild(cardDescription);
+          // Fallback to English if translation not found
+          const fallbackPath = `meaning/${cardName}.txt`;
+          fetch(fallbackPath)
+            .then(response => response.text())
+            .then(description => {
+              cardDescription.innerHTML = description;
+              cardDiv.appendChild(cardDescription);
+            })
+            .catch(() => {
+              cardDescription.textContent = "Description not found.";
+              cardDiv.appendChild(cardDescription);
+            });
         });
 
       cardContainer.appendChild(cardDiv);
@@ -344,6 +360,17 @@
         event.preventDefault();
         displayCard(link.textContent.replace(/ /g, '_'));
       });
+    });
+    
+    // Initialize language system
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof langManager !== 'undefined') {
+        langManager.init().then(() => {
+          langManager.updateUI();
+        }).catch(error => {
+          console.error('Language initialization failed:', error);
+        });
+      }
     });
   </script>
 

@@ -294,7 +294,7 @@
 <body>
     <div class="content-area">
         <div class="main-content">
-            <h2 data-lang="destiny.login.loginTitle">LOGIN</h2>
+            <h2 data-translate="destiny.login.loginTitle">LOGIN</h2>
             
             <div class="login-instructions">
                 <p>Use <strong>email@domain.com</strong> for account access</p>
@@ -314,7 +314,7 @@
             <input type="text" class="form-input" id="loginInput" placeholder="EMAIL OR AVATAR NAME" data-lang-placeholder="destiny.login.emailPlaceholder" required>
             <input type="password" class="form-input" placeholder="PASSWORD" data-lang-placeholder="destiny.login.passwordPlaceholder" required>
             <menu onclick="handleLogin()">
-                <h2 data-lang="destiny.login.next">LOGIN</h2>
+                <h2 data-translate="destiny.login.next">LOGIN</h2>
             </menu>
             
             <menu id="enterGameBtn" onclick="enterGame()" style="display: none; background-color: var(--accent-color);">
@@ -326,9 +326,9 @@
     </div>
 
     <div class="footer">
-        <a href="#" data-lang="destiny.login.terms">TERMS OF SERVICE</a>
-        <a href="#" data-lang="destiny.login.privacy">PRIVACY POLICY</a>
-        <a href="#" data-lang="destiny.login.rules">RULES OF THE GAME</a>
+        <a href="#" data-translate="destiny.login.terms">TERMS OF SERVICE</a>
+        <a href="#" data-translate="destiny.login.privacy">PRIVACY POLICY</a>
+        <a href="#" data-translate="destiny.login.rules">RULES OF THE GAME</a>
     </div>
     
 
@@ -604,11 +604,11 @@
                 } else {
                     // Fallback text
                     const elements = {
-                        '[data-lang="destiny.login.loginTitle"]': 'LOGIN',
-                        '[data-lang="destiny.login.next"]': 'NEXT',
-                        '[data-lang="destiny.login.terms"]': 'TERMS OF SERVICE',
-                        '[data-lang="destiny.login.privacy"]': 'PRIVACY POLICY',
-                        '[data-lang="destiny.login.rules"]': 'RULES OF THE GAME'
+                        '[data-translate="destiny.login.loginTitle"]': 'LOGIN',
+                        '[data-translate="destiny.login.next"]': 'NEXT',
+                        '[data-translate="destiny.login.terms"]': 'TERMS OF SERVICE',
+                        '[data-translate="destiny.login.privacy"]': 'PRIVACY POLICY',
+                        '[data-translate="destiny.login.rules"]': 'RULES OF THE GAME'
                     };
                     Object.entries(elements).forEach(([selector, text]) => {
                         const el = document.querySelector(selector);
