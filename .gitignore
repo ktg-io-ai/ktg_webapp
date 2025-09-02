@@ -26,6 +26,10 @@ database/
 leonardo-config.js
 ai-config.js
 MAILGUN_API_KEY
+.env.example
+firebase-simple.js
+anthropologie.html
+crate_and_barrel.html
 
 # Development files
 AI_READ_THIS.md
