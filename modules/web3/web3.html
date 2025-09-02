@@ -433,6 +433,43 @@
             background-color: rgba(47, 39, 200, 0.15);
         }
 
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .main-content-inner {
+                margin-right: 25px;
+                margin-left: 25px;
+            }
+            
+            .icon-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-gap: 10px;
+                margin-top: 20px;
+            }
+            
+            .icon-grid button {
+                aspect-ratio: 1 / 1.2;
+                padding: 8px;
+            }
+            
+            .icon-grid button img {
+                max-width: 80px;
+                max-height: 80px;
+            }
+            
+            .top-frame {
+                padding: 15px 25px;
+            }
+            
+            .top-bar h1 {
+                display: none;
+            }
+            
+            .top-bar .song-title {
+                margin-left: 0;
+                padding-right: 25px;
+                font-size: 14px;
+            }
+        }
 
     </style>
     

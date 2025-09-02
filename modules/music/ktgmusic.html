@@ -3,30 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC is an AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement. Discover AI-driven income models & immersive experiences.">
-    <meta name="keywords" content="KTG, Karma the Game, Karma the Game of Destiny, KTG.AI, KTG.MUSIC, AI, Social Platform, Lifestyle Platform, Influencer Marketing, Digital Engagement, AI Advertising, Web3, NFT, Metaverse, SoftBank, Investment, Startup">
-    <meta name="author" content="KTG.IO Platform">
-    <meta property="og:title" content="KTG: AI-Driven Social & Lifestyles Platform">
-    <meta property="og:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.karmathegame.org">
-    <meta property="og:image" content="../../public/assets/images/game_logo.png">
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="KTG: AI-Driven Social & Lifestyles Platform">
-    <meta property="twitter:description" content="KTG: AI-powered social & lifestyle platform revolutionizing advertising, influencer marketing, and digital engagement.">
-    <meta property="twitter:image" content="../../public/assets/icons/kgz_icon.png">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="../../public/assets/icons/kgz_icon.png"/>
-    
-    <title>Karma the Game of Destiny</title>
+    <title>KTG.MUSIC</title>
     
     <style>
         :root {
             --bg-primary: #111;
-            --bg-secondary: #222;
+            --bg-secondary: rgba(1, 1, 1, 0.9);
             --text-primary: #fff;
             --text-secondary: #ccc;
+            --border-color: #2f27c8;
+            --hover-bg: #222;
+            --submenu-bg: rgba(255, 255, 255, 0.1);
+            --sidebar-bg: #111;
+            --topbar-bg: #111;
             --accent-color: #2f27c8;
             --accent-hover: #4fb6c1;
             --border-radius: 20px;
@@ -35,24 +24,34 @@
 
         [data-theme="light"] {
             --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f5;
+            --bg-secondary: rgba(248, 249, 250, 0.9);
             --text-primary: #1a1a1a;
             --text-secondary: #6c757d;
+            --border-color: #e9ecef;
+            --hover-bg: #f1f3f4;
+            --submenu-bg: #ffffff;
+            --sidebar-bg: #ffffff;
+            --topbar-bg: #ffffff;
             --accent-color: #2f27c8;
             --accent-hover: #4fb6c1;
         }
 
         [data-theme="dark"] {
             --bg-primary: #1a1a1a;
-            --bg-secondary: #2a2a2a;
-            --text-primary: #f5f5dc;
+            --bg-secondary: rgba(45, 45, 45, 0.9);
+            --text-primary: #cccccc;
             --text-secondary: #b8b8b8;
+            --border-color: #404040;
+            --hover-bg: #3a3a3a;
+            --submenu-bg: #333333;
+            --sidebar-bg: #2d2d2d;
+            --topbar-bg: #2d2d2d;
             --accent-color: #2f27c8;
             --accent-hover: #4fb6c1;
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Courier New', monospace;
             margin: 0;
             background-color: var(--bg-primary);
             color: var(--text-primary);
@@ -63,94 +62,30 @@
             display: flex;
         }
 
-        /* Sidebar */
-        .sidebar {
-            width: 80px;
-            background-color: var(--bg-primary);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            position: fixed;
-            height: 100%;
-            overflow-y: auto;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            margin-top: 54px;
-        }
-
-        .sidebar .logo {
-            margin-top: 10px;
-        }
-
-        .sidebar .logo img {
-            width: 60px;
-            margin-bottom: 50px;
-            max-height: 150px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .sidebar .logo img:hover {
-            transform: scale(1.1);
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            max-height: 700px;
-            overflow-y: auto;
-        }
-
-        .sidebar li {
-            margin-bottom: 20px;
-            text-align: center;
-            width: 100%;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .sidebar li:hover {
-            transform: scale(1.05);
-        }
-
-        .sidebar li img {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 5px;
-        }
-
-        .sidebar li span {
-            font-size: 10px;
-            display: block;
-            text-align: center;
-            color: var(--text-primary);
-        }
-
         /* Main Content Area */
         .main-content {
-            flex-grow: 1;
-            padding: 3px 5px 0 0;
+            width: 100%;
+            padding: 3px;
+            padding-right: 4px;
+            padding-bottom: 2px;
             height: 100vh;
             overflow: hidden;
         }
 
         .main-area {
             display: flex;
-            height: calc(100vh - 50px);
-            padding-top: 0;
-            margin-top: 53px;
+            height: calc(100vh - 125px);
+            padding-top: 0px;
+            margin-top: 51px;
         }
 
         .main-frame {
             width: 50%;
             height: 100%;
             border: none;
-            border-radius: 0;
+            border-radius: 0px;
             background-color: var(--bg-secondary);
-            margin-left: 5px;
+            margin-left: 2px;
         }
 
         .right-frame {
@@ -158,19 +93,31 @@
             height: 100%;
             background-color: var(--bg-secondary);
             border: none;
-            border-radius: 0;
+            border-radius: 0px;
             margin-left: 0;
             overflow-y: auto;
         }
 
+        .right-frame::-webkit-scrollbar {
+            width: 1px;
+        }
+
+        .right-frame::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .right-frame::-webkit-scrollbar-thumb {
+            background-color: #2f27c8;
+        }
+
         /* Top Bar */
         .top-bar {
-            background-color: var(--bg-primary);
+            background-color: var(--topbar-bg);
             height: 50px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
+            padding: 0 22px;
             z-index: 999;
             width: 100%;
             position: fixed;
@@ -182,136 +129,34 @@
             margin: 0;
             font-size: 16px;
             color: var(--text-primary);
+            font-weight: 600;
         }
 
         .top-bar .song-title {
             margin-left: 20px;
             padding-right: 50px;
+            font-size: 16px;
             color: var(--text-primary);
             display: flex;
             align-items: center;
         }
 
-        /* Submenu Container */
-        .submenu-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            pointer-events: none;
+        .music-buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* Submenu Styles */
-        .submenu {
-            position: absolute;
-            top: 110px;
-            left: 110px;
-            background-color: rgba(1, 1, 1, 0.9);
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-            border: 1px solid #ccc;
-            padding: 20px;
-            min-width: 200px;
-            border-radius: var(--border-radius);
-            z-index: 1001;
-            pointer-events: auto;
-            display: none;
-        }
-
-        [data-theme="light"] .submenu {
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 1px solid #ccc;
-        }
-
-        [data-theme="dark"] .submenu {
-            background-color: rgba(42, 42, 42, 0.9);
-            border: 1px solid #ccc;
-        }
-
-        .submenu h2 {
-            margin-top: 0;
-            color: var(--text-primary);
-        }
-
-        .submenu ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .submenu li {
-            margin-bottom: 10px;
-        }
-
-        .submenu button {
-            background-color: transparent;
-            border: none;
-            color: var(--text-primary);
-            padding: 10px;
-            width: 100%;
-            text-align: left;
-            cursor: pointer;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-        }
-
-        .submenu button:hover {
-            background-color: var(--bg-secondary);
-        }
-        
-        .portal-button-grid:hover {
-            background-color: var(--bg-secondary) !important;
-            border-color: #2f27c8 !important;
-            transform: scale(1.05) !important;
-        }
-        
-        [data-theme="light"] .portal-button-grid:hover {
-            background-color: #f1f3f4 !important;
-        }
-        
-        [data-theme="dark"] .portal-button-grid:hover {
-            background-color: #3a3a3a !important;
-        }
-
-        .submenu button img {
-            max-width: 25px;
-            max-height: 25px;
-            margin-right: 5px;
-            vertical-align: middle;
-        }
-
-        .submenu a {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-            padding: 0;
-            border-radius: var(--border-radius);
-        }
-
-        .close-button {
-            float: right;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-
-        .close-button:hover {
-            color: red;
-        }
-
-        /* Music Controls */
-        #musicToggle {
+        .music-buttons button {
             background: none;
             border: none;
             cursor: pointer;
-            margin-right: 10px;
-            vertical-align: middle;
             padding: 5px;
         }
 
-        #musicToggle img {
-            width: 30px;
-            height: 30px;
+        .music-buttons button img {
+            width: 20px;
+            height: 20px;
         }
 
         /* Progress Bar */
@@ -342,179 +187,518 @@
             z-index: -1;
         }
 
-        /* Theme-specific video display */
         [data-theme="light"] .bg-video,
         [data-theme="dark"] .bg-video {
             display: none;
         }
 
-        /* Animations */
-        .slide-in-left {
-            opacity: 0;
-            transform: translateX(-100%);
-            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        /* Mobile View Toggle */
+        .view-toggle {
+            background-color: var(--topbar-bg);
+            height: 50px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 50px;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            padding: 0 20px;
+        }
+        
+        .view-toggle h2 {
+            color: var(--text-primary);
+            font-size: 16px;
+            margin: 0;
+            font-weight: bold;
+        }
+        
+        .view-buttons {
+            display: flex;
+            gap: 15px;
+            margin-right: 25px;
+        }
+        
+        .view-toggle button {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: none;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .view-toggle button.active {
+            background-color: var(--accent-color);
+        }
+        
+        .view-toggle button img {
+            width: 20px;
+            height: 20px;
         }
 
-        .slide-in-left.active {
-            opacity: 1;
-            transform: translateX(0);
+        /* Left Console Styles */
+        .top-frame {
+            background-color: var(--bg-primary);
+            padding: 19px;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .fade-in {
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
+        .top-frame h2 {
+            margin: 0;
+            flex-grow: 1;
         }
 
-        .fade-in.active {
-            opacity: 1;
+        .content-area {
+            display: flex;
+            height: calc(100vh - 95px);
         }
 
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 3px;
+        .left-content {
+            width: 90%;
+            overflow-y: auto;
+            margin-right: 10px;
         }
 
-        ::-webkit-scrollbar-track {
-            background: transparent;
+        .left-content img {
+            width: 100%;
+            max-height: 60vh;
+            object-fit: cover;
+            object-position: top;
+            animation: slideInLeft 1s ease-in-out;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-color);
+        [data-theme="light"] .left-content img,
+        [data-theme="dark"] .left-content img {
+            width: 80%;
+            border-radius: 12px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .left-content::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .data-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: 95%;
+            margin: auto;
+            justify-content: space-between;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 5px;
+            background-color: transparent;
+            border-radius: 3px;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--text-primary);
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        .content {
+            margin-top: 5px;
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            width: 100%;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons button {
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
             border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(47, 39, 200, 0.3);
+            text-decoration: none;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-hover);
+        .buttons button:hover {
+            background-color: #3d32d4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(47, 39, 200, 0.4);
         }
 
-        /* Modal Overlay Styles */
-        .config-overlay {
+        .buttons button a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .door-box {
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            border-radius: 5px;
+        }
+
+        .journeybook-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 80%;
+        }
+
+        .bar {
+            height: 10px;
+            border-radius: 5px;
+        }
+
+        .bar1 { background-color: blue; width: 10%; }
+        .bar2 { background-color: yellow; width: 50%; }
+        .bar3 { background-color: red; width: 85%; }
+
+        .bottom-frame {
+            padding-left: 20px;
+        }
+
+        [data-theme="light"] .bottom-frame,
+        [data-theme="dark"] .bottom-frame {
+            text-align: center;
+        }
+
+        /* Right Console Styles */
+        .right-frame .top-frame {
+            position: fixed;
+            top: 50px;
+            right: 0;
+            width: 50%;
+            z-index: 998;
+            background-color: var(--bg-primary);
+        }
+        
+        .right-frame .content-area {
+            margin-top: 70px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 0px;
+        }
+
+        .image-grid button {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin: 1px;
+            border-radius: 3px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .image-grid button:hover {
+            transform: scale(.95);
+        }
+
+        .image-grid button img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+
+        .view-btn {
+            background-color: var(--bg-secondary) !important;
+            padding: 8px !important;
+            border-radius: 50% !important;
+            width: 35px !important;
+            height: 35px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .view-btn.active {
+            background-color: #2f27c8 !important;
+        }
+
+        .view-btn:hover {
+            background-color: var(--hover-bg) !important;
+        }
+
+        .view-btn.active:hover {
+            background-color: #3d32d4 !important;
+        }
+
+        .list-view {
+            display: none;
+            padding: 10px;
+        }
+
+        .list-item {
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: grid;
+            grid-template-columns: 50px 1fr;
+            gap: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .list-item:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .list-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .list-item-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .list-item-info p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .list-safe-links {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .list-safe-link {
+            background-color: var(--accent-color);
+            color: #fff;
+            text-decoration: none;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .list-safe-link:hover {
+            background-color: #3d32d4;
+        }
+
+        /* Submenu Styles */
+        .submenu-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .submenu {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            background-color: rgba(1, 1, 1, 0.9);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            border: 1px solid #ccc;
+            padding: 20px;
+            min-width: 200px;
+            border-radius: 20px;
+            z-index: 1001;
+            pointer-events: auto;
             display: none;
         }
 
-        .config-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(17, 17, 17, 0.9);
-            border: 1px solid var(--accent-color);
-            border-radius: 12px;
-            padding: 20px;
-            width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
-            z-index: 2001;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        [data-theme="light"] .submenu {
+            background-color: rgba(255, 255, 255, 0.9);
         }
 
-        [data-theme="ktg"] .config-popup {
-            border: 5px solid #2f27c8;
-            box-shadow: none;
+        [data-theme="dark"] .submenu {
+            background-color: rgba(42, 42, 42, 0.9);
         }
 
-        .config-section {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            border-left: 4px solid #2f27c8;
-        }
-
-        .config-option {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-        }
-
-        .config-option label {
+        .submenu h2 {
+            margin-top: 0;
             color: var(--text-primary);
-            font-weight: bold;
+            font-size: 16px;
         }
 
-        [data-theme="light"] .config-popup {
+        .close-button {
+            float: right;
+            cursor: pointer;
+            margin-left: 10px;
+            color: var(--text-primary);
+        }
+
+        [data-theme="ktg"] .close-button {
+            color: #fff;
+        }
+
+        [data-theme="light"] .close-button {
             color: #000;
         }
 
-        [data-theme="light"] .config-option label {
-            color: #000;
+        [data-theme="dark"] .close-button {
+            color: #fff;
         }
 
-        /* Wallet Popup Styles */
-        .token-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
+        .close-button:hover {
+            color: red;
         }
-        
-        .token-card:hover {
-            border-color: #2f27c8;
-            background: rgba(255, 255, 255, 0.15);
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
         }
-        
-        .token-card.diamond {
-            background: linear-gradient(45deg, #ff6b6b, #ffd700);
-            color: #000;
-            font-weight: bold;
-        }
-        
-        .token-count {
-            font-size: 24px;
-            font-weight: bold;
-            color: #2f27c8;
-            margin-bottom: 5px;
-        }
-        
-        .token-card.diamond .token-count {
-            color: #000;
-        }
-        
-        .token-type {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-        
-        .token-price {
-            font-size: 10px;
-            opacity: 0.6;
-            margin-top: 5px;
-        }
-        
-        .history-item {
+
+        .portal-button {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            padding: 8px;
-            margin-bottom: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            font-size: 12px;
+            justify-content: center;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 16px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+            min-width: 0;
         }
-        
-        .history-date {
-            opacity: 0.6;
+
+        .portal-button:hover {
+            background-color: var(--hover-bg);
+            border-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .portal-button img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 8px;
+        }
+
+        .portal-button span {
+            font-size: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .playlist-selector {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .playlist-selector select {
+            background-color: var(--hover-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--text-secondary);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .view-toggle {
+                display: flex;
+            }
+            
+            .main-area {
+                flex-direction: column;
+                height: calc(100vh - 150px);
+                margin-top: 100px;
+            }
+            
+            .main-frame {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                display: none;
+            }
+            
+            .main-frame.single-view {
+                display: block;
+            }
+            
+            .right-frame {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                display: block;
+            }
+            
+            .right-frame .top-frame {
+                display: none;
+            }
+            
+            .right-frame .content-area {
+                margin-top: 0;
+            }
+            
+            .right-frame.single-view {
+                display: none;
+            }
+            
+            .top-bar h1 {
+                display: none;
+            }
+            
+            .top-bar .song-title {
+                margin-left: 0;
+                padding-right: 0;
+                font-size: 14px;
+            }
         }
     </style>
-    
-    <script src="../../shared/js/theme-icons.js"></script>
-    <script src="../../shared/js/language.js"></script>
 </head>
 <body>
-    <video class="bg-video" autoplay muted>
+    <video class="bg-video" autoplay muted loop>
         <source src="../../public/assets/videos/ktgmusic2.mp4" type="video/mp4">
     </video>
 
@@ -522,118 +706,154 @@
         <div class="progress-bar-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
-        
-        
 
         <div class="main-content">
             <div class="top-bar fade-in">
                 <div class="music-buttons">
-                    <button onclick="window.open('../../modules/music/m_music_player.html', '_blank', 'width=500,height=950')" style="background: none; border: none; cursor: pointer;">
-                        <img src="../../public/assets/icons/music_player_icon.png" alt="Open Music Player" style="width: 30px; height: 30px;">
+                    <button onclick="window.open('../../modules/music/m_music_player.html', '_blank', 'width=500,height=950')">
+                        <img src="../../public/assets/icons/music_player_icon.png" alt="Open Music Player">
                     </button>
                 </div>
-                <h1 data-translate="music.title">KTG.MUSIC</h1>
+                <h1>KTG.MUSIC</h1>
                 <div class="song-title">
-                    <button id="musicToggle">
-                        <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle">
+                    <button id="musicToggle" style="padding: 2px; margin-right: 10px; background: transparent;">
+                        <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle" style="width: 16px; height: 16px;">
                     </button>
-                    <span data-translate="music.playing">PLAYING</span>: <span id="currentSongTitle">Guru and Lucy Voyage to Yonder 9</span>
+                    <span>PLAYING: </span><span id="currentSongTitle">Guru and Lucy Voyage to Yonder 9</span>
+                </div>
+            </div>
+
+            <!-- Mobile View Toggle -->
+            <div class="view-toggle">
+                <h2 id="playlist-title">KTG AI Music</h2>
+                <div class="view-buttons">
+                    <button id="gridViewBtn" class="active" onclick="showMobileView('grid')" title="Grid View">
+                        <img src="../../public/assets/icons/grid_icon.png" alt="Grid View">
+                    </button>
+                    <button id="singleViewBtn" onclick="showMobileView('single')" title="Single View">
+                        <img src="../../public/assets/icons/detail_icon.png" alt="Single View">
+                    </button>
+                    <button id="listViewBtn" onclick="showMobileView('list')" title="List View">
+                        <img src="../../public/assets/icons/list_icon.png" alt="List View">
+                    </button>
                 </div>
             </div>
 
             <div class="main-area">
-                <iframe src="leftconsole_music.html" class="main-frame fade-in" id="mainFrame"></iframe>
-                <iframe src="rightconsole_music.html" class="right-frame fade-in" id="rightFrame"></iframe>
+                <!-- Left Frame Content (Song Details) -->
+                <div class="main-frame fade-in" id="mainFrame">
+                    <div class="top-frame">
+                        <h2 id="song-title">Guru and Lucy Voyage to Yonder 9</h2>
+                    </div>
+                    <div class="content-area slide-in-left">
+                        <div class="left-content">
+                            <img id="cover-image" src="covers/guru_and_lucy_voyage_to_yonder_9.png" alt="Album Cover">
+                            <div class="bottom-frame">
+                                <div class="tagline">
+                                    <h2 id="artist-name">Anthony Flammia</h2>
+                                </div>
+                                <div class="tagline">
+                                    <h4>On ALL Streaming Platforms</h4>
+                                </div>
+                            </div>
+                            <div class="data-container">
+                                <div class="column">
+                                    <div class="title">SAFE</div>
+                                    <div class="safe-button">
+                                        <div class="buttons" id="safe-links">
+                                            <button><a href="https://youtu.be/8rsfnDYlQgo?si=F-fVrhhXpADkM-L3" target="_blank" rel="noopener noreferrer">Official Video</a></button>
+                                            <button><a href="https://monaverse.com/spaces/guru-and-lucy-duet-low" target="_blank" rel="noopener noreferrer">Metaverse</a></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="title">DOOR</div>
+                                    <div class="content">
+                                        <div class="door-box"></div>
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="title">JOURNEYBOOK</div>
+                                    <div class="content journeybook-bars">
+                                        <div class="bar bar1"></div>
+                                        <div class="bar bar2"></div>
+                                        <div class="bar bar3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Frame Content (Music Library) -->
+                <div class="right-frame fade-in" id="rightFrame">
+                    <div class="top-frame">
+                        <h2 id="playlist-title-right">KTG AI Music</h2>
+                        <div class="buttons">
+                            <button id="gridViewBtnRight" class="view-btn active" onclick="toggleView('grid')" title="Grid View">
+                                <img src="../../public/assets/icons/grid_icon.png" alt="Grid View" style="width: 25px; height: 25px;">
+                            </button>
+                            <button id="listViewBtnRight" class="view-btn" onclick="toggleView('list')" title="List View">
+                                <img src="../../public/assets/icons/list_icon.png" alt="List View" style="width: 25px; height: 25px;">
+                            </button>
+                            <button onclick="openSubmenu('portal')" class="view-btn" title="Portal">
+                                <img src="../../public/assets/icons/portal_icon.png" alt="Portal" style="width: 25px; height: 25px;">
+                            </button>
+                        </div>
+                    </div>
+                    <div class="content-area">
+                        <div class="left-content">
+                            <div class="playlist-selector">
+                                <select id="playlist-dropdown" onchange="changePlaylist(this.value)" title="Select Playlist">
+                                    <option value="KTG AI Music">KTG AI Music</option>
+                                    <option value="Original Soundtrack">Original Soundtrack</option>
+                                    <option value="VR Worlds">VR Worlds</option>
+                                </select>
+                            </div>
+                            
+                            <div id="grid-view" class="image-grid"></div>
+                            <div id="list-view" class="list-view"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div id="submenu-container" class="submenu-container" onclick="closeAllSubmenus(event)">
-            <audio id="musicPlayer" src="../../public/assets/ktgmusic/music/guru_and_lucy_voyage_to_yonder_9.mp3" loop></audio>
-            
-            <div id="search-submenu" class="submenu">
-                <h2 data-translate="music.submenus.search.title">Search<span class="close-button" onclick="closeSubmenu(this)">X</span></h2>
-                <ul>
-                    <li>
-                        <button>
-                            <img src="../../public/assets/icons/name_icon.png" alt="Name Icon"> <span data-translate="music.submenus.search.byName">By Name</span>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-            
-            
-            
+        <audio id="musicPlayer" src="music/guru_and_lucy_voyage_to_yonder_9.mp3" loop></audio>
+        
+        <div id="submenu-container" class="submenu-container">
             <div id="portal-submenu" class="submenu">
                 <h2>Portals <span class="close-button" onclick="closeSubmenu(this)">×</span></h2>
-                <div class="portal-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-                    <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="theme-icon" data-ktg="../../public/assets/icons/portal_icon.png" data-light="../../public/assets/icons/portal_icon-blk.png" data-dark="../../public/assets/icons/portal_icon-wht.png" src="../../public/assets/icons/portal_icon.png" alt="portals" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">PORTALS</span></a>
-                    <a href="../destiny/opening.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="destiny-icon" src="../../public/assets/icons/fave_icon.png" alt="destiny" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">DESTINY</span></a>
-                    <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="listings-icon" src="../../public/assets/icons/listing_icon.png" alt="listings" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">LISTINGS</span></a>
-                    <a href="../ai/ktgai.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="ktgai-icon" src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">KTG.AI</span></a>
-                    <a href="../about/creator.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="web3-icon" src="../../public/assets/icons/kgz_white_icon.png" alt="web3" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">WEB3</span></a>
-                    <a href="../about/creator.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="vr-icon" src="../../public/assets/icons/vr_icon.png" alt="XR" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">VR/AR/XR</span></a>
-                    <a href="../about/creator.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="dignbling-icon" src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">DIGN BLING</span></a>
-                    <a href="../about/creator.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="theme-icon" data-ktg="../../public/assets/icons/chess_icon.png" data-light="../../public/assets/icons/chess_icon-blk.png" data-dark="../../public/assets/icons/chess_icon-wht.png" src="../../public/assets/icons/chess_icon.png" alt="chess" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">4 PLAY CHESS</span></a>
-                    <a href="../about/creator.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="metaphysics-icon" src="../../public/assets/icons/tarot_icon.png" alt="tarot" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">METAPHYSICS</span></a>
-                    <a href="../about/creator.html" target="_parent" class="portal-button-grid" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: var(--bg-primary); color: var(--text-primary); text-decoration: none; padding: 16px; border-radius: 12px; transition: all 0.3s ease; aspect-ratio: 1; border: 2px solid transparent; min-width: 0;"><img class="map-icon" src="../../public/assets/icons/globe_icon.png" alt="map" style="width: 32px; height: 32px; margin-bottom: 8px;"><span style="font-size: 10px; text-align: center; font-weight: bold;">MAP</span></a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Wallet Popup -->
-        <div id="wallet-overlay" class="config-overlay" onclick="closeWalletPopup()">
-            <div class="config-popup" onclick="event.stopPropagation()">
-                <h2>💰 Wallet <span class="close-button" onclick="closeWalletPopup()">X</span></h2>
-                
-                <div class="config-section">
-                    <h3 style="color: #2f27c8; margin-bottom: 10px;">💰 Token Balance</h3>
-                    <div class="token-grid" id="tokenGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; margin-bottom: 20px;">
-                        <!-- Tokens will be populated by JavaScript -->
-                    </div>
-                    <div class="action-buttons" style="display: flex; gap: 10px; margin-top: 20px;">
-                        <button class="buy-button" onclick="buyTokens()" style="background: linear-gradient(45deg, #2f27c8, #4fb6c1); flex: 1;">Buy More Tokens</button>
-                        <button onclick="refreshWallet()" style="flex: 1;">Refresh Balance</button>
-                    </div>
-                </div>
-
-                <div class="config-section">
-                    <h3 style="color: #2f27c8; margin-bottom: 10px;">🔗 Wallet Information</h3>
-                    <div class="config-option">
-                        <label>Wallet ID:</label>
-                        <span class="wallet-value" id="walletId" style="color: #2f27c8; font-family: monospace;">Loading...</span>
-                    </div>
-                    <div class="config-option">
-                        <label>Email:</label>
-                        <span class="wallet-value" id="walletEmail" style="color: #2f27c8; font-family: monospace;">Loading...</span>
-                    </div>
-                    <div class="config-option">
-                        <label>Crypto Wallet:</label>
-                        <span class="wallet-value" id="cryptoWallet" style="color: #2f27c8; font-family: monospace;">Not Connected</span>
-                    </div>
-                    <div class="action-buttons" style="display: flex; gap: 10px; margin-top: 20px;">
-                        <button onclick="connectCryptoWallet()" style="flex: 1;">Connect Crypto Wallet</button>
-                        <button onclick="exportWallet()" style="flex: 1;">Export Wallet</button>
-                    </div>
-                </div>
-
-                <div class="config-section">
-                    <h3 style="color: #2f27c8; margin-bottom: 10px;">📊 Recent Activity</h3>
-                    <div id="tokenHistory" style="max-height: 200px; overflow-y: auto;">
-                        <!-- History will be populated by JavaScript -->
-                    </div>
+                <div class="portal-grid">
+                    <a href="../../src/pages/dashboard.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/portal_icon.png" alt="portals"><span>PORTALS</span></a>
+                    <a href="../destiny/opening.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/fave_icon.png" alt="destiny"><span>DESTINY</span></a>
+                    <a href="../lifestyles/listingsconsole.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/listing_icon.png" alt="listings"><span>LISTINGS</span></a>
+                    <a href="../ai/ktgai.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/ai_brain_logo_icon.png" alt="ktgai"><span>KTG.AI</span></a>
+                    <a href="../music/ktgmusic.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/qr_icon.png" alt="ktgmusic"><span>KTG.MUSIC</span></a>
+                    <a href="../web3/web3.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/kgz_white_icon.png" alt="web3"><span>WEB3</span></a>
+                    <a href="../vr/ktgxr.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/vr_icon.png" alt="XR"><span>VR/AR/XR</span></a>
+                    <a href="../dignbling/dign_bling.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/diamond_mine_icon.png" alt="diamond"><span>DIGN BLING</span></a>
+                    <a href="../4playchess/4playchess.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/chess_icon.png" alt="chess"><span>4 PLAY CHESS</span></a>
+                    <a href="../metaphysics/dashboard_tarot.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/tarot_icon.png" alt="tarot"><span>METAPHYSICS</span></a>
+                    <a href="../map/map.html" target="_parent" class="portal-button"><img src="../../public/assets/icons/globe_icon.png" alt="map"><span>MAP</span></a>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Initialize variables
+        let songsData = [];
+        let currentView = 'grid';
+        let currentSongIndex = 0;
+        let isSingleView = false;
+        let isMobile = window.innerWidth <= 768;
+
         const musicPlayer = document.getElementById('musicPlayer');
         const musicToggle = document.getElementById('musicToggle');
         const currentSongTitleElement = document.getElementById('currentSongTitle');
 
-        let songsData = [];
-
-        // Load all song data from multiple sources
+        // Load all song data
         async function loadAllSongs() {
             try {
                 const [ktgMusicResponse, soundtrackResponse, vrWorldsResponse] = await Promise.all([
@@ -653,45 +873,73 @@
                 songsData = [...ktgMusic, ...soundtrack, ...vrWorlds];
                 
                 console.log('Loaded', songsData.length, 'songs from all playlists');
-                
-                // Initialize right console with loaded data
-                const rightConsole = document.getElementById('rightFrame').contentWindow;
-                if (rightConsole && rightConsole.initializeWithData) {
-                    rightConsole.initializeWithData({
-                        "KTG AI Music": ktgMusic,
-                        "Original Soundtrack": soundtrack,
-                        "VR Worlds": vrWorlds
-                    });
-                }
+                renderSongs('KTG AI Music');
             } catch (error) {
                 console.error('Failed to load songs:', error);
             }
         }
 
-        // Initialize after a delay to ensure iframes are loaded
-        setTimeout(() => {
-            loadAllSongs();
-        }, 1000);
+        // Mobile view functions
+        function showMobileView(view) {
+            const mainFrame = document.getElementById('mainFrame');
+            const rightFrame = document.getElementById('rightFrame');
+            const gridBtn = document.getElementById('gridViewBtn');
+            const singleBtn = document.getElementById('singleViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+            
+            // Remove active class from all buttons
+            gridBtn.classList.remove('active');
+            singleBtn.classList.remove('active');
+            listBtn.classList.remove('active');
+            
+            if (view === 'grid' || view === 'list') {
+                mainFrame.classList.remove('single-view');
+                rightFrame.classList.remove('single-view');
+                isSingleView = false;
+                toggleView(view);
+                if (view === 'grid') gridBtn.classList.add('active');
+                else listBtn.classList.add('active');
+            } else if (view === 'single') {
+                mainFrame.classList.add('single-view');
+                rightFrame.classList.add('single-view');
+                isSingleView = true;
+                singleBtn.classList.add('active');
+            }
+        }
 
+        function toggleView(view) {
+            const gridView = document.getElementById('grid-view');
+            const listView = document.getElementById('list-view');
+            const gridBtn = document.getElementById('gridViewBtnRight');
+            const listBtn = document.getElementById('listViewBtnRight');
+
+            currentView = view;
+            
+            if (view === 'grid') {
+                gridView.style.display = 'grid';
+                listView.style.display = 'none';
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            } else if (view === 'list') {
+                gridView.style.display = 'none';
+                listView.style.display = 'block';
+                gridBtn.classList.remove('active');
+                listBtn.classList.add('active');
+                setTimeout(() => generateListView(), 50);
+            }
+        }
+
+        // Music functions
         function toggleMusic() {
             if (musicPlayer.paused) {
                 musicPlayer.play();
             } else {
                 musicPlayer.pause();
             }
-            
-            // Update icon for Light/Dark modes
-            const currentTheme = localStorage.getItem('ktg-theme') || 'ktg';
-            if (typeof updateMusicToggleIcon === 'function') {
-                updateMusicToggleIcon(currentTheme);
-            }
         }
-
-        musicToggle.addEventListener('click', toggleMusic);
 
         function queueSong(songTitle) {
             const song = songsData.find(song => song.title === songTitle);
-
             if (!song) {
                 console.error('Song not found:', songTitle);
                 return;
@@ -699,44 +947,154 @@
 
             musicPlayer.src = song.mp3;
             currentSongTitleElement.textContent = song.title;
-
-            const leftConsole = document.getElementById('mainFrame').contentWindow;
-            if (leftConsole) {
-                leftConsole.updateCoverArt(song.cover, song.title, song.artist);
-                leftConsole.updateSafeLinks(song.safeLinks);
+            
+            updateSongDetails(song);
+            
+            if (window.innerWidth <= 768) {
+                showMobileView('single');
             }
 
-            // Play immediately when song is clicked
             musicPlayer.play();
             console.log('Playing song:', songTitle);
         }
 
-        function openSubmenu(submenu) {
-            const submenus = document.querySelectorAll('.submenu');
-            submenus.forEach(s => {
-                s.style.display = 'none';
-            });
+        function updateSongDetails(song) {
+            document.getElementById('song-title').textContent = song.title;
+            document.getElementById('cover-image').src = song.cover;
+            document.getElementById('artist-name').textContent = song.artist;
+            
+            const safeLinksContainer = document.getElementById('safe-links');
+            safeLinksContainer.innerHTML = '';
 
-            const selectedSubmenu = document.getElementById(submenu + '-submenu');
-            if (selectedSubmenu) {
-                selectedSubmenu.style.display = 'block';
-            }
-        }
-        
-        function closeAllSubmenus(event) {
-            if (event.target === event.currentTarget) {
-                const submenus = document.querySelectorAll('.submenu');
-                submenus.forEach(submenu => {
-                    submenu.style.display = 'none';
+            if (song.safeLinks && song.safeLinks.length > 0) {
+                song.safeLinks.forEach(link => {
+                    const button = document.createElement('button');
+                    const a = document.createElement('a');
+                    a.href = link.url;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                    a.textContent = link.text;
+                    button.appendChild(a);
+                    safeLinksContainer.appendChild(button);
                 });
+            } else {
+                const button = document.createElement('button');
+                button.style.backgroundColor = '#666';
+                button.style.cursor = 'default';
+                button.textContent = 'No Safe Links Available';
+                button.disabled = true;
+                safeLinksContainer.appendChild(button);
             }
         }
 
-        function closeSubmenu(closeButton) {
-            const submenu = closeButton.closest('.submenu');
-            submenu.style.display = 'none';
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllSongs();
+            musicToggle.addEventListener('click', toggleMusic);
+            
+            // Initialize theme
+            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        });
+
+        function changePlaylist(playlistName) {
+            document.getElementById('playlist-title').textContent = playlistName;
+            document.getElementById('playlist-title-right').textContent = playlistName;
+            document.getElementById('playlist-dropdown').value = playlistName;
+            renderSongs(playlistName);
+            
+            if (document.getElementById('list-view').style.display === 'block') {
+                generateListView();
+            }
         }
 
+        function renderSongs(playlistName) {
+            const gridView = document.getElementById('grid-view');
+            gridView.innerHTML = '';
+            
+            let songs = [];
+            if (playlistName === 'KTG AI Music') {
+                songs = songsData.filter(song => song.mp3.includes('/music/'));
+            } else if (playlistName === 'Original Soundtrack') {
+                songs = songsData.filter(song => song.mp3.includes('/audio/'));
+            } else if (playlistName === 'VR Worlds') {
+                songs = songsData.filter(song => song.mp3.includes('/vrworlds/'));
+            }
+            
+            songs.forEach((song, index) => {
+                const button = document.createElement('button');
+                button.style.opacity = '0';
+                button.style.transition = 'opacity 0.3s ease';
+                
+                button.addEventListener('click', () => {
+                    console.log('Song clicked:', song.title);
+                    currentSongIndex = index;
+                    queueSong(song.title);
+                });
+
+                const img = document.createElement('img');
+                img.alt = song.title;
+                
+                img.onload = () => {
+                    button.style.opacity = '1';
+                };
+                
+                setTimeout(() => {
+                    img.src = song.cover;
+                }, index * 50);
+                
+                button.appendChild(img);
+                gridView.appendChild(button);
+            });
+        }
+
+        function generateListView() {
+            const listView = document.getElementById('list-view');
+            const playlistName = document.getElementById('playlist-dropdown').value;
+            
+            listView.innerHTML = '';
+            
+            let songs = [];
+            if (playlistName === 'KTG AI Music') {
+                songs = songsData.filter(song => song.mp3.includes('/music/'));
+            } else if (playlistName === 'Original Soundtrack') {
+                songs = songsData.filter(song => song.mp3.includes('/audio/'));
+            } else if (playlistName === 'VR Worlds') {
+                songs = songsData.filter(song => song.mp3.includes('/vrworlds/'));
+            }
+            
+            songs.forEach((song, index) => {
+                const listItem = document.createElement('div');
+                listItem.className = 'list-item';
+                listItem.onclick = () => {
+                    console.log('List item clicked:', song.title);
+                    currentSongIndex = index;
+                    queueSong(song.title);
+                };
+                
+                let safeLinksHtml = '';
+                if (song.safeLinks && song.safeLinks.length > 0) {
+                    safeLinksHtml = '<div class="list-safe-links">';
+                    song.safeLinks.forEach(link => {
+                        safeLinksHtml += `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="list-safe-link" onclick="event.stopPropagation()">${link.text}</a>`;
+                    });
+                    safeLinksHtml += '</div>';
+                }
+                
+                listItem.innerHTML = `
+                    <img src="${song.cover}" alt="${song.title}">
+                    <div class="list-item-info">
+                        <h4>${song.title}</h4>
+                        <p>${song.artist}</p>
+                        ${safeLinksHtml}
+                    </div>
+                `;
+                
+                listView.appendChild(listItem);
+            });
+        }
+
+        // Progress bar functionality
         const progressBar = document.getElementById('progressBar');
 
         function updateProgressBar() {
@@ -753,233 +1111,56 @@
         musicPlayer.addEventListener('play', updateProgressBar);
         musicPlayer.addEventListener('pause', updateProgressBar);
 
-        // Initialize theme and animations
-        function initializeTheme() {
-            const savedTheme = localStorage.getItem('ktg-theme') || 'ktg';
-            document.body.setAttribute('data-theme', savedTheme);
-            
-            if (typeof updateThemeIcons === 'function') {
-                updateThemeIcons(savedTheme);
-            }
-            
-            // Apply theme-specific settings
-            const video = document.querySelector('.bg-video');
-            if (savedTheme === 'ktg') {
-                if (video) video.style.display = 'block';
-            } else {
-                if (video) video.style.display = 'none';
-            }
-        }
-
-        // Auto-play music based on settings (default off)
-        function initializeMusic() {
-            const autoplayEnabled = localStorage.getItem('ktg-autoplay') === 'true';
-            const volume = parseFloat(localStorage.getItem('ktg-volume')) || 0.5;
-            
-            if (musicPlayer) {
-                musicPlayer.volume = volume;
-                // Music is OFF by default - do not autoplay
-                // Only play if user manually clicks toggle
-                
-                // Set default song
-                musicPlayer.src = '../../public/assets/ktgmusic/music/guru_and_lucy_voyage_to_yonder_9.mp3';
-                currentSongTitleElement.textContent = 'Guru and Lucy Voyage to Yonder 9';
-            }
-        }
-
-        // Make queueSong available globally for iframe communication
-        window.queueSong = queueSong;
-        
-        function openWalletPopup() {
-            document.getElementById('wallet-overlay').style.display = 'block';
-            initializeWallet();
-        }
-
-        function closeWalletPopup() {
-            document.getElementById('wallet-overlay').style.display = 'none';
-        }
-
-        // Wallet functionality
-        let currentWallet = null;
-
-        async function initializeWallet() {
-            try {
-                if (!window.walletManager) {
-                    const script = document.createElement('script');
-                    script.src = '../../shared/js/wallet-manager.js';
-                    document.head.appendChild(script);
-                    await new Promise(resolve => {
-                        script.onload = resolve;
+        // Submenu functions
+        function openSubmenu(submenu) {
+            const selectedSubmenu = document.getElementById(submenu + '-submenu');
+            if (selectedSubmenu) {
+                if (selectedSubmenu.style.display === 'block') {
+                    selectedSubmenu.style.display = 'none';
+                } else {
+                    const submenus = document.querySelectorAll('.submenu');
+                    submenus.forEach(menu => {
+                        menu.style.display = 'none';
                     });
+                    selectedSubmenu.style.display = 'block';
                 }
-                
-                await new Promise(resolve => setTimeout(resolve, 100));
-                
-                currentWallet = window.walletManager;
-                await currentWallet.loadWallet();
-                
-                updateWalletDisplay();
-                updateTokenGrid();
-                updateWalletInfo();
-                updateTokenHistory();
-                
-            } catch (error) {
-                console.error('Error initializing wallet:', error);
             }
         }
 
-        function updateTokenGrid() {
-            if (!currentWallet) return;
+        function closeSubmenu(closeButton) {
+            const submenu = closeButton.closest('.submenu');
+            submenu.style.display = 'none';
+        }
+
+        // Click outside to close submenu
+        document.addEventListener('click', function(event) {
+            const submenus = document.querySelectorAll('.submenu');
+            const portalButtons = document.querySelectorAll('[onclick*="openSubmenu"]');
             
-            const tokenGrid = document.getElementById('tokenGrid');
-            const tokens = currentWallet.tokens;
+            let clickedInsideSubmenu = false;
+            let clickedOnPortalButton = false;
             
-            let html = '';
-            
-            const availableTokens = [1, 3, 6, 9];
-            availableTokens.forEach(i => {
-                const tokenType = `${i}life`;
-                const count = tokens[tokenType] || 0;
-                const price = currentWallet.getTokenPrice(tokenType);
-                
-                html += `
-                    <div class="token-card">
-                        <div class="token-count">${count}</div>
-                        <div class="token-type">${i}-Life Token</div>
-                        <div class="token-price">$${price}</div>
-                    </div>
-                `;
+            submenus.forEach(submenu => {
+                if (submenu.contains(event.target)) {
+                    clickedInsideSubmenu = true;
+                }
             });
             
-            const diamondCount = tokens['diamond'] || 0;
-            html += `
-                <div class="token-card diamond">
-                    <div class="token-count">${diamondCount}</div>
-                    <div class="token-type">💎 Diamond</div>
-                    <div class="token-price">$999.00</div>
-                </div>
-            `;
-            
-            tokenGrid.innerHTML = html;
-        }
-
-        function updateWalletInfo() {
-            if (!currentWallet) return;
-            
-            document.getElementById('walletId').textContent = currentWallet.walletId || 'Not Set';
-            document.getElementById('walletEmail').textContent = currentWallet.email || 'Not Set';
-            document.getElementById('cryptoWallet').textContent = currentWallet.cryptoWallet || 'Not Connected';
-        }
-
-        function updateTokenHistory() {
-            if (!currentWallet) return;
-            
-            const historyDiv = document.getElementById('tokenHistory');
-            const history = currentWallet.tokenHistory.slice(-10).reverse();
-            
-            if (history.length === 0) {
-                historyDiv.innerHTML = '<div class="history-item">No recent activity</div>';
-                return;
-            }
-            
-            let html = '';
-            history.forEach(item => {
-                const date = new Date(item.timestamp).toLocaleDateString();
-                const action = item.action === 'added' ? '➕' : '➖';
-                const purpose = item.purpose ? ` (${item.purpose})` : '';
-                
-                html += `
-                    <div class="history-item">
-                        <span>${action} ${item.type}${purpose}</span>
-                        <span class="history-date">${date}</span>
-                    </div>
-                `;
+            portalButtons.forEach(button => {
+                if (button.contains(event.target)) {
+                    clickedOnPortalButton = true;
+                }
             });
             
-            historyDiv.innerHTML = html;
-        }
-
-        function updateWalletDisplay() {
-            if (!currentWallet) return;
-            currentWallet.cleanExpiredTokens();
-        }
-
-        async function refreshWallet() {
-            if (!currentWallet) return;
-            await currentWallet.loadWallet();
-            updateTokenGrid();
-            updateTokenHistory();
-        }
-
-        function buyTokens() {
-            alert('Token purchase interface coming soon!');
-        }
-
-        function connectCryptoWallet() {
-            if (!currentWallet) return;
-            const wallet = prompt('Enter your crypto wallet address:');
-            if (wallet) {
-                currentWallet.cryptoWallet = wallet;
-                currentWallet.saveWallet();
-                updateWalletInfo();
+            if (!clickedInsideSubmenu && !clickedOnPortalButton) {
+                submenus.forEach(submenu => {
+                    submenu.style.display = 'none';
+                });
             }
-        }
-
-        function exportWallet() {
-            if (!currentWallet) return;
-            const walletData = {
-                walletId: currentWallet.walletId,
-                email: currentWallet.email,
-                tokens: currentWallet.tokens,
-                cryptoWallet: currentWallet.cryptoWallet,
-                tokenHistory: currentWallet.tokenHistory
-            };
-            
-            const dataStr = JSON.stringify(walletData, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(dataBlob);
-            
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `ktg-wallet-${currentWallet.walletId}.json`;
-            link.click();
-            
-            URL.revokeObjectURL(url);
-        }
-        
-        window.addEventListener('load', () => {
-            // Initialize theme and music
-            initializeTheme();
-            initializeMusic();
-            
-            // Ensure language system is working
-            setTimeout(() => {
-                if (typeof langManager !== 'undefined') {
-                    langManager.updateUI();
-                }
-            }, 100);
-
-            // Animations
-            const slideInLeftElements = document.querySelectorAll('.slide-in-left');
-            slideInLeftElements.forEach(el => el.classList.add('active'));
-
-            const fadeInElements = document.querySelectorAll('.fade-in');
-            fadeInElements.forEach(el => el.classList.add('active'));
-            
-            // Initialize iframe communication after they load
-            setTimeout(() => {
-                const leftConsole = document.getElementById('mainFrame').contentWindow;
-                const rightConsole = document.getElementById('rightFrame').contentWindow;
-                
-                if (leftConsole && leftConsole.initializeTheme) {
-                    leftConsole.initializeTheme();
-                }
-                
-                if (rightConsole && rightConsole.initializeTheme) {
-                    rightConsole.initializeTheme();
-                }
-            }, 2000);
         });
+
+        // Make queueSong available globally
+        window.queueSong = queueSong;
     </script>
 </body>
 </html>

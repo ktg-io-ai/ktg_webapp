@@ -369,18 +369,31 @@
             float: right;
             cursor: pointer;
             margin-left: 10px;
-            color: var(--text-primary) !important;
-            font-weight: bold;
-            font-size: 18px;
+            font-weight: normal;
+            font-size: 16px;
             text-decoration: none;
-            padding: 2px 6px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
+            padding: 0;
+            border: none;
+            background: none;
+            transition: color 0.2s ease;
         }
 
+        /* Theme-aware close button colors */
+        [data-theme="ktg"] .close-button {
+            color: #fff;
+        }
+
+        [data-theme="light"] .close-button {
+            color: #000;
+        }
+
+        [data-theme="dark"] .close-button {
+            color: #fff;
+        }
+
+        /* Red hover for all themes */
         .close-button:hover {
-            color: #ff4757 !important;
-            background-color: var(--hover-bg);
+            color: red !important;
         }
 
         /* Music Controls */
@@ -2145,11 +2158,17 @@
                 listItem.onclick = () => {
                     console.log('List item clicked:', participant.name);
                     const participantIndex = participantData.findIndex(p => p.id === participant.id);
+                    currentParticipantIndex = participantIndex;
+                    updateParticipant(participant);
                     if (window.innerWidth <= 768) {
-                        currentParticipantIndex = participantIndex;
-                        updateParticipant(participant);
-                        showMobileView('single');
+                        // Mobile: switch to single view
+                        const mainFrame = document.getElementById('mainFrame');
+                        const rightFrame = document.getElementById('rightFrame');
+                        mainFrame.classList.add('single-view');
+                        rightFrame.classList.add('single-view');
+                        isSingleView = true;
                     } else {
+                        // Desktop: just update the left frame
                         enterSingleView(participantIndex);
                     }
                 };
@@ -2288,11 +2307,17 @@
                 
                 button.addEventListener('click', () => {
                     console.log('Avatar clicked:', participant.name);
+                    currentParticipantIndex = index;
+                    updateParticipant(participant);
                     if (window.innerWidth <= 768) {
-                        currentParticipantIndex = index;
-                        updateParticipant(participant);
-                        showMobileView('single');
+                        // Mobile: switch to single view
+                        const mainFrame = document.getElementById('mainFrame');
+                        const rightFrame = document.getElementById('rightFrame');
+                        mainFrame.classList.add('single-view');
+                        rightFrame.classList.add('single-view');
+                        isSingleView = true;
                     } else {
+                        // Desktop: just update the left frame
                         enterSingleView(index);
                     }
                 });

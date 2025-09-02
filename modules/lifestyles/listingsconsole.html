@@ -450,7 +450,42 @@
         }
         
         .left-content::-webkit-scrollbar {
-            width: 0px;
+            width: 1px;
+        }
+
+        .left-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .left-content::-webkit-scrollbar-thumb {
+            background: #2f27c8;
+            border-radius: 1px;
+        }
+
+        .right-frame .content-area::-webkit-scrollbar {
+            width: 1px;
+        }
+
+        .right-frame .content-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .right-frame .content-area::-webkit-scrollbar-thumb {
+            background: #2f27c8;
+            border-radius: 1px;
+        }
+
+        .mobile-list-view::-webkit-scrollbar {
+            width: 1px;
+        }
+
+        .mobile-list-view::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .mobile-list-view::-webkit-scrollbar-thumb {
+            background: #2f27c8;
+            border-radius: 1px;
         }
 
         @keyframes slideInLeft {
@@ -1003,6 +1038,17 @@
                 display: block;
             }
 
+            .right-frame .top-frame {
+                display: none;
+            }
+
+            .right-frame .content-area {
+                margin-top: 0;
+                height: 100%;
+                transform: translateX(10px);
+                margin-right: 25px;
+            }
+
             .data-container {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -1231,6 +1277,20 @@
         
         .history-date {
             opacity: 0.6;
+        }
+
+        /* General scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 1px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2f27c8;
+            border-radius: 1px;
         }
 
         /* Desktop view - ensure both frames are visible */
