@@ -971,6 +971,100 @@
             height: 100%;
             object-fit: cover;
         }
+        
+        /* Mobile View Toggle */
+        .view-toggle {
+            background-color: var(--topbar-bg);
+            height: 50px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 50px;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            padding: 0 20px;
+        }
+        
+        .view-toggle h2 {
+            color: var(--text-primary);
+            font-size: 16px;
+            margin: 0;
+            font-weight: bold;
+        }
+        
+        .view-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .view-toggle button {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: none;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .view-toggle button.active {
+            background-color: var(--accent-color);
+        }
+        
+        .view-toggle button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .view-toggle {
+                display: flex;
+            }
+            
+            .main-area {
+                flex-direction: column;
+                height: calc(100vh - 150px);
+                margin-top: 100px;
+            }
+            
+            .main-frame {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                display: none;
+            }
+            
+            .main-frame.single-view {
+                display: block;
+            }
+            
+            .right-frame {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                display: block;
+            }
+            
+            .right-frame.single-view {
+                display: none;
+            }
+            
+            .top-bar h1 {
+                display: none;
+            }
+            
+            .top-bar .song-title {
+                margin-left: 0;
+                padding-right: 0;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body style="overflow: hidden;">
@@ -993,6 +1087,22 @@
                         <img src="../../public/assets/icons/play_pause.png" alt="Music Toggle">
                     </button>
                     <span data-translate="destiny.gameconsole.playing" style="font-family: 'Courier New', monospace;">PLAYING: (Original Soundtrack) The Grid</span>
+                </div>
+            </div>
+
+            <!-- Mobile View Toggle -->
+            <div class="view-toggle">
+                <h2 id="playlist-title" data-translate="destiny.gameconsole.theGrid">The Grid</h2>
+                <div class="view-buttons">
+                    <button id="gridViewBtn" class="active" onclick="showMobileView('grid')" title="Grid View">
+                        <img src="../../public/assets/icons/grid_icon.png" alt="Grid View">
+                    </button>
+                    <button id="singleViewBtn" onclick="showMobileView('single')" title="Single View">
+                        <img src="../../public/assets/icons/detail_icon.png" alt="Single View">
+                    </button>
+                    <button id="listViewBtn" onclick="showMobileView('list')" title="List View">
+                        <img src="../../public/assets/icons/list_icon.png" alt="List View">
+                    </button>
                 </div>
             </div>
 
@@ -1053,6 +1163,9 @@
                             </button>
                             <button id="listViewBtn" class="view-btn" onclick="toggleView('list')" title="List View">
                                 <img src="../../public/assets/icons/list_icon.png" alt="List View" style="width: 25px; height: 25px;">
+                            </button>
+                            <button id="backViewBtn" class="view-btn" onclick="exitSingleView()" title="Back" style="display: none;">
+                                <img src="../../public/assets/icons/back_icon.png" alt="Back" style="width: 25px; height: 25px;">
                             </button>
                             <button onclick="openPortalSubmenu()"><img src="../../public/assets/icons/portal_icon.png" alt="portal" style="width: 35px; height: 35px;"></button>
                         </div>
@@ -1420,6 +1533,9 @@
                 const fadeInElements = document.querySelectorAll('.fade-in');
                 fadeInElements.forEach(el => el.classList.add('active'));
             }, 100);
+            
+            // Add swipe support for mobile
+            addSwipeSupport();
         });
 
         function openSubmenu(submenu) {
@@ -1682,6 +1798,11 @@
 
         // Left console functions
         function updateParticipant(participant) {
+            const participantIndex = participantData.findIndex(p => p.id === participant.id);
+            if (participantIndex !== -1) {
+                currentParticipantIndex = participantIndex;
+            }
+            
             document.getElementById('participant-name').textContent = participant.name;
             document.getElementById('participant-image').src = participant.image;
             document.getElementById('participant-tagline').textContent = participant.tagline;
@@ -1827,12 +1948,53 @@
             document.getElementById('intimacy-progress').style.width = intimacyPercent + '%';
         }
 
-        // Right console functions
+        // View management
+        let currentView = 'grid';
+        let currentParticipantIndex = 0;
+        let isSingleView = false;
+        let isMobile = window.innerWidth <= 768;
+        
+        function showMobileView(view) {
+            const mainFrame = document.getElementById('mainFrame');
+            const rightFrame = document.getElementById('rightFrame');
+            const gridBtn = document.getElementById('gridViewBtn');
+            const singleBtn = document.getElementById('singleViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+            
+            // Remove active class from all buttons
+            gridBtn.classList.remove('active');
+            singleBtn.classList.remove('active');
+            listBtn.classList.remove('active');
+            
+            if (view === 'grid' || view === 'list') {
+                mainFrame.classList.remove('single-view');
+                rightFrame.classList.remove('single-view');
+                isSingleView = false;
+                toggleView(view);
+                if (view === 'grid') gridBtn.classList.add('active');
+                else listBtn.classList.add('active');
+            } else if (view === 'single') {
+                mainFrame.classList.add('single-view');
+                rightFrame.classList.add('single-view');
+                isSingleView = true;
+                singleBtn.classList.add('active');
+            }
+        }
+
         function toggleView(view) {
             const gridView = document.getElementById('grid-view');
             const listView = document.getElementById('list-view');
             const gridBtn = document.getElementById('gridViewBtn');
             const listBtn = document.getElementById('listViewBtn');
+            const mainFrame = document.getElementById('mainFrame');
+            const rightFrame = document.getElementById('rightFrame');
+
+            currentView = view;
+            isSingleView = false;
+            
+            // Reset mobile single view classes
+            mainFrame.classList.remove('single-view');
+            rightFrame.classList.remove('single-view');
 
             if (view === 'grid') {
                 gridView.style.display = 'grid';
@@ -1848,6 +2010,53 @@
             }
         }
 
+        function enterSingleView(participantIndex) {
+            if (window.innerWidth <= 768) {
+                const mainFrame = document.getElementById('mainFrame');
+                const rightFrame = document.getElementById('rightFrame');
+                const backBtn = document.getElementById('backViewBtn');
+                const gridBtn = document.getElementById('gridViewBtn');
+                const listBtn = document.getElementById('listViewBtn');
+                
+                mainFrame.classList.add('single-view');
+                rightFrame.classList.add('single-view');
+                backBtn.style.display = 'block';
+                gridBtn.style.display = 'none';
+                listBtn.style.display = 'none';
+                isSingleView = true;
+            }
+            
+            currentParticipantIndex = participantIndex;
+            updateParticipant(participantData[participantIndex]);
+        }
+
+        function exitSingleView() {
+            const mainFrame = document.getElementById('mainFrame');
+            const rightFrame = document.getElementById('rightFrame');
+            const backBtn = document.getElementById('backViewBtn');
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+            
+            mainFrame.classList.remove('single-view');
+            rightFrame.classList.remove('single-view');
+            backBtn.style.display = 'none';
+            gridBtn.style.display = 'block';
+            listBtn.style.display = 'block';
+            isSingleView = false;
+        }
+
+        function navigateParticipant(direction) {
+            if (!isSingleView || participantData.length === 0) return;
+            
+            if (direction === 'next') {
+                currentParticipantIndex = (currentParticipantIndex + 1) % participantData.length;
+            } else {
+                currentParticipantIndex = currentParticipantIndex === 0 ? participantData.length - 1 : currentParticipantIndex - 1;
+            }
+            
+            updateParticipant(participantData[currentParticipantIndex]);
+        }
+
         function generateListView() {
             const listView = document.getElementById('list-view');
             listView.innerHTML = '';
@@ -1857,7 +2066,14 @@
                 listItem.className = 'list-item';
                 listItem.onclick = () => {
                     console.log('List item clicked:', participant.name);
-                    updateParticipant(participant);
+                    const participantIndex = participantData.findIndex(p => p.id === participant.id);
+                    if (window.innerWidth <= 768) {
+                        currentParticipantIndex = participantIndex;
+                        updateParticipant(participant);
+                        showMobileView('single');
+                    } else {
+                        enterSingleView(participantIndex);
+                    }
                 };
                 
                 let safeLinksHtml = '';
@@ -1994,7 +2210,13 @@
                 
                 button.addEventListener('click', () => {
                     console.log('Avatar clicked:', participant.name);
-                    updateParticipant(participant);
+                    if (window.innerWidth <= 768) {
+                        currentParticipantIndex = index;
+                        updateParticipant(participant);
+                        showMobileView('single');
+                    } else {
+                        enterSingleView(index);
+                    }
                 });
 
                 const img = document.createElement('img');
@@ -2010,6 +2232,46 @@
                 
                 button.appendChild(img);
                 participantGrid.appendChild(button);
+            });
+        }
+        
+        // Swipe navigation for mobile
+        function addSwipeSupport() {
+            let startX = 0;
+            let startY = 0;
+            
+            const mainFrame = document.getElementById('mainFrame');
+            
+            mainFrame.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            });
+            
+            mainFrame.addEventListener('touchend', (e) => {
+                if (!isSingleView) return;
+                
+                const endX = e.changedTouches[0].clientX;
+                const endY = e.changedTouches[0].clientY;
+                const diffX = startX - endX;
+                const diffY = startY - endY;
+                
+                // Only trigger if horizontal swipe is more significant than vertical
+                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                    if (diffX > 0) {
+                        // Swipe left - next participant
+                        navigateParticipant('next');
+                    } else {
+                        // Swipe right - previous participant
+                        navigateParticipant('prev');
+                    }
+                }
+            });
+            
+            // Add back button for mobile single view
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isSingleView) {
+                    exitSingleView();
+                }
             });
         }
     </script>

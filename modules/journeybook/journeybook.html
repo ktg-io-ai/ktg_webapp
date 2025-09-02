@@ -773,6 +773,9 @@
             
             container.innerHTML = html;
             updateNavigation();
+            
+            // Update UI with saved answers after questions are loaded
+            updateUIWithSavedAnswers();
         }
 
         async function createQuestionItemHTML(question, index) {
@@ -1038,6 +1041,9 @@
                     // Update progress display
                     const progress = calculateProgress();
                     updateProgressDisplay(progress);
+                    
+                    // Update UI if questions are currently displayed
+                    updateUIWithSavedAnswers();
                 } else {
                     console.error('Failed to load answers:', response.status, await response.text());
                 }
@@ -1286,6 +1292,48 @@
                 });
             }
         });
+
+        function updateUIWithSavedAnswers() {
+            console.log('Updating UI with saved answers:', userAnswers);
+            
+            // Clear all selections first
+            document.querySelectorAll('.option-button').forEach(button => {
+                button.classList.remove('selected');
+            });
+            
+            // Update each saved answer
+            Object.keys(userAnswers).forEach(questionKey => {
+                const answer = userAnswers[questionKey];
+                if (!answer || answer.trim() === '') return;
+                
+                console.log(`Processing answer for ${questionKey}: ${answer}`);
+                
+                // Update text inputs
+                const textInput = document.querySelector(`input[data-question-key="${questionKey}"]`);
+                if (textInput) {
+                    textInput.value = answer;
+                    console.log(`Updated text input for ${questionKey}`);
+                    return;
+                }
+                
+                // Update option buttons - find buttons with matching onclick that contains this questionKey
+                const optionButtons = document.querySelectorAll('.option-button');
+                optionButtons.forEach(button => {
+                    const onclickAttr = button.getAttribute('onclick');
+                    if (onclickAttr && onclickAttr.includes(questionKey)) {
+                        // Extract the option value from onclick attribute
+                        const match = onclickAttr.match(/selectOption\('[^']+',\s*'([^']+)'/);
+                        if (match) {
+                            const buttonOption = match[1].replace(/&apos;/g, "'").replace(/&quot;/g, '"');
+                            if (buttonOption === answer) {
+                                button.classList.add('selected');
+                                console.log(`Selected option button for ${questionKey}: ${buttonOption}`);
+                            }
+                        }
+                    }
+                });
+            });
+        }
 
         // Initialize
         window.addEventListener('load', async () => {

@@ -1,0 +1,143 @@
+<style>
+    .popup-header {
+        background-color: var(--accent-color);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 12px 12px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+    }
+    
+    .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .close-btn:hover {
+        background-color: rgba(255,255,255,0.2);
+    }
+    
+    .popup-content {
+        padding: 20px;
+        color: var(--text-primary);
+        text-align: center;
+    }
+    
+    .stars-display {
+        background-color: var(--bg-primary);
+        border-radius: 12px;
+        padding: 30px;
+        margin: 20px 0;
+        font-size: 32px;
+    }
+    
+    .star-rating {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+    
+    .star {
+        font-size: 32px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .star:hover {
+        transform: scale(1.2);
+    }
+    
+    .star.selected {
+        color: gold;
+    }
+    
+    .action-btn {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.2s ease;
+        margin: 10px 5px;
+    }
+    
+    .action-btn:hover {
+        background-color: var(--accent-hover);
+        transform: translateY(-1px);
+    }
+</style>
+
+<div class="popup-header">
+    <span data-translate="destiny.gameconsole.stars">Play the Stars</span>
+    <button class="close-btn" onclick="closeCurrentPopup()">×</button>
+</div>
+
+<div class="popup-content">
+    <div class="stars-display">✨ Rate this player ✨</div>
+    <div class="star-rating">
+        <span class="star" onclick="rateStar(1)">⭐</span>
+        <span class="star" onclick="rateStar(2)">⭐</span>
+        <span class="star" onclick="rateStar(3)">⭐</span>
+        <span class="star" onclick="rateStar(4)">⭐</span>
+        <span class="star" onclick="rateStar(5)">⭐</span>
+    </div>
+    <button class="action-btn" id="submitRating" onclick="submitRating()" disabled>Submit Rating</button>
+</div>
+
+<script>
+    let selectedRating = 0;
+    
+    function rateStar(rating) {
+        selectedRating = rating;
+        const stars = document.querySelectorAll('.star');
+        
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.classList.add('selected');
+            } else {
+                star.classList.remove('selected');
+            }
+        });
+        
+        document.getElementById('submitRating').disabled = false;
+    }
+    
+    function submitRating() {
+        if (selectedRating > 0) {
+            window.parent.postMessage({
+                type: 'recordInteraction',
+                interactionType: 'stars',
+                data: { rating: selectedRating, timestamp: new Date().toISOString() }
+            }, '*');
+            
+            document.getElementById('submitRating').textContent = 'Rating Submitted!';
+            document.getElementById('submitRating').disabled = true;
+            
+            setTimeout(() => {
+                closeCurrentPopup();
+            }, 1500);
+        }
+    }
+    
+    function closeCurrentPopup() {
+        const overlay = document.getElementById('stars-popup-overlay');
+        if (overlay && overlay.parentNode) {
+            overlay.parentNode.removeChild(overlay);
+        }
+    }
+</script>

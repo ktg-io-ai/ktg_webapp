@@ -1,0 +1,170 @@
+<style>
+    .popup-header {
+        background-color: var(--accent-color);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 12px 12px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+    }
+    
+    .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .close-btn:hover {
+        background-color: rgba(255,255,255,0.2);
+    }
+    
+    .popup-content {
+        padding: 20px;
+        color: var(--text-primary);
+        text-align: center;
+    }
+    
+    .zap-options {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin: 20px 0;
+    }
+    
+    .zap-option {
+        background-color: var(--bg-primary);
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: center;
+    }
+    
+    .zap-option:hover {
+        border-color: var(--accent-color);
+        transform: translateY(-2px);
+    }
+    
+    .zap-option.selected {
+        border-color: var(--accent-color);
+        background-color: var(--accent-color);
+        color: white;
+    }
+    
+    .zap-icon {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+    
+    .action-btn {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.2s ease;
+        margin-top: 15px;
+    }
+    
+    .action-btn:hover {
+        background-color: var(--accent-hover);
+        transform: translateY(-1px);
+    }
+    
+    .action-btn:disabled {
+        background-color: #666;
+        cursor: not-allowed;
+        transform: none;
+    }
+</style>
+
+<div class="popup-header">
+    <span data-translate="destiny.gameconsole.zap">Zap</span>
+    <button class="close-btn" onclick="closeCurrentPopup()">×</button>
+</div>
+
+<div class="popup-content">
+    <p>Send a quick zap to get their attention!</p>
+    
+    <div class="zap-options">
+        <div class="zap-option" onclick="selectZap('wave', this)">
+            <div class="zap-icon">👋</div>
+            <div>Wave</div>
+        </div>
+        <div class="zap-option" onclick="selectZap('wink', this)">
+            <div class="zap-icon">😉</div>
+            <div>Wink</div>
+        </div>
+        <div class="zap-option" onclick="selectZap('heart', this)">
+            <div class="zap-icon">❤️</div>
+            <div>Heart</div>
+        </div>
+        <div class="zap-option" onclick="selectZap('fire', this)">
+            <div class="zap-icon">🔥</div>
+            <div>Fire</div>
+        </div>
+        <div class="zap-option" onclick="selectZap('star', this)">
+            <div class="zap-icon">⭐</div>
+            <div>Star</div>
+        </div>
+        <div class="zap-option" onclick="selectZap('lightning', this)">
+            <div class="zap-icon">⚡</div>
+            <div>Lightning</div>
+        </div>
+    </div>
+    
+    <button class="action-btn" id="sendZapBtn" onclick="sendZap()" disabled>Send Zap</button>
+</div>
+
+<script>
+    let selectedZapType = null;
+    
+    function selectZap(type, element) {
+        selectedZapType = type;
+        
+        document.querySelectorAll('.zap-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+        element.classList.add('selected');
+        
+        document.getElementById('sendZapBtn').disabled = false;
+    }
+    
+    function sendZap() {
+        if (selectedZapType) {
+            window.parent.postMessage({
+                type: 'recordInteraction',
+                interactionType: 'zap',
+                data: { zapType: selectedZapType, timestamp: new Date().toISOString() }
+            }, '*');
+            
+            document.getElementById('sendZapBtn').textContent = 'Zap Sent!';
+            document.getElementById('sendZapBtn').disabled = true;
+            
+            setTimeout(() => {
+                closeCurrentPopup();
+            }, 1500);
+        }
+    }
+    
+    function closeCurrentPopup() {
+        const overlay = document.getElementById('zap-popup-overlay');
+        if (overlay && overlay.parentNode) {
+            overlay.parentNode.removeChild(overlay);
+        }
+    }
+</script>

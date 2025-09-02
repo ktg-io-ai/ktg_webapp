@@ -1,0 +1,102 @@
+<style>
+    .popup-header {
+        background-color: var(--accent-color);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 12px 12px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+    }
+    
+    .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .close-btn:hover {
+        background-color: rgba(255,255,255,0.2);
+    }
+    
+    .popup-content {
+        padding: 20px;
+        color: var(--text-primary);
+        text-align: center;
+    }
+    
+    .door-mystery {
+        background-color: var(--bg-primary);
+        border: 2px solid var(--accent-color);
+        border-radius: 12px;
+        padding: 30px;
+        margin: 20px 0;
+        font-size: 48px;
+    }
+    
+    .action-btn {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.2s ease;
+        margin: 10px 5px;
+    }
+    
+    .action-btn:hover {
+        background-color: var(--accent-hover);
+        transform: translateY(-1px);
+    }
+</style>
+
+<div class="popup-header">
+    <span data-translate="destiny.gameconsole.door4">Door #4</span>
+    <button class="close-btn" onclick="closeCurrentPopup()">×</button>
+</div>
+
+<div class="popup-content">
+    <div class="door-mystery">🚪</div>
+    <p>The mysterious fourth door... What lies beyond?</p>
+    <button class="action-btn" onclick="openDoor4()">Open Door #4</button>
+    <button class="action-btn" onclick="knockOnDoor()">Knock First</button>
+</div>
+
+<script>
+    function openDoor4() {
+        window.parent.postMessage({
+            type: 'recordInteraction',
+            interactionType: 'door4',
+            data: { action: 'open_door', timestamp: new Date().toISOString() }
+        }, '*');
+        closeCurrentPopup();
+    }
+    
+    function knockOnDoor() {
+        window.parent.postMessage({
+            type: 'recordInteraction',
+            interactionType: 'door4',
+            data: { action: 'knock', timestamp: new Date().toISOString() }
+        }, '*');
+        closeCurrentPopup();
+    }
+    
+    function closeCurrentPopup() {
+        const overlay = document.getElementById('door4-popup-overlay');
+        if (overlay && overlay.parentNode) {
+            overlay.parentNode.removeChild(overlay);
+        }
+    }
+</script>

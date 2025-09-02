@@ -1,23 +1,47 @@
-/node_modules
-/backend/node_modules
-*.log
-/reference
-/ktgai/BL_proxy
-masayoshi_son_challenge/node_modules
-Read Me - Activate Browser Use.txt
-Design Images KTG_WEBAPP
-aliens_and_monsters
+# Dependencies
+node_modules/
+package-lock.json
 
-# Firebase and environment files
-FIREBASE_INFO/
+# Environment variables
 .env
 .env.local
 .env.production
-*.env
 
-# AI API configurations
+# Logs
+*.log
+npm-debug.log*
+
+# Runtime and temporary files
+temp/
+
+# Documentation (if auto-generated)
+docs/
+
+# Database files and scripts
+database/
+*.db
+*.sqlite
+
+# AI configurations and API keys
 leonardo-config.js
 ai-config.js
-
-# Mailgun API key
 MAILGUN_API_KEY
+
+# Development files
+AI_READ_THIS.md
+test_*.js
+test-*.html
+jb_test.html
+
+# Uploads directory (user content)
+public/uploads/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db

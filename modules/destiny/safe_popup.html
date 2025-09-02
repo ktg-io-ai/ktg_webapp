@@ -1,0 +1,104 @@
+<style>
+    .popup-header {
+        background-color: var(--accent-color);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 12px 12px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+    }
+    
+    .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .close-btn:hover {
+        background-color: rgba(255,255,255,0.2);
+    }
+    
+    .popup-content {
+        padding: 20px;
+        color: var(--text-primary);
+        text-align: center;
+    }
+    
+    .safe-info {
+        background-color: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+    }
+    
+    .action-btn {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.2s ease;
+        margin: 10px 5px;
+    }
+    
+    .action-btn:hover {
+        background-color: var(--accent-hover);
+        transform: translateY(-1px);
+    }
+</style>
+
+<div class="popup-header">
+    <span data-translate="destiny.gameconsole.safe">Safe</span>
+    <button class="close-btn" onclick="closeCurrentPopup()">×</button>
+</div>
+
+<div class="popup-content">
+    <div class="safe-info">
+        <h3>🔒 Safe Interaction</h3>
+        <p>This player has verified safe links and follows community guidelines.</p>
+        <p>✅ Verified Profile<br>✅ Community Guidelines<br>✅ Safe Links Only</p>
+    </div>
+    <button class="action-btn" onclick="reportSafe()">Report as Safe</button>
+    <button class="action-btn" onclick="viewGuidelines()">View Guidelines</button>
+</div>
+
+<script>
+    function reportSafe() {
+        window.parent.postMessage({
+            type: 'recordInteraction',
+            interactionType: 'safe',
+            data: { action: 'report_safe', timestamp: new Date().toISOString() }
+        }, '*');
+        closeCurrentPopup();
+    }
+    
+    function viewGuidelines() {
+        window.parent.postMessage({
+            type: 'recordInteraction',
+            interactionType: 'safe',
+            data: { action: 'view_guidelines', timestamp: new Date().toISOString() }
+        }, '*');
+        closeCurrentPopup();
+    }
+    
+    function closeCurrentPopup() {
+        const overlay = document.getElementById('safe-popup-overlay');
+        if (overlay && overlay.parentNode) {
+            overlay.parentNode.removeChild(overlay);
+        }
+    }
+</script>

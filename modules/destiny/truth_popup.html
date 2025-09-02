@@ -1,0 +1,120 @@
+<style>
+    .popup-header {
+        background-color: var(--accent-color);
+        color: white;
+        padding: 15px 20px;
+        border-radius: 12px 12px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+    }
+    
+    .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .close-btn:hover {
+        background-color: rgba(255,255,255,0.2);
+    }
+    
+    .popup-content {
+        padding: 20px;
+        color: var(--text-primary);
+        text-align: center;
+    }
+    
+    .game-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin: 20px 0;
+    }
+    
+    .game-option {
+        background-color: var(--bg-primary);
+        border: 2px solid var(--border-color);
+        border-radius: 12px;
+        padding: 30px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 48px;
+    }
+    
+    .game-option:hover {
+        border-color: var(--accent-color);
+        transform: translateY(-2px);
+    }
+    
+    .game-option.truth {
+        background: linear-gradient(45deg, #4CAF50, #45a049);
+    }
+    
+    .game-option.bomb {
+        background: linear-gradient(45deg, #f44336, #d32f2f);
+    }
+    
+    .option-label {
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 10px;
+        color: white;
+    }
+</style>
+
+<div class="popup-header">
+    <span data-translate="destiny.gameconsole.truth">Truth or Bomb</span>
+    <button class="close-btn" onclick="closeCurrentPopup()">×</button>
+</div>
+
+<div class="popup-content">
+    <p>Choose your challenge!</p>
+    <div class="game-options">
+        <div class="game-option truth" onclick="chooseTruth()">
+            ✅
+            <div class="option-label">TRUTH</div>
+        </div>
+        <div class="game-option bomb" onclick="chooseBomb()">
+            💣
+            <div class="option-label">BOMB</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function chooseTruth() {
+        window.parent.postMessage({
+            type: 'recordInteraction',
+            interactionType: 'truth',
+            data: { choice: 'truth', timestamp: new Date().toISOString() }
+        }, '*');
+        closeCurrentPopup();
+    }
+    
+    function chooseBomb() {
+        window.parent.postMessage({
+            type: 'recordInteraction',
+            interactionType: 'truth',
+            data: { choice: 'bomb', timestamp: new Date().toISOString() }
+        }, '*');
+        closeCurrentPopup();
+    }
+    
+    function closeCurrentPopup() {
+        const overlay = document.getElementById('truth-popup-overlay');
+        if (overlay && overlay.parentNode) {
+            overlay.parentNode.removeChild(overlay);
+        }
+    }
+</script>
