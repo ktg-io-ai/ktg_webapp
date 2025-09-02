@@ -45,3 +45,14 @@ public/uploads/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Large media files
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.xcf
+*.psd
+*.ai
+public/assets/images/alquimist_bio.png
+assets/ktg_deck_2025.png
